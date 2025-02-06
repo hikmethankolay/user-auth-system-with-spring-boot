@@ -1,4 +1,6 @@
 package com.hikmethankolay.user_auth_system.dto;
 
-public record ApiResponseDTO<T>(String status, T data, String message) {
+import com.hikmethankolay.user_auth_system.enums.EApiStatus;
+
+public record ApiResponseDTO<T>(EApiStatus status, T data, String message) {
 }
