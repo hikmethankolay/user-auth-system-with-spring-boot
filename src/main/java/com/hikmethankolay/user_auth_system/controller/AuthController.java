@@ -3,12 +3,9 @@ package com.hikmethankolay.user_auth_system.controller;
 import com.hikmethankolay.user_auth_system.dto.ApiResponseDTO;
 import com.hikmethankolay.user_auth_system.dto.AuthResponseDTO;
 import com.hikmethankolay.user_auth_system.dto.LoginRequestDTO;
-import com.hikmethankolay.user_auth_system.dto.RegisterRequestDTO;
+import com.hikmethankolay.user_auth_system.dto.UserInfoDTO;
 import com.hikmethankolay.user_auth_system.enums.EApiStatus;
 import com.hikmethankolay.user_auth_system.service.UserService;
-import com.hikmethankolay.user_auth_system.util.JwtUtils;
-import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,15 +15,13 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final UserService userService;
-    private final JwtUtils jwtUtils;
 
-    public AuthController(UserService userService, JwtUtils jwtUtils) {
+    public AuthController(UserService userService) {
         this.userService = userService;
-        this.jwtUtils = jwtUtils;
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequestDTO registerRequest) {
+    public ResponseEntity<?> register(@RequestBody UserInfoDTO registerRequest) {
         try {
             userService.registerUser(registerRequest);
         } catch (Exception e) {

@@ -1,7 +1,7 @@
 package com.hikmethankolay.user_auth_system.service;
 
 import com.hikmethankolay.user_auth_system.dto.LoginRequestDTO;
-import com.hikmethankolay.user_auth_system.dto.RegisterRequestDTO;
+import com.hikmethankolay.user_auth_system.dto.UserInfoDTO;
 import com.hikmethankolay.user_auth_system.entity.Role;
 import com.hikmethankolay.user_auth_system.entity.User;
 import com.hikmethankolay.user_auth_system.enums.ERole;
@@ -14,6 +14,7 @@ import jakarta.validation.Validator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -35,38 +36,30 @@ public class UserService {
 
     }
 
-    public void registerUser(RegisterRequestDTO registerRequestDTO) {
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
 
-        Set<ConstraintViolation<RegisterRequestDTO>> violations = validator.validate(registerRequestDTO);
-        if (!violations.isEmpty()) {
-            throw new ConstraintViolationException(violations);
-        }
+    public Optional<User> findByUsernameOrEmail(String identifier) {
+        return userRepository.findByUsernameOrEmail(identifier,identifier);
+    }
 
-        if (userRepository.findByUsername(registerRequestDTO.username()).isPresent()) {
-            throw new RuntimeException("Username is already taken!");
-        }
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
+    }
 
-        if (userRepository.findByEmail(registerRequestDTO.email()).isPresent()) {
-            throw new RuntimeException("Email is already taken!");
-        }
+    public void registerUser(UserInfoDTO userInfoDTO) {
+
+        checkUserValidation(userInfoDTO);
 
         User user = new User();
 
-        user.setEmail(registerRequestDTO.email());
-        user.setPassword(registerRequestDTO.password());
-        user.setUsername(registerRequestDTO.username());
-        user.setPassword(passwordEncoder.encode(registerRequestDTO.password()));
+        user.setEmail(userInfoDTO.email());
+        user.setPassword(userInfoDTO.password());
+        user.setUsername(userInfoDTO.username());
+        user.setPassword(passwordEncoder.encode(userInfoDTO.password()));
 
-        Optional<Role> role = roleRepository.findByName(ERole.ROLE_USER);
-
-        if (role.isPresent()) {
-            user.addRole(role.get());
-        }
-        else{
-            Role new_role = new Role(ERole.ROLE_USER);
-            roleRepository.save(new_role);
-            user.addRole(new_role);
-        }
+        addDefaultRole(user);
 
         userRepository.save(user);
     }
@@ -80,5 +73,57 @@ public class UserService {
         else {
             return null;
         }
+    }
+
+    public void updateUser(UserInfoDTO userInfoDTO, Long Id) {
+
+        checkUserValidation(userInfoDTO);
+
+        Optional<User> user = userRepository.findById(Id);
+        if (user.isPresent()) {
+           User updatedUser = user.get();
+           updatedUser.setUsername(userInfoDTO.username());
+           updatedUser.setPassword(passwordEncoder.encode(userInfoDTO.password()));
+           updatedUser.setEmail(userInfoDTO.email());
+
+            addDefaultRole(updatedUser);
+
+            userRepository.save(updatedUser);
+        }
+        else {
+
+            throw new RuntimeException("User not found with id: " + Id);
+
+        }
+    }
+
+    private void checkUserValidation(UserInfoDTO userInfoDTO) {
+        Set<ConstraintViolation<UserInfoDTO>> violations = validator.validate(userInfoDTO);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
+
+        if (userRepository.findByUsername(userInfoDTO.username()).isPresent()) {
+            throw new RuntimeException("Username is already taken!");
+        }
+
+        if (userRepository.findByEmail(userInfoDTO.email()).isPresent()) {
+            throw new RuntimeException("Email is already taken!");
+        }
+    }
+
+    private void addDefaultRole(User user) {
+        Optional<Role> role = roleRepository.findByName(ERole.ROLE_USER);
+
+        if (role.isPresent()) {
+            user.addRole(role.get());
+        }
+        else{
+            Role new_role = new Role(ERole.ROLE_USER);
+            roleRepository.save(new_role);
+            user.addRole(new_role);
+        }
+
+
     }
 }

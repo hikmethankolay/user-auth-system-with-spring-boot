@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "roles")
@@ -17,7 +16,7 @@ public class Role {
     private long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "name", length = 20, nullable = false)
+    @Column(name = "name", nullable = false)
     private ERole name;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
@@ -49,11 +48,11 @@ public class Role {
         this.name = name;
     }
 
-    public List<User> getUser() {
+    public List<User> getUsers() {
         return users;
     }
 
-    public void setUser(List<User> users) {
+    public void setUsers(List<User> users) {
         this.users = users;
     }
 
