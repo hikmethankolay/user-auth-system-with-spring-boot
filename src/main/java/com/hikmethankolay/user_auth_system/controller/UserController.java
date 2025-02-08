@@ -15,7 +15,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api")
 public class UserController {
 
     private final UserService userService;
@@ -24,7 +24,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/users")
     public ResponseEntity<ApiResponseDTO<List<UserInfoDTO>>> getUsers() {
         List<UserInfoDTO> userDTOs = userService.findAll().stream()
                 .map(UserInfoDTO::new)
@@ -34,7 +34,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/users/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         Optional<User> user = userService.findById(id);
 
@@ -43,12 +43,12 @@ public class UserController {
 
             return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS, userDTO, "User found successfully"));
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiResponseDTO<>(EApiStatus.FAILURE, "", "Could not find user with id: " + id));
         }
     }
 
-    @GetMapping("identifier/{identifier}")
+    @GetMapping("/users/identifier/{identifier}")
     public ResponseEntity<?> getUserByIdentifier(@PathVariable String identifier) {
         Optional<User> user = userService.findByUsernameOrEmail(identifier);
 
@@ -57,14 +57,14 @@ public class UserController {
 
             return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS, userDTO, "User found successfully"));
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiResponseDTO<>(EApiStatus.FAILURE, "", "Could not find user with identifier: " + identifier));
         }
     }
 
 
 
-    @PutMapping("/{id}/update")
+    @PutMapping("/users/{id}/update")
     public ResponseEntity<?> updateUser(@RequestBody UserInfoDTO userInfoDTO, @PathVariable long id) {
         try {
             userService.updateUser(userInfoDTO, id);
