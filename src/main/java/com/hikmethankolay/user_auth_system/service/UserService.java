@@ -14,9 +14,7 @@ import jakarta.validation.Validator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -59,7 +57,8 @@ public class UserService {
         user.setUsername(userInfoDTO.username());
         user.setPassword(passwordEncoder.encode(userInfoDTO.password()));
 
-        addDefaultRole(user);
+        Set<ERole> roles = new HashSet<>(Set.of(ERole.ROLE_USER));
+        assignRolesToUser(user,roles);
 
         userRepository.save(user);
     }
@@ -86,7 +85,7 @@ public class UserService {
            updatedUser.setPassword(passwordEncoder.encode(userInfoDTO.password()));
            updatedUser.setEmail(userInfoDTO.email());
 
-            addDefaultRole(updatedUser);
+            assignRolesToUser(updatedUser,userInfoDTO.roles());
 
             userRepository.save(updatedUser);
         }
@@ -112,18 +111,18 @@ public class UserService {
         }
     }
 
-    private void addDefaultRole(User user) {
-        Optional<Role> role = roleRepository.findByName(ERole.ROLE_USER);
+    private void assignRolesToUser(User user, Set<ERole> roles) {
+        for (ERole roleName : roles) {
+            Optional<Role> role = roleRepository.findByName(roleName);
 
-        if (role.isPresent()) {
-            user.addRole(role.get());
+            if (role.isPresent()) {
+                user.addRole(role.get());
+            } else {
+                Role newRole = new Role(roleName);
+                roleRepository.save(newRole);
+                user.addRole(newRole);
+            }
         }
-        else{
-            Role new_role = new Role(ERole.ROLE_USER);
-            roleRepository.save(new_role);
-            user.addRole(new_role);
-        }
-
-
     }
+
 }

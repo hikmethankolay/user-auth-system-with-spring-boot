@@ -1,8 +1,9 @@
 package com.hikmethankolay.user_auth_system.dto;
 
+import com.hikmethankolay.user_auth_system.entity.Role;
 import com.hikmethankolay.user_auth_system.entity.User;
+import com.hikmethankolay.user_auth_system.enums.ERole;
 import com.hikmethankolay.user_auth_system.validator.ValidRole;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -30,7 +31,7 @@ public record UserInfoDTO(
         String password,
 
         @ValidRole
-        Set<UserRoleInfoDTO> roles
+        Set<ERole> roles
 ) {
         public UserInfoDTO(User user) {
                 this(
@@ -39,8 +40,9 @@ public record UserInfoDTO(
                         user.getEmail(),
                         user.getPassword(),
                         user.getRoles() != null
-                                ? user.getRoles().stream().map(UserRoleInfoDTO::new).collect(Collectors.toSet())
+                                ? user.getRoles().stream().map(Role::getName).collect(Collectors.toSet())
                                 : Set.of()
                 );
         }
+
 }

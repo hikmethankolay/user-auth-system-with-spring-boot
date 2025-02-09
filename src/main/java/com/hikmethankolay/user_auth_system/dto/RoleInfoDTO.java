@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public record RoleInfoDTO(
         String name,
-        Set<RoleUserInfoDTO> users // Store only usernames to avoid recursion
+        Set<RoleUserInfoDTO> users
 ) {
     public RoleInfoDTO(Role role) {
         this(
