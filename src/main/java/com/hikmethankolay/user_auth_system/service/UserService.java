@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -52,7 +53,7 @@ public class UserService implements UserDetailsService {
 
     public void registerUser(UserInfoDTO userInfoDTO) {
 
-        checkUserValidation(userInfoDTO);
+        checkUserValidation(userInfoDTO,null);
 
         User user = new User();
 
@@ -80,7 +81,7 @@ public class UserService implements UserDetailsService {
 
     public void updateUser(UserInfoDTO userInfoDTO, Long Id) {
 
-        checkUserValidation(userInfoDTO);
+        checkUserValidation(userInfoDTO,Id);
 
         Optional<User> user = userRepository.findById(Id);
         if (user.isPresent()) {
@@ -100,20 +101,23 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    private void checkUserValidation(UserInfoDTO userInfoDTO) {
+    private void checkUserValidation(UserInfoDTO userInfoDTO, Long userId) {
         Set<ConstraintViolation<UserInfoDTO>> violations = validator.validate(userInfoDTO);
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }
 
-        if (userRepository.findByUsername(userInfoDTO.username()).isPresent()) {
-            throw new RuntimeException("Username is already taken!");
-        }
+        userRepository.findByUsername(userInfoDTO.username())
+                .filter(user -> !Objects.equals(user.getId(), userId))
+                .ifPresent(user -> { throw new RuntimeException("Username is already taken!"); });
 
-        if (userRepository.findByEmail(userInfoDTO.email()).isPresent()) {
-            throw new RuntimeException("Email is already taken!");
-        }
+
+        userRepository.findByEmail(userInfoDTO.email())
+                .filter(user -> !Objects.equals(user.getId(), userId))
+                .ifPresent(user -> { throw new RuntimeException("Email is already taken!"); });
+
     }
+
 
     private void assignRolesToUser(User user, Set<ERole> roles) {
         for (ERole roleName : roles) {

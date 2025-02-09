@@ -7,6 +7,7 @@ import com.hikmethankolay.user_auth_system.enums.EApiStatus;
 import com.hikmethankolay.user_auth_system.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -64,7 +65,7 @@ public class UserController {
 
 
 
-    @PutMapping("/users/{id}/update")
+    @PutMapping("/users/{id}")
     public ResponseEntity<?> updateUser(@RequestBody UserInfoDTO userInfoDTO, @PathVariable long id) {
         try {
             userService.updateUser(userInfoDTO, id);

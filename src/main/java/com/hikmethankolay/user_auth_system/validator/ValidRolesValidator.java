@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ValidRolesValidator implements ConstraintValidator<ValidRole, Set<Role>>
+public class ValidRolesValidator implements ConstraintValidator<ValidRole, Set<ERole>>
 {
 
     // Dynamically fetch all valid role names from the ERole enum
@@ -19,13 +19,13 @@ public class ValidRolesValidator implements ConstraintValidator<ValidRole, Set<R
                     .collect(Collectors.toSet());
 
     @Override
-    public boolean isValid(Set<Role> roles, ConstraintValidatorContext context) {
+    public boolean isValid(Set<ERole> roles, ConstraintValidatorContext context) {
 
         if (roles == null || roles.isEmpty()) {
             return true;
         }
 
-        boolean allValid = roles.stream().allMatch(role -> VALID_ROLE_NAMES.contains(role.getName().name()));
+        boolean allValid = roles.stream().allMatch(role -> VALID_ROLE_NAMES.contains(role.name()));
 
         if (!allValid) {
             context.disableDefaultConstraintViolation();
