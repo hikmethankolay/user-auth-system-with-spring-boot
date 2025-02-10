@@ -9,7 +9,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final ApiKeyInterceptor apiKeyInterceptor;
 
-    public WebConfig(final ApiKeyInterceptor apiKeyInterceptor) {
+    public WebConfig(ApiKeyInterceptor apiKeyInterceptor) {
         this.apiKeyInterceptor = apiKeyInterceptor;
     }
 
