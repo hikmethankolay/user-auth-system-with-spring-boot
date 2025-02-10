@@ -19,8 +19,8 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
-    public Page<Role> findAll(Pageable pageable) {
-        return roleRepository.findAll(pageable);
+    public List<Role> findAll() {
+        return roleRepository.findAll();
     }
 
     public Optional<Role> findByName(ERole name) {

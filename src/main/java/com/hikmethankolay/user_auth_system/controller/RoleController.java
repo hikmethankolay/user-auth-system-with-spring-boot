@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -29,15 +31,9 @@ public class RoleController {
     }
 
     @GetMapping("/roles")
-    public ResponseEntity<?> findAll(
-            @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable
-    ) {
-
-        Page<Role> rolePage = roleService.findAll(pageable);
-
-        Page<RoleInfoDTO> dtoPage = rolePage.map(RoleInfoDTO::new);
-
-        return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS, dtoPage, "Roles found successfully"));
+    public ResponseEntity<?> findAll() {
+        List<RoleInfoDTO> roleInfoDTOS = roleService.findAll().stream().map(RoleInfoDTO::new).toList();
+        return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS, roleInfoDTOS, "Roles found successfully"));
     }
 
     @GetMapping("/roles/{name}")
