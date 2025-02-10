@@ -65,16 +65,16 @@ public class UserController {
 
 
 
-    @PutMapping("/users/{id}")
-    public ResponseEntity<?> updateUser(@RequestBody UserInfoDTO userInfoDTO, @PathVariable long id) {
+    @PatchMapping("/users/{id}")
+    public ResponseEntity<?> updateUser(@RequestBody UserInfoDTO UserInfoDTO, @PathVariable long id) {
         try {
-            userService.updateUser(userInfoDTO, id);
+            User updatedUser = userService.updateUser(UserInfoDTO, id);
+            return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS,new UserInfoDTO(updatedUser),"User updated successfully"));
         }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponseDTO<>(EApiStatus.FAILURE,"",e.getMessage()));
         }
 
-        return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS,"","User updated successfully"));
     }
 
 }

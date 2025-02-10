@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,11 +18,9 @@ public record UserInfoDTO(
         Long id,
 
         @Size(min = 8, max = 32, message = "Username must be between 8 and 32 characters")
-        @NotBlank(message = "Username cannot be blank")
         String username,
 
         @Email(message = "Invalid email format")
-        @NotBlank(message = "Email cannot be blank")
         String email,
 
         @Pattern(

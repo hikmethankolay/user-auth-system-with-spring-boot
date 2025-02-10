@@ -51,7 +51,8 @@ public class UserService implements UserDetailsService {
         return userRepository.findById(id);
     }
 
-    public void registerUser(UserInfoDTO userInfoDTO) {
+    @Transactional
+    public User registerUser(UserInfoDTO userInfoDTO) {
 
         checkUserValidation(userInfoDTO,null);
 
@@ -65,7 +66,7 @@ public class UserService implements UserDetailsService {
         Set<ERole> roles = new HashSet<>(Set.of(ERole.ROLE_USER));
         assignRolesToUser(user,roles);
 
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public String authenticateUser(LoginRequestDTO loginRequest) {
@@ -79,27 +80,37 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public void updateUser(UserInfoDTO userInfoDTO, Long Id) {
-
-        checkUserValidation(userInfoDTO,Id);
-
-        Optional<User> user = userRepository.findById(Id);
-        if (user.isPresent()) {
-           User updatedUser = user.get();
-           updatedUser.setUsername(userInfoDTO.username());
-           updatedUser.setPassword(passwordEncoder.encode(userInfoDTO.password()));
-           updatedUser.setEmail(userInfoDTO.email());
-
-            assignRolesToUser(updatedUser,userInfoDTO.roles());
-
-            userRepository.save(updatedUser);
+    @Transactional
+    public User updateUser(UserInfoDTO updates, Long id) {
+        if (updates == null) {
+            throw new IllegalArgumentException("Updates cannot be null");
         }
-        else {
 
-            throw new RuntimeException("User not found with id: " + Id);
+        checkUserValidation(updates, id);
 
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+
+        // Update only if the field is not null
+        if (updates.username() != null) {
+            user.setUsername(updates.username());
         }
+
+        if (updates.email() != null) {
+            user.setEmail(updates.email());
+        }
+
+        if (updates.password() != null) {
+            user.setPassword(passwordEncoder.encode(updates.password()));
+        }
+
+        if (updates.roles() != null) {
+            assignRolesToUser(user, updates.roles());
+        }
+
+        return userRepository.save(user);
     }
+
 
     private void checkUserValidation(UserInfoDTO userInfoDTO, Long userId) {
         Set<ConstraintViolation<UserInfoDTO>> violations = validator.validate(userInfoDTO);
@@ -126,9 +137,7 @@ public class UserService implements UserDetailsService {
             if (role.isPresent()) {
                 user.addRole(role.get());
             } else {
-                Role newRole = new Role(roleName);
-                roleRepository.save(newRole);
-                user.addRole(newRole);
+                throw new RuntimeException("Role not found with name: " + roleName);
             }
         }
     }

@@ -4,6 +4,7 @@ import com.hikmethankolay.user_auth_system.dto.ApiResponseDTO;
 import com.hikmethankolay.user_auth_system.dto.AuthResponseDTO;
 import com.hikmethankolay.user_auth_system.dto.LoginRequestDTO;
 import com.hikmethankolay.user_auth_system.dto.UserInfoDTO;
+import com.hikmethankolay.user_auth_system.entity.User;
 import com.hikmethankolay.user_auth_system.enums.EApiStatus;
 import com.hikmethankolay.user_auth_system.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -23,12 +24,11 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserInfoDTO registerRequest) {
         try {
-            userService.registerUser(registerRequest);
+            User registeredUser = userService.registerUser(registerRequest);
+            return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS,new UserInfoDTO(registeredUser),"User registered successfully"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponseDTO<>(EApiStatus.FAILURE,"",e.getMessage()));
         }
-
-        return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS,"","User registered successfully"));
     }
 
     @PostMapping("/login")
@@ -36,12 +36,10 @@ public class AuthController {
         String token = userService.authenticateUser(loginRequest);
 
         if (token != null) {
-            AuthResponseDTO authResponse = new AuthResponseDTO(token);
-            return ResponseEntity.ok(authResponse);
+            return ResponseEntity.ok(new AuthResponseDTO(token));
         }
         else {
-            ApiResponseDTO<String> apiResponse=  new ApiResponseDTO<>(EApiStatus.FAILURE,"","Wrong username or password");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponse);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponseDTO<>(EApiStatus.FAILURE,"","Wrong username or password"));
         }
     }
 }
