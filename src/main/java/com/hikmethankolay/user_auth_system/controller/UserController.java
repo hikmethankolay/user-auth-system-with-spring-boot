@@ -5,6 +5,9 @@ import com.hikmethankolay.user_auth_system.dto.UserInfoDTO;
 import com.hikmethankolay.user_auth_system.entity.User;
 import com.hikmethankolay.user_auth_system.enums.EApiStatus;
 import com.hikmethankolay.user_auth_system.service.UserService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,12 +29,14 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<ApiResponseDTO<List<UserInfoDTO>>> getUsers() {
-        List<UserInfoDTO> userDTOs = userService.findAll().stream()
-                .map(UserInfoDTO::new)
-                .collect(Collectors.toList());
+    public ResponseEntity<ApiResponseDTO<Page<UserInfoDTO>>> getUsers(
+            @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable
+    ) {
+        Page<User> userPage = userService.findAll(pageable);
 
-        return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS, userDTOs, "Users found successfully"));
+        Page<UserInfoDTO> dtoPage = userPage.map(UserInfoDTO::new);
+
+        return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS, dtoPage, "Users found successfully"));
     }
 
 

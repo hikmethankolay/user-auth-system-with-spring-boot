@@ -6,13 +6,15 @@ import com.hikmethankolay.user_auth_system.entity.Role;
 import com.hikmethankolay.user_auth_system.enums.EApiStatus;
 import com.hikmethankolay.user_auth_system.enums.ERole;
 import com.hikmethankolay.user_auth_system.service.RoleService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -27,9 +29,15 @@ public class RoleController {
     }
 
     @GetMapping("/roles")
-    public ResponseEntity<?> findAll() {
-        List<RoleInfoDTO> roleInfoDTOS = roleService.findAll().stream().map(RoleInfoDTO::new).toList();
-        return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS, roleInfoDTOS, "Roles found successfully"));
+    public ResponseEntity<?> findAll(
+            @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable
+    ) {
+
+        Page<Role> rolePage = roleService.findAll(pageable);
+
+        Page<RoleInfoDTO> dtoPage = rolePage.map(RoleInfoDTO::new);
+
+        return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS, dtoPage, "Roles found successfully"));
     }
 
     @GetMapping("/roles/{name}")
