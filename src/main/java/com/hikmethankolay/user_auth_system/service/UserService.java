@@ -105,6 +105,7 @@ public class UserService implements UserDetailsService {
         }
 
         if (updates.roles() != null) {
+            user.setRoles(new HashSet<>());
             assignRolesToUser(user, updates.roles());
         }
 
