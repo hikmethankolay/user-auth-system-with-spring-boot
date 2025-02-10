@@ -54,9 +54,9 @@ public class UserController {
         }
     }
 
-    @GetMapping("/users/identifier/{identifier}")
-    public ResponseEntity<?> getUserByIdentifier(@PathVariable String identifier) {
-        Optional<User> user = userService.findByUsernameOrEmail(identifier);
+    @GetMapping(value = "/users", params = "username")
+    public ResponseEntity<?> getUserByUsername(@RequestParam String username) {
+        Optional<User> user = userService.findByUsernameOrEmail(username);
 
         if (user.isPresent()) {
             UserInfoDTO userDTO = new UserInfoDTO(user.get());
@@ -64,11 +64,23 @@ public class UserController {
             return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS, userDTO, "User found successfully"));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponseDTO<>(EApiStatus.FAILURE, "", "Could not find user with identifier: " + identifier));
+                    .body(new ApiResponseDTO<>(EApiStatus.FAILURE, "", "Could not find user with username: " + username));
         }
     }
 
+    @GetMapping(value = "/users", params = "email")
+    public ResponseEntity<?> getUserByEmail(@RequestParam String email) {
+        Optional<User> user = userService.findByUsernameOrEmail(email);
 
+        if (user.isPresent()) {
+            UserInfoDTO userDTO = new UserInfoDTO(user.get());
+
+            return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS, userDTO, "User found successfully"));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponseDTO<>(EApiStatus.FAILURE, "", "Could not find user with email: " + email));
+        }
+    }
 
     @PatchMapping("/users/{id}")
     public ResponseEntity<?> updateUser(@RequestBody UserInfoDTO UserInfoDTO, @PathVariable long id) {
