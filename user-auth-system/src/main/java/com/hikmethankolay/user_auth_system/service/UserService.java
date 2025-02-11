@@ -1,7 +1,9 @@
 package com.hikmethankolay.user_auth_system.service;
 
 import com.hikmethankolay.user_auth_system.dto.LoginRequestDTO;
+import com.hikmethankolay.user_auth_system.dto.UserInfo;
 import com.hikmethankolay.user_auth_system.dto.UserInfoDTO;
+import com.hikmethankolay.user_auth_system.dto.UserUpdateDTO;
 import com.hikmethankolay.user_auth_system.entity.Role;
 import com.hikmethankolay.user_auth_system.entity.User;
 import com.hikmethankolay.user_auth_system.enums.ERole;
@@ -86,7 +88,7 @@ public class UserService implements UserDetailsService {
         Optional<User> user = userRepository.findByUsernameOrEmail(loginRequest.identifier(), loginRequest.identifier());
 
         if (user.isPresent() && passwordEncoder.matches(loginRequest.password(), user.get().getPassword())) {
-            return jwtUtils.generateJwtToken(user.get().getUsername());
+            return jwtUtils.generateJwtToken(String.valueOf(user.get().getId()),user.get().getUsername());
         }
         else {
             return null;
@@ -94,7 +96,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public User updateUser(UserInfoDTO updates, Long id) {
+    public User updateUser(UserUpdateDTO updates, Long id) {
         if (updates == null) {
             throw new IllegalArgumentException("Updates cannot be null");
         }
@@ -125,19 +127,18 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-
-    private void checkUserValidation(UserInfoDTO userInfoDTO, Long userId) {
-        Set<ConstraintViolation<UserInfoDTO>> violations = validator.validate(userInfoDTO);
+    private <T extends UserInfo> void checkUserValidation (T userInfo, Long userId) {
+        Set<ConstraintViolation<T>> violations = validator.validate(userInfo);
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }
 
-        userRepository.findByUsername(userInfoDTO.username())
+        userRepository.findByUsername(userInfo.username())
                 .filter(user -> !Objects.equals(user.getId(), userId))
                 .ifPresent(user -> { throw new RuntimeException("Username is already taken!"); });
 
 
-        userRepository.findByEmail(userInfoDTO.email())
+        userRepository.findByEmail(userInfo.email())
                 .filter(user -> !Objects.equals(user.getId(), userId))
                 .ifPresent(user -> { throw new RuntimeException("Email is already taken!"); });
 

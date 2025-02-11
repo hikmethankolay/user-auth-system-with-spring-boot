@@ -1,5 +1,6 @@
 package com.hikmethankolay.user_auth_system.security;
 
+import com.hikmethankolay.user_auth_system.entity.Role;
 import com.hikmethankolay.user_auth_system.entity.User;
 import com.hikmethankolay.user_auth_system.service.UserService;
 import com.hikmethankolay.user_auth_system.util.JwtUtils;
@@ -7,7 +8,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.context.annotation.Lazy;
+
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,19 +19,19 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
-    private final JwtUtils jwtUtils;
-    private final UserDetailsService userDetailsService;
+    private final JwtUtils jwtUtils;;
+    private final UserService userService;
 
-    public JwtFilter(JwtUtils jwtUtils, UserDetailsService userDetailsService) {
+    public JwtFilter(JwtUtils jwtUtils, UserService userService) {
         this.jwtUtils = jwtUtils;
-        this.userDetailsService = userDetailsService;
+        this.userService = userService;
     }
 
     @Override
@@ -45,13 +46,16 @@ public class JwtFilter extends OncePerRequestFilter {
             token = token.substring(7);
 
             if (jwtUtils.validateJwtToken(token)) {
-                String username = jwtUtils.getUserNameFromJwtToken(token);
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                Long userId = jwtUtils.getUserIdFromJwtToken(token);
+                Optional<User> user = userService.findById(userId);
 
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                if (user.isPresent()) {
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(user.get(), null, user.get().getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+
             }
         }
 

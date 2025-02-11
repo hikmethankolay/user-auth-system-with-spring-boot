@@ -19,9 +19,10 @@ public class JwtUtils {
     @Value("${api.security.token.expiration}")
     private int jwtExpirationMs;
 
-    public String generateJwtToken(String username) {
+    public String generateJwtToken(String userId, String username) {
         return JWT.create()
-                .withSubject(username)
+                .withSubject(userId)
+                .withClaim("username", username)
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + jwtExpirationMs))
                 .sign(Algorithm.HMAC256(jwtSecret));
@@ -36,9 +37,14 @@ public class JwtUtils {
         }
     }
 
+    public Long getUserIdFromJwtToken(String token) {
+        DecodedJWT jwt = JWT.require(Algorithm.HMAC256(jwtSecret)).build().verify(token);
+        return Long.valueOf(jwt.getSubject());
+    }
+
     public String getUserNameFromJwtToken(String token) {
         DecodedJWT jwt = JWT.require(Algorithm.HMAC256(jwtSecret)).build().verify(token);
-        return jwt.getSubject();
+        return jwt.getClaim("username").asString();
     }
 
 }

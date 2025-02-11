@@ -2,6 +2,7 @@ package com.hikmethankolay.user_auth_system.controller;
 
 import com.hikmethankolay.user_auth_system.dto.ApiResponseDTO;
 import com.hikmethankolay.user_auth_system.dto.UserInfoDTO;
+import com.hikmethankolay.user_auth_system.dto.UserUpdateDTO;
 import com.hikmethankolay.user_auth_system.entity.User;
 import com.hikmethankolay.user_auth_system.enums.EApiStatus;
 import com.hikmethankolay.user_auth_system.service.UserService;
@@ -83,9 +84,9 @@ public class UserController {
     }
 
     @PatchMapping("/users/{id}")
-    public ResponseEntity<?> updateUser(@RequestBody UserInfoDTO UserInfoDTO, @PathVariable long id) {
+    public ResponseEntity<?> updateUser(@RequestBody UserUpdateDTO UserUpdateDTO, @PathVariable long id) {
         try {
-            User updatedUser = userService.updateUser(UserInfoDTO, id);
+            User updatedUser = userService.updateUser(UserUpdateDTO, id);
             return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS,new UserInfoDTO(updatedUser),"User updated successfully"));
         }
         catch (Exception e){
