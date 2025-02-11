@@ -1077,3 +1077,4 @@ coverage*[.json, .xml, .info]
 **/desktop.ini 
 
 .env
+user-auth-system/src/main/resources/.env
