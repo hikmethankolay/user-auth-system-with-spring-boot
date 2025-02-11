@@ -57,7 +57,7 @@ public class UserUpdateDTO implements UserInfo {
         this.id = id;
     }
 
-    public String username() {
+    public String getUsername() {
         return username;
     }
 
@@ -65,7 +65,7 @@ public class UserUpdateDTO implements UserInfo {
         this.username = username;
     }
 
-    public String email() {
+    public String getEmail() {
         return email;
     }
 

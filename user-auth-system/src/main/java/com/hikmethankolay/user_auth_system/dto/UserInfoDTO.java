@@ -52,7 +52,7 @@ public class UserInfoDTO implements UserInfo {
         }
 
 
-        public Long Id() {
+        public Long getId() {
                 return id;
         }
 
@@ -60,7 +60,7 @@ public class UserInfoDTO implements UserInfo {
                 this.id = id;
         }
 
-        public String username() {
+        public String getUsername() {
                 return username;
         }
 
@@ -68,7 +68,7 @@ public class UserInfoDTO implements UserInfo {
                 this.username = username;
         }
 
-        public String email() {
+        public String getEmail() {
                 return email;
         }
 
@@ -76,7 +76,7 @@ public class UserInfoDTO implements UserInfo {
                 this.email = email;
         }
 
-        public String password() {
+        public String getPassword() {
                 return password;
         }
 
@@ -84,7 +84,7 @@ public class UserInfoDTO implements UserInfo {
                 this.password = password;
         }
 
-        public Set<ERole> roles() {
+        public Set<ERole> getRoles() {
                 return roles;
         }
 
@@ -92,7 +92,6 @@ public class UserInfoDTO implements UserInfo {
                 this.roles = roles;
         }
 
-        // toString method (optional, for debugging)
         @Override
         public String toString() {
                 return "UserInfoDTO{" +

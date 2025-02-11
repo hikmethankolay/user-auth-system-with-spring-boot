@@ -73,10 +73,10 @@ public class UserService implements UserDetailsService {
 
         User user = new User();
 
-        user.setEmail(userInfoDTO.email());
-        user.setPassword(userInfoDTO.password());
-        user.setUsername(userInfoDTO.username());
-        user.setPassword(passwordEncoder.encode(userInfoDTO.password()));
+        user.setEmail(userInfoDTO.getEmail());
+        user.setPassword(userInfoDTO.getPassword());
+        user.setUsername(userInfoDTO.getUsername());
+        user.setPassword(passwordEncoder.encode(userInfoDTO.getPassword()));
 
         Set<ERole> roles = new HashSet<>(Set.of(ERole.ROLE_USER));
         assignRolesToUser(user,roles);
@@ -107,12 +107,12 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
 
         // Update only if the field is not null
-        if (updates.username() != null) {
-            user.setUsername(updates.username());
+        if (updates.getUsername() != null) {
+            user.setUsername(updates.getUsername());
         }
 
-        if (updates.email() != null) {
-            user.setEmail(updates.email());
+        if (updates.getEmail() != null) {
+            user.setEmail(updates.getEmail());
         }
 
         if (updates.password() != null) {
@@ -133,12 +133,12 @@ public class UserService implements UserDetailsService {
             throw new ConstraintViolationException(violations);
         }
 
-        userRepository.findByUsername(userInfo.username())
+        userRepository.findByUsername(userInfo.getUsername())
                 .filter(user -> !Objects.equals(user.getId(), userId))
                 .ifPresent(user -> { throw new RuntimeException("Username is already taken!"); });
 
 
-        userRepository.findByEmail(userInfo.email())
+        userRepository.findByEmail(userInfo.getEmail())
                 .filter(user -> !Objects.equals(user.getId(), userId))
                 .ifPresent(user -> { throw new RuntimeException("Email is already taken!"); });
 
