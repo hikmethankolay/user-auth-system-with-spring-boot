@@ -1,6 +1,8 @@
 # Created by https://www.toptal.com/developers/gitignore/api/c,intellij,csharp,vs,visualstudio,visualstudiocode,java,maven,c++,cmake,eclipse,netbeans
 # Edit at https://www.toptal.com/developers/gitignore?templates=c,intellij,csharp,vs,visualstudio,visualstudiocode,java,maven,c++,cmake,eclipse,netbeans
 
+/.idea
+.env
 ### C ###
 # Prerequisites
 *.d
