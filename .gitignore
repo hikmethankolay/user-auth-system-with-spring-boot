@@ -1075,3 +1075,5 @@ coverage*[.json, .xml, .info]
 
 # End of https://www.toptal.com/developers/gitignore/api/c,intellij,csharp,vs,visualstudio,visualstudiocode,java,maven,c++,cmake,eclipse,netbeans
 **/desktop.ini 
+
+.env
