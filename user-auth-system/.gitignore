@@ -3,6 +3,8 @@
 
 /.idea
 .env
+user-auth-system/src/main/resources/.env
+
 ### C ###
 # Prerequisites
 *.d
