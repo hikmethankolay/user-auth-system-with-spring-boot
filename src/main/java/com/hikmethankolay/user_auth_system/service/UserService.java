@@ -49,6 +49,17 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsernameOrEmail(identifier,identifier);
     }
 
+    public void deleteById(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+
+        if (user != null) {
+            userRepository.delete(user);
+        }
+        else {
+            throw new RuntimeException("User not found with id " + id);
+        }
+    }
+
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
     }

@@ -36,7 +36,7 @@ public class AuthController {
         String token = userService.authenticateUser(loginRequest);
 
         if (token != null) {
-            return ResponseEntity.ok(new AuthResponseDTO(token));
+            return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS,new AuthResponseDTO(token),"User authenticated successfully"));
         }
         else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponseDTO<>(EApiStatus.FAILURE,"","Wrong username or password"));

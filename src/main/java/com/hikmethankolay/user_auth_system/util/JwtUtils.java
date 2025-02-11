@@ -15,7 +15,9 @@ public class JwtUtils {
 
     @Value("${api.security.token.secret}")
     private String jwtSecret;
-    private final int jwtExpirationMs = 86400000; // Token valid for 1 day
+
+    @Value("${api.security.token.expiration}")
+    private int jwtExpirationMs;
 
     public String generateJwtToken(String username) {
         return JWT.create()
