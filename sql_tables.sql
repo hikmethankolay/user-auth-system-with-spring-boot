@@ -1,17 +1,17 @@
 -- Drop the schema if it already exists (use with caution in production)
-DROP SCHEMA IF EXISTS user_auth_db;
+DROP SCHEMA IF EXISTS user_auth_db CASCADE;
 
 -- Create the schema (database)
 CREATE SCHEMA user_auth_db;
 
 -- Switch to the newly created schema
-USE user_auth_db;
+SET search_path TO user_auth_db;
 
 ---------------------------------------------------
 -- Create the users table
 ---------------------------------------------------
 CREATE TABLE IF NOT EXISTS users (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
     password VARCHAR(255) NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS users (
 -- Create the roles table
 ---------------------------------------------------
 CREATE TABLE IF NOT EXISTS roles (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     name VARCHAR(20) NOT NULL,
     CONSTRAINT uc_role_name UNIQUE (name)
 );
@@ -40,10 +40,9 @@ CREATE TABLE IF NOT EXISTS user_roles (
 );
 
 ---------------------------------------------------
--- Insert roles ro roles table
+-- Insert roles into the roles table
 ---------------------------------------------------
 INSERT INTO roles (name) 
 VALUES ('ROLE_ADMIN'), 
        ('ROLE_MODERATOR'), 
        ('ROLE_USER');
-
