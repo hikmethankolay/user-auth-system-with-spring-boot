@@ -55,6 +55,15 @@ public class UserController {
         }
     }
 
+    @GetMapping("/users/me")
+    public ResponseEntity<?> getLoggedInUser(@RequestAttribute("userId") Long id) {
+        if (id == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ApiResponseDTO<>(EApiStatus.FAILURE, "", "User ID not found in request"));
+        }
+        return getUserById(id);
+    }
+
     @GetMapping(value = "/users", params = "username")
     public ResponseEntity<?> getUserByUsername(@RequestParam String username) {
         Optional<User> user = userService.findByUsernameOrEmail(username);
@@ -84,7 +93,7 @@ public class UserController {
     }
 
     @PatchMapping("/users/{id}")
-    public ResponseEntity<?> updateUser(@RequestBody UserUpdateDTO UserUpdateDTO, @PathVariable long id) {
+    public ResponseEntity<?> updateUser(@RequestBody UserUpdateDTO UserUpdateDTO, @PathVariable Long id) {
         try {
             User updatedUser = userService.updateUser(UserUpdateDTO, id);
             return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS,new UserInfoDTO(updatedUser),"User updated successfully"));
@@ -93,6 +102,15 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponseDTO<>(EApiStatus.FAILURE,"",e.getMessage()));
         }
 
+    }
+
+    @PatchMapping("/users/me")
+    public ResponseEntity<?> updateLoggedInUser(@RequestBody UserUpdateDTO UserUpdateDTO, @RequestAttribute("userId") Long id){
+        if (id == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ApiResponseDTO<>(EApiStatus.FAILURE, "", "User ID not found in request"));
+        }
+        return updateUser(UserUpdateDTO, id);
     }
 
     @DeleteMapping("/users/{id}")
