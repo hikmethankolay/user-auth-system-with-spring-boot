@@ -1,3 +1,17 @@
+/**
+ * @file SecurityConfig.java
+ * @brief Security configuration for HTTP requests.
+ *
+ * This class defines security policies including authentication and role-based access control.
+ *
+ * @author Hikmethan Kolay
+ * @date 2025-02-12
+ */
+
+/**
+ * @package com.hikmethankolay.user_auth_system.security
+ * @brief Contains the core components of the User Authentication System.
+ */
 package com.hikmethankolay.user_auth_system.security;
 
 import org.springframework.context.annotation.Bean;
@@ -9,15 +23,32 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * @class SecurityConfig
+ * @brief Security configuration class for HTTP security.
+ *
+ * This class defines authentication policies, role-based access, and session management.
+ */
 @Configuration
 public class SecurityConfig {
 
+    /** JWT authentication filter. */
     private final JwtFilter jwtFilter;
 
+    /**
+     * @brief Constructor for SecurityConfig.
+     * @param jwtFilter The JWT authentication filter.
+     */
     public SecurityConfig(JwtFilter jwtFilter) {
         this.jwtFilter = jwtFilter;
     }
 
+    /**
+     * @brief Configures security filter chain.
+     * @param http The HttpSecurity configuration object.
+     * @return The configured SecurityFilterChain.
+     * @throws Exception If an error occurs during configuration.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -40,5 +71,3 @@ public class SecurityConfig {
         return http.build();
     }
 }
-
-

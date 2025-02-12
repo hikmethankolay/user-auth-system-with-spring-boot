@@ -1,6 +1,19 @@
+/**
+ * @file JwtFilter.java
+ * @brief JWT authentication filter.
+ *
+ * This filter validates JWT tokens and sets authentication in the security context.
+ *
+ * @author Hikmethan Kolay
+ * @date 2025-02-12
+ */
+
+/**
+ * @package com.hikmethankolay.user_auth_system.security
+ * @brief Contains the core components of the User Authentication System.
+ */
 package com.hikmethankolay.user_auth_system.security;
 
-import com.hikmethankolay.user_auth_system.entity.Role;
 import com.hikmethankolay.user_auth_system.entity.User;
 import com.hikmethankolay.user_auth_system.service.UserService;
 import com.hikmethankolay.user_auth_system.util.JwtUtils;
@@ -8,32 +21,47 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
+/**
+ * @class JwtFilter
+ * @brief Filter for JWT authentication.
+ *
+ * This class filters incoming requests to validate JWT tokens and authenticate users.
+ */
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
-    private final JwtUtils jwtUtils;;
+    /** Utility for JWT operations. */
+    private final JwtUtils jwtUtils;
+
+    /** User service for retrieving user details. */
     private final UserService userService;
 
+    /**
+     * @brief Constructor for JwtFilter.
+     * @param jwtUtils The JWT utility instance.
+     * @param userService The user service instance.
+     */
     public JwtFilter(JwtUtils jwtUtils, UserService userService) {
         this.jwtUtils = jwtUtils;
         this.userService = userService;
     }
 
+    /**
+     * @brief Filters incoming requests for JWT authentication.
+     * @param request The HTTP request.
+     * @param response The HTTP response.
+     * @param filterChain The filter chain.
+     * @throws ServletException If a servlet exception occurs.
+     * @throws IOException If an IO exception occurs.
+     */
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -64,4 +92,3 @@ public class JwtFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 }
-

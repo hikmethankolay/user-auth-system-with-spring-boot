@@ -1,3 +1,17 @@
+/**
+ * @file UserService.java
+ * @brief Service class for user management.
+ *
+ * This class provides methods for managing users, authentication, validation, and role assignments.
+ *
+ * @author Hikmethan Kolay
+ * @date 2025-02-12
+ */
+
+/**
+ * @package com.hikmethankolay.user_auth_system.service
+ * @brief Contains the core components of the User Authentication System.
+ */
 package com.hikmethankolay.user_auth_system.service;
 
 import com.hikmethankolay.user_auth_system.dto.LoginRequestDTO;
@@ -21,19 +35,40 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.*;
-import java.util.stream.Collectors;
 
+/**
+ * @class UserService
+ * @brief Service class for handling user-related operations.
+ *
+ * This service interacts with repositories to manage user authentication, validation, and user-related data.
+ */
 @Service
 public class UserService implements UserDetailsService {
 
+    /** Repository for user data access. */
     private final UserRepository userRepository;
+
+    /** Repository for role data access. */
     private final RoleRepository roleRepository;
+
+    /** Password encoder for hashing user passwords. */
     private final PasswordEncoder passwordEncoder;
+
+    /** Utility class for JWT operations. */
     private final JwtUtils jwtUtils;
+
+    /** Validator for user input validation. */
     private final Validator validator;
 
+    /**
+     * @brief Constructor for UserService.
+     * @param userRepository The user repository instance.
+     * @param roleRepository The role repository instance.
+     * @param passwordEncoder The password encoder instance.
+     * @param jwtUtils The JWT utility instance.
+     * @param validator The validator instance.
+     */
     public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtUtils jwtUtils,Validator validator) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -43,14 +78,28 @@ public class UserService implements UserDetailsService {
 
     }
 
+    /**
+     * @brief Retrieves all users with pagination.
+     * @param pageable The pagination details.
+     * @return A paginated list of users.
+     */
     public Page<User> findAll(Pageable pageable) {
         return userRepository.findAll(pageable);
     }
 
+    /**
+     * @brief Finds a user by username or email.
+     * @param identifier The username or email of the user.
+     * @return An Optional containing the user if found.
+     */
     public Optional<User> findByUsernameOrEmail(String identifier) {
-        return userRepository.findByUsernameOrEmail(identifier,identifier);
+        return userRepository.findByUsernameOrEmail(identifier, identifier);
     }
 
+    /**
+     * @brief Deletes a user by ID.
+     * @param id The ID of the user to delete.
+     */
     public void deleteById(Long id) {
         User user = userRepository.findById(id).orElse(null);
 
@@ -62,10 +111,20 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    /**
+     * @brief Finds a user by ID.
+     * @param id The user ID.
+     * @return An Optional containing the user if found.
+     */
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
     }
 
+    /**
+     * @brief Registers a new user.
+     * @param userInfoDTO The user information for registration.
+     * @return The newly registered user entity.
+     */
     @Transactional
     public User registerUser(UserInfoDTO userInfoDTO) {
 
@@ -84,6 +143,11 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
+    /**
+     * @brief Authenticates a user.
+     * @param loginRequest The login request containing username or email and password.
+     * @return A JWT token if authentication is successful, otherwise null.
+     */
     public String authenticateUser(LoginRequestDTO loginRequest) {
         Optional<User> user = userRepository.findByUsernameOrEmail(loginRequest.identifier(), loginRequest.identifier());
 
@@ -95,6 +159,16 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    /**
+     * Updates a user using the provided update DTO, applying only non-null fields.
+     * Validates the update data and ensures username/email uniqueness.
+     *
+     * @param updates DTO with update data (must not be null)
+     * @param id the ID of the user to update
+     * @return the updated User
+     * @throws IllegalArgumentException if updates is null
+     * @throws RuntimeException if the user is not found or uniqueness checks fail
+     */
     @Transactional
     public User updateUser(UserUpdateDTO updates, Long id) {
         if (updates == null) {
@@ -115,19 +189,28 @@ public class UserService implements UserDetailsService {
             user.setEmail(updates.getEmail());
         }
 
-        if (updates.password() != null) {
-            user.setPassword(passwordEncoder.encode(updates.password()));
+        if (updates.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(updates.getPassword()));
         }
 
-        if (updates.roles() != null) {
+        if (updates.getRoles() != null) {
             user.setRoles(new HashSet<>());
-            assignRolesToUser(user, updates.roles());
+            assignRolesToUser(user, updates.getRoles());
         }
 
         return userRepository.save(user);
     }
 
-    private <T extends UserInfo> void checkUserValidation (T userInfo, Long userId) {
+    /**
+     * Validates user information and checks that username and email are unique.
+     *
+     * @param <T> type of user info extending UserInfo
+     * @param userInfo the user info to validate
+     * @param userId the ID of the user (to exclude self-check)
+     * @throws ConstraintViolationException if validation fails
+     * @throws RuntimeException if username or email is already taken
+     */
+    private <T extends UserInfo> void checkUserValidation(T userInfo, Long userId) {
         Set<ConstraintViolation<T>> violations = validator.validate(userInfo);
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
@@ -137,14 +220,18 @@ public class UserService implements UserDetailsService {
                 .filter(user -> !Objects.equals(user.getId(), userId))
                 .ifPresent(user -> { throw new RuntimeException("Username is already taken!"); });
 
-
         userRepository.findByEmail(userInfo.getEmail())
                 .filter(user -> !Objects.equals(user.getId(), userId))
                 .ifPresent(user -> { throw new RuntimeException("Email is already taken!"); });
-
     }
 
 
+
+    /**
+     * @brief Assigns roles to a user.
+     * @param user The user to whom roles will be assigned.
+     * @param roles The set of roles to assign.
+     */
     private void assignRolesToUser(User user, Set<ERole> roles) {
         for (ERole roleName : roles) {
             Optional<Role> role = roleRepository.findByName(roleName);
@@ -156,7 +243,13 @@ public class UserService implements UserDetailsService {
             }
         }
     }
-
+    /**
+     * Loads user details by username.
+     *
+     * @param username the username to search for
+     * @return the user details for the found user
+     * @throws UsernameNotFoundException if no user is found with the given username
+     */
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

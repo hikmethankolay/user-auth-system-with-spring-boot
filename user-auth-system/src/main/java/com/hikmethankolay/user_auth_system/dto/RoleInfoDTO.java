@@ -1,15 +1,37 @@
+/**
+ * @file RoleInfoDTO.java
+ * @brief Data Transfer Object for role information.
+ *
+ * This DTO represents role details including associated users.
+ *
+ * @author Hikmethan Kolay
+ * @date 2025-02-12
+ */
+
+/**
+ * @package com.hikmethankolay.user_auth_system.dto
+ * @brief Contains the core components of the User Authentication System.
+ */
 package com.hikmethankolay.user_auth_system.dto;
 
 import com.hikmethankolay.user_auth_system.entity.Role;
-import com.hikmethankolay.user_auth_system.entity.User;
-
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * @class RoleInfoDTO
+ * @brief DTO for role information.
+ *
+ * This record holds details about a role and its associated users.
+ */
 public record RoleInfoDTO(
         String name,
         Set<RoleUserInfoDTO> users
 ) {
+    /**
+     * @brief Constructs a RoleInfoDTO from a Role entity.
+     * @param role The role entity.
+     */
     public RoleInfoDTO(Role role) {
         this(
                 role.getName().name(),
