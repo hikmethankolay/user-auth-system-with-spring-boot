@@ -1,10 +1,285 @@
 # User Auth System With Spring Boot
 
+This API provides authentication, role management, and user management functionalities.
+
 | Coverage Type | Windows OS                                                             |
 | ------------- | ---------------------------------------------------------------------- |
 | Line Based    | ![Line Coverage](assets/badge_linecoverage.svg)     |
 | Branch Based  | ![Branch Coverage](assets/badge_branchcoverage.svg) |
 | Method Based  | ![Method Coverage](assets/badge_methodcoverage.svg) |
+
+
+## Base URL
+
+```
+http://your-domain.com/api
+```
+
+## Authentication Endpoints
+
+### Register a New User
+
+**Endpoint:**
+
+```
+POST /api/auth/register
+```
+
+**Request Body:**
+
+```json
+{
+  "username": "user123",
+  "email": "user@example.com",
+  "password": "securepassword"
+}
+```
+
+**Response:**
+
+```json
+{
+  "status": "SUCCESS",
+  "data": {
+    "id": 1,
+    "username": "user123",
+    "email": "user@example.com"
+  },
+  "message": "User registered successfully"
+}
+```
+
+### User Login
+
+**Endpoint:**
+
+```
+POST /api/auth/login
+```
+
+**Request Body:**
+
+```json
+{
+  "identifier": "user123",
+  "password": "securepassword"
+}
+```
+
+**Response:**
+
+```json
+{
+  "status": "SUCCESS",
+  "data": {
+    "token": "your-jwt-token",
+    "tokenType": "Bearer"
+  },
+  "message": "User authenticated successfully"
+}
+```
+
+## Role Management Endpoints
+
+### Get All Roles
+
+**Endpoint:**
+
+```
+GET /api/roles
+```
+
+**Response:**
+
+```json
+{
+    "status": "SUCCESS",
+    "data": [
+        {
+            "name": "ROLE_ADMIN",
+            "users": [
+                {
+                    "id": 1,
+                    "username": "user123",
+                    "email": "user@example.com",
+                }
+            ]
+        },
+        {
+            "name": "ROLE_MODERATOR",
+            "users": []
+        },
+        {
+            "name": "ROLE_USER",
+            "users": [
+                {
+                    "id": 1,
+                    "username": "user123",
+                    "email": "user@example.com",
+                }
+            ]
+        }
+    ],
+    "message": "Roles found successfully"
+}
+```
+
+### Get Role by Name
+
+**Endpoint:**
+
+```
+GET /api/roles/{role_name}
+```
+
+**Response:**
+
+```json
+{
+  "status": "SUCCESS",
+  "data":{
+      "name": "ROLE_ADMIN",
+      "users": [
+          {
+              "id": 1,
+              "username": "user123",
+              "email": "user@example.com",
+          }
+      ]
+  },
+  "message": "Role found successfully"
+}
+```
+
+## User Management Endpoints
+
+### Get All Users (Paginated)
+
+**Endpoint:**
+
+```
+GET /api/users?page={page}&size={size}
+```
+
+**Response:**
+
+```json
+{
+  "status": "SUCCESS",
+  "data": {
+    "content": [
+      {
+        "id": 1,
+        "username": "user123",
+        "email": "user@example.com"
+      }
+    ],
+    "totalPages": 5,
+    "totalElements": 50,
+    "currentPage": 1
+  },
+  "message": "Users found successfully"
+}
+```
+
+### Get User by ID
+
+**Endpoint:**
+
+```
+GET /api/users/{id}
+```
+
+**Response:**
+
+```json
+{
+  "status": "SUCCESS",
+  "data": {
+    "id": 1,
+    "username": "user123",
+    "email": "user@example.com"
+  },
+  "message": "User found successfully"
+}
+```
+
+### Get Logged-in User
+
+**Endpoint:**
+
+```
+GET /api/users/me
+```
+
+### Get User by Username
+
+**Endpoint:**
+
+```
+GET /api/users?username={username}
+```
+
+### Get User by Email
+
+**Endpoint:**
+
+```
+GET /api/users?email={email}
+```
+
+### Update User
+
+**Endpoint:**
+
+```
+PATCH /api/users/{id}
+```
+
+**Request Body:**
+
+```json
+{
+  "username": "newUser123",
+  "email": "newuser@example.com"
+}
+```
+
+**Response:**
+
+```json
+{
+  "status": "SUCCESS",
+  "data": {
+    "id": 1,
+    "username": "newUser123",
+    "email": "newuser@example.com"
+  },
+  "message": "User updated successfully"
+}
+```
+
+### Delete User
+
+**Endpoint:**
+
+```
+DELETE /api/users/{id}
+```
+
+**Response:**
+
+```json
+{
+  "status": "SUCCESS",
+  "message": "User deleted successfully"
+}
+```
+
+## Notes
+- All requests and responses are in JSON format.
+- Ensure that a valid token is provided for authentication-protected endpoints.
+- Use appropriate HTTP methods (`GET`, `POST`, `PATCH`, `DELETE`) for interacting with the API.
 
 ## Features
 
@@ -70,25 +345,6 @@ The following tools will be automatically installed by the setup scripts:
    - Edit port number if needed
 
 ## Project Configuration
-
-### Required Modifications
-
-1. **Update `user-auth-system/pom.xml`:**
-   - Change `groupId`, `artifactId`, and `version`
-   - Update project description
-   - Modify SCM, developer, and organization information
-
-2. **Update `Doxyfile`:**
-   - Modify `PROJECT_NAME`, `PROJECT_BRIEF`, and `PROJECT_NUMBER`
-   - Adjust `INPUT` paths if needed
-
-3. **Update `user-auth-system/src/site/site.xml`:**
-   - Modify banner and navigation menu items
-   - Update project links and documentation structure
-
-4. **Create content in:**
-   - `user-auth-system/src/site/markdown/overview.md`
-   - `README.md`
 
 ### Edit `.bat` Files
 
