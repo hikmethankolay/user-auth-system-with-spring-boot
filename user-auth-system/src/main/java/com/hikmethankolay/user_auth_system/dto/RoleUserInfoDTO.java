@@ -25,8 +25,7 @@ import com.hikmethankolay.user_auth_system.entity.User;
 public record RoleUserInfoDTO(
         Long id,
         String username,
-        String email,
-        String password
+        String email
 ) {
     /**
      * @brief Constructs a RoleUserInfoDTO from a User entity.
@@ -36,8 +35,7 @@ public record RoleUserInfoDTO(
         this(
                 user.getId(),
                 user.getUsername(),
-                user.getEmail(),
-                user.getPassword()
+                user.getEmail()
         );
     }
 }
