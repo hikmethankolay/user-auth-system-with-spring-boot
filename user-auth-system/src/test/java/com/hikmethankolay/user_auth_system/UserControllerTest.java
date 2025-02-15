@@ -73,8 +73,6 @@ public class UserControllerTest {
     @MockitoBean
     private UserService userService;
 
-
-
     /**
      * @brief Tests retrieving all users.
      *
