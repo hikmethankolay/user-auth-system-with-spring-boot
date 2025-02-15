@@ -86,10 +86,7 @@ public class UserController {
      */
     @GetMapping("/users/me")
     public ResponseEntity<?> getLoggedInUser(@RequestAttribute("userId") Long id) {
-        if (id == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ApiResponseDTO<>(EApiStatus.FAILURE, "", "User ID not found in request"));
-        }
+
         return getUserById(id);
     }
 
@@ -107,6 +104,23 @@ public class UserController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiResponseDTO<>(EApiStatus.FAILURE, "", "Could not find user with username: " + username));
+        }
+    }
+
+    /**
+     * @brief Retrieves a user by email.
+     * @param email The username.
+     * @return Response entity containing user details or error message.
+     */
+    @GetMapping(value = "/users", params = "email")
+    public ResponseEntity<?> getUserByEmail(@RequestParam String email) {
+        Optional<User> user = userService.findByUsernameOrEmail(email);
+        if (user.isPresent()) {
+            UserInfoDTO userDTO = new UserInfoDTO(user.get());
+            return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS, userDTO, "User found successfully"));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponseDTO<>(EApiStatus.FAILURE, "", "Could not find user with email: " + email));
         }
     }
 

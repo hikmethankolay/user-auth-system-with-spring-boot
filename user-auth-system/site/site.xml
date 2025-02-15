@@ -11,8 +11,8 @@
 
 	<custom>
 		<fluidoSkin>
-			<topBarEnabled>true</topBarEnabled>
-			<sideBarEnabled>true</sideBarEnabled>
+			<topBarEnabled>false</topBarEnabled>
+			<sideBarEnabled>false</sideBarEnabled>
 		</fluidoSkin>
 	</custom>
 
@@ -30,7 +30,7 @@
 	</poweredBy>
 
 	<body>
-		<head>Calculator App</head>
+		<head>User Auth REST API Application</head>
 		<menu name="Overview">
 				<item name="Introduction" href="index.html" />
 				<item name="README.md" href="readme.html" />

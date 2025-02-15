@@ -34,7 +34,7 @@
 
 	<organization>
 		<name>Recep Tayyip Erdogan University</name>
-		<url>www.erdogan.edu.tr</url>
+		<url>https://www.erdogan.edu.tr</url>
 	</organization>
 
 	<issueManagement>
@@ -127,6 +127,11 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 
@@ -168,6 +173,19 @@
 			  <artifactId>maven-project-info-reports-plugin</artifactId>
 			  <version>3.8.0</version>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<argLine>
+						-javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
+						-Xshare:off
+						@{argLine}
+					</argLine>
+				</configuration>
+			</plugin>
+
 
 		</plugins>
 	</build>

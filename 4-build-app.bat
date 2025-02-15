@@ -99,7 +99,7 @@ call copy README.md "user-auth-system\src\site\markdown\readme.md"
 cd user-auth-system
 
 echo Perform Maven site generation
-call mvnw site
+call mvnw clean site
 if errorlevel 1 (
     echo "Maven site generation failed."
 	pause

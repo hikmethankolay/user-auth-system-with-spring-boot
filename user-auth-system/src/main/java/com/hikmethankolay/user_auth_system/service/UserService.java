@@ -35,6 +35,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
 import java.util.*;
 
 /**
@@ -44,7 +46,7 @@ import java.util.*;
  * This service interacts with repositories to manage user authentication, validation, and user-related data.
  */
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
     /** Repository for user data access. */
     private final UserRepository userRepository;
@@ -180,20 +182,19 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
 
-        // Update only if the field is not null
-        if (updates.getUsername() != null) {
-            user.setUsername(updates.getUsername());
+        if (StringUtils.hasText(updates.getUsername())) {
+            user.setUsername(updates.getUsername().trim());
         }
 
-        if (updates.getEmail() != null) {
-            user.setEmail(updates.getEmail());
+        if (StringUtils.hasText(updates.getEmail())) {
+            user.setEmail(updates.getEmail().trim());
         }
 
-        if (updates.getPassword() != null) {
-            user.setPassword(passwordEncoder.encode(updates.getPassword()));
+        if (StringUtils.hasText(updates.getPassword())) {
+            user.setPassword(passwordEncoder.encode(updates.getPassword().trim()));
         }
 
-        if (updates.getRoles() != null) {
+        if (updates.getRoles() != null && !updates.getRoles().isEmpty()) {
             user.setRoles(new HashSet<>());
             assignRolesToUser(user, updates.getRoles());
         }
@@ -242,18 +243,5 @@ public class UserService implements UserDetailsService {
                 throw new RuntimeException("Role not found with name: " + roleName);
             }
         }
-    }
-    /**
-     * Loads user details by username.
-     *
-     * @param username the username to search for
-     * @return the user details for the found user
-     * @throws UsernameNotFoundException if no user is found with the given username
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsernameOrEmail(username, username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
 }

@@ -20,8 +20,8 @@
 	<version position="right" />
 
 	<bannerLeft>
-		<name>Template Application</name>
-		<href>https://github.com/hikmethankolay/maven-spring-project-template</href>
+		<name>User Auth System With Spring Boot</name>
+		<href>https://github.com/hikmethankolay/user-auth-system-with-spring-boot</href>
 	</bannerLeft>
 
 	<poweredBy>
@@ -30,15 +30,13 @@
 	</poweredBy>
 
 	<body>
-		<head>Calculator App</head>
 		<menu name="Overview">
 				<item name="Introduction" href="index.html" />
 				<item name="README.md" href="readme.html" />
-				<item name="Overview Markdown" href="overview.html" />
 				<item name="Project Info" href="project-info.html" />
 				<item name="Project Summary" href="summary.html" />
 				<item name="Project Team" href="team.html" />
-				<item name="GitHub Repository" href="https://github.com/hikmethankolay/maven-spring-project-template" />
+				<item name="GitHub Repository" href="https://github.com/hikmethankolay/user-auth-system-with-spring-boot" />
 		</menu>
 
 		<menu name="Development">
