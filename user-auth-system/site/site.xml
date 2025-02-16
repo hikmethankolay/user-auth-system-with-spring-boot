@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/DECORATION/1.8.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.8.0 http://maven.apache.org/xsd/decoration-1.8.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.8.0 https://maven.apache.org/xsd/decoration-1.8.0.xsd">
 
 	<skin>
 		<groupId>org.apache.maven.skins</groupId>
 		<artifactId>maven-fluido-skin</artifactId>
-		<version>1.10.0</version>
+		<version>2.0.1</version>
 	</skin>
 
 	<custom>
@@ -30,7 +30,6 @@
 	</poweredBy>
 
 	<body>
-		<head>User Auth REST API Application</head>
 		<menu name="Overview">
 				<item name="Introduction" href="index.html" />
 				<item name="README.md" href="readme.html" />

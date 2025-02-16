@@ -315,16 +315,12 @@ public class UserControllerTest {
     public void testUpdateUser_Success() throws Exception {
         Long userId = 1L;
 
-        UserUpdateDTO updateDTO = new UserUpdateDTO();
-        updateDTO.setId(userId);
-        updateDTO.setUsername("updatedUser");
-        updateDTO.setEmail("updated@example.com");
-
-        User updatedUser = new User();
+        User updatedUser = new User("updatedUser","updated@example.com","");
         updatedUser.setId(userId);
-        updatedUser.setUsername("updatedUser");
-        updatedUser.setEmail("updated@example.com");
+
         updatedUser.addRole(new Role(ERole.ROLE_USER));
+
+        UserUpdateDTO updateDTO = new UserUpdateDTO(updatedUser);
 
         when(userService.updateUser(any(UserUpdateDTO.class), eq(userId))).thenReturn(updatedUser);
 

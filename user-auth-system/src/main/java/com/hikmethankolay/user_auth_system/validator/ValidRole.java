@@ -39,7 +39,7 @@ public @interface ValidRole {
     /**
      * The error message to be returned when validation fails.
      */
-    String message() default "Invalid role(s) provided. Allowed values: ROLE_USER, ROLE_ADMIN";
+    String message() default "Invalid role(s) provided. Allowed values: ROLE_USER, ROLE_MODERATOR, ROLE_ADMIN";
 
     /**
      * Allows the specification of validation groups.

@@ -50,14 +50,19 @@ public class ValidRolesValidator implements ConstraintValidator<ValidRole, Set<E
             return true;
         }
 
-        boolean allValid = roles.stream().allMatch(role -> VALID_ROLE_NAMES.contains(role.name()));
+        boolean allValid = roles.stream().allMatch(role -> role != null && VALID_ROLE_NAMES.contains(role.name()));
 
         if (!allValid) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("Invalid role(s) provided. Allowed values: " + VALID_ROLE_NAMES)
-                    .addConstraintViolation();
+            ConstraintValidatorContext.ConstraintViolationBuilder violationBuilder =
+                    context.buildConstraintViolationWithTemplate("Invalid role(s) provided. Allowed values: " + VALID_ROLE_NAMES);
+
+            if (violationBuilder != null) {
+                violationBuilder.addConstraintViolation();
+            }
         }
 
         return allValid;
     }
+
 }

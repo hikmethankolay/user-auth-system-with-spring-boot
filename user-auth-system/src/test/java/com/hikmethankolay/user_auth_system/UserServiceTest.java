@@ -98,19 +98,13 @@ public class UserServiceTest {
     public void setup() {
         pageable = PageRequest.of(0, 10, Sort.by("id").ascending());
 
-        user1 = new User();
+        user1 = new User("user1","user1@email.com","password1");
         user1.addRole(new Role(ERole.ROLE_USER));
-        user1.setUsername("user1");
-        user1.setPassword("password1");
-        user1.setEmail("user1@email.com");
         user1.setId(1L);
 
-        user2 = new User();
+        user2 = new User("user2","user2@email.com","password2");
         user2.addRole(new Role(ERole.ROLE_USER));
         user2.addRole(new Role(ERole.ROLE_ADMIN));
-        user2.setUsername("user2");
-        user2.setPassword("password2");
-        user2.setEmail("user2@email.com");
         user2.setId(2L);
 
         validUserDTO = new UserInfoDTO();
