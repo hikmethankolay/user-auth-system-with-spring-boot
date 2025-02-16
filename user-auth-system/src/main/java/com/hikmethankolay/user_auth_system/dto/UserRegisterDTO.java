@@ -14,48 +14,64 @@
  */
 package com.hikmethankolay.user_auth_system.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hikmethankolay.user_auth_system.entity.Role;
 import com.hikmethankolay.user_auth_system.entity.User;
 import com.hikmethankolay.user_auth_system.enums.ERole;
+import com.hikmethankolay.user_auth_system.validator.ValidRole;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * @class UserInfoDTO
- * @brief DTO for user information.
+ * @class UserRegisterDTO
+ * @brief DTO for user register.
  *
  * This class represents user details including credentials and roles.
  */
-public class UserInfoDTO implements UserInfo {
+public class UserRegisterDTO implements UserInfo {
 
         /** User ID. */
         private Long id;
 
         /** Username of the user. */
+        @NotBlank(message = "Username can not be blank.")
+        @Size(min = 8, max = 32, message = "Username must be between 8 and 32 characters")
         private String username;
 
         /** Email of the user. */
+        @NotBlank(message = "Email can not be blank.")
+        @Email(message = "Invalid email format")
         private String email;
 
-        /** Set of roles assigned to the user. */
-        private Set<ERole> roles;
+        /** Password of the user. */
+        @NotBlank(message = "Password can not be blank.")
+        @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+        @Pattern(
+                regexp = "^(?=.*?[0-9])(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^0-9A-Za-z]).{8,32}$",
+                message = "Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, one digit, and one special character."
+        )
+        private String password;
+
 
         /**
          * @brief Default constructor.
          */
-        public UserInfoDTO() {}
+        public UserRegisterDTO() {}
 
         /**
          * @brief Constructs a UserInfoDTO from a User entity.
          * @param user The user entity.
          */
-        public UserInfoDTO(User user) {
+        public UserRegisterDTO(User user) {
                 this.id = user.getId();
                 this.username = user.getUsername();
                 this.email = user.getEmail();
-                this.roles = user.getRoles() != null
-                        ? user.getRoles().stream().map(Role::getName).collect(Collectors.toSet())
-                        : Set.of();
+                this.password = user.getPassword();
         }
 
         /**
@@ -107,19 +123,19 @@ public class UserInfoDTO implements UserInfo {
         }
 
         /**
-         * @brief Gets the roles assigned to the user.
-         * @return A set of roles.
+         * @brief Gets the password of the user.
+         * @return The password.
          */
-        public Set<ERole> getRoles() {
-                return roles;
+        public String getPassword() {
+                return password;
         }
 
         /**
-         * @brief Sets the roles assigned to the user.
-         * @param roles The set of roles to be assigned.
+         * @brief Sets the password of the user.
+         * @param password The password to be set.
          */
-        public void setRoles(Set<ERole> roles) {
-                this.roles = roles;
+        public void setPassword(String password) {
+                this.password = password;
         }
 
         /**
@@ -132,7 +148,7 @@ public class UserInfoDTO implements UserInfo {
                         "id=" + id +
                         ", username='" + username + '\'' +
                         ", email='" + email + '\'' +
-                        ", roles=" + roles +
+                        ", password='" + password + '\'' +
                         '}';
         }
 }

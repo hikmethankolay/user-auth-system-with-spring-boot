@@ -14,8 +14,6 @@
  */
 package com.hikmethankolay.user_auth_system.dto;
 
-import com.hikmethankolay.user_auth_system.enums.ERole;
-import java.util.Set;
 
 /**
  * @interface UserInfo
@@ -41,16 +39,4 @@ public interface UserInfo {
      * @return The email as a string.
      */
     String getEmail();
-
-    /**
-     * @brief Retrieves the password of the user.
-     * @return The password as a string.
-     */
-    String getPassword();
-
-    /**
-     * @brief Retrieves the roles assigned to the user.
-     * @return A set of ERole enums.
-     */
-    Set<ERole> getRoles();
 }

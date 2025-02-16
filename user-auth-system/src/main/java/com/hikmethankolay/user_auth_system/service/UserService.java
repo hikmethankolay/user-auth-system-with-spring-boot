@@ -14,10 +14,7 @@
  */
 package com.hikmethankolay.user_auth_system.service;
 
-import com.hikmethankolay.user_auth_system.dto.LoginRequestDTO;
-import com.hikmethankolay.user_auth_system.dto.UserInfo;
-import com.hikmethankolay.user_auth_system.dto.UserInfoDTO;
-import com.hikmethankolay.user_auth_system.dto.UserUpdateDTO;
+import com.hikmethankolay.user_auth_system.dto.*;
 import com.hikmethankolay.user_auth_system.entity.Role;
 import com.hikmethankolay.user_auth_system.entity.User;
 import com.hikmethankolay.user_auth_system.enums.ERole;
@@ -29,9 +26,6 @@ import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -128,7 +122,7 @@ public class UserService {
      * @return The newly registered user entity.
      */
     @Transactional
-    public User registerUser(UserInfoDTO userInfoDTO) {
+    public User registerUser(UserRegisterDTO userInfoDTO) {
 
         checkUserValidation(userInfoDTO,null);
 

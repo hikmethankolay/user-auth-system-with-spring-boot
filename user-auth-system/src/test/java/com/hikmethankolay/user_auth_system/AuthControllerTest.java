@@ -17,7 +17,7 @@ package com.hikmethankolay.user_auth_system;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hikmethankolay.user_auth_system.dto.LoginRequestDTO;
-import com.hikmethankolay.user_auth_system.dto.UserInfoDTO;
+import com.hikmethankolay.user_auth_system.dto.UserRegisterDTO;
 import com.hikmethankolay.user_auth_system.entity.Role;
 import com.hikmethankolay.user_auth_system.entity.User;
 import com.hikmethankolay.user_auth_system.enums.EApiStatus;
@@ -77,7 +77,7 @@ public class AuthControllerTest {
      */
     @Test
     public void testRegisterUser_Success() throws Exception {
-        UserInfoDTO registerRequest = new UserInfoDTO();
+        UserRegisterDTO registerRequest = new UserRegisterDTO();
         registerRequest.setUsername("newUser");
         registerRequest.setEmail("newuser@example.com");
         registerRequest.setPassword("password123");
@@ -88,7 +88,7 @@ public class AuthControllerTest {
         registeredUser.setEmail("newuser@example.com");
         registeredUser.addRole(new Role(ERole.ROLE_USER));
 
-        when(userService.registerUser(any(UserInfoDTO.class))).thenReturn(registeredUser);
+        when(userService.registerUser(any(UserRegisterDTO.class))).thenReturn(registeredUser);
 
         mockMvc.perform(post("/api/auth/register")
                         .with(user("admin").roles("ADMIN"))
@@ -113,12 +113,12 @@ public class AuthControllerTest {
      */
     @Test
     public void testRegisterUser_Failure() throws Exception {
-        UserInfoDTO registerRequest = new UserInfoDTO();
+        UserRegisterDTO registerRequest = new UserRegisterDTO();
         registerRequest.setUsername("existingUser");
         registerRequest.setEmail("existinguser@example.com");
         registerRequest.setPassword("password123");
 
-        when(userService.registerUser(any(UserInfoDTO.class)))
+        when(userService.registerUser(any(UserRegisterDTO.class)))
                 .thenThrow(new RuntimeException("Username is already taken!"));
 
         mockMvc.perform(post("/api/auth/register")

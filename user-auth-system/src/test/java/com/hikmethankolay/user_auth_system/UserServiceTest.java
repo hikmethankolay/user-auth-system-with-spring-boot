@@ -16,7 +16,7 @@
 package com.hikmethankolay.user_auth_system;
 
 import com.hikmethankolay.user_auth_system.dto.LoginRequestDTO;
-import com.hikmethankolay.user_auth_system.dto.UserInfoDTO;
+import com.hikmethankolay.user_auth_system.dto.UserRegisterDTO;
 import com.hikmethankolay.user_auth_system.dto.UserUpdateDTO;
 import com.hikmethankolay.user_auth_system.entity.Role;
 import com.hikmethankolay.user_auth_system.entity.User;
@@ -67,7 +67,7 @@ public class UserServiceTest {
     private UserService userService;
 
     /** @brief Sample user data for testing. */
-    private UserInfoDTO validUserDTO;
+    private UserRegisterDTO validUserDTO;
 
     /** @brief Sample pagination settings. */
     private Pageable pageable;
@@ -107,7 +107,7 @@ public class UserServiceTest {
         user2.addRole(new Role(ERole.ROLE_ADMIN));
         user2.setId(2L);
 
-        validUserDTO = new UserInfoDTO();
+        validUserDTO = new UserRegisterDTO();
         validUserDTO.setUsername("newUser");
         validUserDTO.setEmail("newuser@example.com");
         validUserDTO.setPassword("password123");
@@ -312,7 +312,7 @@ public class UserServiceTest {
      */
     @Test
     public void testRegisterUser_ValidationFailure() {
-        Set<ConstraintViolation<UserInfoDTO>> violations = Set.of(mock(ConstraintViolation.class));
+        Set<ConstraintViolation<UserRegisterDTO>> violations = Set.of(mock(ConstraintViolation.class));
 
         when(validator.validate(validUserDTO)).thenReturn(violations);
 

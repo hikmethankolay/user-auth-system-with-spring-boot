@@ -13,10 +13,7 @@
  */
 package com.hikmethankolay.user_auth_system.controller;
 
-import com.hikmethankolay.user_auth_system.dto.ApiResponseDTO;
-import com.hikmethankolay.user_auth_system.dto.AuthResponseDTO;
-import com.hikmethankolay.user_auth_system.dto.LoginRequestDTO;
-import com.hikmethankolay.user_auth_system.dto.UserInfoDTO;
+import com.hikmethankolay.user_auth_system.dto.*;
 import com.hikmethankolay.user_auth_system.entity.User;
 import com.hikmethankolay.user_auth_system.enums.EApiStatus;
 import com.hikmethankolay.user_auth_system.service.UserService;
@@ -49,7 +46,7 @@ public class AuthController {
      * @return Response entity containing the registration result.
      */
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserInfoDTO registerRequest) {
+    public ResponseEntity<?> register(@RequestBody UserRegisterDTO registerRequest) {
         try {
             User registeredUser = userService.registerUser(registerRequest);
             return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS,new UserInfoDTO(registeredUser),"User registered successfully"));
