@@ -107,6 +107,7 @@ public class UserServiceTest {
 
         user2 = new User();
         user2.addRole(new Role(ERole.ROLE_USER));
+        user2.addRole(new Role(ERole.ROLE_ADMIN));
         user2.setUsername("user2");
         user2.setPassword("password2");
         user2.setEmail("user2@email.com");
@@ -535,6 +536,62 @@ public class UserServiceTest {
         assertEquals("partial@example.com", updatedUser.getEmail());
         assertEquals("password1", updatedUser.getPassword());
         assertTrue(updatedUser.getRoles().stream().allMatch(role -> role.getName().name().equals("ROLE_USER")));
+
+        verify(userRepository, times(1)).save(any(User.class));
+    }
+
+    /**
+     * @brief Verifies that a non-admin user cannot assign themselves other roles.
+     *
+     * @test Ensures the user's username and email are updated, but ROLE_ADMIN is not added.
+     * Also verifies that the repository save method is called once.
+     */
+    @Test
+    public void testUpdateUser_NonAdminCantUpdateRoles() {
+        UserUpdateDTO partialUpdates = new UserUpdateDTO();
+        partialUpdates.setUsername("partialUsername");
+        partialUpdates.setEmail("partial@example.com");
+        partialUpdates.setRoles(new HashSet<>(Set.of(ERole.ROLE_USER, ERole.ROLE_ADMIN)));
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user1));
+        when(validator.validate(partialUpdates)).thenReturn(Collections.emptySet());
+        when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        User updatedUser = userService.updateUser(partialUpdates, 1L);
+
+        assertNotNull(updatedUser);
+        assertEquals("partialUsername", updatedUser.getUsername());
+        assertEquals("partial@example.com", updatedUser.getEmail());
+        assertEquals("password1", updatedUser.getPassword());
+        assertTrue(updatedUser.getRoles().stream().noneMatch(role -> role.getName().name().equals("ROLE_ADMIN")));
+
+        verify(userRepository, times(1)).save(any(User.class));
+    }
+
+    /**
+     * @brief Verifies that a admin user can assign themselves other roles.
+     *
+     * @test Ensures the user's username and email are updated and ROLE_MODERATOR is added.
+     * Also verifies that the repository save method is called once.
+     */
+    @Test
+    public void testUpdateUser_AdminCanUpdateRoles() {
+        UserUpdateDTO partialUpdates = new UserUpdateDTO();
+        partialUpdates.setUsername("partialUsername");
+        partialUpdates.setEmail("partial@example.com");
+        partialUpdates.setRoles(new HashSet<>(Set.of(ERole.ROLE_USER, ERole.ROLE_ADMIN, ERole.ROLE_MODERATOR)));
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user2));
+        when(validator.validate(partialUpdates)).thenReturn(Collections.emptySet());
+        when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        User updatedUser = userService.updateUser(partialUpdates, 1L);
+
+        assertNotNull(updatedUser);
+        assertEquals("partialUsername", updatedUser.getUsername());
+        assertEquals("partial@example.com", updatedUser.getEmail());
+        assertEquals("password2", updatedUser.getPassword());
+        assertTrue(updatedUser.getRoles().stream().anyMatch(role -> role.getName().name().equals("ROLE_MODERATOR")));
 
         verify(userRepository, times(1)).save(any(User.class));
     }

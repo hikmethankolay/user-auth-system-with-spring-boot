@@ -177,7 +177,7 @@ public class UserControllerTest {
         when(userService.findById(1L)).thenReturn(Optional.of(mockUser));
 
         mockMvc.perform(get("/api/users/me")
-                        .with(user("admin").roles("ADMIN"))
+                        .with(user("test_user").roles("USER"))
                         .requestAttr("userId", 1L))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -341,6 +341,59 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.data.roles[0]").value("ROLE_USER"))
                 .andExpect(jsonPath("$.message").value("User updated successfully"));
     }
+
+    /**
+     * @brief Tests updating logged-in user (Success case).
+     *
+     * Ensures that a valid user update request succeeds.
+     * @throws Exception if the test encounters an error.
+     */
+    @Test
+    public void testUpdateLoggedInUser_Success() throws Exception {
+        Long userId = 1L;
+
+        UserUpdateDTO updateDTO = new UserUpdateDTO();
+        updateDTO.setId(userId);
+        updateDTO.setUsername("User");
+        updateDTO.setEmail("User@example.com");
+
+        User updatedUser = new User();
+        updatedUser.setId(userId);
+        updatedUser.setUsername("updatedUser");
+        updatedUser.setEmail("updatedUser@example.com");
+
+        when(userService.updateUser(any(UserUpdateDTO.class), eq(userId))).thenReturn(updatedUser);
+
+        mockMvc.perform(patch("/api/users/me")
+                        .with(user("User").roles("USER"))
+                        .requestAttr("userId", userId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updateDTO)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.status").value(EApiStatus.SUCCESS.toString()))
+                .andExpect(jsonPath("$.data.id").value(userId))
+                .andExpect(jsonPath("$.data.username").value("updatedUser"))
+                .andExpect(jsonPath("$.data.email").value("updatedUser@example.com"))
+                .andExpect(jsonPath("$.message").value("User updated successfully"));
+    }
+
+    /**
+     * @brief Tests updating logged-in user (Unauthorized case).
+     *
+     * Ensures that an unauthorized user update request fails.
+     * @throws Exception if the test encounters an error.
+     */
+    @Test
+    public void testUpdateLoggedInUser_Unauthorized() throws Exception {
+        mockMvc.perform(patch("/api/users/me"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.status").value(EApiStatus.FAILURE.toString()))
+                .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.message").value("Unauthorized"));
+    }
+
 
     /**
      * @brief Tests updating a user (Failure case).

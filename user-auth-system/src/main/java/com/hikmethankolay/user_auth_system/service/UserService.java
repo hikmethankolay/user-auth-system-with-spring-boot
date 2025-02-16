@@ -182,6 +182,9 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
 
+        boolean isAdmin = user.getRoles().stream()
+                .anyMatch(role -> role.getName().equals(ERole.ROLE_ADMIN));
+
         if (StringUtils.hasText(updates.getUsername())) {
             user.setUsername(updates.getUsername().trim());
         }
@@ -194,7 +197,7 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(updates.getPassword().trim()));
         }
 
-        if (updates.getRoles() != null && !updates.getRoles().isEmpty()) {
+        if (updates.getRoles() != null && !updates.getRoles().isEmpty() && isAdmin) {
             user.setRoles(new HashSet<>());
             assignRolesToUser(user, updates.getRoles());
         }
@@ -205,7 +208,6 @@ public class UserService {
     /**
      * Validates user information and checks that username and email are unique.
      *
-     * @param <T> type of user info extending UserInfo
      * @param userInfo the user info to validate
      * @param userId the ID of the user (to exclude self-check)
      * @throws ConstraintViolationException if validation fails

@@ -20,7 +20,7 @@ package com.hikmethankolay.user_auth_system.dto;
 import com.hikmethankolay.user_auth_system.enums.EApiStatus;
 
 /**
- * @record ApiResponseDTO
+ * ApiResponseDTO
  * @brief Generic API response wrapper.
  *
  * @tparam T The type of the data payload.

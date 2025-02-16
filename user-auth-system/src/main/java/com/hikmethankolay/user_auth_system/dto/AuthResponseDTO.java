@@ -15,15 +15,15 @@
 package com.hikmethankolay.user_auth_system.dto;
 
 /**
- * @class AuthResponseDTO
- * @brief DTO for authentication responses.
- *
- * This record holds an authentication token and its type.
+ * Data Transfer Object for authentication response.
+ * @param token The authentication token.
+ * @param tokenType The type of the token (e.g., "Bearer").
  */
 public record AuthResponseDTO(String token, String tokenType) {
 
     /**
-     * @brief Constructor with default token type "Bearer".
+     * Authentication response DTO.
+     *
      * @param token The authentication token.
      */
     public AuthResponseDTO(String token) {

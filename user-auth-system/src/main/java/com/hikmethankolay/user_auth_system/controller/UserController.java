@@ -17,8 +17,11 @@ package com.hikmethankolay.user_auth_system.controller;
 import com.hikmethankolay.user_auth_system.dto.ApiResponseDTO;
 import com.hikmethankolay.user_auth_system.dto.UserInfoDTO;
 import com.hikmethankolay.user_auth_system.dto.UserUpdateDTO;
+import com.hikmethankolay.user_auth_system.entity.Role;
 import com.hikmethankolay.user_auth_system.entity.User;
 import com.hikmethankolay.user_auth_system.enums.EApiStatus;
+import com.hikmethankolay.user_auth_system.enums.ERole;
+import com.hikmethankolay.user_auth_system.repository.UserRepository;
 import com.hikmethankolay.user_auth_system.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +30,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @class UserController
@@ -39,13 +45,17 @@ public class UserController {
 
     /** User service for handling user-related operations. */
     private final UserService userService;
+    private final UserRepository userRepository;
 
     /**
-     * @brief Constructor for UserController.
-     * @param userService The user service instance.
+     * Controller for user operations.
+     * @param userService The service managing user operations.
+     * @param userRepository The repository handling user persistence.
+     * @author Hikmethan Kolay
      */
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserRepository userRepository) {
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -139,6 +149,17 @@ public class UserController {
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponseDTO<>(EApiStatus.FAILURE,"",e.getMessage()));
         }
+    }
+
+    /**
+     * @brief Updates logged-in user by ID.
+     * @param UserUpdateDTO The user update request data.
+     * @param id The ID of the logged-in user.
+     * @return Response entity containing user details or error message.
+     */
+    @PatchMapping("/users/me")
+    public ResponseEntity<?> updateLoggedInUser(@RequestBody UserUpdateDTO UserUpdateDTO, @RequestAttribute("userId") Long id) {
+        return updateUser(UserUpdateDTO, id);
     }
 
     /**

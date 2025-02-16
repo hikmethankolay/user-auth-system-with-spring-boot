@@ -20,6 +20,10 @@ import com.hikmethankolay.user_auth_system.entity.User;
  * @class RoleUserInfoDTO
  * @brief DTO for user details in a role.
  *
+ * @param id The id of the role.
+ * @param username The username of the role member.
+ * @param email The name of the role member.
+ *
  * This record holds basic user information associated with a role.
  */
 public record RoleUserInfoDTO(

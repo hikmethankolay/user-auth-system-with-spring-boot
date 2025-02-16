@@ -71,7 +71,7 @@ public class AuthController {
             return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS,new AuthResponseDTO(token),"User authenticated successfully"));
         }
         else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponseDTO<>(EApiStatus.FAILURE,"","Wrong username or password"));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponseDTO<>(EApiStatus.FAILURE,"","Wrong username or password"));
         }
     }
 }

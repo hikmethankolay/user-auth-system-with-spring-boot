@@ -24,7 +24,8 @@ import java.util.stream.Collectors;
 
 /**
  * Validator for the {@link ValidRole} annotation.
- * Validates that every role in the set is one of the allowed roles defined in {@link ERole}.
+ *
+ * Ensures that all roles in a given set are valid according to {@link ERole}.
  */
 public class ValidRolesValidator implements ConstraintValidator<ValidRole, Set<ERole>> {
 

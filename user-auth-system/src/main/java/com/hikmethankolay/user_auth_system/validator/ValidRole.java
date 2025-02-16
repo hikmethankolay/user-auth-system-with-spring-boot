@@ -15,6 +15,7 @@
  */
 package com.hikmethankolay.user_auth_system.validator;
 
+import com.hikmethankolay.user_auth_system.enums.ERole;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -24,10 +25,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to validate that a role is permitted.
+ * Custom annotation to validate user roles.
  *
- * <p>Used on fields or parameters to ensure they contain only allowed roles.
- * The allowed roles are: ROLE_USER, ROLE_ADMIN.</p>
+ * Ensures that assigned roles are within the allowed set of {@link ERole}.
  *
  * @see ValidRolesValidator
  */

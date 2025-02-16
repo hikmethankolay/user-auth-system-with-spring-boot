@@ -15,10 +15,13 @@
 package com.hikmethankolay.user_auth_system.enums;
 
 /**
- * @enum EApiStatus
- * @brief Enumeration of API response statuses.
+ * Enumeration representing API response statuses.
  *
- * This enum defines possible API response statuses.
+ * This enum defines possible statuses for API responses.
+ * - #SUCCESS indicates a successful response.
+ * - #FAILURE indicates a failed response.
+ * - #UNAUTHORIZED indicates an unauthorized access attempt.
+ *
  */
 public enum EApiStatus {
     /** Successful API response. */

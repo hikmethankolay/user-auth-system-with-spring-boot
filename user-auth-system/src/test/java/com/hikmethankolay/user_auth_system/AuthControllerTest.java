@@ -16,6 +16,7 @@
 package com.hikmethankolay.user_auth_system;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hikmethankolay.user_auth_system.dto.LoginRequestDTO;
 import com.hikmethankolay.user_auth_system.dto.UserInfoDTO;
 import com.hikmethankolay.user_auth_system.entity.Role;
 import com.hikmethankolay.user_auth_system.entity.User;
@@ -130,6 +131,54 @@ public class AuthControllerTest {
                 .andExpect(jsonPath("$.message").value("Username is already taken!"));
     }
 
+    /**
+     * @brief Tests failed login due to wrong username or password.
+     *
+     * Mocks `userService.authenticateUser()` to return a null Token.
+     * Expects HTTP 200 OK with JWT token in the response.
+     *
+     * @throws Exception if an error occurs during the test.
+     */
+    @Test
+    public void testLoginUser_Success() throws Exception {
+        LoginRequestDTO loginRequestDTO = new LoginRequestDTO("username", "password123");
+
+        when(userService.authenticateUser(any(LoginRequestDTO.class))).thenReturn("Mocked-JWT-Token");
+
+        mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(loginRequestDTO)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.status").value(EApiStatus.SUCCESS.toString()))
+                .andExpect(jsonPath("$.data.token").value("Mocked-JWT-Token"))
+                .andExpect(jsonPath("$.data.tokenType").value("Bearer"))
+                .andExpect(jsonPath("$.message").value("User authenticated successfully"));
+    }
+
+    /**
+     * @brief Tests successful user login.
+     *
+     * Mocks `userService.authenticateUser()` to return a newly created JWT Token.
+     * Expects HTTP 400 Bad Request with an error message.
+     *
+     * @throws Exception if an error occurs during the test.
+     */
+    @Test
+    public void testLoginUser_Failure() throws Exception {
+        LoginRequestDTO loginRequestDTO = new LoginRequestDTO("wrong_username", "wrong_password123");
+
+        when(userService.authenticateUser(any(LoginRequestDTO.class))).thenReturn(null);
+
+        mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(loginRequestDTO)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.status").value(EApiStatus.FAILURE.toString()))
+                .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.message").value("Wrong username or password"));
+    }
 
 
 }

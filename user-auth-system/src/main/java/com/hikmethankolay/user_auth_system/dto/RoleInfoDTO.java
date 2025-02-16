@@ -19,10 +19,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * @class RoleInfoDTO
- * @brief DTO for role information.
- *
- * This record holds details about a role and its associated users.
+ * DTO representing role information.
+ * @param name The name of the role.
+ * @param users The users assigned to the role.
+ * @author Hikmethan Kolay
  */
 public record RoleInfoDTO(
         String name,

@@ -15,10 +15,12 @@
 package com.hikmethankolay.user_auth_system.enums;
 
 /**
- * @enum ERole
- * @brief Enumeration of user roles.
+ * Enum representing different user roles.
  *
- * This enum defines different roles assigned to users.
+ * This enum defines roles such as:
+ * - ROLE_USER: Standard user role.
+ * - ROLE_MODERATOR: Moderator role with additional privileges.
+ * - ROLE_ADMIN: Administrator role with full access.
  */
 public enum ERole {
     /** Standard user role. */
