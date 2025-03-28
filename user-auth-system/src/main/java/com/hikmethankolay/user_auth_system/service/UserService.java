@@ -18,8 +18,10 @@ import com.hikmethankolay.user_auth_system.dto.*;
 import com.hikmethankolay.user_auth_system.entity.Role;
 import com.hikmethankolay.user_auth_system.entity.User;
 import com.hikmethankolay.user_auth_system.enums.ERole;
+import com.hikmethankolay.user_auth_system.enums.TokenStatus;
 import com.hikmethankolay.user_auth_system.repository.RoleRepository;
 import com.hikmethankolay.user_auth_system.repository.UserRepository;
+import com.hikmethankolay.user_auth_system.security.LoginAttemptService;
 import com.hikmethankolay.user_auth_system.util.JwtUtils;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -57,6 +59,9 @@ public class UserService {
     /** Validator for user input validation. */
     private final Validator validator;
 
+    /** Login attempt service for tracking login attempts. */
+    private final LoginAttemptService loginAttemptService;
+
     /**
      * @brief Constructor for UserService.
      * @param userRepository The user repository instance.
@@ -65,13 +70,13 @@ public class UserService {
      * @param jwtUtils The JWT utility instance.
      * @param validator The validator instance.
      */
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtUtils jwtUtils,Validator validator) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtUtils jwtUtils, Validator validator, LoginAttemptService loginAttemptService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtils = jwtUtils;
         this.validator = validator;
-
+        this.loginAttemptService = loginAttemptService;
     }
 
     /**
@@ -104,7 +109,6 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id " + id));
 
-
         userRepository.delete(user);
     }
 
@@ -124,7 +128,6 @@ public class UserService {
      */
     @Transactional
     public User registerUser(UserRegisterDTO userInfoDTO) {
-
         checkUserValidation(userInfoDTO,null);
 
         User user = new User();
@@ -143,17 +146,70 @@ public class UserService {
     /**
      * @brief Authenticates a user.
      * @param loginRequest The login request containing username or email and password.
+     * @param clientIp The client IP for rate limiting.
      * @return A JWT token if authentication is successful, otherwise null.
+     * @throws RuntimeException if the account or IP is blocked due to too many failed login attempts.
      */
-    public String authenticateUser(LoginRequestDTO loginRequest) {
-        Optional<User> user = userRepository.findByUsernameOrEmail(loginRequest.identifier(), loginRequest.identifier());
+    public String authenticateUser(LoginRequestDTO loginRequest, String clientIp) {
+        String identifier = loginRequest.identifier();
+
+        // Check if the IP address is blocked due to too many failed login attempts
+        if (loginAttemptService.isBlocked(clientIp)) {
+            throw new RuntimeException("Too many failed login attempts from this IP. Please try again later.");
+        }
+
+        // Check if the user is blocked due to too many failed attempts
+        if (loginAttemptService.isBlocked(identifier)) {
+            throw new RuntimeException("Account is temporarily locked due to too many failed login attempts. Please try again later.");
+        }
+
+        Optional<User> user = userRepository.findByUsernameOrEmail(identifier, identifier);
 
         if (user.isPresent() && passwordEncoder.matches(loginRequest.password(), user.get().getPassword())) {
-            return jwtUtils.generateJwtToken(String.valueOf(user.get().getId()),user.get().getUsername());
-        }
-        else {
+            // Authentication successful - reset failed attempts counter
+            loginAttemptService.loginSucceeded(clientIp);
+            loginAttemptService.loginSucceeded(identifier);
+
+            return jwtUtils.generateJwtToken(
+                    String.valueOf(user.get().getId()),
+                    user.get().getUsername(),
+                    loginRequest.rememberMe()
+            );
+        } else {
+            // Authentication failed - increment failed attempts counter
+            loginAttemptService.loginFailed(clientIp);
+            loginAttemptService.loginFailed(identifier);
             return null;
         }
+    }
+
+    /**
+     * @brief Refreshes an authentication token.
+     * @param token The current token to refresh.
+     * @return A new JWT token if refresh is successful, otherwise null.
+     */
+    public String refreshToken(String token) {
+        if (token != null && jwtUtils.validateJwtToken(token) != TokenStatus.INVALID) {
+            try {
+                Long userId = jwtUtils.getUserIdFromJwtToken(token);
+                Optional<User> userOpt = findById(userId);
+
+                if (userOpt.isPresent()) {
+                    User user = userOpt.get();
+                    boolean wasRememberMe = jwtUtils.wasRememberMe(token);
+
+                    return jwtUtils.generateJwtToken(
+                            String.valueOf(user.getId()),
+                            user.getUsername(),
+                            wasRememberMe
+                    );
+                }
+            } catch (Exception e) {
+                // Token processing failed
+                return null;
+            }
+        }
+        return null;
     }
 
     /**
@@ -225,8 +281,6 @@ public class UserService {
                 .filter(user -> !Objects.equals(user.getId(), userId))
                 .ifPresent(user -> { throw new RuntimeException("Email is already taken!"); });
     }
-
-
 
     /**
      * @brief Assigns roles to a user.

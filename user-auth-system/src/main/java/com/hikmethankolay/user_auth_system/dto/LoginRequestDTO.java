@@ -15,11 +15,13 @@
  */
 package com.hikmethankolay.user_auth_system.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * @class LoginRequestDTO
  * @brief DTO for login request data.
  *
  * This record holds the necessary login credentials.
  */
-public record LoginRequestDTO(String identifier, String password) {
+public record LoginRequestDTO(String identifier, String password, @JsonProperty(defaultValue = "false") boolean rememberMe) {
 }

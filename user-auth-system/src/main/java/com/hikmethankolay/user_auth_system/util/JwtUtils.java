@@ -19,6 +19,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.hikmethankolay.user_auth_system.enums.TokenStatus;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -31,35 +33,43 @@ import java.util.Date;
 public class JwtUtils {
 
 
-    /** JWT Token */
+    /** JWT Secret Key */
     @Value("${api.security.token.secret}")
     private String jwtSecret;
 
-    /** JWT Token expiration time */
+    /** Standard JWT Token expiration time */
     @Value("${api.security.token.expiration}")
     private int jwtExpirationMs;
 
+    /** Extended expiration time for Remember Me */
+    @Value("${api.security.token.remember-me-expiration:2592000000}") // 30 days in milliseconds
+    private int rememberMeExpirationMs;
+
     /**
-     * Generates a JWT token for a given user.
+     * Generates a JWT token for a given user with optional Remember Me.
      *
-     * @param userId   the user ID to set as the token subject
-     * @param username the username to include as a claim
-     * @return a signed JWT token string
+     * @param userId The user ID to set as the token subject
+     * @param username The username to include as a claim
+     * @param rememberMe Whether to use extended expiration time
+     * @return A signed JWT token string
      */
-    public String generateJwtToken(String userId, String username) {
+    public String generateJwtToken(String userId, String username, boolean rememberMe) {
+        int expirationTime = rememberMe ? rememberMeExpirationMs : jwtExpirationMs;
+
         return JWT.create()
                 .withSubject(userId)
                 .withClaim("username", username)
+                .withClaim("rememberMe", rememberMe)
                 .withIssuedAt(new Date())
-                .withExpiresAt(new Date(System.currentTimeMillis() + jwtExpirationMs))
+                .withExpiresAt(new Date(System.currentTimeMillis() + expirationTime))
                 .sign(Algorithm.HMAC256(jwtSecret));
     }
 
     /**
-     * Validates the provided JWT token.
+     * Validates the JWT token and returns its status.
      *
-     * @param token the JWT token string to validate
-     * @return true if the token is valid, false otherwise
+     * @param token The JWT token string to validate
+     * @return The token status (VALID, EXPIRED, or INVALID)
      */
     public TokenStatus validateJwtToken(String token) {
         try {
@@ -77,8 +87,8 @@ public class JwtUtils {
     /**
      * Extracts the user ID (subject) from a JWT token.
      *
-     * @param token the JWT token string
-     * @return the user ID as a Long
+     * @param token The JWT token string
+     * @return The user ID as a Long
      */
     public Long getUserIdFromJwtToken(String token) {
         DecodedJWT jwt = JWT.require(Algorithm.HMAC256(jwtSecret)).build().verify(token);
@@ -88,11 +98,51 @@ public class JwtUtils {
     /**
      * Extracts the username from a JWT token.
      *
-     * @param token the JWT token string
-     * @return the username claim as a String
+     * @param token The JWT token string
+     * @return The username claim as a String
      */
     public String getUserNameFromJwtToken(String token) {
         DecodedJWT jwt = JWT.require(Algorithm.HMAC256(jwtSecret)).build().verify(token);
         return jwt.getClaim("username").asString();
+    }
+
+    /**
+     * Checks if the token was created with Remember Me.
+     *
+     * @param token The JWT token string
+     * @return True if the token was created with Remember Me, false otherwise
+     */
+    public boolean wasRememberMe(String token) {
+        try {
+            DecodedJWT jwt = JWT.require(Algorithm.HMAC256(jwtSecret)).build().verify(token);
+            return jwt.getClaim("rememberMe").asBoolean();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    /**
+     * Extracts the JWT token from the request (header or cookie).
+     *
+     * @param request The HTTP request
+     * @return The JWT token or null if not found
+     */
+    public String extractTokenFromRequest(HttpServletRequest request) {
+        // First try to get from Authorization header
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+
+        // Then try to get from cookie
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("auth_token".equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+
+        return null;
     }
 }
