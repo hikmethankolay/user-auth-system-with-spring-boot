@@ -1,5 +1,5 @@
 /**
- * @file AuthAspect.java
+ * @file AuthLogger.java
  * @brief Aspect class for logging method calls in the application.
  *
  * This class uses Spring AOP to log method calls before execution, 
@@ -15,21 +15,23 @@
  */
 package com.hikmethankolay.user_auth_system.aspect;
 
+import com.hikmethankolay.user_auth_system.dto.LoginRequestDTO;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.logging.Logger;
 
 /**
- * @class AuthAspect
+ * @class AuthLogger
  * @brief Aspect for logging application flow.
  *
  * This aspect logs method invocations within controller, repository, and service packages.
  */
 @Aspect
 @Component
-public class AuthAspect {
+public class AuthLogger {
 
     /** Logger instance for logging method calls. */
     private final Logger myLogger = Logger.getLogger(getClass().getName());
@@ -57,6 +59,12 @@ public class AuthAspect {
      */
     @Pointcut("forControllerPackage() || forRepositoryPackage() || forServicePackage()")
     public void forAppFlow() {}
+
+    /**
+     * @brief Pointcut definition for authentication controller methods.
+     */
+    @Pointcut("execution(* com.hikmethankolay.user_auth_system.controller.AuthController.*(..))")
+    public void authMethods() {}
 
     /**
      * @brief Logs method call before execution.
@@ -100,5 +108,26 @@ public class AuthAspect {
         for (Object arg : args) {
             myLogger.severe("=====> Argument: " + arg);
         }
+    }
+
+    /**
+     * @brief Logs authentication attempts after method execution.
+     *
+     * This advice captures login attempts and their results, logging whether the
+     * authentication was successful and which user attempted to authenticate.
+     *
+     * @param joinPoint The join point representing the intercepted method.
+     * @param loginRequest The login request containing user credentials.
+     * @param result The result of the authentication attempt.
+     */
+    @AfterReturning(pointcut = "authMethods() && args(loginRequest,..)", returning = "result")
+    public void logLoginAttempt(JoinPoint joinPoint, LoginRequestDTO loginRequest, Object result) {
+        String method = joinPoint.getSignature().toShortString();
+        boolean success = result != null && !(result instanceof ResponseEntity) ||
+                result instanceof ResponseEntity && ((ResponseEntity<?>) result).getStatusCode().is2xxSuccessful();
+
+        myLogger.info("Authentication attempt: method=" + method +
+                ", username=" + loginRequest.identifier() +
+                ", success=" + success);
     }
 }
