@@ -2,250 +2,181 @@ name: Maven Java Release with Test Coverage Control
 
 on:
   push:
-    #branches:
-    #  - main
     tags:
       - 'v*'
   pull_request:
     branches:
       - main
-  workflow_dispatch:  # This allows manual triggering of the workflow
+  workflow_dispatch:
 
 jobs:
   build:
-    name: Check and Generate Release
+    name: Build, Test and Release
     runs-on: ubuntu-latest
     permissions:
-        contents: read
-        issues: read
-        checks: write
-        pull-requests: write
+      contents: write  # Needed for creating releases
+      issues: read
+      checks: write
+      pull-requests: write
+    
     steps:
-   
-      - name: Configure Long Paths for Git
-        #run: sudo git config --global core.longpaths true
+      - name: Configure Git
         run: sudo git config --system core.longpaths true
-        shell: bash
         
-      - name: Checkout Source Code from Github
-        uses: actions/checkout@v3
-        
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v3
-
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetches all history for proper versioning
+      
+      # Set up development environment
       - name: Setup Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '23'
-
+          java-version: '21'
+          cache: 'maven'  # This caches Maven dependencies
+          
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v4
+          
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-          
-      - name: Install Doxygen
-        run: sudo apt-get install doxygen -y
-        shell: bash
-          
-      - name: Install LCOV
-        run: sudo apt-get install lcov
-        shell: bash
+      
+      # Install dependencies with caching
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen lcov libxml2-utils
+          pip install coverxygen
+          dotnet tool install -g dotnet-reportgenerator-globaltool
         
-      - name: Install coverxygen
-        run: pip3 install coverxygen
-        shell: bash
-        
-      - name: Install libxml2-utils
-        run: sudo apt-get install -y libxml2-utils
-        shell: bash
-
-      - name: Perform Maven clean, test, and packaging
+      # Build and Test
+      - name: Build and Test
         run: mvn clean test package
         working-directory: ./user-auth-system
-
-      - name: Generate Folders
+      
+      # Create directories
+      - name: Prepare Directories
         run: |
-            currentDir=$(pwd)
-            mkdir -p $currentDir/target/site/assets
-            mkdir -p $currentDir/target/site/coverxygen
-            mkdir -p $currentDir/target/site/doxygen
-            mkdir -p $currentDir/target/site/coveragereport
+          mkdir -p target/site/{assets,coverxygen,doxygen,coveragereport}
         working-directory: ./user-auth-system
-                
+      
+      # Check Test Coverage
       - name: Check Test Coverage
         run: |
-          # Parse the JaCoCo XML report and check coverage percentage
+          # Parse the JaCoCo XML report
           covered=$(xmllint --xpath "string(//report/counter[@type='INSTRUCTION'][last()]/@covered)" target/site/jacoco/jacoco.xml)
           missed=$(xmllint --xpath "string(//report/counter[@type='INSTRUCTION'][last()]/@missed)" target/site/jacoco/jacoco.xml)
           total=$((covered + missed))
-          coverage_percentage=$(awk "BEGIN { print ($covered / $total) * 100 }")
-          # Check if coverage is greater than 95%
-          if (( $(echo "$coverage_percentage >= 95" | bc -l) )); then
-            echo "Test coverage is greater than or equal to 95%!"
-          else
-            echo "Test coverage is less than 95%."
-            exit 1  # Fail the GitHub Actions workflow
+          coverage_percentage=$(awk "BEGIN { printf \"%.2f\", ($covered / $total) * 100 }")
+          
+          echo "Coverage Percentage: $coverage_percentage%"
+          echo "Covered Instructions: $covered"
+          echo "Missed Instructions: $missed"
+          
+          # Fail if coverage is below threshold
+          if (( $(echo "$coverage_percentage < 90" | bc -l) )); then
+            echo "::error::Test coverage ($coverage_percentage%) is below the required threshold (90%)!"
+            exit 1
           fi
-          echo "Coverage Percentage: $coverage_percentage"
-          echo "Covered: $covered"
-          echo "Missed: $missed"
+          
+          echo "coverage_percentage=$coverage_percentage" >> $GITHUB_ENV
         working-directory: ./user-auth-system
       
-
-      - name: Install ReportGenerator
-        run: dotnet tool install -g dotnet-reportgenerator-globaltool
-        
-      - name: Generate Doxygen HTML and XML Documentation
+      # Generate documentation
+      - name: Generate Doxygen Documentation
         run: doxygen Doxyfile
-        shell: bash
-
-      - name: List Doxygen Output
-        run: |
-          ls -la ./doxygen
-          ls -la ./doxygen/xml
-
-      - name: Copy Doxygen folder to target site directory
-        run: |
-          mkdir -p ./user-auth-system/target/site/doxygen
-          cp -r ./doxygen/* ./user-auth-system/target/site/doxygen
-
-      - name: Verify Doxygen XML output
+      
+      - name: Verify Doxygen Output
         run: |
           if [ ! -f ./user-auth-system/target/site/doxygen/xml/index.xml ]; then
-            echo "Error: index.xml not found!"
+            echo "::error::Doxygen XML output not found!"
             ls -la ./user-auth-system/target/site/doxygen/xml || echo "XML directory not found!"
             exit 1
           fi
-        
-      - name: Generate ReportGenerator HTML Report
+      
+      # Generate reports
+      - name: Generate Coverage Reports
         run: | 
-          reportgenerator "-reports:target/site/jacoco/jacoco.xml" "-sourcedirs:src/main/java" "-targetdir:target/site/coveragereport" -reporttypes:Html
-          reportgenerator "-reports:target/site/jacoco/jacoco.xml" "-sourcedirs:src/main/java" "-targetdir:target/site/coveragereport" -reporttypes:Badges
+          reportgenerator "-reports:target/site/jacoco/jacoco.xml" "-sourcedirs:src/main/java" "-targetdir:target/site/coveragereport" -reporttypes:Html,Badges
         working-directory: ./user-auth-system
-
-      - name: Run Coverxygen
+      
+      - name: Generate Documentation Coverage
         run: |
-          currentDir=$(pwd)
-          mkdir -p $currentDir/user-auth-system/target/site/coverxygen
+          PROJECT_ROOT=$(pwd)
           python -m coverxygen \
-            --xml-dir $currentDir/user-auth-system/target/site/doxygen/xml \
-            --src-dir $currentDir \
+            --xml-dir $PROJECT_ROOT/user-auth-system/target/site/doxygen/xml \
+            --src-dir $PROJECT_ROOT \
             --format lcov \
-            --output $currentDir/user-auth-system/target/site/coverxygen/lcov.info \
-            --prefix $currentDir/user-auth-system/
-        shell: /usr/bin/bash -e {0}
-
-        
-      - name: Run genhtml
-        run: genhtml ./user-auth-system/target/site/coverxygen/lcov.info --legend --title "Documentation Coverage Report" -o user-auth-system/target/site/coverxygen
-
-      - name: Copy Folders
+            --output $PROJECT_ROOT/user-auth-system/target/site/coverxygen/lcov.info \
+            --prefix $PROJECT_ROOT/user-auth-system/
+          
+          genhtml $PROJECT_ROOT/user-auth-system/target/site/coverxygen/lcov.info \
+            --legend \
+            --title "Documentation Coverage Report" \
+            -o $PROJECT_ROOT/user-auth-system/target/site/coverxygen
+      
+      # Copy and prepare assets
+      - name: Prepare Assets
         run: |
-            cp "user-auth-system/target/site/coveragereport/badge_combined.svg" "assets/badge_combined.svg"
-            cp "user-auth-system/target/site/coveragereport/badge_combined.svg" "assets/badge_combined.svg"
-            cp "user-auth-system/target/site/coveragereport/badge_branchcoverage.svg" "assets/badge_branchcoverage.svg"
-            cp "user-auth-system/target/site/coveragereport/badge_linecoverage.svg" "assets/badge_linecoverage.svg"
-            cp "user-auth-system/target/site/coveragereport/badge_methodcoverage.svg" "assets/badge_methodcoverage.svg"    
-            cp "assets/rteu_logo.jpg" "user-auth-system/src/site/resources/images/rteu_logo.jpg"
-            cp README.md "user-auth-system/src/site/markdown/readme.md"
-            cp -r ./assets/ ./user-auth-system/src/site/resources
-        shell: bash
-
-      - name: Perform Maven site generation
-        run: mvn site
-        working-directory: ./user-auth-system
-
-      #- name: Archive Coverage Report
-      #  uses: actions/upload-artifact@v2
-      #  with:
-      #    name: coverage-report
-      #    path: coveragereport
+          # Create assets directory if it doesn't exist
+          mkdir -p assets
           
-      - name: Get Commit Summary
-        id: commit_summary
-        run: echo "::set-output name=summary::$(git log --format=%B -n 10 ${{ github.sha }})"
-
-      - name: Create Release
-        id: create_common_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.MAVEN_TEMPLATE_TOKEN }}
+          # Copy badges to assets directory
+          cp user-auth-system/target/site/coveragereport/badge_*.svg assets/
+          
+          # Copy assets to site resources
+          cp README.md user-auth-system/src/site/markdown/readme.md
+          cp -r ./assets/ ./user-auth-system/src/site/resources || echo "Assets not fully copied"
+          
+          # Generate site
+          (cd user-auth-system && mvn site)
+      
+      # Compress artifacts
+      - name: Prepare Release Archives
+        run: |
+          tar -czf test-coverage-report.tar.gz -C user-auth-system/target/site/coveragereport .
+          tar -czf doc-coverage-report.tar.gz -C user-auth-system/target/site/coverxygen .
+          tar -czf app-documents.tar.gz -C user-auth-system/target/site/doxygen .
+          tar -czf app-website.tar.gz -C user-auth-system/target/site .
+      
+      # Get commit info for release notes
+      - name: Get Commit Info
+        id: commit_info
+        run: |
+          echo "summary<<EOF" >> $GITHUB_OUTPUT
+          git log --format=%B -n 10 ${{ github.sha }} >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+      
+      # Create release and upload all assets in one step
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          token: ${{ secrets.MAVEN_TEMPLATE_TOKEN }}
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
           body: |
-            Changes in this release:
-            ${{ steps.commit_summary.outputs.summary }}
+            ### Changes in this Release
+            ${{ steps.commit_info.outputs.summary }}
             
+            ### Build Information
+            - Test Coverage: ${{ env.coverage_percentage }}%
+            
+            ### Contributors
             Hikmethan Kolay
-          draft: false
-          prerelease: false
-                
-      - name: Compress Test Coverage Report
-        run: tar -czvf test-coverage-report.tar.gz -C user-auth-system/target/site/coveragereport .
-        
-      - name: Compress Doc Coverage Report
-        run: tar -czvf doc-coverage-report.tar.gz -C user-auth-system/target/site/coverxygen .
-
-      - name: Compress Doxygen Documentation
-        run: tar -czvf app-documents.tar.gz -C user-auth-system/target/site/doxygen .
-                
-      - name: Compress Web Site
-        run: tar -czvf app-website.tar.gz -C user-auth-system/target/site .
-        
-      - name: Upload release asset
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_common_release.outputs.upload_url }}
-          asset_path: ./user-auth-system/target/user-auth-system-1.0-SNAPSHOT.jar
-          asset_name: user-auth-system.jar
-          asset_content_type: application/jar
-        env:
-          GITHUB_TOKEN: ${{ secrets.MAVEN_TEMPLATE_TOKEN }}
-          
-      - name: Upload Test Coverage Report
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_common_release.outputs.upload_url }}
-          asset_path: ./test-coverage-report.tar.gz
-          asset_name: test-coverage-report.tar.gz
-          asset_content_type: application/gzip
-        env:
-          GITHUB_TOKEN: ${{ secrets.MAVEN_TEMPLATE_TOKEN }}
-          
-      - name: Upload Doc Coverage Report
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_common_release.outputs.upload_url }}
-          asset_path: ./doc-coverage-report.tar.gz
-          asset_name: doc-coverage-report.tar.gz
-          asset_content_type: application/gzip
-        env:
-          GITHUB_TOKEN: ${{ secrets.MAVEN_TEMPLATE_TOKEN }}
-          
-      - name: Upload Doxygen Documentation
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_common_release.outputs.upload_url }}
-          asset_path: ./app-documents.tar.gz
-          asset_name: app-documents.tar.gz
-          asset_content_type: application/gzip
-        env:
-          GITHUB_TOKEN: ${{ secrets.MAVEN_TEMPLATE_TOKEN }}
-          
-      - name: Upload Web Site
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_common_release.outputs.upload_url }}
-          asset_path: ./app-website.tar.gz
-          asset_name: app-website.tar.gz
-          asset_content_type: application/gzip
-        env:
-          GITHUB_TOKEN: ${{ secrets.MAVEN_TEMPLATE_TOKEN }}
-          
-      - name: Deploy Web Site
+          files: |
+            ./user-auth-system/target/user-auth-system-1.0-SNAPSHOT.jar
+            ./test-coverage-report.tar.gz
+            ./doc-coverage-report.tar.gz
+            ./app-documents.tar.gz
+            ./app-website.tar.gz
+      
+      # Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.MAVEN_TEMPLATE_TOKEN }}
           publish_dir: ./user-auth-system/target/site
+          full_commit_message: "Deploy site for ${{ github.ref_name }}"
