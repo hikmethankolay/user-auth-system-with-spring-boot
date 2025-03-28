@@ -18,7 +18,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hikmethankolay.user_auth_system.entity.Role;
 import com.hikmethankolay.user_auth_system.entity.User;
 import com.hikmethankolay.user_auth_system.enums.ERole;
-import com.hikmethankolay.user_auth_system.validator.ValidRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -53,7 +52,7 @@ public class UserRegisterDTO implements UserInfo {
         @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         @Pattern(
                 regexp = "^(?=.*?[0-9])(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^0-9A-Za-z]).{8,32}$",
-                message = "Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, one digit, and one special character."
+                message = "Password must be 8-32 characters and include at least: one uppercase letter, one lowercase letter, one digit, and one special character."
         )
         private String password;
 
