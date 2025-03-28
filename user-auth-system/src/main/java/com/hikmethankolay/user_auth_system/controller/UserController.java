@@ -141,9 +141,9 @@ public class UserController {
      * @return Response entity containing update status.
      */
     @PatchMapping("/users/{id}")
-    public ResponseEntity<?> updateUser(@RequestBody UserUpdateDTO UserUpdateDTO, @PathVariable Long id) {
+    public ResponseEntity<?> updateUser(@RequestBody UserUpdateDTO UserUpdateDTO, @PathVariable Long id, @RequestAttribute("userId") Long requesterId) {
         try {
-            User updatedUser = userService.updateUser(UserUpdateDTO, id);
+            User updatedUser = userService.updateUser(UserUpdateDTO, id, requesterId);
             return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS,new UserInfoDTO(updatedUser),"User updated successfully"));
         }
         catch (Exception e){
@@ -159,7 +159,7 @@ public class UserController {
      */
     @PatchMapping("/users/me")
     public ResponseEntity<?> updateLoggedInUser(@RequestBody UserUpdateDTO UserUpdateDTO, @RequestAttribute("userId") Long id) {
-        return updateUser(UserUpdateDTO, id);
+        return updateUser(UserUpdateDTO, id, id);
     }
 
     /**
@@ -168,9 +168,9 @@ public class UserController {
      * @return Response entity containing delete status.
      */
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<?> deleteUser(@PathVariable Long id, @RequestAttribute("userId") Long requesterId) {
         try {
-            userService.deleteById(id);
+            userService.deleteById(id,requesterId);
             return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS,"","User deleted successfully"));
         }
         catch (Exception e){

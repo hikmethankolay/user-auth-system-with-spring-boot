@@ -96,15 +96,16 @@ public class UserService {
      * @brief Deletes a user by ID.
      * @param id The ID of the user to delete.
      */
-    public void deleteById(Long id) {
-        User user = userRepository.findById(id).orElse(null);
+    public void deleteById(Long id, Long requesterId) {
+        if (id.equals(requesterId)) {
+            throw new RuntimeException("Cannot delete your own account");
+        }
 
-        if (user != null) {
-            userRepository.delete(user);
-        }
-        else {
-            throw new RuntimeException("User not found with id " + id);
-        }
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id " + id));
+
+
+        userRepository.delete(user);
     }
 
     /**
@@ -166,7 +167,7 @@ public class UserService {
      * @throws RuntimeException if the user is not found or uniqueness checks fail
      */
     @Transactional
-    public User updateUser(UserUpdateDTO updates, Long id, boolean isAdminAction) {
+    public User updateUser(UserUpdateDTO updates, Long id, Long requesterId) {
         if (updates == null) {
             throw new IllegalArgumentException("Updates cannot be null");
         }
@@ -176,7 +177,10 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
 
-        boolean isAdmin = user.getRoles().stream()
+        User requester = userRepository.findById(requesterId)
+                .orElseThrow(() -> new RuntimeException("Requester not found with id: " + requesterId));
+
+        boolean isAdminAction = requester.getRoles().stream()
                 .anyMatch(role -> role.getName().equals(ERole.ROLE_ADMIN));
 
         if (StringUtils.hasText(updates.getUsername())) {
