@@ -166,7 +166,7 @@ public class UserService {
      * @throws RuntimeException if the user is not found or uniqueness checks fail
      */
     @Transactional
-    public User updateUser(UserUpdateDTO updates, Long id) {
+    public User updateUser(UserUpdateDTO updates, Long id, boolean isAdminAction) {
         if (updates == null) {
             throw new IllegalArgumentException("Updates cannot be null");
         }
@@ -191,7 +191,7 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(updates.getPassword().trim()));
         }
 
-        if (updates.getRoles() != null && !updates.getRoles().isEmpty() && isAdmin) {
+        if (updates.getRoles() != null && !updates.getRoles().isEmpty() && isAdminAction) {
             user.setRoles(new HashSet<>());
             assignRolesToUser(user, updates.getRoles());
         }
