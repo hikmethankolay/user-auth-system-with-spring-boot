@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hikmethankolay.user_auth_system.entity.Role;
 import com.hikmethankolay.user_auth_system.entity.User;
 import com.hikmethankolay.user_auth_system.enums.ERole;
-import com.hikmethankolay.user_auth_system.validator.ValidRole;
+import com.hikmethankolay.user_auth_system.validator.ValidEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -53,7 +53,7 @@ public class UserUpdateDTO implements UserInfo {
     private String password;
 
     /** Updated roles assigned to the user. */
-    @ValidRole
+    @ValidEnum(enumClass = ERole.class)
     private Set<ERole> roles;
 
     /**
