@@ -15,6 +15,7 @@
 package com.hikmethankolay.user_auth_system.security;
 
 import com.hikmethankolay.user_auth_system.entity.User;
+import com.hikmethankolay.user_auth_system.enums.TokenStatus;
 import com.hikmethankolay.user_auth_system.service.UserService;
 import com.hikmethankolay.user_auth_system.util.JwtUtils;
 import jakarta.servlet.FilterChain;
@@ -73,7 +74,7 @@ public class JwtFilter extends OncePerRequestFilter {
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7);
 
-            if (jwtUtils.validateJwtToken(token)) {
+            if (jwtUtils.validateJwtToken(token) == TokenStatus.VALID) {
 
                 Long userId = jwtUtils.getUserIdFromJwtToken(token);
                 Optional<User> user = userService.findById(userId);

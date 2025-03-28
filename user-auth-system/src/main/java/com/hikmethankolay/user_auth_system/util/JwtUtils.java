@@ -18,6 +18,7 @@ package com.hikmethankolay.user_auth_system.util;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.hikmethankolay.user_auth_system.enums.TokenStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +29,7 @@ import java.util.Date;
  */
 @Component
 public class JwtUtils {
+
 
     /** JWT Token */
     @Value("${api.security.token.secret}")
@@ -59,12 +61,16 @@ public class JwtUtils {
      * @param token the JWT token string to validate
      * @return true if the token is valid, false otherwise
      */
-    public boolean validateJwtToken(String token) {
+    public TokenStatus validateJwtToken(String token) {
         try {
-            JWT.require(Algorithm.HMAC256(jwtSecret)).build().verify(token);
-            return true;
+            DecodedJWT jwt = JWT.require(Algorithm.HMAC256(jwtSecret)).build().verify(token);
+            Date expirationDate = jwt.getExpiresAt();
+            if (expirationDate.before(new Date())) {
+                return TokenStatus.EXPIRED;
+            }
+            return TokenStatus.VALID;
         } catch (Exception e) {
-            return false;
+            return TokenStatus.INVALID;
         }
     }
 
