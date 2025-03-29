@@ -120,11 +120,18 @@ public class AuthLogger {
      * @param loginRequest The login request containing user credentials.
      * @param result The result of the authentication attempt.
      */
-    @AfterReturning(pointcut = "authMethods() && args(loginRequest,..)", returning = "result")
+    @AfterReturning(pointcut = "authMethods() && args(loginRequest,..)", returning = "result", argNames = "joinPoint,loginRequest,result")
     public void logLoginAttempt(JoinPoint joinPoint, LoginRequestDTO loginRequest, Object result) {
         String method = joinPoint.getSignature().toShortString();
-        boolean success = result != null && !(result instanceof ResponseEntity) ||
-                result instanceof ResponseEntity && ((ResponseEntity<?>) result).getStatusCode().is2xxSuccessful();
+
+        boolean success;
+        if (result == null) {
+            success = false;
+        } else if (result instanceof ResponseEntity) {
+            success = ((ResponseEntity<?>) result).getStatusCode().is2xxSuccessful();
+        } else {
+            success = true;
+        }
 
         myLogger.info("Authentication attempt: method=" + method +
                 ", username=" + loginRequest.identifier() +
