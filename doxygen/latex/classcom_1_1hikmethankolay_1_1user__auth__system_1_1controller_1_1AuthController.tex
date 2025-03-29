@@ -1,0 +1,264 @@
+\doxysection{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+controller.\+Auth\+Controller Class Reference}
+\hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController}{}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController}\index{com.hikmethankolay.user\_auth\_system.controller.AuthController@{com.hikmethankolay.user\_auth\_system.controller.AuthController}}
+
+
+REST controller for handling authentication requests.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_ac3db8f99fbd130eb61b057d3dbba55e7}{Auth\+Controller}} (User\+Service user\+Service, Jwt\+Utils jwt\+Utils)
+\begin{DoxyCompactList}\small\item\em Constructor for Auth\+Controller. \end{DoxyCompactList}\item 
+Response\+Entity$<$ Api\+Response\+DTO$<$ User\+Info\+DTO $>$ $>$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_ad1b27e4a910517386f9e15744c03ea47}{register}} (@Request\+Body User\+Register\+DTO register\+Request)
+\begin{DoxyCompactList}\small\item\em Handles user registration. \end{DoxyCompactList}\item 
+Response\+Entity$<$ Api\+Response\+DTO$<$ Auth\+Response\+DTO $>$ $>$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_aa05f79719a19cf9bd5cbcaa40e282b06}{login}} (Http\+Servlet\+Request request, @Request\+Body Login\+Request\+DTO login\+Request)
+\begin{DoxyCompactList}\small\item\em Handles user login with Remember Me support and brute force protection. \end{DoxyCompactList}\item 
+Response\+Entity$<$ Api\+Response\+DTO$<$ Void $>$ $>$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_a8180efdb83cdefce76c860e24e6049be}{logout}} ()
+\begin{DoxyCompactList}\small\item\em Handles user logout by clearing cookies. \end{DoxyCompactList}\item 
+Response\+Entity$<$ Api\+Response\+DTO$<$ Auth\+Response\+DTO $>$ $>$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_a682087dd970d9f3b5b1bd505b6f3270a}{refresh\+Token}} (Http\+Servlet\+Request request)
+\begin{DoxyCompactList}\small\item\em Refreshes an authentication token. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+REST controller for handling authentication requests. 
+
+Definition at line \mbox{\hyperlink{AuthController_8java_source_l00036}{36}} of file \mbox{\hyperlink{AuthController_8java_source}{Auth\+Controller.\+java}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_ac3db8f99fbd130eb61b057d3dbba55e7}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_ac3db8f99fbd130eb61b057d3dbba55e7} 
+\index{com.hikmethankolay.user\_auth\_system.controller.AuthController@{com.hikmethankolay.user\_auth\_system.controller.AuthController}!AuthController@{AuthController}}
+\index{AuthController@{AuthController}!com.hikmethankolay.user\_auth\_system.controller.AuthController@{com.hikmethankolay.user\_auth\_system.controller.AuthController}}
+\doxysubsubsection{\texorpdfstring{AuthController()}{AuthController()}}
+{\footnotesize\ttfamily com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+controller.\+Auth\+Controller.\+Auth\+Controller (\begin{DoxyParamCaption}\item[{User\+Service}]{user\+Service,  }\item[{Jwt\+Utils}]{jwt\+Utils }\end{DoxyParamCaption})}
+
+
+
+Constructor for Auth\+Controller. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em user\+Service} & The user service instance. \\
+\hline
+{\em jwt\+Utils} & The JWT utility instance. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{AuthController_8java_source_l00049}{49}} of file \mbox{\hyperlink{AuthController_8java_source}{Auth\+Controller.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ this.userService\ =\ userService;}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ this.jwtUtils\ =\ jwtUtils;}
+\DoxyCodeLine{00052\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_aa05f79719a19cf9bd5cbcaa40e282b06}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_aa05f79719a19cf9bd5cbcaa40e282b06} 
+\index{com.hikmethankolay.user\_auth\_system.controller.AuthController@{com.hikmethankolay.user\_auth\_system.controller.AuthController}!login@{login}}
+\index{login@{login}!com.hikmethankolay.user\_auth\_system.controller.AuthController@{com.hikmethankolay.user\_auth\_system.controller.AuthController}}
+\doxysubsubsection{\texorpdfstring{login()}{login()}}
+{\footnotesize\ttfamily Response\+Entity$<$ Api\+Response\+DTO$<$ Auth\+Response\+DTO $>$ $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+controller.\+Auth\+Controller.\+login (\begin{DoxyParamCaption}\item[{Http\+Servlet\+Request}]{request,  }\item[{@Request\+Body Login\+Request\+DTO}]{login\+Request }\end{DoxyParamCaption})}
+
+
+
+Handles user login with Remember Me support and brute force protection. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request} & The HTTP request used to get client IP. \\
+\hline
+{\em login\+Request} & The login request containing credentials and Remember Me preference. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response entity with token and optional cookie or error message. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{AuthController_8java_source_l00077}{77}} of file \mbox{\hyperlink{AuthController_8java_source}{Auth\+Controller.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Get\ client\ IP\ address\ for\ rate\ limiting}}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ String\ clientIp\ =\ getClientIp(request);}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Authentication\ is\ performed\ in\ the\ service\ layer}}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ String\ token\ =\ userService.authenticateUser(loginRequest,\ clientIp);}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (token\ !=\ \textcolor{keyword}{null})\ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Login\ successful}}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_a2d96fe3850604a83898af04b1da7d2fb}{AuthResponseDTO}}\ responseDTO\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_a2d96fe3850604a83898af04b1da7d2fb}{AuthResponseDTO}}(token);}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ResponseEntity.BodyBuilder\ responseBuilder\ =\ ResponseEntity.ok();}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ Remember\ Me\ is\ enabled,\ set\ a\ persistent\ cookie}}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (loginRequest.rememberMe())\ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ResponseCookie\ authCookie\ =\ ResponseCookie.from(\textcolor{stringliteral}{"{}auth\_token"{}},\ token)}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .httpOnly(\textcolor{keyword}{true})}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .secure(\textcolor{keyword}{false})\ \textcolor{comment}{//\ Enable\ in\ production\ with\ HTTPS}}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .path(\textcolor{stringliteral}{"{}/"{}})}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .maxAge(Duration.ofDays(30))}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .sameSite(\textcolor{stringliteral}{"{}Strict"{}})}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .build();}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseBuilder.header(HttpHeaders.SET\_COOKIE,\ authCookie.toString());}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ responseBuilder.body(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.SUCCESS,\ responseDTO,\ \textcolor{stringliteral}{"{}User\ authenticated\ successfully"{}}));}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.status(HttpStatus.BAD\_REQUEST)}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .body(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.FAILURE,\ \textcolor{keyword}{null},\ \textcolor{stringliteral}{"{}Wrong\ username\ or\ password"{}}));}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (RuntimeException\ e)\ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Handle\ account/IP\ blocking\ errors\ with\ appropriate\ status\ code}}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.status(HttpStatus.TOO\_MANY\_REQUESTS)}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .body(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.FAILURE,\ \textcolor{keyword}{null},\ e.getMessage()));}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00113\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_a8180efdb83cdefce76c860e24e6049be}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_a8180efdb83cdefce76c860e24e6049be} 
+\index{com.hikmethankolay.user\_auth\_system.controller.AuthController@{com.hikmethankolay.user\_auth\_system.controller.AuthController}!logout@{logout}}
+\index{logout@{logout}!com.hikmethankolay.user\_auth\_system.controller.AuthController@{com.hikmethankolay.user\_auth\_system.controller.AuthController}}
+\doxysubsubsection{\texorpdfstring{logout()}{logout()}}
+{\footnotesize\ttfamily Response\+Entity$<$ Api\+Response\+DTO$<$ Void $>$ $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+controller.\+Auth\+Controller.\+logout (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Handles user logout by clearing cookies. 
+
+\begin{DoxyReturn}{Returns}
+Response entity with success message. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{AuthController_8java_source_l00133}{133}} of file \mbox{\hyperlink{AuthController_8java_source}{Auth\+Controller.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Clear\ the\ auth\ cookie\ by\ setting\ its\ max\ age\ to\ 0}}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ ResponseCookie\ clearCookie\ =\ ResponseCookie.from(\textcolor{stringliteral}{"{}auth\_token"{}},\ \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .httpOnly(\textcolor{keyword}{true})}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .secure(\textcolor{keyword}{false})}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .path(\textcolor{stringliteral}{"{}/"{}})}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .maxAge(0)}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .sameSite(\textcolor{stringliteral}{"{}Strict"{}})}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .build();}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.ok()}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .header(HttpHeaders.SET\_COOKIE,\ clearCookie.toString())}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .body(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.SUCCESS,\ \textcolor{keyword}{null},\ \textcolor{stringliteral}{"{}Logged\ out\ successfully"{}}));}
+\DoxyCodeLine{00146\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_a682087dd970d9f3b5b1bd505b6f3270a}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_a682087dd970d9f3b5b1bd505b6f3270a} 
+\index{com.hikmethankolay.user\_auth\_system.controller.AuthController@{com.hikmethankolay.user\_auth\_system.controller.AuthController}!refreshToken@{refreshToken}}
+\index{refreshToken@{refreshToken}!com.hikmethankolay.user\_auth\_system.controller.AuthController@{com.hikmethankolay.user\_auth\_system.controller.AuthController}}
+\doxysubsubsection{\texorpdfstring{refreshToken()}{refreshToken()}}
+{\footnotesize\ttfamily Response\+Entity$<$ Api\+Response\+DTO$<$ Auth\+Response\+DTO $>$ $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+controller.\+Auth\+Controller.\+refresh\+Token (\begin{DoxyParamCaption}\item[{Http\+Servlet\+Request}]{request }\end{DoxyParamCaption})}
+
+
+
+Refreshes an authentication token. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request} & The HTTP request containing the current token. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response entity with a new token. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{AuthController_8java_source_l00154}{154}} of file \mbox{\hyperlink{AuthController_8java_source}{Auth\+Controller.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Token\ validation\ and\ refresh\ handled\ in\ service\ layer}}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ String\ token\ =\ jwtUtils.extractTokenFromRequest(request);}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Service\ handles\ validating\ the\ token\ and\ creating\ new\ one}}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ String\ newToken\ =\ userService.refreshToken(token);}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{boolean}\ wasRememberMe\ =\ jwtUtils.wasRememberMe(token);}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (newToken\ !=\ \textcolor{keyword}{null})\ \{}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_a2d96fe3850604a83898af04b1da7d2fb}{AuthResponseDTO}}\ responseDTO\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_a2d96fe3850604a83898af04b1da7d2fb}{AuthResponseDTO}}(newToken);}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ResponseEntity.BodyBuilder\ responseBuilder\ =\ ResponseEntity.ok();}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (wasRememberMe)\ \{}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ResponseCookie\ authCookie\ =\ ResponseCookie.from(\textcolor{stringliteral}{"{}auth\_token"{}},\ newToken)}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .httpOnly(\textcolor{keyword}{true})}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .secure(\textcolor{keyword}{true})}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .path(\textcolor{stringliteral}{"{}/"{}})}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .maxAge(Duration.ofDays(30))}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .sameSite(\textcolor{stringliteral}{"{}Strict"{}})}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .build();}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseBuilder.header(HttpHeaders.SET\_COOKIE,\ authCookie.toString());}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ responseBuilder.body(}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.SUCCESS,\ responseDTO,\ \textcolor{stringliteral}{"{}Token\ refreshed\ successfully"{}})}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (Exception\ e)\ \{}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Token\ processing\ failed,\ handled\ by\ the\ catch\ block}}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.status(HttpStatus.UNAUTHORIZED)}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .body(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.UNAUTHORIZED,\ \textcolor{keyword}{null},\ \textcolor{stringliteral}{"{}Invalid\ or\ expired\ token"{}}));}
+\DoxyCodeLine{00189\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_ad1b27e4a910517386f9e15744c03ea47}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_ad1b27e4a910517386f9e15744c03ea47} 
+\index{com.hikmethankolay.user\_auth\_system.controller.AuthController@{com.hikmethankolay.user\_auth\_system.controller.AuthController}!register@{register}}
+\index{register@{register}!com.hikmethankolay.user\_auth\_system.controller.AuthController@{com.hikmethankolay.user\_auth\_system.controller.AuthController}}
+\doxysubsubsection{\texorpdfstring{register()}{register()}}
+{\footnotesize\ttfamily Response\+Entity$<$ Api\+Response\+DTO$<$ User\+Info\+DTO $>$ $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+controller.\+Auth\+Controller.\+register (\begin{DoxyParamCaption}\item[{@Request\+Body User\+Register\+DTO}]{register\+Request }\end{DoxyParamCaption})}
+
+
+
+Handles user registration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em register\+Request} & The user registration request data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response entity containing the registration result. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{AuthController_8java_source_l00060}{60}} of file \mbox{\hyperlink{AuthController_8java_source}{Auth\+Controller.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ User\ registeredUser\ =\ userService.registerUser(registerRequest);}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.ok(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.SUCCESS,\ \textcolor{keyword}{new}\ UserInfoDTO(registeredUser),\ \textcolor{stringliteral}{"{}User\ registered\ successfully"{}}));}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (Exception\ e)\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.status(HttpStatus.BAD\_REQUEST)}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .body(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.FAILURE,\ \textcolor{keyword}{null},\ e.getMessage()));}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00068\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+user-\/auth-\/system/src/main/java/com/hikmethankolay/user\+\_\+auth\+\_\+system/controller/\mbox{\hyperlink{AuthController_8java}{Auth\+Controller.\+java}}\end{DoxyCompactItemize}

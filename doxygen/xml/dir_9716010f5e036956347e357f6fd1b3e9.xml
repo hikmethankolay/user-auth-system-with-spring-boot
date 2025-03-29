@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_9716010f5e036956347e357f6fd1b3e9" kind="dir">
+    <compoundname>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator</compoundname>
+    <innerfile refid="EnumValidatorForCollection_8java">EnumValidatorForCollection.java</innerfile>
+    <innerfile refid="EnumValidatorForEnum_8java">EnumValidatorForEnum.java</innerfile>
+    <innerfile refid="EnumValidatorForString_8java">EnumValidatorForString.java</innerfile>
+    <innerfile refid="ValidEnum_8java">ValidEnum.java</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/"/>
+  </compounddef>
+</doxygen>

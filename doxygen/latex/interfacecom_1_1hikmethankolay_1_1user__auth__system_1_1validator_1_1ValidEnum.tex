@@ -1,0 +1,157 @@
+\doxysection{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Valid\+Enum Interface Reference}
+\hypertarget{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum}{}\label{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum}\index{com.hikmethankolay.user\_auth\_system.validator.ValidEnum@{com.hikmethankolay.user\_auth\_system.validator.ValidEnum}}
+
+
+Annotation for validating enum values.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+String \mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_a44543a45b2fe1c5064bdfaec5c52f54d}{message}} () default "{}Field should be one of 
+\begin{DoxyCompactList}\small\item\em Error message to be returned if validation fails. \end{DoxyCompactList}\item 
+Class$<$?$>$\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_a2fa3bee1b5fe80f8c63b3601dc8f1afe}{groups}} () default
+\begin{DoxyCompactList}\small\item\em Groups for validation. \end{DoxyCompactList}\item 
+Class$<$? extends Payload $>$\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_af3b66239ca0b74c2c1f6d808b3bf2843}{payload}} () default
+\begin{DoxyCompactList}\small\item\em Payload for validation. \end{DoxyCompactList}\item 
+Class$<$? extends Enum$<$?$>$ $>$ \mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_a7a6a653012066c23ef9e769edd28fe33}{enum\+Class}} ()
+\begin{DoxyCompactList}\small\item\em The enum class to validate against. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_ab1b319b46babfaa316223e9019a34d99}{ignore\+Case}} () default false
+\begin{DoxyCompactList}\small\item\em Whether to ignore case during validation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_a63bfde930c26bbcb2e81383dbd93c4d5}{values.}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Annotation for validating enum values. 
+
+@annotation Valid\+Enum
+
+Validates that a field or parameter matches a specified enum type. 
+
+Definition at line \mbox{\hyperlink{ValidEnum_8java_source_l00027}{27}} of file \mbox{\hyperlink{ValidEnum_8java_source}{Valid\+Enum.\+java}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_a7a6a653012066c23ef9e769edd28fe33}\label{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_a7a6a653012066c23ef9e769edd28fe33} 
+\index{com.hikmethankolay.user\_auth\_system.validator.ValidEnum@{com.hikmethankolay.user\_auth\_system.validator.ValidEnum}!enumClass@{enumClass}}
+\index{enumClass@{enumClass}!com.hikmethankolay.user\_auth\_system.validator.ValidEnum@{com.hikmethankolay.user\_auth\_system.validator.ValidEnum}}
+\doxysubsubsection{\texorpdfstring{enumClass()}{enumClass()}}
+{\footnotesize\ttfamily Class$<$? extends Enum$<$?$>$ $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Valid\+Enum.\+enum\+Class (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+The enum class to validate against. 
+
+\begin{DoxyReturn}{Returns}
+The enum class. 
+\end{DoxyReturn}
+
+
+Referenced by \mbox{\hyperlink{EnumValidatorForCollection_8java_source_l00033}{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Enum\+Validator\+For\+Collection.\+initialize()}}, \mbox{\hyperlink{EnumValidatorForEnum_8java_source_l00032}{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Enum\+Validator\+For\+Enum.\+initialize()}}, and \mbox{\hyperlink{EnumValidatorForString_8java_source_l00032}{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Enum\+Validator\+For\+String.\+initialize()}}.
+
+\Hypertarget{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_a2fa3bee1b5fe80f8c63b3601dc8f1afe}\label{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_a2fa3bee1b5fe80f8c63b3601dc8f1afe} 
+\index{com.hikmethankolay.user\_auth\_system.validator.ValidEnum@{com.hikmethankolay.user\_auth\_system.validator.ValidEnum}!groups@{groups}}
+\index{groups@{groups}!com.hikmethankolay.user\_auth\_system.validator.ValidEnum@{com.hikmethankolay.user\_auth\_system.validator.ValidEnum}}
+\doxysubsubsection{\texorpdfstring{groups()}{groups()}}
+{\footnotesize\ttfamily Class$<$?$>$\mbox{[}$\,$\mbox{]} com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Valid\+Enum.\+groups (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Groups for validation. 
+
+\begin{DoxyReturn}{Returns}
+The groups. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{ValidEnum_8java_source_l00039}{39}} of file \mbox{\hyperlink{ValidEnum_8java_source}{Valid\+Enum.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00039\ \{\};}
+
+\end{DoxyCode}
+\Hypertarget{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_ab1b319b46babfaa316223e9019a34d99}\label{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_ab1b319b46babfaa316223e9019a34d99} 
+\index{com.hikmethankolay.user\_auth\_system.validator.ValidEnum@{com.hikmethankolay.user\_auth\_system.validator.ValidEnum}!ignoreCase@{ignoreCase}}
+\index{ignoreCase@{ignoreCase}!com.hikmethankolay.user\_auth\_system.validator.ValidEnum@{com.hikmethankolay.user\_auth\_system.validator.ValidEnum}}
+\doxysubsubsection{\texorpdfstring{ignoreCase()}{ignoreCase()}}
+{\footnotesize\ttfamily boolean com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Valid\+Enum.\+ignore\+Case (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Whether to ignore case during validation. 
+
+\begin{DoxyReturn}{Returns}
+True if case should be ignored, otherwise false. 
+\end{DoxyReturn}
+
+
+Referenced by \mbox{\hyperlink{EnumValidatorForCollection_8java_source_l00033}{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Enum\+Validator\+For\+Collection.\+initialize()}}, and \mbox{\hyperlink{EnumValidatorForString_8java_source_l00032}{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Enum\+Validator\+For\+String.\+initialize()}}.
+
+\Hypertarget{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_a44543a45b2fe1c5064bdfaec5c52f54d}\label{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_a44543a45b2fe1c5064bdfaec5c52f54d} 
+\index{com.hikmethankolay.user\_auth\_system.validator.ValidEnum@{com.hikmethankolay.user\_auth\_system.validator.ValidEnum}!message@{message}}
+\index{message@{message}!com.hikmethankolay.user\_auth\_system.validator.ValidEnum@{com.hikmethankolay.user\_auth\_system.validator.ValidEnum}}
+\doxysubsubsection{\texorpdfstring{message()}{message()}}
+{\footnotesize\ttfamily String com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Valid\+Enum.\+message (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Error message to be returned if validation fails. 
+
+\begin{DoxyReturn}{Returns}
+The error message. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{ValidEnum_8java_source_l00033}{33}} of file \mbox{\hyperlink{ValidEnum_8java_source}{Valid\+Enum.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00033\ \{\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_a7a6a653012066c23ef9e769edd28fe33}{enumClass}}\}\ values.\textcolor{stringliteral}{"{};}}
+
+\end{DoxyCode}
+\Hypertarget{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_af3b66239ca0b74c2c1f6d808b3bf2843}\label{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_af3b66239ca0b74c2c1f6d808b3bf2843} 
+\index{com.hikmethankolay.user\_auth\_system.validator.ValidEnum@{com.hikmethankolay.user\_auth\_system.validator.ValidEnum}!payload@{payload}}
+\index{payload@{payload}!com.hikmethankolay.user\_auth\_system.validator.ValidEnum@{com.hikmethankolay.user\_auth\_system.validator.ValidEnum}}
+\doxysubsubsection{\texorpdfstring{payload()}{payload()}}
+{\footnotesize\ttfamily Class$<$? extends Payload $>$\mbox{[}$\,$\mbox{]} com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Valid\+Enum.\+payload (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Payload for validation. 
+
+\begin{DoxyReturn}{Returns}
+The payload. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{ValidEnum_8java_source_l00045}{45}} of file \mbox{\hyperlink{ValidEnum_8java_source}{Valid\+Enum.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00045\ \{\};}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_a63bfde930c26bbcb2e81383dbd93c4d5}\label{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_a63bfde930c26bbcb2e81383dbd93c4d5} 
+\index{com.hikmethankolay.user\_auth\_system.validator.ValidEnum@{com.hikmethankolay.user\_auth\_system.validator.ValidEnum}!values.@{values.}}
+\index{values.@{values.}!com.hikmethankolay.user\_auth\_system.validator.ValidEnum@{com.hikmethankolay.user\_auth\_system.validator.ValidEnum}}
+\doxysubsubsection{\texorpdfstring{values.}{values.}}
+{\footnotesize\ttfamily com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Valid\+Enum.\+values.}
+
+
+
+Definition at line \mbox{\hyperlink{ValidEnum_8java_source_l00033}{33}} of file \mbox{\hyperlink{ValidEnum_8java_source}{Valid\+Enum.\+java}}.
+
+
+
+The documentation for this interface was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+user-\/auth-\/system/src/main/java/com/hikmethankolay/user\+\_\+auth\+\_\+system/validator/\mbox{\hyperlink{ValidEnum_8java}{Valid\+Enum.\+java}}\end{DoxyCompactItemize}

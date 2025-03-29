@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="User_8java" kind="file" language="Java">
+    <compoundname>User.java</compoundname>
+    <includes local="no">jakarta.persistence</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java</label>
+        <link refid="User_8java"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jakarta.persistence</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User" prot="public">com::hikmethankolay::user_auth_system::entity::User</innerclass>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1entity">com::hikmethankolay::user_auth_system::entity</innernamespace>
+    <briefdescription>
+<para>Entity class representing system users. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This entity defines users in the system, including authentication details and roles.</para>
+<para><simplesect kind="author"><para>Hikmethan Kolay </para>
+</simplesect>
+<simplesect kind="date"><para>2025-02-12 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">package<sp/></highlight><highlight class="normal">com.hikmethankolay.user_auth_system.entity;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>jakarta.persistence.*;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>org.springframework.security.core.GrantedAuthority;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>org.springframework.security.core.authority.SimpleGrantedAuthority;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>org.springframework.security.core.userdetails.UserDetails;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>java.util.*;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>java.util.stream.Collectors;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal">@Entity</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">@Table(name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="32" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User" refkind="compound"><highlight class="normal">public<sp/>class<sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User" kindref="compound">User</ref><sp/>implements<sp/>UserDetails<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>@Id</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>@GeneratedValue(strategy<sp/>=<sp/>GenerationType.IDENTITY)</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal"><sp/>Long<sp/>id;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>@Column(name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;username&quot;</highlight><highlight class="normal">,<sp/>unique<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>nullable<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal"><sp/>String<sp/>username;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>@Column(name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/>unique<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>nullable<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal"><sp/>String<sp/>email;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>@Column(name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;password&quot;</highlight><highlight class="normal">,<sp/>nullable<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal"><sp/>String<sp/>password;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>@ManyToMany(fetch<sp/>=<sp/>FetchType.EAGER,<sp/>cascade<sp/>=<sp/>{CascadeType.DETACH,<sp/>CascadeType.MERGE,<sp/>CascadeType.PERSIST,<sp/>CascadeType.REFRESH})</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>@JoinTable(name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user_roles&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>joinColumns<sp/>=<sp/>@JoinColumn(name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user_id&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inverseJoinColumns<sp/>=<sp/>@JoinColumn(name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;role_id&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal"><sp/>Set&lt;Role&gt;<sp/>roles<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>HashSet&lt;&gt;();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1aa6fbf6ad236c76e39e7e86bf3128aa97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1aa6fbf6ad236c76e39e7e86bf3128aa97" kindref="member">User</ref>(String<sp/>username,<sp/>String<sp/>email,<sp/>String<sp/>password)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this.username<sp/>=<sp/>username;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this.email<sp/>=<sp/>email;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this.password<sp/>=<sp/>password;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1affa8cd8d1b2421a0c85a7c6b51fa54d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1affa8cd8d1b2421a0c85a7c6b51fa54d3" kindref="member">User</ref>()<sp/>{}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a12c89aadeedafb1a0af469d156ecf908" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>Long<sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a12c89aadeedafb1a0af469d156ecf908" kindref="member">getId</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>id;<sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a1788820c438a1d774a18880323513893" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a1788820c438a1d774a18880323513893" kindref="member">setId</ref>(Long<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>{<sp/>this.id<sp/>=<sp/>id;<sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a1d1b7d5fbe5a59c6bc5aa821d59af0b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>String<sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a1d1b7d5fbe5a59c6bc5aa821d59af0b6" kindref="member">getUsername</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>username;<sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1af5077a67d59f5000cbef7567d5d9be45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1af5077a67d59f5000cbef7567d5d9be45" kindref="member">setUsername</ref>(String<sp/>username)<sp/>{<sp/>this.username<sp/>=<sp/>username;<sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a85c19c800be7ecfce53e05d804233348" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>String<sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a85c19c800be7ecfce53e05d804233348" kindref="member">getEmail</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>email;<sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a8ff62e251e6ea0a6746759bd8688c5c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a8ff62e251e6ea0a6746759bd8688c5c5" kindref="member">setEmail</ref>(String<sp/>email)<sp/>{<sp/>this.email<sp/>=<sp/>email;<sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1ac2bdc203ab904313b10baefdb20ff5e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>String<sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1ac2bdc203ab904313b10baefdb20ff5e3" kindref="member">getPassword</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>password;<sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1ae13e41fff87e5df86bd7335e3153317e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1ae13e41fff87e5df86bd7335e3153317e" kindref="member">setPassword</ref>(String<sp/>password)<sp/>{<sp/>this.password<sp/>=<sp/>password;<sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1aeda17bccc77dcd0ccbff4910fc8c8e7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>Set&lt;Role&gt;<sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1aeda17bccc77dcd0ccbff4910fc8c8e7f" kindref="member">getRoles</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>roles;<sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a8eb747a51bdc6712e0fce61c3a01b108" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a8eb747a51bdc6712e0fce61c3a01b108" kindref="member">setRoles</ref>(Set&lt;Role&gt;<sp/>roles)<sp/>{<sp/>this.roles<sp/>=<sp/>roles;<sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1af268e4c8a5a56b2531179e5ebbfdbbdd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1af268e4c8a5a56b2531179e5ebbfdbbdd" kindref="member">addRole</ref>(<ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role" kindref="compound">Role</ref><sp/>role)<sp/>{<sp/>this.roles.add(role);<sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a761cae6d69deaa36ff5f20bdd87e4468" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a761cae6d69deaa36ff5f20bdd87e4468" kindref="member">removeRole</ref>(<ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role" kindref="compound">Role</ref><sp/>role)<sp/>{<sp/>this.roles.remove(role);<sp/>}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>@Override</highlight></codeline>
+<codeline lineno="152" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a86c1b7a8750e8c392fbadfa4674338d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>Collection&lt;?<sp/>extends<sp/>GrantedAuthority&gt;<sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a86c1b7a8750e8c392fbadfa4674338d8" kindref="member">getAuthorities</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>roles.stream()</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.map(role<sp/>-&gt;<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>SimpleGrantedAuthority(role.getName().name()))</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.collect(Collectors.toSet());</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>@Override</highlight></codeline>
+<codeline lineno="163" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a879166d63131edd925e8ef92e0b4cfe3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>String<sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a879166d63131edd925e8ef92e0b4cfe3" kindref="member">toString</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;User{&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;id=&quot;</highlight><highlight class="normal"><sp/>+<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;,<sp/>username=&apos;&quot;</highlight><highlight class="normal"><sp/>+<sp/>username<sp/>+<sp/></highlight><highlight class="charliteral">&apos;\&apos;&apos;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;,<sp/>email=&apos;&quot;</highlight><highlight class="normal"><sp/>+<sp/>email<sp/>+<sp/></highlight><highlight class="charliteral">&apos;\&apos;&apos;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;,<sp/>password=&apos;&quot;</highlight><highlight class="normal"><sp/>+<sp/>password<sp/>+<sp/></highlight><highlight class="charliteral">&apos;\&apos;&apos;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;,<sp/>roles=&quot;</highlight><highlight class="normal"><sp/>+<sp/>roles<sp/>+</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="charliteral">&apos;}&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java"/>
+  </compounddef>
+</doxygen>

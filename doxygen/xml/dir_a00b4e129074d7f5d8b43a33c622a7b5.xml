@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_a00b4e129074d7f5d8b43a33c622a7b5" kind="dir">
+    <compoundname>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto</compoundname>
+    <innerfile refid="ApiResponseDTO_8java">ApiResponseDTO.java</innerfile>
+    <innerfile refid="AuthResponseDTO_8java">AuthResponseDTO.java</innerfile>
+    <innerfile refid="LoginRequestDTO_8java">LoginRequestDTO.java</innerfile>
+    <innerfile refid="RoleInfoDTO_8java">RoleInfoDTO.java</innerfile>
+    <innerfile refid="RoleUserInfoDTO_8java">RoleUserInfoDTO.java</innerfile>
+    <innerfile refid="UserInfo_8java">UserInfo.java</innerfile>
+    <innerfile refid="UserInfoDTO_8java">UserInfoDTO.java</innerfile>
+    <innerfile refid="UserRegisterDTO_8java">UserRegisterDTO.java</innerfile>
+    <innerfile refid="UserUpdateDTO_8java">UserUpdateDTO.java</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/"/>
+  </compounddef>
+</doxygen>

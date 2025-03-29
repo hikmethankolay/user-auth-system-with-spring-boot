@@ -1,0 +1,33 @@
+\doxysection{Role\+Service.\+java}
+\hypertarget{RoleService_8java_source}{}\label{RoleService_8java_source}\index{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/service/RoleService.java@{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/service/RoleService.java}}
+\mbox{\hyperlink{RoleService_8java}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00015}00015\ \textcolor{keyword}{package\ }com.hikmethankolay.user\_auth\_system.service;}
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00017}00017\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.entity.Role;}
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00018}00018\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.enums.ERole;}
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00019}00019\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.repository.RoleRepository;}
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00020}00020\ \textcolor{keyword}{import}\ org.springframework.stereotype.Service;}
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00021}00021\ \textcolor{keyword}{import}\ java.util.List;}
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00022}00022\ \textcolor{keyword}{import}\ java.util.Optional;}
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00030}00030\ @Service}
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00031}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService}{00031}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService}{RoleService}}\ \{}
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00034}00034\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{final}\ RoleRepository\ roleRepository;}
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00040}00040\ \ \ \ \ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService}{RoleService}}(RoleRepository\ roleRepository)\ \{}
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00041}00041\ \ \ \ \ \ \ \ \ this.roleRepository\ =\ roleRepository;}
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00042}00042\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00048}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService_ac8f457569194c2a2af2871f93f45f3d6}{00048}}\ \ \ \ \ \textcolor{keyword}{public}\ List<Role>\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService_ac8f457569194c2a2af2871f93f45f3d6}{findAll}}()\ \{}
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ roleRepository.findAll();}
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00050}00050\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00057}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService_a74813b3a339b30702837a0f08aa72dc3}{00057}}\ \ \ \ \ \textcolor{keyword}{public}\ Optional<Role>\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService_a74813b3a339b30702837a0f08aa72dc3}{findByName}}(ERole\ name)\ \{}
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ roleRepository.findByName(name);}
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00059}00059\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{RoleService_8java_source_l00060}00060\ \}}
+
+\end{DoxyCode}

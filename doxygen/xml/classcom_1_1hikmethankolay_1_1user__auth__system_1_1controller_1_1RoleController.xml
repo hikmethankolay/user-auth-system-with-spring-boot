@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController" kind="class" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::controller::RoleController</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_1ad01bf80896189cf4c9e705a64be519a0" prot="private" static="no" mutable="no">
+        <type>final RoleService</type>
+        <definition>final RoleService com.hikmethankolay.user_auth_system.controller.RoleController.roleService</definition>
+        <argsstring></argsstring>
+        <name>roleService</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.controller.RoleController.roleService</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Role service for handling role-related operations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/RoleController.java" line="40" column="31" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/RoleController.java" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_1aa6d53a1da1eb163dc2c47858a7a944cb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>com.hikmethankolay.user_auth_system.controller.RoleController.RoleController</definition>
+        <argsstring>(RoleService roleService)</argsstring>
+        <name>RoleController</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.controller.RoleController.RoleController</qualifiedname>
+        <param>
+          <type>RoleService</type>
+          <declname>roleService</declname>
+        </param>
+        <briefdescription>
+<para>Constructor for RoleController. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>roleService</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The role service instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/RoleController.java" line="46" column="12" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/RoleController.java" bodystart="46" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_1a9f2684925fa05a46e3b9a87233c60fc9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ResponseEntity&lt; ApiResponseDTO&lt; List&lt; RoleInfoDTO &gt; &gt; &gt;</type>
+        <definition>ResponseEntity&lt; ApiResponseDTO&lt; List&lt; RoleInfoDTO &gt; &gt; &gt; com.hikmethankolay.user_auth_system.controller.RoleController.findAll</definition>
+        <argsstring>()</argsstring>
+        <name>findAll</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.controller.RoleController.findAll</qualifiedname>
+        <briefdescription>
+<para>Retrieves all roles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Response entity containing a list of all roles. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/RoleController.java" line="55" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/RoleController.java" bodystart="55" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_1a78f4bf4f3f1dde2c6e3b2778f3b8532e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ResponseEntity&lt; ApiResponseDTO&lt; RoleInfoDTO &gt; &gt;</type>
+        <definition>ResponseEntity&lt; ApiResponseDTO&lt; RoleInfoDTO &gt; &gt; com.hikmethankolay.user_auth_system.controller.RoleController.findByName</definition>
+        <argsstring>(@PathVariable ERole name)</argsstring>
+        <name>findByName</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.controller.RoleController.findByName</qualifiedname>
+        <param>
+          <type>@PathVariable ERole</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves a role by its name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the role to retrieve. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Response entity containing the role information or an error message if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/RoleController.java" line="66" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/RoleController.java" bodystart="66" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>REST controller for handling role-related requests. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/RoleController.java" line="37" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/RoleController.java" bodystart="37" bodyend="78"/>
+    <listofallmembers>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_1a9f2684925fa05a46e3b9a87233c60fc9" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::RoleController</scope><name>findAll</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_1a78f4bf4f3f1dde2c6e3b2778f3b8532e" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::RoleController</scope><name>findByName</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_1aa6d53a1da1eb163dc2c47858a7a944cb" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::RoleController</scope><name>RoleController</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_1ad01bf80896189cf4c9e705a64be519a0" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::RoleController</scope><name>roleService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

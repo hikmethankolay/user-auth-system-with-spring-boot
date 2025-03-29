@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1CorsConfig" kind="class" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::config::CorsConfig</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1CorsConfig_1afb2fe9985cbc0d41ee547424ad813b0f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>CorsConfigurationSource</type>
+        <definition>CorsConfigurationSource com.hikmethankolay.user_auth_system.config.CorsConfig.corsConfigurationSource</definition>
+        <argsstring>()</argsstring>
+        <name>corsConfigurationSource</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.config.CorsConfig.corsConfigurationSource</qualifiedname>
+        <briefdescription>
+<para>Creates and configures a CORS configuration source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A fully configured CorsConfigurationSource bean. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/config/CorsConfig.java" line="41" column="36" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/config/CorsConfig.java" bodystart="41" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for Cross-Origin Resource Sharing (CORS). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This configuration allows the API to accept requests from specified origins, with defined methods and headers, which is necessary for browser-based clients. </para>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/config/CorsConfig.java" line="34" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/config/CorsConfig.java" bodystart="34" bodyend="62"/>
+    <listofallmembers>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1CorsConfig_1afb2fe9985cbc0d41ee547424ad813b0f" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::config::CorsConfig</scope><name>corsConfigurationSource</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

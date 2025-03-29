@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="CorsConfig_8java" kind="file" language="Java">
+    <compoundname>CorsConfig.java</compoundname>
+    <includes local="no">org.springframework.context.annotation.Bean</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/config/CorsConfig.java</label>
+        <link refid="CorsConfig_8java"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>org.springframework.context.annotation.Bean</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1CorsConfig" prot="public">com::hikmethankolay::user_auth_system::config::CorsConfig</innerclass>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1config">com::hikmethankolay::user_auth_system::config</innernamespace>
+    <briefdescription>
+<para>Cross-Origin Resource Sharing (CORS) configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This class configures CORS policies to allow controlled access to API resources from different origins, which is essential for frontend-backend communication.</para>
+<para><simplesect kind="author"><para>Hikmethan Kolay </para>
+</simplesect>
+<simplesect kind="date"><para>2025-03-29 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">package<sp/></highlight><highlight class="normal">com.hikmethankolay.user_auth_system.config;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>org.springframework.context.annotation.Bean;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>org.springframework.context.annotation.Configuration;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>org.springframework.web.cors.CorsConfiguration;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>org.springframework.web.cors.CorsConfigurationSource;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>org.springframework.web.cors.UrlBasedCorsConfigurationSource;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>java.util.List;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">@Configuration</highlight></codeline>
+<codeline lineno="34" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1CorsConfig" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1CorsConfig" kindref="compound">CorsConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>@Bean</highlight></codeline>
+<codeline lineno="41" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1CorsConfig_1afb2fe9985cbc0d41ee547424ad813b0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>CorsConfigurationSource<sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1CorsConfig_1afb2fe9985cbc0d41ee547424ad813b0f" kindref="member">corsConfigurationSource</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>CorsConfiguration<sp/>configuration<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>CorsConfiguration();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Define<sp/>allowed<sp/>origins<sp/>for<sp/>cross-origin<sp/>requests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>configuration.setAllowedOrigins(List.of(</highlight><highlight class="stringliteral">&quot;http://localhost:3000&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;https://yourdomain.com&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Define<sp/>allowed<sp/>HTTP<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>configuration.setAllowedMethods(List.of(</highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;POST&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PUT&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PATCH&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DELETE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;OPTIONS&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Define<sp/>allowed<sp/>request<sp/>headers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>configuration.setAllowedHeaders(List.of(</highlight><highlight class="stringliteral">&quot;Authorization&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Content-Type&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>cookies<sp/>and<sp/>authentication<sp/>headers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>configuration.setAllowCredentials(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Apply<sp/>this<sp/>configuration<sp/>to<sp/>all<sp/>paths</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>UrlBasedCorsConfigurationSource<sp/>source<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>UrlBasedCorsConfigurationSource();</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>source.registerCorsConfiguration(</highlight><highlight class="stringliteral">&quot;/**&quot;</highlight><highlight class="normal">,<sp/>configuration);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>source;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/config/CorsConfig.java"/>
+  </compounddef>
+</doxygen>

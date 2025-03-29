@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1controller" kind="namespace" language="Java">
+    <compoundname>com::hikmethankolay::user_auth_system::controller</compoundname>
+    <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController" prot="public">com::hikmethankolay::user_auth_system::controller::AuthController</innerclass>
+    <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController" prot="public">com::hikmethankolay::user_auth_system::controller::RoleController</innerclass>
+    <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController" prot="public">com::hikmethankolay::user_auth_system::controller::UserController</innerclass>
+    <briefdescription>
+<para>Contains the core components of the User Authentication System. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="11" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum" kind="class" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::validator::EnumValidatorForEnum</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">ConstraintValidator&lt; ValidEnum, Enum&lt;?&gt; &gt;</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum_1a6bed8714519ecbf5376417d839653061" prot="private" static="no" mutable="no">
+        <type>Class&lt;? extends Enum&lt;?&gt; &gt;</type>
+        <definition>Class&lt;? extends Enum&lt;?&gt; &gt; com.hikmethankolay.user_auth_system.validator.EnumValidatorForEnum.enumClass</definition>
+        <argsstring></argsstring>
+        <name>enumClass</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.validator.EnumValidatorForEnum.enumClass</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForEnum.java" line="25" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForEnum.java" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum_1ad4deae60c6a394f31bfb828231d9b9e8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.validator.EnumValidatorForEnum.initialize</definition>
+        <argsstring>(ValidEnum annotation)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.validator.EnumValidatorForEnum.initialize</qualifiedname>
+        <param>
+          <type><ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum" kindref="compound">ValidEnum</ref></type>
+          <declname>annotation</declname>
+        </param>
+        <briefdescription>
+<para>Initializes the validator with the specified annotation parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>annotation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ValidEnum annotation instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForEnum.java" line="32" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForEnum.java" bodystart="32" bodyend="34"/>
+        <references refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a7a6a653012066c23ef9e769edd28fe33">com.hikmethankolay.user_auth_system.validator.ValidEnum.enumClass</references>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum_1ab88df041951ab1c02fbd782b5c231f55" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>boolean</type>
+        <definition>boolean com.hikmethankolay.user_auth_system.validator.EnumValidatorForEnum.isValid</definition>
+        <argsstring>(Enum&lt;?&gt; value, ConstraintValidatorContext context)</argsstring>
+        <name>isValid</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.validator.EnumValidatorForEnum.isValid</qualifiedname>
+        <param>
+          <type>Enum&lt;?&gt;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>ConstraintValidatorContext</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Validates an enum value against the accepted enum type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The enum value to validate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The validation context. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the value is a valid enum value, otherwise false. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForEnum.java" line="43" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForEnum.java" bodystart="43" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Validator for validating enum values. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Validates that an enum value matches a value in a specified enum type. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ConstraintValidator&lt; ValidEnum, Enum&lt;?&gt; &gt;</label>
+      </node>
+      <node id="1">
+        <label>com.hikmethankolay.user_auth_system.validator.EnumValidatorForEnum</label>
+        <link refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>ConstraintValidator&lt; ValidEnum, Enum&lt;?&gt; &gt;</label>
+      </node>
+      <node id="1">
+        <label>com.hikmethankolay.user_auth_system.validator.EnumValidatorForEnum</label>
+        <link refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForEnum.java" line="23" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForEnum.java" bodystart="23" bodyend="51"/>
+    <listofallmembers>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum_1a6bed8714519ecbf5376417d839653061" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::validator::EnumValidatorForEnum</scope><name>enumClass</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum_1ad4deae60c6a394f31bfb828231d9b9e8" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::validator::EnumValidatorForEnum</scope><name>initialize</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum_1ab88df041951ab1c02fbd782b5c231f55" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::validator::EnumValidatorForEnum</scope><name>isValid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

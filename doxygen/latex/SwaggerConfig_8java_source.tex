@@ -1,0 +1,25 @@
+\doxysection{Swagger\+Config.\+java}
+\hypertarget{SwaggerConfig_8java_source}{}\label{SwaggerConfig_8java_source}\index{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/config/SwaggerConfig.java@{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/config/SwaggerConfig.java}}
+\mbox{\hyperlink{SwaggerConfig_8java}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{SwaggerConfig_8java_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{SwaggerConfig_8java_source_l00014}00014\ \textcolor{keyword}{package\ }com.hikmethankolay.user\_auth\_system.config;}
+\DoxyCodeLine{\Hypertarget{SwaggerConfig_8java_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{SwaggerConfig_8java_source_l00016}00016\ \textcolor{keyword}{import}\ io.swagger.v3.oas.models.OpenAPI;}
+\DoxyCodeLine{\Hypertarget{SwaggerConfig_8java_source_l00017}00017\ \textcolor{keyword}{import}\ io.swagger.v3.oas.models.info.Info;}
+\DoxyCodeLine{\Hypertarget{SwaggerConfig_8java_source_l00018}00018\ \textcolor{keyword}{import}\ org.springframework.context.annotation.Bean;}
+\DoxyCodeLine{\Hypertarget{SwaggerConfig_8java_source_l00019}00019\ \textcolor{keyword}{import}\ org.springframework.context.annotation.Configuration;}
+\DoxyCodeLine{\Hypertarget{SwaggerConfig_8java_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{SwaggerConfig_8java_source_l00026}00026\ @Configuration}
+\DoxyCodeLine{\Hypertarget{SwaggerConfig_8java_source_l00027}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1SwaggerConfig}{00027}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1SwaggerConfig}{SwaggerConfig}}\ \{}
+\DoxyCodeLine{\Hypertarget{SwaggerConfig_8java_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{SwaggerConfig_8java_source_l00037}00037\ \ \ \ \ @Bean}
+\DoxyCodeLine{\Hypertarget{SwaggerConfig_8java_source_l00038}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1SwaggerConfig_ab084d302e15c247d5434ab72e05bc91c}{00038}}\ \ \ \ \ \textcolor{keyword}{public}\ OpenAPI\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1SwaggerConfig_ab084d302e15c247d5434ab72e05bc91c}{springShopOpenAPI}}()\ \{}
+\DoxyCodeLine{\Hypertarget{SwaggerConfig_8java_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ OpenAPI()}
+\DoxyCodeLine{\Hypertarget{SwaggerConfig_8java_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .info(\textcolor{keyword}{new}\ Info().title(\textcolor{stringliteral}{"{}User\ Auth\ API"{}})}
+\DoxyCodeLine{\Hypertarget{SwaggerConfig_8java_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .description(\textcolor{stringliteral}{"{}User\ Authentication\ and\ Authorization\ API"{}})}
+\DoxyCodeLine{\Hypertarget{SwaggerConfig_8java_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .version(\textcolor{stringliteral}{"{}v1.0"{}}));}
+\DoxyCodeLine{\Hypertarget{SwaggerConfig_8java_source_l00043}00043\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{SwaggerConfig_8java_source_l00044}00044\ \}}
+
+\end{DoxyCode}

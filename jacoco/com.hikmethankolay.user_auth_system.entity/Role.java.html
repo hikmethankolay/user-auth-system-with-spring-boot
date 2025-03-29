@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Role.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">user-auth-system</a> &gt; <a href="index.source.html" class="el_package">com.hikmethankolay.user_auth_system.entity</a> &gt; <span class="el_source">Role.java</span></div><h1>Role.java</h1><pre class="source lang-java linenums">/**
+ * @file Role.java
+ * @brief Entity class representing user roles.
+ *
+ * This entity defines user roles in the system and their relationships with users.
+ *
+ * @author Hikmethan Kolay
+ * @date 2025-02-12
+ */
+
+/**
+ * @package com.hikmethankolay.user_auth_system.entity
+ * @brief Contains the core components of the User Authentication System.
+ */
+package com.hikmethankolay.user_auth_system.entity;
+
+import com.hikmethankolay.user_auth_system.enums.ERole;
+import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @class Role
+ * @brief Entity representing a user role.
+ *
+ * This class defines the structure of roles, including their ID, name, and associated users.
+ */
+@Entity
+@Table(name = &quot;roles&quot;)
+public class Role {
+
+    /** Role ID. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = &quot;id&quot;)
+    private long id;
+
+    /** Name of the role. */
+    @Enumerated(EnumType.STRING)
+    @Column(name = &quot;name&quot;, nullable = false)
+    private ERole name;
+
+    /** List of users associated with the role. */
+<span class="fc" id="L44">    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})</span>
+    @JoinTable(name = &quot;user_roles&quot;,
+            joinColumns = @JoinColumn(name = &quot;role_id&quot;),
+            inverseJoinColumns = @JoinColumn(name = &quot;user_id&quot;))
+    private List&lt;User&gt; users = new ArrayList&lt;&gt;();
+
+    /**
+     * @brief Default constructor.
+     */
+<span class="fc" id="L53">    public Role() {</span>
+<span class="fc" id="L54">    }</span>
+
+    /**
+     * @brief Constructor with role name.
+     * @param name The name of the role.
+     */
+<span class="fc" id="L60">    public Role(ERole name) {</span>
+<span class="fc" id="L61">        this.name = name;</span>
+<span class="fc" id="L62">    }</span>
+
+    /**
+     * @brief Gets the role ID.
+     * @return The role ID.
+     */
+    public long getId() {
+<span class="nc" id="L69">        return id;</span>
+    }
+
+    /**
+     * @brief Sets the role ID.
+     * @param id The ID to be set.
+     */
+    public void setId(int id) {
+<span class="nc" id="L77">        this.id = id;</span>
+<span class="nc" id="L78">    }</span>
+
+    /**
+     * @brief Gets the role name.
+     * @return The name of the role.
+     */
+    public ERole getName() {
+<span class="fc" id="L85">        return name;</span>
+    }
+
+    /**
+     * @brief Sets the role name.
+     * @param name The name to be set.
+     */
+    public void setName(ERole name) {
+<span class="nc" id="L93">        this.name = name;</span>
+<span class="nc" id="L94">    }</span>
+
+    /**
+     * @brief Gets the list of users associated with the role.
+     * @return List of users.
+     */
+    public List&lt;User&gt; getUsers() {
+<span class="fc" id="L101">        return users;</span>
+    }
+
+    /**
+     * @brief Sets the list of users associated with the role.
+     * @param users The list of users to be assigned.
+     */
+    public void setUsers(List&lt;User&gt; users) {
+<span class="nc" id="L109">        this.users = users;</span>
+<span class="nc" id="L110">    }</span>
+
+    /**
+     * @brief Adds a user to the role.
+     * @param user The user to be added.
+     */
+    public void addUser(User user) {
+<span class="nc" id="L117">        users.add(user);</span>
+<span class="nc" id="L118">    }</span>
+
+    /**
+     * @brief Converts the Role object to a string representation.
+     * @return A string representation of Role.
+     */
+    @Override
+    public String toString() {
+<span class="fc" id="L126">        return &quot;Role{&quot; +</span>
+                &quot;name=&quot; + name +
+                &quot;, id=&quot; + id +
+                '}';
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

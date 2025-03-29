@@ -1,0 +1,61 @@
+\doxysection{Jwt\+Filter.\+java}
+\hypertarget{JwtFilter_8java_source}{}\label{JwtFilter_8java_source}\index{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/security/JwtFilter.java@{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/security/JwtFilter.java}}
+\mbox{\hyperlink{JwtFilter_8java}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00015}00015\ \textcolor{keyword}{package\ }com.hikmethankolay.user\_auth\_system.security;}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00017}00017\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.entity.User;}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00018}00018\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.enums.TokenStatus;}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00019}00019\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.service.UserService;}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00020}00020\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.util.JwtUtils;}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00021}00021\ \textcolor{keyword}{import}\ jakarta.servlet.FilterChain;}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00022}00022\ \textcolor{keyword}{import}\ jakarta.servlet.ServletException;}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00023}00023\ \textcolor{keyword}{import}\ jakarta.servlet.http.HttpServletRequest;}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00024}00024\ \textcolor{keyword}{import}\ jakarta.servlet.http.HttpServletResponse;}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00025}00025\ \textcolor{keyword}{import}\ org.springframework.lang.NonNull;}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00026}00026\ \textcolor{keyword}{import}\ org.springframework.security.authentication.UsernamePasswordAuthenticationToken;}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00027}00027\ \textcolor{keyword}{import}\ org.springframework.security.core.context.SecurityContextHolder;}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00028}00028\ \textcolor{keyword}{import}\ org.springframework.stereotype.Component;}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00029}00029\ \textcolor{keyword}{import}\ org.springframework.web.filter.OncePerRequestFilter;}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00030}00030\ \textcolor{keyword}{import}\ java.io.IOException;}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00031}00031\ \textcolor{keyword}{import}\ java.util.Optional;}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00039}00039\ @Component}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00040}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter}{00040}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter}{JwtFilter}}\ \textcolor{keyword}{extends}\ OncePerRequestFilter\ \{}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00043}00043\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{final}\ JwtUtils\ jwtUtils;}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00046}00046\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{final}\ UserService\ userService;}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00053}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter_a7a27d1e95deb8f6cef71f8b2494d9713}{00053}}\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter_a7a27d1e95deb8f6cef71f8b2494d9713}{JwtFilter}}(JwtUtils\ jwtUtils,\ UserService\ userService)\ \{}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00054}00054\ \ \ \ \ \ \ \ \ this.jwtUtils\ =\ jwtUtils;}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00055}00055\ \ \ \ \ \ \ \ \ this.userService\ =\ userService;}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00056}00056\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00066}00066\ \ \ \ \ @Override}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00067}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter_a32c27f9ddf7fb0d791a2a75b4ce6b959}{00067}}\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter_a32c27f9ddf7fb0d791a2a75b4ce6b959}{doFilterInternal}}(}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ @NonNull\ HttpServletRequest\ request,}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ @NonNull\ HttpServletResponse\ response,}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ @NonNull\ FilterChain\ filterChain}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00071}00071\ \ \ \ \ )\ \textcolor{keywordflow}{throws}\ ServletException,\ IOException\ \{}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00072}00072\ \ \ \ \ \ \ \ \ String\ token\ =\ jwtUtils.extractTokenFromRequest(request);}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00074}00074\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (token\ !=\ \textcolor{keyword}{null}\ \&\&\ jwtUtils.validateJwtToken(token)\ ==\ TokenStatus.VALID)\ \{}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ Long\ userId\ =\ jwtUtils.getUserIdFromJwtToken(token);}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ Optional<User>\ user\ =\ userService.findById(userId);}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (user.isPresent())\ \{}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UsernamePasswordAuthenticationToken\ authentication\ =}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ UsernamePasswordAuthenticationToken(user.get(),\ \textcolor{keyword}{null},\ user.get().getAuthorities());}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SecurityContextHolder.getContext().setAuthentication(authentication);}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ request.setAttribute(\textcolor{stringliteral}{"{}userId"{}},\ userId);}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00085}00085\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00087}00087\ \ \ \ \ \ \ \ \ filterChain.doFilter(request,\ response);}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00088}00088\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{JwtFilter_8java_source_l00089}00089\ \}}
+
+\end{DoxyCode}

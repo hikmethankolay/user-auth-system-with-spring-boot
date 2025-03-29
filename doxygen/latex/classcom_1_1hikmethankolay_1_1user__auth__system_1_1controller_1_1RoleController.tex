@@ -1,0 +1,123 @@
+\doxysection{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+controller.\+Role\+Controller Class Reference}
+\hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController}{}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController}\index{com.hikmethankolay.user\_auth\_system.controller.RoleController@{com.hikmethankolay.user\_auth\_system.controller.RoleController}}
+
+
+REST controller for handling role-\/related requests.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_aa6d53a1da1eb163dc2c47858a7a944cb}{Role\+Controller}} (Role\+Service role\+Service)
+\begin{DoxyCompactList}\small\item\em Constructor for Role\+Controller. \end{DoxyCompactList}\item 
+Response\+Entity$<$ Api\+Response\+DTO$<$ List$<$ Role\+Info\+DTO $>$ $>$ $>$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_a9f2684925fa05a46e3b9a87233c60fc9}{find\+All}} ()
+\begin{DoxyCompactList}\small\item\em Retrieves all roles. \end{DoxyCompactList}\item 
+Response\+Entity$<$ Api\+Response\+DTO$<$ Role\+Info\+DTO $>$ $>$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_a78f4bf4f3f1dde2c6e3b2778f3b8532e}{find\+By\+Name}} (@Path\+Variable ERole name)
+\begin{DoxyCompactList}\small\item\em Retrieves a role by its name. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+REST controller for handling role-\/related requests. 
+
+Definition at line \mbox{\hyperlink{RoleController_8java_source_l00037}{37}} of file \mbox{\hyperlink{RoleController_8java_source}{Role\+Controller.\+java}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_aa6d53a1da1eb163dc2c47858a7a944cb}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_aa6d53a1da1eb163dc2c47858a7a944cb} 
+\index{com.hikmethankolay.user\_auth\_system.controller.RoleController@{com.hikmethankolay.user\_auth\_system.controller.RoleController}!RoleController@{RoleController}}
+\index{RoleController@{RoleController}!com.hikmethankolay.user\_auth\_system.controller.RoleController@{com.hikmethankolay.user\_auth\_system.controller.RoleController}}
+\doxysubsubsection{\texorpdfstring{RoleController()}{RoleController()}}
+{\footnotesize\ttfamily com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+controller.\+Role\+Controller.\+Role\+Controller (\begin{DoxyParamCaption}\item[{Role\+Service}]{role\+Service }\end{DoxyParamCaption})}
+
+
+
+Constructor for Role\+Controller. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em role\+Service} & The role service instance. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{RoleController_8java_source_l00046}{46}} of file \mbox{\hyperlink{RoleController_8java_source}{Role\+Controller.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ this.roleService\ =\ roleService;}
+\DoxyCodeLine{00048\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_a9f2684925fa05a46e3b9a87233c60fc9}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_a9f2684925fa05a46e3b9a87233c60fc9} 
+\index{com.hikmethankolay.user\_auth\_system.controller.RoleController@{com.hikmethankolay.user\_auth\_system.controller.RoleController}!findAll@{findAll}}
+\index{findAll@{findAll}!com.hikmethankolay.user\_auth\_system.controller.RoleController@{com.hikmethankolay.user\_auth\_system.controller.RoleController}}
+\doxysubsubsection{\texorpdfstring{findAll()}{findAll()}}
+{\footnotesize\ttfamily Response\+Entity$<$ Api\+Response\+DTO$<$ List$<$ Role\+Info\+DTO $>$ $>$ $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+controller.\+Role\+Controller.\+find\+All (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Retrieves all roles. 
+
+\begin{DoxyReturn}{Returns}
+Response entity containing a list of all roles. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{RoleController_8java_source_l00055}{55}} of file \mbox{\hyperlink{RoleController_8java_source}{Role\+Controller.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ List<RoleInfoDTO>\ roleInfoDTOS\ =\ roleService.findAll().stream().map(RoleInfoDTO::new).toList();}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.ok(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.SUCCESS,\ roleInfoDTOS,\ \textcolor{stringliteral}{"{}Roles\ found\ successfully"{}}));}
+\DoxyCodeLine{00058\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_a78f4bf4f3f1dde2c6e3b2778f3b8532e}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_a78f4bf4f3f1dde2c6e3b2778f3b8532e} 
+\index{com.hikmethankolay.user\_auth\_system.controller.RoleController@{com.hikmethankolay.user\_auth\_system.controller.RoleController}!findByName@{findByName}}
+\index{findByName@{findByName}!com.hikmethankolay.user\_auth\_system.controller.RoleController@{com.hikmethankolay.user\_auth\_system.controller.RoleController}}
+\doxysubsubsection{\texorpdfstring{findByName()}{findByName()}}
+{\footnotesize\ttfamily Response\+Entity$<$ Api\+Response\+DTO$<$ Role\+Info\+DTO $>$ $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+controller.\+Role\+Controller.\+find\+By\+Name (\begin{DoxyParamCaption}\item[{@Path\+Variable ERole}]{name }\end{DoxyParamCaption})}
+
+
+
+Retrieves a role by its name. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & The name of the role to retrieve. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response entity containing the role information or an error message if not found. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{RoleController_8java_source_l00066}{66}} of file \mbox{\hyperlink{RoleController_8java_source}{Role\+Controller.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ Optional<Role>\ role\ =\ roleService.findByName(name);}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (role.isPresent())\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_a09f643951d5a9176d67125e257d38390}{RoleInfoDTO}}\ roleInfoDTO\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_a09f643951d5a9176d67125e257d38390}{RoleInfoDTO}}(role.get());}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.ok(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.SUCCESS,\ roleInfoDTO,\ \textcolor{stringliteral}{"{}Role\ found\ successfully"{}}));}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.status(HttpStatus.NOT\_FOUND)}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .contentType(MediaType.APPLICATION\_JSON)}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .body(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.FAILURE,\ \textcolor{keyword}{null},\ \textcolor{stringliteral}{"{}Could\ not\ find\ role\ with\ name:\ "{}}\ +\ name));}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00077\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+user-\/auth-\/system/src/main/java/com/hikmethankolay/user\+\_\+auth\+\_\+system/controller/\mbox{\hyperlink{RoleController_8java}{Role\+Controller.\+java}}\end{DoxyCompactItemize}

@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter" kind="class" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::security::JwtFilter</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">OncePerRequestFilter</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter_1a2cc0fbeebdc5180b24e306fb7ba235ee" prot="private" static="no" mutable="no">
+        <type>final JwtUtils</type>
+        <definition>final JwtUtils com.hikmethankolay.user_auth_system.security.JwtFilter.jwtUtils</definition>
+        <argsstring></argsstring>
+        <name>jwtUtils</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.security.JwtFilter.jwtUtils</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Utility for JWT operations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security/JwtFilter.java" line="43" column="28" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security/JwtFilter.java" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter_1a25855aa754399bccc6ae8fe1a7d1dbad" prot="private" static="no" mutable="no">
+        <type>final UserService</type>
+        <definition>final UserService com.hikmethankolay.user_auth_system.security.JwtFilter.userService</definition>
+        <argsstring></argsstring>
+        <name>userService</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.security.JwtFilter.userService</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>User service for retrieving user details. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security/JwtFilter.java" line="46" column="31" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security/JwtFilter.java" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter_1a7a27d1e95deb8f6cef71f8b2494d9713" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>com.hikmethankolay.user_auth_system.security.JwtFilter.JwtFilter</definition>
+        <argsstring>(JwtUtils jwtUtils, UserService userService)</argsstring>
+        <name>JwtFilter</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.security.JwtFilter.JwtFilter</qualifiedname>
+        <param>
+          <type>JwtUtils</type>
+          <declname>jwtUtils</declname>
+        </param>
+        <param>
+          <type>UserService</type>
+          <declname>userService</declname>
+        </param>
+        <briefdescription>
+<para>Constructor for JwtFilter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>jwtUtils</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The JWT utility instance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>userService</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The user service instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security/JwtFilter.java" line="53" column="12" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security/JwtFilter.java" bodystart="53" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter_1a32c27f9ddf7fb0d791a2a75b4ce6b959" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.security.JwtFilter.doFilterInternal</definition>
+        <argsstring>( @NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)</argsstring>
+        <name>doFilterInternal</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.security.JwtFilter.doFilterInternal</qualifiedname>
+        <param>
+          <type>@NonNull HttpServletRequest</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>@NonNull HttpServletResponse</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>@NonNull FilterChain</type>
+          <declname>filterChain</declname>
+        </param>
+        <exceptions> throws ServletException, IOException </exceptions>
+        <briefdescription>
+<para>Filters incoming requests for JWT authentication from headers or cookies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The HTTP request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The HTTP response. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filterChain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The filter chain. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ServletException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If a servlet exception occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>IOException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If an IO exception occurs. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security/JwtFilter.java" line="67" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security/JwtFilter.java" bodystart="67" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Filter for JWT authentication. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This class filters incoming requests to validate JWT tokens and authenticate users. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>OncePerRequestFilter</label>
+      </node>
+      <node id="1">
+        <label>com.hikmethankolay.user_auth_system.security.JwtFilter</label>
+        <link refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>OncePerRequestFilter</label>
+      </node>
+      <node id="1">
+        <label>com.hikmethankolay.user_auth_system.security.JwtFilter</label>
+        <link refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security/JwtFilter.java" line="40" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security/JwtFilter.java" bodystart="40" bodyend="89"/>
+    <listofallmembers>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter_1a32c27f9ddf7fb0d791a2a75b4ce6b959" prot="protected" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::security::JwtFilter</scope><name>doFilterInternal</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter_1a7a27d1e95deb8f6cef71f8b2494d9713" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::security::JwtFilter</scope><name>JwtFilter</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter_1a2cc0fbeebdc5180b24e306fb7ba235ee" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::security::JwtFilter</scope><name>jwtUtils</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter_1a25855aa754399bccc6ae8fe1a7d1dbad" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::security::JwtFilter</scope><name>userService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

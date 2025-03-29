@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_16ec37d6713a298e2793cc3826e8d99c" kind="dir">
+    <compoundname>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system</compoundname>
+    <innerdir refid="dir_372f590304d655345c64fcdc03830a85">user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect</innerdir>
+    <innerdir refid="dir_a65b55a2b167dcbb0138eedfabb2893d">user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/config</innerdir>
+    <innerdir refid="dir_564e52342125fc9c9f84450f1d75b21e">user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller</innerdir>
+    <innerdir refid="dir_a00b4e129074d7f5d8b43a33c622a7b5">user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto</innerdir>
+    <innerdir refid="dir_4fd1c4b30e59c91d1bc09edb0cc3c999">user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity</innerdir>
+    <innerdir refid="dir_e98142a5f6dec84f2bbde35a558f6b7d">user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums</innerdir>
+    <innerdir refid="dir_1de12ac00da870e2308a7ec9d83bb8d1">user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/exception</innerdir>
+    <innerdir refid="dir_c26dff2f2445bd0be316988df7d52dc6">user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/repository</innerdir>
+    <innerdir refid="dir_00949630cc9dd2a1f8a868cdbf0e78ca">user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security</innerdir>
+    <innerdir refid="dir_b71fedacceef0d6908a680c1804ff368">user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service</innerdir>
+    <innerdir refid="dir_101b354240add2035aa75d6c862ceab2">user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util</innerdir>
+    <innerdir refid="dir_9716010f5e036956347e357f6fd1b3e9">user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator</innerdir>
+    <innerfile refid="UserAuthSystemApplication_8java">UserAuthSystemApplication.java</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/"/>
+  </compounddef>
+</doxygen>

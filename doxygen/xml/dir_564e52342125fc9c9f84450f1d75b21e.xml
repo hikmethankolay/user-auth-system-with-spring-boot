@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_564e52342125fc9c9f84450f1d75b21e" kind="dir">
+    <compoundname>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller</compoundname>
+    <innerfile refid="AuthController_8java">AuthController.java</innerfile>
+    <innerfile refid="RoleController_8java">RoleController.java</innerfile>
+    <innerfile refid="UserController_8java">UserController.java</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/"/>
+  </compounddef>
+</doxygen>

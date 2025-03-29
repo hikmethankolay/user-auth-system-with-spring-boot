@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_101b354240add2035aa75d6c862ceab2" kind="dir">
+    <compoundname>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util</compoundname>
+    <innerfile refid="JwtUtils_8java">JwtUtils.java</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacecom_1_1tubitak__1001_1_1backend__app_1_1valiadator" kind="namespace" language="Java">
+    <compoundname>com::tubitak_1001::backend_app::valiadator</compoundname>
+    <briefdescription>
+<para>Package for custom validators in the application. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>&lt;</para>
+<para>This package contains custom validation logic for various use cases. </para>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForEnum.java" line="9" column="1"/>
+  </compounddef>
+</doxygen>

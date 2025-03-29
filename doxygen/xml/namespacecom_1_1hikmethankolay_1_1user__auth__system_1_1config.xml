@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1config" kind="namespace" language="Java">
+    <compoundname>com::hikmethankolay::user_auth_system::config</compoundname>
+    <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1CorsConfig" prot="public">com::hikmethankolay::user_auth_system::config::CorsConfig</innerclass>
+    <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1SwaggerConfig" prot="public">com::hikmethankolay::user_auth_system::config::SwaggerConfig</innerclass>
+    <briefdescription>
+<para>Contains configuration components of the User Authentication System. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Package for configurations in the backend application. </para>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/config/CorsConfig.java" line="13" column="1"/>
+  </compounddef>
+</doxygen>

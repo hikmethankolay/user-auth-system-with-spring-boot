@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="UserRepository_8java" kind="file" language="Java">
+    <compoundname>UserRepository.java</compoundname>
+    <includes local="no">com.hikmethankolay.user_auth_system.entity.User</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/repository/UserRepository.java</label>
+        <link refid="UserRepository_8java"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>com.hikmethankolay.user_auth_system.entity.User</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository" prot="public">com::hikmethankolay::user_auth_system::repository::UserRepository</innerclass>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository">com::hikmethankolay::user_auth_system::repository</innernamespace>
+    <briefdescription>
+<para>Repository interface for User entity. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This interface defines methods for retrieving and managing User entities in the database.</para>
+<para><simplesect kind="author"><para>Hikmethan Kolay </para>
+</simplesect>
+<simplesect kind="date"><para>2025-02-12 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">package<sp/></highlight><highlight class="normal">com.hikmethankolay.user_auth_system.repository;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>com.hikmethankolay.user_auth_system.entity.User;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>org.springframework.data.domain.Page;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>org.springframework.data.domain.Pageable;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>org.springframework.data.jpa.repository.JpaRepository;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>org.springframework.lang.NonNull;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>java.util.Optional;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">interface<sp/></highlight><highlight class="normal"><ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository" kindref="compound">UserRepository</ref><sp/></highlight><highlight class="keyword">extends</highlight><highlight class="normal"><sp/>JpaRepository&lt;User,<sp/>Long&gt;<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>@NonNull</highlight></codeline>
+<codeline lineno="38" refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_1a9cce09a602c355d6ce42d7551e0b0521" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Page&lt;User&gt;<sp/><ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_1a9cce09a602c355d6ce42d7551e0b0521" kindref="member">findAll</ref>(@NonNull<sp/>Pageable<sp/>pageable);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_1a49b78563ef7df2e685793c38e745ed7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Optional&lt;User&gt;<sp/><ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_1a49b78563ef7df2e685793c38e745ed7b" kindref="member">findByUsername</ref>(String<sp/>username);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_1a936d250bcca453f622e65a498574f5d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Optional&lt;User&gt;<sp/><ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_1a936d250bcca453f622e65a498574f5d6" kindref="member">findByEmail</ref>(String<sp/>email);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_1a011bf32b7064c23e1173a663734b3ade" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Optional&lt;User&gt;<sp/><ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_1a011bf32b7064c23e1173a663734b3ade" kindref="member">findByUsernameOrEmail</ref>(String<sp/>username,<sp/>String<sp/>email);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/repository/UserRepository.java"/>
+  </compounddef>
+</doxygen>

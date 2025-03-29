@@ -1,0 +1,103 @@
+\doxysection{User\+Update\+DTO.\+java}
+\hypertarget{UserUpdateDTO_8java_source}{}\label{UserUpdateDTO_8java_source}\index{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/dto/UserUpdateDTO.java@{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/dto/UserUpdateDTO.java}}
+\mbox{\hyperlink{UserUpdateDTO_8java}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00015}00015\ \textcolor{keyword}{package\ }com.hikmethankolay.user\_auth\_system.dto;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00017}00017\ \textcolor{keyword}{import}\ com.fasterxml.jackson.annotation.JsonProperty;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00018}00018\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.entity.Role;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00019}00019\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.entity.User;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00020}00020\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.enums.ERole;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00021}00021\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.validator.ValidEnum;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00022}00022\ \textcolor{keyword}{import}\ jakarta.validation.constraints.Email;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00023}00023\ \textcolor{keyword}{import}\ jakarta.validation.constraints.Pattern;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00024}00024\ \textcolor{keyword}{import}\ jakarta.validation.constraints.Size;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00025}00025\ \textcolor{keyword}{import}\ java.util.Set;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00026}00026\ \textcolor{keyword}{import}\ java.util.stream.Collectors;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00034}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO}{00034}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO}{UserUpdateDTO}}\ \textcolor{keyword}{implements}\ \mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfo}{UserInfo}}\ \{}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00037}00037\ \ \ \ \ \textcolor{keyword}{private}\ Long\ id;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00040}00040\ \ \ \ \ @Size(min\ =\ 8,\ max\ =\ 32,\ message\ =\ \textcolor{stringliteral}{"{}Username\ must\ be\ between\ 8\ and\ 32\ characters"{}})}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00041}00041\ \ \ \ \ \textcolor{keyword}{private}\ String\ username;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00044}00044\ \ \ \ \ @Email(message\ =\ \textcolor{stringliteral}{"{}Invalid\ email\ format"{}})}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00045}00045\ \ \ \ \ \textcolor{keyword}{private}\ String\ email;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00048}00048\ \ \ \ \ @JsonProperty(access\ =\ JsonProperty.Access.WRITE\_ONLY)}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00049}00049\ \ \ \ \ @Pattern(}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ regexp\ =\ \textcolor{stringliteral}{"{}\string^(?=.*?[0-\/9])(?=.*?[A-\/Z])(?=.*?[a-\/z])(?=.*?[\string^0-\/9A-\/Za-\/z]).\{8,32\}\$"{}},}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ message\ =\ \textcolor{stringliteral}{"{}Password\ must\ be\ at\ least\ 8\ characters\ long,\ include\ one\ uppercase\ letter,\ one\ lowercase\ letter,\ one\ digit,\ and\ one\ special\ character."{}}}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00052}00052\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00053}00053\ \ \ \ \ \textcolor{keyword}{private}\ String\ password;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00056}00056\ \ \ \ \ @ValidEnum(enumClass\ =\ ERole.class)}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00057}00057\ \ \ \ \ \textcolor{keyword}{private}\ Set<ERole>\ roles;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00062}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_a4afdbdbc1ef0eb6fcc84c97243e71a93}{00062}}\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_a4afdbdbc1ef0eb6fcc84c97243e71a93}{UserUpdateDTO}}()\ \{\}}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00068}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_a0621ce4caab2f23aea287e8e3e8a06a7}{00068}}\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_a0621ce4caab2f23aea287e8e3e8a06a7}{UserUpdateDTO}}(User\ user)\ \{}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00069}00069\ \ \ \ \ \ \ \ \ this.id\ =\ user.getId();}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00070}00070\ \ \ \ \ \ \ \ \ this.username\ =\ user.getUsername();}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00071}00071\ \ \ \ \ \ \ \ \ this.email\ =\ user.getEmail();}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00072}00072\ \ \ \ \ \ \ \ \ this.password\ =\ user.getPassword();}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00073}00073\ \ \ \ \ \ \ \ \ this.roles\ =\ user.getRoles()\ !=\ \textcolor{keyword}{null}}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ?\ user.getRoles().stream().map(Role::getName).collect(Collectors.toSet())}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ Set.of();}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00076}00076\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00082}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_aa6fe38df782c968322b4e60f79d43667}{00082}}\ \ \ \ \ \textcolor{keyword}{public}\ Long\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_aa6fe38df782c968322b4e60f79d43667}{getId}}()\ \{}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00083}00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ id;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00084}00084\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00090}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_aeb3af68605af60a000bd71f356704704}{00090}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_aeb3af68605af60a000bd71f356704704}{setId}}(Long\ \textcolor{keywordtype}{id})\ \{}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00091}00091\ \ \ \ \ \ \ \ \ this.id\ =\ id;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00092}00092\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00098}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_a7944b7ebde38a93a945389863bda619d}{00098}}\ \ \ \ \ \textcolor{keyword}{public}\ String\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_a7944b7ebde38a93a945389863bda619d}{getUsername}}()\ \{}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00099}00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ username;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00100}00100\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00106}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_a82f5734df56bd9d6cd1033aeac39ca79}{00106}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_a82f5734df56bd9d6cd1033aeac39ca79}{setUsername}}(String\ username)\ \{}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00107}00107\ \ \ \ \ \ \ \ \ this.username\ =\ username;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00108}00108\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00114}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_ae3025d0043e49886511ab530b3eb6faa}{00114}}\ \ \ \ \ \textcolor{keyword}{public}\ String\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_ae3025d0043e49886511ab530b3eb6faa}{getEmail}}()\ \{}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00115}00115\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ email;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00116}00116\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00122}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_a56f21fc174a96e9496e4e74cd89f81f6}{00122}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_a56f21fc174a96e9496e4e74cd89f81f6}{setEmail}}(String\ email)\ \{}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00123}00123\ \ \ \ \ \ \ \ \ this.email\ =\ email;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00124}00124\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00130}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_a29928dc3715274a15604bc55010f674f}{00130}}\ \ \ \ \ \textcolor{keyword}{public}\ String\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_a29928dc3715274a15604bc55010f674f}{getPassword}}()\ \{}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00131}00131\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ password;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00132}00132\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00133}00133\ }
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00138}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_a5aca1d8ffb56f9d936031b97c05ec0f0}{00138}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_a5aca1d8ffb56f9d936031b97c05ec0f0}{setPassword}}(String\ password)\ \{}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00139}00139\ \ \ \ \ \ \ \ \ this.password\ =\ password;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00140}00140\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00146}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_a8661fc45ab07faf7232c82c1ed954df2}{00146}}\ \ \ \ \ \textcolor{keyword}{public}\ Set<ERole>\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_a8661fc45ab07faf7232c82c1ed954df2}{getRoles}}()\ \{}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00147}00147\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ roles;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00148}00148\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00149}00149\ }
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00154}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_a92642117b0282dac3980c2973c73f880}{00154}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_a92642117b0282dac3980c2973c73f880}{setRoles}}(Set<ERole>\ roles)\ \{}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00155}00155\ \ \ \ \ \ \ \ \ this.roles\ =\ roles;}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00156}00156\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00157}00157\ }
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00162}00162\ \ \ \ \ @Override}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00163}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_a3f5a6648039f0186bf1356350b9d5437}{00163}}\ \ \ \ \ \textcolor{keyword}{public}\ String\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_a3f5a6648039f0186bf1356350b9d5437}{toString}}()\ \{}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00164}00164\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}UserUpdateDTO\{"{}}\ +}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}id="{}}\ +\ \textcolor{keywordtype}{id}\ +}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ username='"{}}\ +\ username\ +\ \textcolor{charliteral}{'\(\backslash\)''}\ +}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ email='"{}}\ +\ email\ +\ \textcolor{charliteral}{'\(\backslash\)''}\ +}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ password='"{}}\ +\ password\ +\ \textcolor{charliteral}{'\(\backslash\)''}\ +}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ roles="{}}\ +\ roles\ +}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{charliteral}{'\}'};}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00171}00171\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserUpdateDTO_8java_source_l00172}00172\ \}}
+
+\end{DoxyCode}

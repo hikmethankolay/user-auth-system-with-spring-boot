@@ -1,0 +1,38 @@
+\doxysection{Global\+Exception\+Handler.\+java}
+\hypertarget{GlobalExceptionHandler_8java_source}{}\label{GlobalExceptionHandler_8java_source}\index{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/exception/GlobalExceptionHandler.java@{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/exception/GlobalExceptionHandler.java}}
+\mbox{\hyperlink{GlobalExceptionHandler_8java}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00016}00016\ \textcolor{keyword}{package\ }com.hikmethankolay.user\_auth\_system.exception;}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00018}00018\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.dto.ApiResponseDTO;}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00019}00019\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.enums.EApiStatus;}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00020}00020\ \textcolor{keyword}{import}\ jakarta.validation.ConstraintViolationException;}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00021}00021\ \textcolor{keyword}{import}\ org.springframework.http.HttpStatus;}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00022}00022\ \textcolor{keyword}{import}\ org.springframework.http.ResponseEntity;}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00023}00023\ \textcolor{keyword}{import}\ org.springframework.web.bind.annotation.ExceptionHandler;}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00024}00024\ \textcolor{keyword}{import}\ org.springframework.web.bind.annotation.RestControllerAdvice;}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00026}00026\ \textcolor{keyword}{import}\ java.util.List;}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00035}00035\ @RestControllerAdvice}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00036}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1exception_1_1GlobalExceptionHandler}{00036}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1exception_1_1GlobalExceptionHandler}{GlobalExceptionHandler}}\ \{}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00043}00043\ \ \ \ \ @ExceptionHandler(ConstraintViolationException.class)}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00044}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1exception_1_1GlobalExceptionHandler_a544ca7429df1c35bb2cf28f92533cb96}{00044}}\ \ \ \ \ public\ ResponseEntity<ApiResponseDTO<String>>\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1exception_1_1GlobalExceptionHandler_a544ca7429df1c35bb2cf28f92533cb96}{handleConstraintViolationException}}(ConstraintViolationException\ ex)\ \{}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00045}00045\ \ \ \ \ \ \ \ \ List<String>\ errors\ =\ ex.getConstraintViolations().stream()}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .map(violation\ -\/>\ violation.getPropertyPath()\ +\ \textcolor{stringliteral}{"{}:\ "{}}\ +\ violation.getMessage())}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .toList();}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.badRequest()}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .body(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.FAILURE,\ \textcolor{keyword}{null},\ String.join(\textcolor{stringliteral}{"{},\ "{}},\ errors)));}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00051}00051\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00058}00058\ \ \ \ \ @ExceptionHandler(Exception.class)}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00059}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1exception_1_1GlobalExceptionHandler_a33bfb1b34af8170d4006063aa719093c}{00059}}\ \ \ \ \ public\ ResponseEntity<ApiResponseDTO<String>>\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1exception_1_1GlobalExceptionHandler_a33bfb1b34af8170d4006063aa719093c}{handleGeneralException}}(Exception\ ex)\ \{}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.status(HttpStatus.INTERNAL\_SERVER\_ERROR)}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .body(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.FAILURE,\ \textcolor{keyword}{null},\ ex.getMessage()));}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00062}00062\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{GlobalExceptionHandler_8java_source_l00063}00063\ \}}
+
+\end{DoxyCode}

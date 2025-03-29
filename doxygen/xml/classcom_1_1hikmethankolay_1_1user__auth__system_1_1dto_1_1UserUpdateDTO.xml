@@ -1,0 +1,437 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO" kind="class" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::dto::UserUpdateDTO</compoundname>
+    <basecompoundref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfo" prot="public" virt="non-virtual">com.hikmethankolay.user_auth_system.dto.UserInfo</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a13057e514980c8386c9607d680a58a4b" prot="private" static="no" mutable="no">
+        <type>Long</type>
+        <definition>Long com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>User ID. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" line="37" column="18" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a3bfdb73089795e3e2863d18ebd93faab" prot="private" static="no" mutable="no">
+        <type>String</type>
+        <definition>String com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.username</definition>
+        <argsstring></argsstring>
+        <name>username</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.username</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Updated username of the user. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" line="41" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1abc2001fc9066e3ecf8064415afd7daa3" prot="private" static="no" mutable="no">
+        <type>String</type>
+        <definition>String com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.email</definition>
+        <argsstring></argsstring>
+        <name>email</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.email</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Updated email of the user. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" line="45" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a2beb03b2ba2c7d78b997f2cf0497b6ed" prot="private" static="no" mutable="no">
+        <type>String</type>
+        <definition>String com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.password</definition>
+        <argsstring></argsstring>
+        <name>password</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.password</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Updated password of the user. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" line="53" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a35a202b47b925acdc8f3e046432675c3" prot="private" static="no" mutable="no">
+        <type>Set&lt; ERole &gt;</type>
+        <definition>Set&lt;ERole&gt; com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.roles</definition>
+        <argsstring></argsstring>
+        <name>roles</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.roles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Updated roles assigned to the user. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" line="57" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a4afdbdbc1ef0eb6fcc84c97243e71a93" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.UserUpdateDTO</definition>
+        <argsstring>()</argsstring>
+        <name>UserUpdateDTO</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.UserUpdateDTO</qualifiedname>
+        <briefdescription>
+<para>Default constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" line="62" column="12" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a0621ce4caab2f23aea287e8e3e8a06a7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.UserUpdateDTO</definition>
+        <argsstring>(User user)</argsstring>
+        <name>UserUpdateDTO</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.UserUpdateDTO</qualifiedname>
+        <param>
+          <type>User</type>
+          <declname>user</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a UserUpdateDTO from a User entity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The user entity. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" line="68" column="12" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" bodystart="68" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1aa6fe38df782c968322b4e60f79d43667" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Long</type>
+        <definition>Long com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.getId</definition>
+        <argsstring>()</argsstring>
+        <name>getId</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.getId</qualifiedname>
+        <reimplements refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfo_1abc6758c24ec8efae2cf18c77b9385a42">getId</reimplements>
+        <briefdescription>
+<para>Gets the user ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The ID of the user. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" line="82" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" bodystart="82" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1aeb3af68605af60a000bd71f356704704" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.setId</definition>
+        <argsstring>(Long id)</argsstring>
+        <name>setId</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.setId</qualifiedname>
+        <param>
+          <type>Long</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Sets the user ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ID to be set. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" line="90" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" bodystart="90" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a7944b7ebde38a93a945389863bda619d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>String</type>
+        <definition>String com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.getUsername</definition>
+        <argsstring>()</argsstring>
+        <name>getUsername</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.getUsername</qualifiedname>
+        <reimplements refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfo_1a36fc1a255d5c08b200033eb9bca551f1">getUsername</reimplements>
+        <briefdescription>
+<para>Gets the username of the user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The username. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" line="98" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" bodystart="98" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a82f5734df56bd9d6cd1033aeac39ca79" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.setUsername</definition>
+        <argsstring>(String username)</argsstring>
+        <name>setUsername</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.setUsername</qualifiedname>
+        <param>
+          <type>String</type>
+          <declname>username</declname>
+        </param>
+        <briefdescription>
+<para>Sets the username of the user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>username</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The username to be set. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" line="106" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" bodystart="106" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1ae3025d0043e49886511ab530b3eb6faa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>String</type>
+        <definition>String com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.getEmail</definition>
+        <argsstring>()</argsstring>
+        <name>getEmail</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.getEmail</qualifiedname>
+        <reimplements refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfo_1a0f11999bc9099971265d94c5af80b60e">getEmail</reimplements>
+        <briefdescription>
+<para>Gets the email of the user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The email. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" line="114" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" bodystart="114" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a56f21fc174a96e9496e4e74cd89f81f6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.setEmail</definition>
+        <argsstring>(String email)</argsstring>
+        <name>setEmail</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.setEmail</qualifiedname>
+        <param>
+          <type>String</type>
+          <declname>email</declname>
+        </param>
+        <briefdescription>
+<para>Sets the email of the user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>email</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The email to be set. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" line="122" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" bodystart="122" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a29928dc3715274a15604bc55010f674f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>String</type>
+        <definition>String com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.getPassword</definition>
+        <argsstring>()</argsstring>
+        <name>getPassword</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.getPassword</qualifiedname>
+        <briefdescription>
+<para>Gets the password of the user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The password. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" line="130" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" bodystart="130" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a5aca1d8ffb56f9d936031b97c05ec0f0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.setPassword</definition>
+        <argsstring>(String password)</argsstring>
+        <name>setPassword</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.setPassword</qualifiedname>
+        <param>
+          <type>String</type>
+          <declname>password</declname>
+        </param>
+        <briefdescription>
+<para>Sets the password of the user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>password</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The password to be set. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" line="138" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" bodystart="138" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a8661fc45ab07faf7232c82c1ed954df2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Set&lt; ERole &gt;</type>
+        <definition>Set&lt; ERole &gt; com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.getRoles</definition>
+        <argsstring>()</argsstring>
+        <name>getRoles</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.getRoles</qualifiedname>
+        <briefdescription>
+<para>Gets the roles assigned to the user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A set of roles. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" line="146" column="16" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" bodystart="146" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a92642117b0282dac3980c2973c73f880" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.setRoles</definition>
+        <argsstring>(Set&lt; ERole &gt; roles)</argsstring>
+        <name>setRoles</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.setRoles</qualifiedname>
+        <param>
+          <type>Set&lt; ERole &gt;</type>
+          <declname>roles</declname>
+        </param>
+        <briefdescription>
+<para>Sets the roles assigned to the user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>roles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The set of roles to be assigned. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" line="154" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" bodystart="154" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a3f5a6648039f0186bf1356350b9d5437" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>String</type>
+        <definition>String com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.toString</definition>
+        <argsstring>()</argsstring>
+        <name>toString</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO.toString</qualifiedname>
+        <briefdescription>
+<para>Converts the UserUpdateDTO object to a string representation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A string representation of UserUpdateDTO. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" line="163" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" bodystart="163" bodyend="171"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>DTO for updating user information. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This class represents the user information that can be updated. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO</label>
+        <link refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>com.hikmethankolay.user_auth_system.dto.UserInfo</label>
+        <link refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfo"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO</label>
+        <link refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>com.hikmethankolay.user_auth_system.dto.UserInfo</label>
+        <link refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfo"/>
+      </node>
+    </collaborationgraph>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" line="34" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserUpdateDTO.java" bodystart="34" bodyend="172"/>
+    <listofallmembers>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1abc2001fc9066e3ecf8064415afd7daa3" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserUpdateDTO</scope><name>email</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1ae3025d0043e49886511ab530b3eb6faa" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserUpdateDTO</scope><name>getEmail</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1aa6fe38df782c968322b4e60f79d43667" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserUpdateDTO</scope><name>getId</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a29928dc3715274a15604bc55010f674f" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserUpdateDTO</scope><name>getPassword</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a8661fc45ab07faf7232c82c1ed954df2" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserUpdateDTO</scope><name>getRoles</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a7944b7ebde38a93a945389863bda619d" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserUpdateDTO</scope><name>getUsername</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a13057e514980c8386c9607d680a58a4b" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserUpdateDTO</scope><name>id</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a2beb03b2ba2c7d78b997f2cf0497b6ed" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserUpdateDTO</scope><name>password</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a35a202b47b925acdc8f3e046432675c3" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserUpdateDTO</scope><name>roles</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a56f21fc174a96e9496e4e74cd89f81f6" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserUpdateDTO</scope><name>setEmail</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1aeb3af68605af60a000bd71f356704704" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserUpdateDTO</scope><name>setId</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a5aca1d8ffb56f9d936031b97c05ec0f0" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserUpdateDTO</scope><name>setPassword</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a92642117b0282dac3980c2973c73f880" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserUpdateDTO</scope><name>setRoles</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a82f5734df56bd9d6cd1033aeac39ca79" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserUpdateDTO</scope><name>setUsername</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a3f5a6648039f0186bf1356350b9d5437" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserUpdateDTO</scope><name>toString</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a3bfdb73089795e3e2863d18ebd93faab" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserUpdateDTO</scope><name>username</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a4afdbdbc1ef0eb6fcc84c97243e71a93" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserUpdateDTO</scope><name>UserUpdateDTO</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a0621ce4caab2f23aea287e8e3e8a06a7" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserUpdateDTO</scope><name>UserUpdateDTO</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,115 @@
+\doxysection{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+repository.\+User\+Repository Interface Reference}
+\hypertarget{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository}{}\label{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository}\index{com.hikmethankolay.user\_auth\_system.repository.UserRepository@{com.hikmethankolay.user\_auth\_system.repository.UserRepository}}
+
+
+Repository interface for managing User entities.  
+
+
+Inheritance diagram for com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+repository.\+User\+Repository\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Page$<$ User $>$ \mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_a9cce09a602c355d6ce42d7551e0b0521}{find\+All}} (@Non\+Null Pageable pageable)
+\begin{DoxyCompactList}\small\item\em Retrieves all users with pagination support. \end{DoxyCompactList}\item 
+Optional$<$ User $>$ \mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_a49b78563ef7df2e685793c38e745ed7b}{find\+By\+Username}} (String username)
+\begin{DoxyCompactList}\small\item\em Finds a user by username. \end{DoxyCompactList}\item 
+Optional$<$ User $>$ \mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_a936d250bcca453f622e65a498574f5d6}{find\+By\+Email}} (String email)
+\begin{DoxyCompactList}\small\item\em Finds a user by email. \end{DoxyCompactList}\item 
+Optional$<$ User $>$ \mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_a011bf32b7064c23e1173a663734b3ade}{find\+By\+Username\+Or\+Email}} (String username, String email)
+\begin{DoxyCompactList}\small\item\em Finds a user by either username or email. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Repository interface for managing User entities. 
+
+This interface extends Jpa\+Repository to provide CRUD operations for User entities. 
+
+Definition at line \mbox{\hyperlink{UserRepository_8java_source_l00030}{30}} of file \mbox{\hyperlink{UserRepository_8java_source}{User\+Repository.\+java}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_a9cce09a602c355d6ce42d7551e0b0521}\label{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_a9cce09a602c355d6ce42d7551e0b0521} 
+\index{com.hikmethankolay.user\_auth\_system.repository.UserRepository@{com.hikmethankolay.user\_auth\_system.repository.UserRepository}!findAll@{findAll}}
+\index{findAll@{findAll}!com.hikmethankolay.user\_auth\_system.repository.UserRepository@{com.hikmethankolay.user\_auth\_system.repository.UserRepository}}
+\doxysubsubsection{\texorpdfstring{findAll()}{findAll()}}
+{\footnotesize\ttfamily Page$<$ User $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+repository.\+User\+Repository.\+find\+All (\begin{DoxyParamCaption}\item[{@Non\+Null Pageable}]{pageable }\end{DoxyParamCaption})}
+
+
+
+Retrieves all users with pagination support. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pageable} & Pagination information. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A paginated list of users. 
+\end{DoxyReturn}
+\Hypertarget{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_a936d250bcca453f622e65a498574f5d6}\label{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_a936d250bcca453f622e65a498574f5d6} 
+\index{com.hikmethankolay.user\_auth\_system.repository.UserRepository@{com.hikmethankolay.user\_auth\_system.repository.UserRepository}!findByEmail@{findByEmail}}
+\index{findByEmail@{findByEmail}!com.hikmethankolay.user\_auth\_system.repository.UserRepository@{com.hikmethankolay.user\_auth\_system.repository.UserRepository}}
+\doxysubsubsection{\texorpdfstring{findByEmail()}{findByEmail()}}
+{\footnotesize\ttfamily Optional$<$ User $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+repository.\+User\+Repository.\+find\+By\+Email (\begin{DoxyParamCaption}\item[{String}]{email }\end{DoxyParamCaption})}
+
+
+
+Finds a user by email. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em email} & The email of the user. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An Optional containing the User if found. 
+\end{DoxyReturn}
+\Hypertarget{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_a49b78563ef7df2e685793c38e745ed7b}\label{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_a49b78563ef7df2e685793c38e745ed7b} 
+\index{com.hikmethankolay.user\_auth\_system.repository.UserRepository@{com.hikmethankolay.user\_auth\_system.repository.UserRepository}!findByUsername@{findByUsername}}
+\index{findByUsername@{findByUsername}!com.hikmethankolay.user\_auth\_system.repository.UserRepository@{com.hikmethankolay.user\_auth\_system.repository.UserRepository}}
+\doxysubsubsection{\texorpdfstring{findByUsername()}{findByUsername()}}
+{\footnotesize\ttfamily Optional$<$ User $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+repository.\+User\+Repository.\+find\+By\+Username (\begin{DoxyParamCaption}\item[{String}]{username }\end{DoxyParamCaption})}
+
+
+
+Finds a user by username. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & The username of the user. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An Optional containing the User if found. 
+\end{DoxyReturn}
+\Hypertarget{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_a011bf32b7064c23e1173a663734b3ade}\label{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_a011bf32b7064c23e1173a663734b3ade} 
+\index{com.hikmethankolay.user\_auth\_system.repository.UserRepository@{com.hikmethankolay.user\_auth\_system.repository.UserRepository}!findByUsernameOrEmail@{findByUsernameOrEmail}}
+\index{findByUsernameOrEmail@{findByUsernameOrEmail}!com.hikmethankolay.user\_auth\_system.repository.UserRepository@{com.hikmethankolay.user\_auth\_system.repository.UserRepository}}
+\doxysubsubsection{\texorpdfstring{findByUsernameOrEmail()}{findByUsernameOrEmail()}}
+{\footnotesize\ttfamily Optional$<$ User $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+repository.\+User\+Repository.\+find\+By\+Username\+Or\+Email (\begin{DoxyParamCaption}\item[{String}]{username,  }\item[{String}]{email }\end{DoxyParamCaption})}
+
+
+
+Finds a user by either username or email. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & The username of the user. \\
+\hline
+{\em email} & The email of the user. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An Optional containing the User if found. 
+\end{DoxyReturn}
+
+
+The documentation for this interface was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+user-\/auth-\/system/src/main/java/com/hikmethankolay/user\+\_\+auth\+\_\+system/repository/\mbox{\hyperlink{UserRepository_8java}{User\+Repository.\+java}}\end{DoxyCompactItemize}

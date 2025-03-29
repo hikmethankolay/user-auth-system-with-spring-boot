@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1SwaggerConfig" kind="class" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::config::SwaggerConfig</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1SwaggerConfig_1ab084d302e15c247d5434ab72e05bc91c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>OpenAPI</type>
+        <definition>OpenAPI com.hikmethankolay.user_auth_system.config.SwaggerConfig.springShopOpenAPI</definition>
+        <argsstring>()</argsstring>
+        <name>springShopOpenAPI</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.config.SwaggerConfig.springShopOpenAPI</qualifiedname>
+        <briefdescription>
+<para>Creates and configures an OpenAPI bean for API documentation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This bean defines the main properties of the API documentation including title, description, and version information. It is automatically detected by SpringDoc to generate the OpenAPI specification.</para>
+<para><simplesect kind="return"><para>A configured OpenAPI instance with the application&apos;s API information. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/config/SwaggerConfig.java" line="38" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/config/SwaggerConfig.java" bodystart="38" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration class for Swagger/OpenAPI documentation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides bean definitions for configuring the OpenAPI documentation. </para>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/config/SwaggerConfig.java" line="27" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/config/SwaggerConfig.java" bodystart="27" bodyend="44"/>
+    <listofallmembers>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1SwaggerConfig_1ab084d302e15c247d5434ab72e05bc91c" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::config::SwaggerConfig</scope><name>springShopOpenAPI</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

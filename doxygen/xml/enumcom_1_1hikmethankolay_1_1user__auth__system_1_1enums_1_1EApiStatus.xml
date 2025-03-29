@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1EApiStatus" kind="enum" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::enums::EApiStatus</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1EApiStatus_1afc248abbcb92c9391ed52657ae176282" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>com.hikmethankolay.user_auth_system.enums.EApiStatus.SUCCESS</definition>
+        <argsstring></argsstring>
+        <name>SUCCESS</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.enums.EApiStatus.SUCCESS</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Successful API response. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/EApiStatus.java" line="28" column="1" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/EApiStatus.java" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1EApiStatus_1ad6d2c6a603084f524cc88fc994cb7d30" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>com.hikmethankolay.user_auth_system.enums.EApiStatus.FAILURE</definition>
+        <argsstring></argsstring>
+        <name>FAILURE</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.enums.EApiStatus.FAILURE</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Failed API response. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/EApiStatus.java" line="31" column="1" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/EApiStatus.java" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1EApiStatus_1ab04c2f3c35764d818cda05a9fd1edac4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>com.hikmethankolay.user_auth_system.enums.EApiStatus.UNAUTHORIZED</definition>
+        <argsstring></argsstring>
+        <name>UNAUTHORIZED</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.enums.EApiStatus.UNAUTHORIZED</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Unauthorized API response. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/EApiStatus.java" line="35" column="1" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/EApiStatus.java" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Enumeration representing API response statuses.</para>
+<para>This enum defines possible statuses for API responses.<itemizedlist>
+<listitem><para>#SUCCESS indicates a successful response.</para>
+</listitem><listitem><para>#FAILURE indicates a failed response.</para>
+</listitem><listitem><para>#UNAUTHORIZED indicates an unauthorized access attempt. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/EApiStatus.java" line="26" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/EApiStatus.java" bodystart="26" bodyend="35"/>
+    <listofallmembers>
+      <member refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1EApiStatus_1ad6d2c6a603084f524cc88fc994cb7d30" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::enums::EApiStatus</scope><name>FAILURE</name></member>
+      <member refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1EApiStatus_1afc248abbcb92c9391ed52657ae176282" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::enums::EApiStatus</scope><name>SUCCESS</name></member>
+      <member refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1EApiStatus_1ab04c2f3c35764d818cda05a9fd1edac4" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::enums::EApiStatus</scope><name>UNAUTHORIZED</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

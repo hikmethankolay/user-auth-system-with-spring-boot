@@ -1,0 +1,58 @@
+\doxysection{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+config.\+Swagger\+Config Class Reference}
+\hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1SwaggerConfig}{}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1SwaggerConfig}\index{com.hikmethankolay.user\_auth\_system.config.SwaggerConfig@{com.hikmethankolay.user\_auth\_system.config.SwaggerConfig}}
+
+
+Configuration class for Swagger/\+Open\+API documentation.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Open\+API \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1SwaggerConfig_ab084d302e15c247d5434ab72e05bc91c}{spring\+Shop\+Open\+API}} ()
+\begin{DoxyCompactList}\small\item\em Creates and configures an Open\+API bean for API documentation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Configuration class for Swagger/\+Open\+API documentation. 
+
+Provides bean definitions for configuring the Open\+API documentation. 
+
+Definition at line \mbox{\hyperlink{SwaggerConfig_8java_source_l00027}{27}} of file \mbox{\hyperlink{SwaggerConfig_8java_source}{Swagger\+Config.\+java}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1SwaggerConfig_ab084d302e15c247d5434ab72e05bc91c}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1SwaggerConfig_ab084d302e15c247d5434ab72e05bc91c} 
+\index{com.hikmethankolay.user\_auth\_system.config.SwaggerConfig@{com.hikmethankolay.user\_auth\_system.config.SwaggerConfig}!springShopOpenAPI@{springShopOpenAPI}}
+\index{springShopOpenAPI@{springShopOpenAPI}!com.hikmethankolay.user\_auth\_system.config.SwaggerConfig@{com.hikmethankolay.user\_auth\_system.config.SwaggerConfig}}
+\doxysubsubsection{\texorpdfstring{springShopOpenAPI()}{springShopOpenAPI()}}
+{\footnotesize\ttfamily Open\+API com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+config.\+Swagger\+Config.\+spring\+Shop\+Open\+API (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Creates and configures an Open\+API bean for API documentation. 
+
+This bean defines the main properties of the API documentation including title, description, and version information. It is automatically detected by Spring\+Doc to generate the Open\+API specification.
+
+\begin{DoxyReturn}{Returns}
+A configured Open\+API instance with the application\textquotesingle{}s API information. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{SwaggerConfig_8java_source_l00038}{38}} of file \mbox{\hyperlink{SwaggerConfig_8java_source}{Swagger\+Config.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ OpenAPI()}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .info(\textcolor{keyword}{new}\ Info().title(\textcolor{stringliteral}{"{}User\ Auth\ API"{}})}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .description(\textcolor{stringliteral}{"{}User\ Authentication\ and\ Authorization\ API"{}})}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .version(\textcolor{stringliteral}{"{}v1.0"{}}));}
+\DoxyCodeLine{00043\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+user-\/auth-\/system/src/main/java/com/hikmethankolay/user\+\_\+auth\+\_\+system/config/\mbox{\hyperlink{SwaggerConfig_8java}{Swagger\+Config.\+java}}\end{DoxyCompactItemize}

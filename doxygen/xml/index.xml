@@ -1,0 +1,421 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.9.8" xml:lang="en-US">
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig" kind="class"><name>com::hikmethankolay::user_auth_system::security::AuthConfig</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig_1a54ab1d203ce551286f201549148b1d2a" kind="function"><name>passwordEncoder</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig_1ad5f5d1b5aebdd2a5cd6f45eed67d6396" kind="function"><name>authenticationManager</name></member>
+  </compound>
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController" kind="class"><name>com::hikmethankolay::user_auth_system::controller::AuthController</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1ac9035c15955b40ff10c617956f491832" kind="variable"><name>userService</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1a06234aeda5e226b9b7acbd2584b94ecd" kind="variable"><name>jwtUtils</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1ac3db8f99fbd130eb61b057d3dbba55e7" kind="function"><name>AuthController</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1ad1b27e4a910517386f9e15744c03ea47" kind="function"><name>register</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1aa05f79719a19cf9bd5cbcaa40e282b06" kind="function"><name>login</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1a8180efdb83cdefce76c860e24e6049be" kind="function"><name>logout</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1a682087dd970d9f3b5b1bd505b6f3270a" kind="function"><name>refreshToken</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1a01c165f8dd1cc72b100f1fb894954ebf" kind="function"><name>getClientIp</name></member>
+  </compound>
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger" kind="class"><name>com::hikmethankolay::user_auth_system::aspect::AuthLogger</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a0586f8be908be5845340f6abfd455766" kind="variable"><name>myLogger</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a6c86e5000d3b2d019041efe6666e0f9f" kind="function"><name>forControllerPackage</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a0e0a47b95ef89c0c4d5dc139387b2db6" kind="function"><name>forRepositoryPackage</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1aea0ed65d201bd98ecfb2dfc2adb28aa7" kind="function"><name>forServicePackage</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a3110e4e2691fda6501998199a8ab3fd9" kind="function"><name>forAppFlow</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1ae619c4fe730faa7e6c4966eba08ba3ac" kind="function"><name>authMethods</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1ae7d40a35e8eb8342a2eafdaac544b655" kind="function"><name>beforeAppFlow</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a680faa3f9afc16a9ef4c643528974335" kind="function"><name>afterAppFlow</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1aac3ce2dbda230a3a6aaa8de362f8d275" kind="function"><name>afterError</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1af531c703d303374a45d599abf3ad1191" kind="function"><name>logLoginAttempt</name></member>
+  </compound>
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1CorsConfig" kind="class"><name>com::hikmethankolay::user_auth_system::config::CorsConfig</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1CorsConfig_1afb2fe9985cbc0d41ee547424ad813b0f" kind="function"><name>corsConfigurationSource</name></member>
+  </compound>
+  <compound refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1EApiStatus" kind="enum"><name>com::hikmethankolay::user_auth_system::enums::EApiStatus</name>
+    <member refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1EApiStatus_1afc248abbcb92c9391ed52657ae176282" kind="variable"><name>SUCCESS</name></member>
+    <member refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1EApiStatus_1ad6d2c6a603084f524cc88fc994cb7d30" kind="variable"><name>FAILURE</name></member>
+    <member refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1EApiStatus_1ab04c2f3c35764d818cda05a9fd1edac4" kind="variable"><name>UNAUTHORIZED</name></member>
+  </compound>
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection" kind="class"><name>com::hikmethankolay::user_auth_system::validator::EnumValidatorForCollection</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_1a66301c7bb974bd0119c2ba12428f02d4" kind="variable"><name>acceptedValues</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_1a18691cc4fbce8248bbfbc9209ec4db5c" kind="variable"><name>ignoreCase</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_1acb0624716f2e6079a2ccfee8682db04d" kind="function"><name>initialize</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_1a8641cbac23c5763e4ac3f50b8019f4a5" kind="function"><name>isValid</name></member>
+  </compound>
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum" kind="class"><name>com::hikmethankolay::user_auth_system::validator::EnumValidatorForEnum</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum_1a6bed8714519ecbf5376417d839653061" kind="variable"><name>enumClass</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum_1ad4deae60c6a394f31bfb828231d9b9e8" kind="function"><name>initialize</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum_1ab88df041951ab1c02fbd782b5c231f55" kind="function"><name>isValid</name></member>
+  </compound>
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForString" kind="class"><name>com::hikmethankolay::user_auth_system::validator::EnumValidatorForString</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForString_1aa1d8b6b8bbb31236c737f3ffa5f69fe8" kind="variable"><name>acceptedValues</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForString_1a555ea617b075f9d6e0ee9cf4a2c05306" kind="variable"><name>ignoreCase</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForString_1a58df7259de2bf243224a9a6c7d5ae8b9" kind="function"><name>initialize</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForString_1aa88a415dc6bcf5b251c3f1bbc762ddf6" kind="function"><name>isValid</name></member>
+  </compound>
+  <compound refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1ERole" kind="enum"><name>com::hikmethankolay::user_auth_system::enums::ERole</name>
+    <member refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1ERole_1a3f73b964974c089f56417b80b2aeafe1" kind="variable"><name>ROLE_USER</name></member>
+    <member refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1ERole_1a742a6748e842d8815040f6286e378660" kind="variable"><name>ROLE_MODERATOR</name></member>
+    <member refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1ERole_1a42307d7c778e5dd1ae8f3b73bdfd011a" kind="variable"><name>ROLE_ADMIN</name></member>
+  </compound>
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1exception_1_1GlobalExceptionHandler" kind="class"><name>com::hikmethankolay::user_auth_system::exception::GlobalExceptionHandler</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1exception_1_1GlobalExceptionHandler_1a544ca7429df1c35bb2cf28f92533cb96" kind="function"><name>handleConstraintViolationException</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1exception_1_1GlobalExceptionHandler_1a33bfb1b34af8170d4006063aa719093c" kind="function"><name>handleGeneralException</name></member>
+  </compound>
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter" kind="class"><name>com::hikmethankolay::user_auth_system::security::JwtFilter</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter_1a2cc0fbeebdc5180b24e306fb7ba235ee" kind="variable"><name>jwtUtils</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter_1a25855aa754399bccc6ae8fe1a7d1dbad" kind="variable"><name>userService</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter_1a7a27d1e95deb8f6cef71f8b2494d9713" kind="function"><name>JwtFilter</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter_1a32c27f9ddf7fb0d791a2a75b4ce6b959" kind="function"><name>doFilterInternal</name></member>
+  </compound>
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils" kind="class"><name>com::hikmethankolay::user_auth_system::util::JwtUtils</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1af2f9b3f0076ad98c7ccfacd85f325c66" kind="variable"><name>jwtSecret</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1a51afeca5051a7ada1898070fb50b00ae" kind="variable"><name>jwtExpirationMs</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1ad0934d830c5d354061c023cf498be9aa" kind="variable"><name>rememberMeExpirationMs</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1a1583bddbf45cffe1efb11c638c8a268b" kind="function"><name>generateJwtToken</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1ace10c8b64e63add2996c47807d73bd88" kind="function"><name>validateJwtToken</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1a02ed9bef0a3816c37a64cbfdb076b533" kind="function"><name>getUserIdFromJwtToken</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1a15a7a219af5af270b3b8efb088c7385f" kind="function"><name>getUserNameFromJwtToken</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1af4bbd316ea9fdb561f25997680855cde" kind="function"><name>wasRememberMe</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1a9ca6c4825293a3e75da72563f2c427fa" kind="function"><name>extractTokenFromRequest</name></member>
+  </compound>
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService" kind="class"><name>com::hikmethankolay::user_auth_system::security::LoginAttemptService</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_1a845dd4a47d79b1a044cfabcc1a7b1224" kind="variable"><name>MAX_ATTEMPT</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_1a5408ee71b9cd4c81476e1f316451ae90" kind="variable"><name>attemptsCache</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_1a18e240123c25c56601f4451d68a228f0" kind="function"><name>LoginAttemptService</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_1acc8d5d14ab2e70978b3c1b27e04725ba" kind="function"><name>loginSucceeded</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_1aafdd195c54762faacee909d0db541f2f" kind="function"><name>loginFailed</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_1a5af871aa1ee39afce94b6af4b3eb29ae" kind="function"><name>isBlocked</name></member>
+  </compound>
+  <compound refid="classLoginRequestDTO" kind="class"><name>LoginRequestDTO</name>
+  </compound>
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role" kind="class"><name>com::hikmethankolay::user_auth_system::entity::Role</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_1a2efb50d5db894cd3b7066647dc4024b7" kind="variable"><name>id</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_1a05480c3c1d1387bd5efa830919687a2b" kind="variable"><name>name</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_1a10903a12aec4c04dd73d3469a132338d" kind="variable"><name>users</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_1a7cb0b2f48a3bc03a52607e1d68ae73fd" kind="function"><name>Role</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_1ae2048319014e5ec61044255a6366bad7" kind="function"><name>Role</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_1ace42271b7582edf071bf219a10c4c1d2" kind="function"><name>getId</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_1a36d722edc7a6046d79f1608063804289" kind="function"><name>setId</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_1a3bff212368f5ef950d7fe54d7c7f75d5" kind="function"><name>getName</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_1a1123da27fc4910de9d731efee4242cf8" kind="function"><name>setName</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_1a6a05fa9622e7153d47d970a75e3fe3d8" kind="function"><name>getUsers</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_1a55baeaf7fa78b6cfadf81c1d7979fadf" kind="function"><name>setUsers</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_1acbc6cd5e976b4b812a8e647bbb659896" kind="function"><name>addUser</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_1ae11ea3ccb60f7facba957d5b18db140a" kind="function"><name>toString</name></member>
+  </compound>
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController" kind="class"><name>com::hikmethankolay::user_auth_system::controller::RoleController</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_1ad01bf80896189cf4c9e705a64be519a0" kind="variable"><name>roleService</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_1aa6d53a1da1eb163dc2c47858a7a944cb" kind="function"><name>RoleController</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_1a9f2684925fa05a46e3b9a87233c60fc9" kind="function"><name>findAll</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_1a78f4bf4f3f1dde2c6e3b2778f3b8532e" kind="function"><name>findByName</name></member>
+  </compound>
+  <compound refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1RoleRepository" kind="interface"><name>com::hikmethankolay::user_auth_system::repository::RoleRepository</name>
+    <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1RoleRepository_1a3fab4f0f295273f02e5e6f0e5ecab202" kind="function"><name>findByName</name></member>
+  </compound>
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService" kind="class"><name>com::hikmethankolay::user_auth_system::service::RoleService</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService_1ab5dd58a1bcabf84313494cbae8b93b4b" kind="variable"><name>roleRepository</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService_1a7543e7dc9927e5f53268515382960fda" kind="function"><name>RoleService</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService_1ac8f457569194c2a2af2871f93f45f3d6" kind="function"><name>findAll</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService_1a74813b3a339b30702837a0f08aa72dc3" kind="function"><name>findByName</name></member>
+  </compound>
+  <compound refid="classRoleUserInfoDTO" kind="class"><name>RoleUserInfoDTO</name>
+  </compound>
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1SecurityConfig" kind="class"><name>com::hikmethankolay::user_auth_system::security::SecurityConfig</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1SecurityConfig_1a7f5fc84ce2f1dc53d2bae93dacc8f8cf" kind="variable"><name>jwtFilter</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1SecurityConfig_1ac1b8b8869340bda61520281a07ccb88a" kind="function"><name>SecurityConfig</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1SecurityConfig_1afa1ac82a669d6abe5070771566ecccf5" kind="function"><name>securityFilterChain</name></member>
+  </compound>
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1SwaggerConfig" kind="class"><name>com::hikmethankolay::user_auth_system::config::SwaggerConfig</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1SwaggerConfig_1ab084d302e15c247d5434ab72e05bc91c" kind="function"><name>springShopOpenAPI</name></member>
+  </compound>
+  <compound refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1TokenStatus" kind="enum"><name>com::hikmethankolay::user_auth_system::enums::TokenStatus</name>
+    <member refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1TokenStatus_1af6cf952af98e8ffd8ac7b78b759e80af" kind="variable"><name>VALID</name></member>
+    <member refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1TokenStatus_1a79fe6334d28086fa339d932013538312" kind="variable"><name>EXPIRED</name></member>
+    <member refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1TokenStatus_1ada5bde5a5361528cba578c32c57c8287" kind="variable"><name>INVALID</name></member>
+  </compound>
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User" kind="class"><name>com::hikmethankolay::user_auth_system::entity::User</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1ac4a66bc48ffc61b4d207e7355ba822be" kind="variable"><name>id</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a75e74a93e40786a247226ede3a576cea" kind="variable"><name>username</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a76db39ccf0b5441b09be10a8e1c84cfc" kind="variable"><name>email</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a7c2abd965315ae40318c29bba1299497" kind="variable"><name>password</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a3ffaa36bc3d6a9ec35c7e039d0574d61" kind="variable"><name>roles</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1aa6fbf6ad236c76e39e7e86bf3128aa97" kind="function"><name>User</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1affa8cd8d1b2421a0c85a7c6b51fa54d3" kind="function"><name>User</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a12c89aadeedafb1a0af469d156ecf908" kind="function"><name>getId</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a1788820c438a1d774a18880323513893" kind="function"><name>setId</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a1d1b7d5fbe5a59c6bc5aa821d59af0b6" kind="function"><name>getUsername</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1af5077a67d59f5000cbef7567d5d9be45" kind="function"><name>setUsername</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a85c19c800be7ecfce53e05d804233348" kind="function"><name>getEmail</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a8ff62e251e6ea0a6746759bd8688c5c5" kind="function"><name>setEmail</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1ac2bdc203ab904313b10baefdb20ff5e3" kind="function"><name>getPassword</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1ae13e41fff87e5df86bd7335e3153317e" kind="function"><name>setPassword</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1aeda17bccc77dcd0ccbff4910fc8c8e7f" kind="function"><name>getRoles</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a8eb747a51bdc6712e0fce61c3a01b108" kind="function"><name>setRoles</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1af268e4c8a5a56b2531179e5ebbfdbbdd" kind="function"><name>addRole</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a761cae6d69deaa36ff5f20bdd87e4468" kind="function"><name>removeRole</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a86c1b7a8750e8c392fbadfa4674338d8" kind="function"><name>getAuthorities</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a879166d63131edd925e8ef92e0b4cfe3" kind="function"><name>toString</name></member>
+  </compound>
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1UserAuthSystemApplication" kind="class"><name>com::hikmethankolay::user_auth_system::UserAuthSystemApplication</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1UserAuthSystemApplication_1a026774ae7ecf3c9d6e7144eac6dbdc80" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController" kind="class"><name>com::hikmethankolay::user_auth_system::controller::UserController</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1ae4e9362bfe02cb33b39afe2b12a19604" kind="variable"><name>userService</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1a7e8f5e4e86c7f30dd7e301cfcdd215b8" kind="function"><name>UserController</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1a92a05c748a73348fa7643eab35e60592" kind="function"><name>getUsers</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1aa4bc54801894ad6e3b2dcfb3d2a84f6b" kind="function"><name>getUserById</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1a4a9499a84b10b2e7f0467745c67e6b1d" kind="function"><name>getLoggedInUser</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1a758a622a16b931f4ca4f5cc4b570df48" kind="function"><name>getUserByUsername</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1a8aa5f01c6f5ca6f5845824b67840e4c9" kind="function"><name>getUserByEmail</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1a6cef1662f88814a100546a47080bcf86" kind="function"><name>updateUser</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1af0cfb025a647936f079eec50e8aa1396" kind="function"><name>updateLoggedInUser</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1ac3825e720008b4023539a67188a109ee" kind="function"><name>deleteUser</name></member>
+  </compound>
+  <compound refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfo" kind="interface"><name>com::hikmethankolay::user_auth_system::dto::UserInfo</name>
+    <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfo_1abc6758c24ec8efae2cf18c77b9385a42" kind="function"><name>getId</name></member>
+    <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfo_1a36fc1a255d5c08b200033eb9bca551f1" kind="function"><name>getUsername</name></member>
+    <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfo_1a0f11999bc9099971265d94c5af80b60e" kind="function"><name>getEmail</name></member>
+  </compound>
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO" kind="class"><name>com::hikmethankolay::user_auth_system::dto::UserInfoDTO</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO_1a174748abde2ac675e19230b9da32917d" kind="variable"><name>id</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO_1a37abe1cdd51c90251d8baf51518673e3" kind="variable"><name>username</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO_1ac546910aee902d0dc45b44958b7b5d41" kind="variable"><name>email</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO_1ac2c1f912429ff6145951c5bc0d550b00" kind="variable"><name>roles</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO_1ae6239558565e56e0ea5aa8f2214082b9" kind="function"><name>UserInfoDTO</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO_1a9b1f75626f1e41b3f3690bad9336ea77" kind="function"><name>UserInfoDTO</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO_1a2e12216de9bc391157b9414be191abaa" kind="function"><name>getId</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO_1ab710deee541560371f9209c7647aca78" kind="function"><name>setId</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO_1a24f322b16dc5079b32faca7c54ce71d7" kind="function"><name>getUsername</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO_1af1b9124033192d2bd087f503d22199fa" kind="function"><name>setUsername</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO_1a15192447b093a328bde2451df90a6a07" kind="function"><name>getEmail</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO_1a2c0944f6a210be870baa9903b755f1f7" kind="function"><name>setEmail</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO_1a089de5a33aab0bdb37d9ccc7658bd6c5" kind="function"><name>getRoles</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO_1aa8374d9da487fc72f65b2e952bebc674" kind="function"><name>setRoles</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO_1ab07593a4a8b7d53176818b3217daeefc" kind="function"><name>toString</name></member>
+  </compound>
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO" kind="class"><name>com::hikmethankolay::user_auth_system::dto::UserRegisterDTO</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO_1aaefac820e4f45a2cf9f5a67483ddcf0d" kind="variable"><name>id</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO_1af67e532c41f65857c61410bb1a0beb22" kind="variable"><name>username</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO_1af195065fe0eec1775c09293307c3d5cb" kind="variable"><name>email</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO_1a292d838deea2e7037ea915396ba399e8" kind="variable"><name>password</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO_1a7139d04616efb54836c3acb96c25f0f0" kind="function"><name>UserRegisterDTO</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO_1a7fb26bc1f461f7acca765af9bf9a888e" kind="function"><name>UserRegisterDTO</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO_1af884ae5b7667fda68921218912e89a54" kind="function"><name>getId</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO_1aa6ccd9497719f6d053df079940aeee52" kind="function"><name>setId</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO_1a44c51eb5bd88bbdf42de075cd4051e62" kind="function"><name>getUsername</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO_1a17c29e3db3f7583954173ad7d7ae4288" kind="function"><name>setUsername</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO_1a7e931c32455d3e475ce049c083f61038" kind="function"><name>getEmail</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO_1ae8de6e6200eac543d58af519f2754599" kind="function"><name>setEmail</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO_1a23633c820d6260a3b6cf5a43b67cdca9" kind="function"><name>getPassword</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO_1a21c605e5587f819dac23107f9b9ba3c7" kind="function"><name>setPassword</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO_1a212781d4c670d4430656f7e960fddd97" kind="function"><name>toString</name></member>
+  </compound>
+  <compound refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository" kind="interface"><name>com::hikmethankolay::user_auth_system::repository::UserRepository</name>
+    <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_1a9cce09a602c355d6ce42d7551e0b0521" kind="function"><name>findAll</name></member>
+    <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_1a49b78563ef7df2e685793c38e745ed7b" kind="function"><name>findByUsername</name></member>
+    <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_1a936d250bcca453f622e65a498574f5d6" kind="function"><name>findByEmail</name></member>
+    <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_1a011bf32b7064c23e1173a663734b3ade" kind="function"><name>findByUsernameOrEmail</name></member>
+  </compound>
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService" kind="class"><name>com::hikmethankolay::user_auth_system::service::UserService</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1ae3f5da92abb42d46cff1bb1d02b8d4a9" kind="variable"><name>userRepository</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a9e31a367ff43e874ef81b3d96ba3ea40" kind="variable"><name>roleRepository</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1adeea96e5da3e16c34fffb1de90c622b1" kind="variable"><name>passwordEncoder</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a3b1cd1fba329b8d05771e350cb74dae7" kind="variable"><name>jwtUtils</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a979fe3bd0d3e2840f6f63796b2987d9e" kind="variable"><name>validator</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1ae340fbd96e2365a5c52e78cac67db04d" kind="variable"><name>loginAttemptService</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a8968201a405e32457e32ac4f833bc63d" kind="function"><name>UserService</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1ae7e64a4df9c372fb1cee4f8834cee6e3" kind="function"><name>findAll</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1ada22ab55c9aa34165ac84dc850f037a8" kind="function"><name>findByUsernameOrEmail</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1abc03cb8d49f386aa53863498b2459ef4" kind="function"><name>deleteById</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a7b9129aa963322995ca2dc1405177d9b" kind="function"><name>findById</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a6b5dc0e9c80ff01fc4ae7ff748db1c12" kind="function"><name>registerUser</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a2374093e760c6e0a4fb56e30454c37d9" kind="function"><name>authenticateUser</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a7087261b81b4089cca056774fa493942" kind="function"><name>refreshToken</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a85b25af076364941f35ad15524e0309f" kind="function"><name>updateUser</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1afd70df67a049a2961e1df31f0f8465be" kind="function"><name>checkUserValidation</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1aa0747fee23f66ab0d1b853bfe8188d84" kind="function"><name>assignRolesToUser</name></member>
+  </compound>
+  <compound refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO" kind="class"><name>com::hikmethankolay::user_auth_system::dto::UserUpdateDTO</name>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a13057e514980c8386c9607d680a58a4b" kind="variable"><name>id</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a3bfdb73089795e3e2863d18ebd93faab" kind="variable"><name>username</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1abc2001fc9066e3ecf8064415afd7daa3" kind="variable"><name>email</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a2beb03b2ba2c7d78b997f2cf0497b6ed" kind="variable"><name>password</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a35a202b47b925acdc8f3e046432675c3" kind="variable"><name>roles</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a4afdbdbc1ef0eb6fcc84c97243e71a93" kind="function"><name>UserUpdateDTO</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a0621ce4caab2f23aea287e8e3e8a06a7" kind="function"><name>UserUpdateDTO</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1aa6fe38df782c968322b4e60f79d43667" kind="function"><name>getId</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1aeb3af68605af60a000bd71f356704704" kind="function"><name>setId</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a7944b7ebde38a93a945389863bda619d" kind="function"><name>getUsername</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a82f5734df56bd9d6cd1033aeac39ca79" kind="function"><name>setUsername</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1ae3025d0043e49886511ab530b3eb6faa" kind="function"><name>getEmail</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a56f21fc174a96e9496e4e74cd89f81f6" kind="function"><name>setEmail</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a29928dc3715274a15604bc55010f674f" kind="function"><name>getPassword</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a5aca1d8ffb56f9d936031b97c05ec0f0" kind="function"><name>setPassword</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a8661fc45ab07faf7232c82c1ed954df2" kind="function"><name>getRoles</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a92642117b0282dac3980c2973c73f880" kind="function"><name>setRoles</name></member>
+    <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a3f5a6648039f0186bf1356350b9d5437" kind="function"><name>toString</name></member>
+  </compound>
+  <compound refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum" kind="interface"><name>com::hikmethankolay::user_auth_system::validator::ValidEnum</name>
+    <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a63bfde930c26bbcb2e81383dbd93c4d5" kind="variable"><name>values.</name></member>
+    <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a44543a45b2fe1c5064bdfaec5c52f54d" kind="function"><name>message</name></member>
+    <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a2fa3bee1b5fe80f8c63b3601dc8f1afe" kind="function"><name>groups</name></member>
+    <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1af3b66239ca0b74c2c1f6d808b3bf2843" kind="function"><name>payload</name></member>
+    <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a7a6a653012066c23ef9e769edd28fe33" kind="function"><name>enumClass</name></member>
+    <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1ab1b319b46babfaa316223e9019a34d99" kind="function"><name>ignoreCase</name></member>
+  </compound>
+  <compound refid="namespacecom" kind="namespace"><name>com</name>
+  </compound>
+  <compound refid="namespacecom_1_1hikmethankolay" kind="namespace"><name>com::hikmethankolay</name>
+  </compound>
+  <compound refid="namespacecom_1_1hikmethankolay_1_1user__auth__system" kind="namespace"><name>com::hikmethankolay::user_auth_system</name>
+  </compound>
+  <compound refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1aspect" kind="namespace"><name>com::hikmethankolay::user_auth_system::aspect</name>
+  </compound>
+  <compound refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1config" kind="namespace"><name>com::hikmethankolay::user_auth_system::config</name>
+  </compound>
+  <compound refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1controller" kind="namespace"><name>com::hikmethankolay::user_auth_system::controller</name>
+  </compound>
+  <compound refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto" kind="namespace"><name>com::hikmethankolay::user_auth_system::dto</name>
+    <member refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a9640d86735ddd77a3f1936d4d40eca72" kind="function"><name>ApiResponseDTO&lt; T &gt;</name></member>
+    <member refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a2d96fe3850604a83898af04b1da7d2fb" kind="function"><name>AuthResponseDTO</name></member>
+    <member refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a1ffc5379ce56476acdefa9d0be09e24d" kind="function"><name>LoginRequestDTO</name></member>
+    <member refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a09f643951d5a9176d67125e257d38390" kind="function"><name>RoleInfoDTO</name></member>
+    <member refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a6724b6895ea4bdc96b3a62aed61a1bb8" kind="function"><name>RoleUserInfoDTO</name></member>
+  </compound>
+  <compound refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1entity" kind="namespace"><name>com::hikmethankolay::user_auth_system::entity</name>
+  </compound>
+  <compound refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1enums" kind="namespace"><name>com::hikmethankolay::user_auth_system::enums</name>
+  </compound>
+  <compound refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1exception" kind="namespace"><name>com::hikmethankolay::user_auth_system::exception</name>
+  </compound>
+  <compound refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository" kind="namespace"><name>com::hikmethankolay::user_auth_system::repository</name>
+  </compound>
+  <compound refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1security" kind="namespace"><name>com::hikmethankolay::user_auth_system::security</name>
+  </compound>
+  <compound refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1service" kind="namespace"><name>com::hikmethankolay::user_auth_system::service</name>
+  </compound>
+  <compound refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1util" kind="namespace"><name>com::hikmethankolay::user_auth_system::util</name>
+  </compound>
+  <compound refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator" kind="namespace"><name>com::hikmethankolay::user_auth_system::validator</name>
+  </compound>
+  <compound refid="namespacecom_1_1tubitak__1001" kind="namespace"><name>com::tubitak_1001</name>
+  </compound>
+  <compound refid="namespacecom_1_1tubitak__1001_1_1backend__app" kind="namespace"><name>com::tubitak_1001::backend_app</name>
+  </compound>
+  <compound refid="namespacecom_1_1tubitak__1001_1_1backend__app_1_1valiadator" kind="namespace"><name>com::tubitak_1001::backend_app::valiadator</name>
+  </compound>
+  <compound refid="namespacejava_1_1lang" kind="namespace"><name>java::lang</name>
+  </compound>
+  <compound refid="AuthLogger_8java" kind="file"><name>AuthLogger.java</name>
+  </compound>
+  <compound refid="CorsConfig_8java" kind="file"><name>CorsConfig.java</name>
+  </compound>
+  <compound refid="SwaggerConfig_8java" kind="file"><name>SwaggerConfig.java</name>
+  </compound>
+  <compound refid="AuthController_8java" kind="file"><name>AuthController.java</name>
+  </compound>
+  <compound refid="RoleController_8java" kind="file"><name>RoleController.java</name>
+  </compound>
+  <compound refid="UserController_8java" kind="file"><name>UserController.java</name>
+  </compound>
+  <compound refid="ApiResponseDTO_8java" kind="file"><name>ApiResponseDTO.java</name>
+    <member refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a9640d86735ddd77a3f1936d4d40eca72" kind="function"><name>ApiResponseDTO&lt; T &gt;</name></member>
+  </compound>
+  <compound refid="AuthResponseDTO_8java" kind="file"><name>AuthResponseDTO.java</name>
+    <member refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a2d96fe3850604a83898af04b1da7d2fb" kind="function"><name>AuthResponseDTO</name></member>
+  </compound>
+  <compound refid="LoginRequestDTO_8java" kind="file"><name>LoginRequestDTO.java</name>
+    <member refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a1ffc5379ce56476acdefa9d0be09e24d" kind="function"><name>LoginRequestDTO</name></member>
+  </compound>
+  <compound refid="RoleInfoDTO_8java" kind="file"><name>RoleInfoDTO.java</name>
+    <member refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a09f643951d5a9176d67125e257d38390" kind="function"><name>RoleInfoDTO</name></member>
+  </compound>
+  <compound refid="RoleUserInfoDTO_8java" kind="file"><name>RoleUserInfoDTO.java</name>
+    <member refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a6724b6895ea4bdc96b3a62aed61a1bb8" kind="function"><name>RoleUserInfoDTO</name></member>
+  </compound>
+  <compound refid="UserInfo_8java" kind="file"><name>UserInfo.java</name>
+  </compound>
+  <compound refid="UserInfoDTO_8java" kind="file"><name>UserInfoDTO.java</name>
+  </compound>
+  <compound refid="UserRegisterDTO_8java" kind="file"><name>UserRegisterDTO.java</name>
+  </compound>
+  <compound refid="UserUpdateDTO_8java" kind="file"><name>UserUpdateDTO.java</name>
+  </compound>
+  <compound refid="Role_8java" kind="file"><name>Role.java</name>
+  </compound>
+  <compound refid="User_8java" kind="file"><name>User.java</name>
+  </compound>
+  <compound refid="EApiStatus_8java" kind="file"><name>EApiStatus.java</name>
+  </compound>
+  <compound refid="ERole_8java" kind="file"><name>ERole.java</name>
+  </compound>
+  <compound refid="TokenStatus_8java" kind="file"><name>TokenStatus.java</name>
+  </compound>
+  <compound refid="GlobalExceptionHandler_8java" kind="file"><name>GlobalExceptionHandler.java</name>
+  </compound>
+  <compound refid="RoleRepository_8java" kind="file"><name>RoleRepository.java</name>
+  </compound>
+  <compound refid="UserRepository_8java" kind="file"><name>UserRepository.java</name>
+  </compound>
+  <compound refid="AuthConfig_8java" kind="file"><name>AuthConfig.java</name>
+  </compound>
+  <compound refid="JwtFilter_8java" kind="file"><name>JwtFilter.java</name>
+  </compound>
+  <compound refid="LoginAttemptService_8java" kind="file"><name>LoginAttemptService.java</name>
+  </compound>
+  <compound refid="SecurityConfig_8java" kind="file"><name>SecurityConfig.java</name>
+  </compound>
+  <compound refid="RoleService_8java" kind="file"><name>RoleService.java</name>
+  </compound>
+  <compound refid="UserService_8java" kind="file"><name>UserService.java</name>
+  </compound>
+  <compound refid="UserAuthSystemApplication_8java" kind="file"><name>UserAuthSystemApplication.java</name>
+  </compound>
+  <compound refid="JwtUtils_8java" kind="file"><name>JwtUtils.java</name>
+  </compound>
+  <compound refid="EnumValidatorForCollection_8java" kind="file"><name>EnumValidatorForCollection.java</name>
+  </compound>
+  <compound refid="EnumValidatorForEnum_8java" kind="file"><name>EnumValidatorForEnum.java</name>
+  </compound>
+  <compound refid="EnumValidatorForString_8java" kind="file"><name>EnumValidatorForString.java</name>
+  </compound>
+  <compound refid="ValidEnum_8java" kind="file"><name>ValidEnum.java</name>
+  </compound>
+  <compound refid="dir_372f590304d655345c64fcdc03830a85" kind="dir"><name>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect</name>
+  </compound>
+  <compound refid="dir_44ec1f466ba448f277bc24920f7b1887" kind="dir"><name>user-auth-system/src/main/java/com</name>
+  </compound>
+  <compound refid="dir_a65b55a2b167dcbb0138eedfabb2893d" kind="dir"><name>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/config</name>
+  </compound>
+  <compound refid="dir_564e52342125fc9c9f84450f1d75b21e" kind="dir"><name>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller</name>
+  </compound>
+  <compound refid="dir_a00b4e129074d7f5d8b43a33c622a7b5" kind="dir"><name>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto</name>
+  </compound>
+  <compound refid="dir_4fd1c4b30e59c91d1bc09edb0cc3c999" kind="dir"><name>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity</name>
+  </compound>
+  <compound refid="dir_e98142a5f6dec84f2bbde35a558f6b7d" kind="dir"><name>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums</name>
+  </compound>
+  <compound refid="dir_1de12ac00da870e2308a7ec9d83bb8d1" kind="dir"><name>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/exception</name>
+  </compound>
+  <compound refid="dir_7624890eea6ca43a20621676e874d414" kind="dir"><name>user-auth-system/src/main/java/com/hikmethankolay</name>
+  </compound>
+  <compound refid="dir_0fe0193f07a0a96b508525956996581d" kind="dir"><name>user-auth-system/src/main/java</name>
+  </compound>
+  <compound refid="dir_c666dfa82a077c8fce08ac3fca50663d" kind="dir"><name>user-auth-system/src/main</name>
+  </compound>
+  <compound refid="dir_c26dff2f2445bd0be316988df7d52dc6" kind="dir"><name>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/repository</name>
+  </compound>
+  <compound refid="dir_00949630cc9dd2a1f8a868cdbf0e78ca" kind="dir"><name>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security</name>
+  </compound>
+  <compound refid="dir_b71fedacceef0d6908a680c1804ff368" kind="dir"><name>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service</name>
+  </compound>
+  <compound refid="dir_8bc60edc166728f8aa0e4e197cc31dba" kind="dir"><name>user-auth-system/src</name>
+  </compound>
+  <compound refid="dir_6ba4a70139f84308b80afca3277910e5" kind="dir"><name>user-auth-system</name>
+  </compound>
+  <compound refid="dir_16ec37d6713a298e2793cc3826e8d99c" kind="dir"><name>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system</name>
+  </compound>
+  <compound refid="dir_101b354240add2035aa75d6c862ceab2" kind="dir"><name>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util</name>
+  </compound>
+  <compound refid="dir_9716010f5e036956347e357f6fd1b3e9" kind="dir"><name>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator</name>
+  </compound>
+</doxygenindex>

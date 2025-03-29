@@ -1,0 +1,353 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController" kind="class" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::controller::UserController</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1ae4e9362bfe02cb33b39afe2b12a19604" prot="private" static="no" mutable="no">
+        <type>final UserService</type>
+        <definition>final UserService com.hikmethankolay.user_auth_system.controller.UserController.userService</definition>
+        <argsstring></argsstring>
+        <name>userService</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.controller.UserController.userService</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>User service for handling user-related operations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/UserController.java" line="44" column="31" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/UserController.java" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1a7e8f5e4e86c7f30dd7e301cfcdd215b8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>com.hikmethankolay.user_auth_system.controller.UserController.UserController</definition>
+        <argsstring>(UserService userService)</argsstring>
+        <name>UserController</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.controller.UserController.UserController</qualifiedname>
+        <param>
+          <type>UserService</type>
+          <declname>userService</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Controller for user operations. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>userService</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The service managing user operations. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="author"><para>Hikmethan Kolay </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/UserController.java" line="51" column="12" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/UserController.java" bodystart="51" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1a92a05c748a73348fa7643eab35e60592" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ResponseEntity&lt; ApiResponseDTO&lt; Page&lt; UserInfoDTO &gt; &gt; &gt;</type>
+        <definition>ResponseEntity&lt; ApiResponseDTO&lt; Page&lt; UserInfoDTO &gt; &gt; &gt; com.hikmethankolay.user_auth_system.controller.UserController.getUsers</definition>
+        <argsstring>( @PageableDefault(page=0, size=10, sort=&quot;id&quot;) Pageable pageable)</argsstring>
+        <name>getUsers</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.controller.UserController.getUsers</qualifiedname>
+        <param>
+          <type>@PageableDefault(page=0, size=10, sort=&quot;id&quot;) Pageable</type>
+          <declname>pageable</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves paginated list of users. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pageable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pagination details. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Response entity containing paginated list of users. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/UserController.java" line="61" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/UserController.java" bodystart="61" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1aa4bc54801894ad6e3b2dcfb3d2a84f6b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ResponseEntity&lt; ApiResponseDTO&lt; UserInfoDTO &gt; &gt;</type>
+        <definition>ResponseEntity&lt; ApiResponseDTO&lt; UserInfoDTO &gt; &gt; com.hikmethankolay.user_auth_system.controller.UserController.getUserById</definition>
+        <argsstring>(@PathVariable Long id)</argsstring>
+        <name>getUserById</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.controller.UserController.getUserById</qualifiedname>
+        <param>
+          <type>@PathVariable Long</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves a user by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The user ID. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Response entity containing user details or error message. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/UserController.java" line="75" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/UserController.java" bodystart="75" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1a4a9499a84b10b2e7f0467745c67e6b1d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ResponseEntity&lt; ApiResponseDTO&lt; UserInfoDTO &gt; &gt;</type>
+        <definition>ResponseEntity&lt; ApiResponseDTO&lt; UserInfoDTO &gt; &gt; com.hikmethankolay.user_auth_system.controller.UserController.getLoggedInUser</definition>
+        <argsstring>(@RequestAttribute(&quot;userId&quot;) Long id)</argsstring>
+        <name>getLoggedInUser</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.controller.UserController.getLoggedInUser</qualifiedname>
+        <param>
+          <type>@RequestAttribute(&quot;userId&quot;) Long</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the logged-in user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ID of the logged-in user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Response entity containing user details or error message. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/UserController.java" line="92" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/UserController.java" bodystart="92" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1a758a622a16b931f4ca4f5cc4b570df48" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ResponseEntity&lt; ApiResponseDTO&lt; UserInfoDTO &gt; &gt;</type>
+        <definition>ResponseEntity&lt; ApiResponseDTO&lt; UserInfoDTO &gt; &gt; com.hikmethankolay.user_auth_system.controller.UserController.getUserByUsername</definition>
+        <argsstring>(@RequestParam String username)</argsstring>
+        <name>getUserByUsername</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.controller.UserController.getUserByUsername</qualifiedname>
+        <param>
+          <type>@RequestParam String</type>
+          <declname>username</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves a user by username. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>username</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The username. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Response entity containing user details or error message. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/UserController.java" line="102" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/UserController.java" bodystart="102" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1a8aa5f01c6f5ca6f5845824b67840e4c9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ResponseEntity&lt; ApiResponseDTO&lt; UserInfoDTO &gt; &gt;</type>
+        <definition>ResponseEntity&lt; ApiResponseDTO&lt; UserInfoDTO &gt; &gt; com.hikmethankolay.user_auth_system.controller.UserController.getUserByEmail</definition>
+        <argsstring>(@RequestParam String email)</argsstring>
+        <name>getUserByEmail</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.controller.UserController.getUserByEmail</qualifiedname>
+        <param>
+          <type>@RequestParam String</type>
+          <declname>email</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves a user by email. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>email</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The username. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Response entity containing user details or error message. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/UserController.java" line="119" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/UserController.java" bodystart="119" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1a6cef1662f88814a100546a47080bcf86" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ResponseEntity&lt; ApiResponseDTO&lt; UserInfoDTO &gt; &gt;</type>
+        <definition>ResponseEntity&lt; ApiResponseDTO&lt; UserInfoDTO &gt; &gt; com.hikmethankolay.user_auth_system.controller.UserController.updateUser</definition>
+        <argsstring>(@RequestBody UserUpdateDTO UserUpdateDTO, @PathVariable Long id, @RequestAttribute(&quot;userId&quot;) Long requesterId)</argsstring>
+        <name>updateUser</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.controller.UserController.updateUser</qualifiedname>
+        <param>
+          <type>@RequestBody UserUpdateDTO</type>
+          <declname>UserUpdateDTO</declname>
+        </param>
+        <param>
+          <type>@PathVariable Long</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>@RequestAttribute(&quot;userId&quot;) Long</type>
+          <declname>requesterId</declname>
+        </param>
+        <briefdescription>
+<para>Updates a user by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>UserUpdateDTO</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The user update request data. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The user ID. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Response entity containing update status. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/UserController.java" line="137" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/UserController.java" bodystart="137" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1af0cfb025a647936f079eec50e8aa1396" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ResponseEntity&lt; ApiResponseDTO&lt; UserInfoDTO &gt; &gt;</type>
+        <definition>ResponseEntity&lt; ApiResponseDTO&lt; UserInfoDTO &gt; &gt; com.hikmethankolay.user_auth_system.controller.UserController.updateLoggedInUser</definition>
+        <argsstring>(@RequestBody UserUpdateDTO UserUpdateDTO, @RequestAttribute(&quot;userId&quot;) Long id)</argsstring>
+        <name>updateLoggedInUser</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.controller.UserController.updateLoggedInUser</qualifiedname>
+        <param>
+          <type>@RequestBody UserUpdateDTO</type>
+          <declname>UserUpdateDTO</declname>
+        </param>
+        <param>
+          <type>@RequestAttribute(&quot;userId&quot;) Long</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Updates logged-in user by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>UserUpdateDTO</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The user update request data. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ID of the logged-in user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Response entity containing user details or error message. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/UserController.java" line="154" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/UserController.java" bodystart="154" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1ac3825e720008b4023539a67188a109ee" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ResponseEntity&lt; ApiResponseDTO&lt; Void &gt; &gt;</type>
+        <definition>ResponseEntity&lt; ApiResponseDTO&lt; Void &gt; &gt; com.hikmethankolay.user_auth_system.controller.UserController.deleteUser</definition>
+        <argsstring>(@PathVariable Long id, @RequestAttribute(&quot;userId&quot;) Long requesterId)</argsstring>
+        <name>deleteUser</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.controller.UserController.deleteUser</qualifiedname>
+        <param>
+          <type>@PathVariable Long</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>@RequestAttribute(&quot;userId&quot;) Long</type>
+          <declname>requesterId</declname>
+        </param>
+        <briefdescription>
+<para>Deletes a user by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The user ID. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Response entity containing delete status. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/UserController.java" line="164" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/UserController.java" bodystart="164" bodyend="172"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>REST controller for handling user-related requests. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/UserController.java" line="41" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/UserController.java" bodystart="41" bodyend="173"/>
+    <listofallmembers>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1ac3825e720008b4023539a67188a109ee" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::UserController</scope><name>deleteUser</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1a4a9499a84b10b2e7f0467745c67e6b1d" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::UserController</scope><name>getLoggedInUser</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1a8aa5f01c6f5ca6f5845824b67840e4c9" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::UserController</scope><name>getUserByEmail</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1aa4bc54801894ad6e3b2dcfb3d2a84f6b" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::UserController</scope><name>getUserById</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1a758a622a16b931f4ca4f5cc4b570df48" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::UserController</scope><name>getUserByUsername</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1a92a05c748a73348fa7643eab35e60592" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::UserController</scope><name>getUsers</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1af0cfb025a647936f079eec50e8aa1396" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::UserController</scope><name>updateLoggedInUser</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1a6cef1662f88814a100546a47080bcf86" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::UserController</scope><name>updateUser</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1a7e8f5e4e86c7f30dd7e301cfcdd215b8" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::UserController</scope><name>UserController</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_1ae4e9362bfe02cb33b39afe2b12a19604" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::UserController</scope><name>userService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

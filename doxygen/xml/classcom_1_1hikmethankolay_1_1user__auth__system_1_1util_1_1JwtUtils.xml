@@ -1,0 +1,282 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils" kind="class" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::util::JwtUtils</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1af2f9b3f0076ad98c7ccfacd85f325c66" prot="private" static="no" mutable="no">
+        <type>String</type>
+        <definition>String com.hikmethankolay.user_auth_system.util.JwtUtils.jwtSecret</definition>
+        <argsstring></argsstring>
+        <name>jwtSecret</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.util.JwtUtils.jwtSecret</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>JWT Secret Key </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util/JwtUtils.java" line="38" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util/JwtUtils.java" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1a51afeca5051a7ada1898070fb50b00ae" prot="private" static="no" mutable="no">
+        <type>Long</type>
+        <definition>Long com.hikmethankolay.user_auth_system.util.JwtUtils.jwtExpirationMs</definition>
+        <argsstring></argsstring>
+        <name>jwtExpirationMs</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.util.JwtUtils.jwtExpirationMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Standard JWT Token expiration time </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util/JwtUtils.java" line="42" column="18" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util/JwtUtils.java" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1ad0934d830c5d354061c023cf498be9aa" prot="private" static="no" mutable="no">
+        <type>Long</type>
+        <definition>Long com.hikmethankolay.user_auth_system.util.JwtUtils.rememberMeExpirationMs</definition>
+        <argsstring></argsstring>
+        <name>rememberMeExpirationMs</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.util.JwtUtils.rememberMeExpirationMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Extended expiration time for Remember Me </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util/JwtUtils.java" line="46" column="18" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util/JwtUtils.java" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1a1583bddbf45cffe1efb11c638c8a268b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>String</type>
+        <definition>String com.hikmethankolay.user_auth_system.util.JwtUtils.generateJwtToken</definition>
+        <argsstring>(String userId, String username, boolean rememberMe)</argsstring>
+        <name>generateJwtToken</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.util.JwtUtils.generateJwtToken</qualifiedname>
+        <param>
+          <type>String</type>
+          <declname>userId</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>username</declname>
+        </param>
+        <param>
+          <type>boolean</type>
+          <declname>rememberMe</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Generates a JWT token for a given user with optional Remember Me.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>userId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The user ID to set as the token subject </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>username</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The username to include as a claim </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rememberMe</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to use extended expiration time </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A signed JWT token string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util/JwtUtils.java" line="56" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util/JwtUtils.java" bodystart="56" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1ace10c8b64e63add2996c47807d73bd88" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>TokenStatus</type>
+        <definition>TokenStatus com.hikmethankolay.user_auth_system.util.JwtUtils.validateJwtToken</definition>
+        <argsstring>(String token)</argsstring>
+        <name>validateJwtToken</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.util.JwtUtils.validateJwtToken</qualifiedname>
+        <param>
+          <type>String</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Validates the JWT token and returns its status.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The JWT token string to validate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The token status (VALID, EXPIRED, or INVALID) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util/JwtUtils.java" line="74" column="24" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util/JwtUtils.java" bodystart="74" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1a02ed9bef0a3816c37a64cbfdb076b533" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Long</type>
+        <definition>Long com.hikmethankolay.user_auth_system.util.JwtUtils.getUserIdFromJwtToken</definition>
+        <argsstring>(String token)</argsstring>
+        <name>getUserIdFromJwtToken</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.util.JwtUtils.getUserIdFromJwtToken</qualifiedname>
+        <param>
+          <type>String</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Extracts the user ID (subject) from a JWT token.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The JWT token string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The user ID as a Long </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util/JwtUtils.java" line="91" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util/JwtUtils.java" bodystart="91" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1a15a7a219af5af270b3b8efb088c7385f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>String</type>
+        <definition>String com.hikmethankolay.user_auth_system.util.JwtUtils.getUserNameFromJwtToken</definition>
+        <argsstring>(String token)</argsstring>
+        <name>getUserNameFromJwtToken</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.util.JwtUtils.getUserNameFromJwtToken</qualifiedname>
+        <param>
+          <type>String</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Extracts the username from a JWT token.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The JWT token string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The username claim as a String </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util/JwtUtils.java" line="102" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util/JwtUtils.java" bodystart="102" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1af4bbd316ea9fdb561f25997680855cde" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>boolean</type>
+        <definition>boolean com.hikmethankolay.user_auth_system.util.JwtUtils.wasRememberMe</definition>
+        <argsstring>(String token)</argsstring>
+        <name>wasRememberMe</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.util.JwtUtils.wasRememberMe</qualifiedname>
+        <param>
+          <type>String</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks if the token was created with Remember Me.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The JWT token string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the token was created with Remember Me, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util/JwtUtils.java" line="113" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util/JwtUtils.java" bodystart="113" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1a9ca6c4825293a3e75da72563f2c427fa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>String</type>
+        <definition>String com.hikmethankolay.user_auth_system.util.JwtUtils.extractTokenFromRequest</definition>
+        <argsstring>(HttpServletRequest request)</argsstring>
+        <name>extractTokenFromRequest</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.util.JwtUtils.extractTokenFromRequest</qualifiedname>
+        <param>
+          <type>HttpServletRequest</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Extracts the JWT token from the request (header or cookie).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The HTTP request </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The JWT token or null if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util/JwtUtils.java" line="127" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util/JwtUtils.java" bodystart="127" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Utility class for generating, validating, and parsing JWT tokens. </para>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util/JwtUtils.java" line="34" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/util/JwtUtils.java" bodystart="34" bodyend="146"/>
+    <listofallmembers>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1a9ca6c4825293a3e75da72563f2c427fa" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::util::JwtUtils</scope><name>extractTokenFromRequest</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1a1583bddbf45cffe1efb11c638c8a268b" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::util::JwtUtils</scope><name>generateJwtToken</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1a02ed9bef0a3816c37a64cbfdb076b533" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::util::JwtUtils</scope><name>getUserIdFromJwtToken</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1a15a7a219af5af270b3b8efb088c7385f" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::util::JwtUtils</scope><name>getUserNameFromJwtToken</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1a51afeca5051a7ada1898070fb50b00ae" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::util::JwtUtils</scope><name>jwtExpirationMs</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1af2f9b3f0076ad98c7ccfacd85f325c66" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::util::JwtUtils</scope><name>jwtSecret</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1ad0934d830c5d354061c023cf498be9aa" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::util::JwtUtils</scope><name>rememberMeExpirationMs</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1ace10c8b64e63add2996c47807d73bd88" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::util::JwtUtils</scope><name>validateJwtToken</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_1af4bbd316ea9fdb561f25997680855cde" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::util::JwtUtils</scope><name>wasRememberMe</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

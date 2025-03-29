@@ -1,0 +1,124 @@
+\doxysection{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+security.\+Jwt\+Filter Class Reference}
+\hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter}{}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter}\index{com.hikmethankolay.user\_auth\_system.security.JwtFilter@{com.hikmethankolay.user\_auth\_system.security.JwtFilter}}
+
+
+Filter for JWT authentication.  
+
+
+Inheritance diagram for com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+security.\+Jwt\+Filter\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter_a7a27d1e95deb8f6cef71f8b2494d9713}{Jwt\+Filter}} (Jwt\+Utils jwt\+Utils, User\+Service user\+Service)
+\begin{DoxyCompactList}\small\item\em Constructor for Jwt\+Filter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter_a32c27f9ddf7fb0d791a2a75b4ce6b959}{do\+Filter\+Internal}} ( @Non\+Null Http\+Servlet\+Request request, @Non\+Null Http\+Servlet\+Response response, @Non\+Null Filter\+Chain filter\+Chain)  throws Servlet\+Exception, IOException 
+\begin{DoxyCompactList}\small\item\em Filters incoming requests for JWT authentication from headers or cookies. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Filter for JWT authentication. 
+
+This class filters incoming requests to validate JWT tokens and authenticate users. 
+
+Definition at line \mbox{\hyperlink{JwtFilter_8java_source_l00040}{40}} of file \mbox{\hyperlink{JwtFilter_8java_source}{Jwt\+Filter.\+java}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter_a7a27d1e95deb8f6cef71f8b2494d9713}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter_a7a27d1e95deb8f6cef71f8b2494d9713} 
+\index{com.hikmethankolay.user\_auth\_system.security.JwtFilter@{com.hikmethankolay.user\_auth\_system.security.JwtFilter}!JwtFilter@{JwtFilter}}
+\index{JwtFilter@{JwtFilter}!com.hikmethankolay.user\_auth\_system.security.JwtFilter@{com.hikmethankolay.user\_auth\_system.security.JwtFilter}}
+\doxysubsubsection{\texorpdfstring{JwtFilter()}{JwtFilter()}}
+{\footnotesize\ttfamily com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+security.\+Jwt\+Filter.\+Jwt\+Filter (\begin{DoxyParamCaption}\item[{Jwt\+Utils}]{jwt\+Utils,  }\item[{User\+Service}]{user\+Service }\end{DoxyParamCaption})}
+
+
+
+Constructor for Jwt\+Filter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em jwt\+Utils} & The JWT utility instance. \\
+\hline
+{\em user\+Service} & The user service instance. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{JwtFilter_8java_source_l00053}{53}} of file \mbox{\hyperlink{JwtFilter_8java_source}{Jwt\+Filter.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ this.jwtUtils\ =\ jwtUtils;}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ this.userService\ =\ userService;}
+\DoxyCodeLine{00056\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter_a32c27f9ddf7fb0d791a2a75b4ce6b959}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter_a32c27f9ddf7fb0d791a2a75b4ce6b959} 
+\index{com.hikmethankolay.user\_auth\_system.security.JwtFilter@{com.hikmethankolay.user\_auth\_system.security.JwtFilter}!doFilterInternal@{doFilterInternal}}
+\index{doFilterInternal@{doFilterInternal}!com.hikmethankolay.user\_auth\_system.security.JwtFilter@{com.hikmethankolay.user\_auth\_system.security.JwtFilter}}
+\doxysubsubsection{\texorpdfstring{doFilterInternal()}{doFilterInternal()}}
+{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+security.\+Jwt\+Filter.\+do\+Filter\+Internal (\begin{DoxyParamCaption}\item[{@Non\+Null Http\+Servlet\+Request}]{request,  }\item[{@Non\+Null Http\+Servlet\+Response}]{response,  }\item[{@Non\+Null Filter\+Chain}]{filter\+Chain }\end{DoxyParamCaption}) throws Servlet\+Exception, IOException\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Filters incoming requests for JWT authentication from headers or cookies. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request} & The HTTP request. \\
+\hline
+{\em response} & The HTTP response. \\
+\hline
+{\em filter\+Chain} & The filter chain. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Servlet\+Exception} & If a servlet exception occurs. \\
+\hline
+{\em IOException} & If an IO exception occurs. \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line \mbox{\hyperlink{JwtFilter_8java_source_l00067}{67}} of file \mbox{\hyperlink{JwtFilter_8java_source}{Jwt\+Filter.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ String\ token\ =\ jwtUtils.extractTokenFromRequest(request);}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (token\ !=\ \textcolor{keyword}{null}\ \&\&\ jwtUtils.validateJwtToken(token)\ ==\ TokenStatus.VALID)\ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ Long\ userId\ =\ jwtUtils.getUserIdFromJwtToken(token);}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ Optional<User>\ user\ =\ userService.findById(userId);}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (user.isPresent())\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UsernamePasswordAuthenticationToken\ authentication\ =}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ UsernamePasswordAuthenticationToken(user.get(),\ \textcolor{keyword}{null},\ user.get().getAuthorities());}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SecurityContextHolder.getContext().setAuthentication(authentication);}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ request.setAttribute(\textcolor{stringliteral}{"{}userId"{}},\ userId);}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ filterChain.doFilter(request,\ response);}
+\DoxyCodeLine{00088\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+user-\/auth-\/system/src/main/java/com/hikmethankolay/user\+\_\+auth\+\_\+system/security/\mbox{\hyperlink{JwtFilter_8java}{Jwt\+Filter.\+java}}\end{DoxyCompactItemize}

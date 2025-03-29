@@ -1,0 +1,229 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto" kind="namespace" language="Java">
+    <compoundname>com::hikmethankolay::user_auth_system::dto</compoundname>
+    <innerclass refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfo" prot="public">com::hikmethankolay::user_auth_system::dto::UserInfo</innerclass>
+    <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO" prot="public">com::hikmethankolay::user_auth_system::dto::UserInfoDTO</innerclass>
+    <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO" prot="public">com::hikmethankolay::user_auth_system::dto::UserRegisterDTO</innerclass>
+    <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO" prot="public">com::hikmethankolay::user_auth_system::dto::UserUpdateDTO</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a9640d86735ddd77a3f1936d4d40eca72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>record</type>
+        <definition>record com.hikmethankolay.user_auth_system.dto.ApiResponseDTO&lt; T &gt;</definition>
+        <argsstring>(EApiStatus status, T data, String message)</argsstring>
+        <name>ApiResponseDTO&lt; T &gt;</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.ApiResponseDTO&lt; T &gt;</qualifiedname>
+        <param>
+          <type>EApiStatus</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>T</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Generic API response wrapper. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>ApiResponseDTO </para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the data payload. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/ApiResponseDTO.java" line="28" column="8" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/ApiResponseDTO.java" bodystart="28" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a2d96fe3850604a83898af04b1da7d2fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>record</type>
+        <definition>record com.hikmethankolay.user_auth_system.dto.AuthResponseDTO</definition>
+        <argsstring>(String token, String tokenType)</argsstring>
+        <name>AuthResponseDTO</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.AuthResponseDTO</qualifiedname>
+        <param>
+          <type>String</type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>tokenType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Data Transfer Object for authentication response. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The authentication token. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tokenType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the token (e.g., &quot;Bearer&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Authentication response DTO.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The authentication token.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/AuthResponseDTO.java" line="22" column="15" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/AuthResponseDTO.java" bodystart="22" bodyend="32"/>
+        <references refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a2d96fe3850604a83898af04b1da7d2fb" compoundref="AuthResponseDTO_8java" startline="22" endline="32">com.hikmethankolay.user_auth_system.dto.AuthResponseDTO</references>
+        <referencedby refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a2d96fe3850604a83898af04b1da7d2fb" compoundref="AuthResponseDTO_8java" startline="22" endline="32">com.hikmethankolay.user_auth_system.dto.AuthResponseDTO</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a1ffc5379ce56476acdefa9d0be09e24d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>record</type>
+        <definition>record com.hikmethankolay.user_auth_system.dto.LoginRequestDTO</definition>
+        <argsstring>(String identifier, String password, @JsonProperty(defaultValue=&quot;false&quot;) boolean rememberMe)</argsstring>
+        <name>LoginRequestDTO</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.LoginRequestDTO</qualifiedname>
+        <param>
+          <type>String</type>
+          <declname>identifier</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>password</declname>
+        </param>
+        <param>
+          <type>@JsonProperty(defaultValue=&quot;false&quot;) boolean</type>
+          <declname>rememberMe</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/LoginRequestDTO.java" line="26" column="15" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/LoginRequestDTO.java" bodystart="26" bodyend="27"/>
+        <references refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a1ffc5379ce56476acdefa9d0be09e24d" compoundref="LoginRequestDTO_8java" startline="26" endline="27">com.hikmethankolay.user_auth_system.dto.LoginRequestDTO</references>
+        <referencedby refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a1ffc5379ce56476acdefa9d0be09e24d" compoundref="LoginRequestDTO_8java" startline="26" endline="27">com.hikmethankolay.user_auth_system.dto.LoginRequestDTO</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a09f643951d5a9176d67125e257d38390" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>record</type>
+        <definition>record com.hikmethankolay.user_auth_system.dto.RoleInfoDTO</definition>
+        <argsstring>(String name, Set&lt; RoleUserInfoDTO &gt; users)</argsstring>
+        <name>RoleInfoDTO</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.RoleInfoDTO</qualifiedname>
+        <param>
+          <type>String</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Set&lt; <ref refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a6724b6895ea4bdc96b3a62aed61a1bb8" kindref="member">RoleUserInfoDTO</ref> &gt;</type>
+          <declname>users</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>DTO representing role information. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the role. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>users</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The users assigned to the role. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="author"><para>Hikmethan Kolay </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Constructs a RoleInfoDTO from a Role entity. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The role entity.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/RoleInfoDTO.java" line="27" column="15" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/RoleInfoDTO.java" bodystart="27" bodyend="43"/>
+        <references refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a09f643951d5a9176d67125e257d38390" compoundref="RoleInfoDTO_8java" startline="27" endline="43">com.hikmethankolay.user_auth_system.dto.RoleInfoDTO</references>
+        <referencedby refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a09f643951d5a9176d67125e257d38390" compoundref="RoleInfoDTO_8java" startline="27" endline="43">com.hikmethankolay.user_auth_system.dto.RoleInfoDTO</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a6724b6895ea4bdc96b3a62aed61a1bb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>record</type>
+        <definition>record com.hikmethankolay.user_auth_system.dto.RoleUserInfoDTO</definition>
+        <argsstring>(Long id, String username, String email)</argsstring>
+        <name>RoleUserInfoDTO</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.RoleUserInfoDTO</qualifiedname>
+        <param>
+          <type>Long</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>username</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>email</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Constructs a RoleUserInfoDTO from a User entity. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The user entity.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/RoleUserInfoDTO.java" line="29" column="15" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/RoleUserInfoDTO.java" bodystart="29" bodyend="45"/>
+        <references refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a6724b6895ea4bdc96b3a62aed61a1bb8" compoundref="RoleUserInfoDTO_8java" startline="29" endline="45">com.hikmethankolay.user_auth_system.dto.RoleUserInfoDTO</references>
+        <referencedby refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a6724b6895ea4bdc96b3a62aed61a1bb8" compoundref="RoleUserInfoDTO_8java" startline="29" endline="45">com.hikmethankolay.user_auth_system.dto.RoleUserInfoDTO</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Contains the core components of the User Authentication System. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/ApiResponseDTO.java" line="15" column="1"/>
+  </compounddef>
+</doxygen>

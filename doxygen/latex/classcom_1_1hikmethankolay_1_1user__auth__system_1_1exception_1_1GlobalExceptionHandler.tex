@@ -1,0 +1,95 @@
+\doxysection{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+exception.\+Global\+Exception\+Handler Class Reference}
+\hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1exception_1_1GlobalExceptionHandler}{}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1exception_1_1GlobalExceptionHandler}\index{com.hikmethankolay.user\_auth\_system.exception.GlobalExceptionHandler@{com.hikmethankolay.user\_auth\_system.exception.GlobalExceptionHandler}}
+
+
+Controller advice for handling exceptions across the application.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Response\+Entity$<$ Api\+Response\+DTO$<$ String $>$ $>$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1exception_1_1GlobalExceptionHandler_a544ca7429df1c35bb2cf28f92533cb96}{handle\+Constraint\+Violation\+Exception}} (Constraint\+Violation\+Exception ex)
+\begin{DoxyCompactList}\small\item\em Handles validation constraint violations. \end{DoxyCompactList}\item 
+Response\+Entity$<$ Api\+Response\+DTO$<$ String $>$ $>$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1exception_1_1GlobalExceptionHandler_a33bfb1b34af8170d4006063aa719093c}{handle\+General\+Exception}} (Exception ex)
+\begin{DoxyCompactList}\small\item\em Handles all unhandled exceptions as a fallback. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Controller advice for handling exceptions across the application. 
+
+This class provides centralized exception handling for converting exceptions into standardized API responses with appropriate HTTP status codes. 
+
+Definition at line \mbox{\hyperlink{GlobalExceptionHandler_8java_source_l00036}{36}} of file \mbox{\hyperlink{GlobalExceptionHandler_8java_source}{Global\+Exception\+Handler.\+java}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1exception_1_1GlobalExceptionHandler_a544ca7429df1c35bb2cf28f92533cb96}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1exception_1_1GlobalExceptionHandler_a544ca7429df1c35bb2cf28f92533cb96} 
+\index{com.hikmethankolay.user\_auth\_system.exception.GlobalExceptionHandler@{com.hikmethankolay.user\_auth\_system.exception.GlobalExceptionHandler}!handleConstraintViolationException@{handleConstraintViolationException}}
+\index{handleConstraintViolationException@{handleConstraintViolationException}!com.hikmethankolay.user\_auth\_system.exception.GlobalExceptionHandler@{com.hikmethankolay.user\_auth\_system.exception.GlobalExceptionHandler}}
+\doxysubsubsection{\texorpdfstring{handleConstraintViolationException()}{handleConstraintViolationException()}}
+{\footnotesize\ttfamily Response\+Entity$<$ Api\+Response\+DTO$<$ String $>$ $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+exception.\+Global\+Exception\+Handler.\+handle\+Constraint\+Violation\+Exception (\begin{DoxyParamCaption}\item[{Constraint\+Violation\+Exception}]{ex }\end{DoxyParamCaption})}
+
+
+
+Handles validation constraint violations. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ex} & The constraint violation exception. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response entity containing validation error details. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{GlobalExceptionHandler_8java_source_l00044}{44}} of file \mbox{\hyperlink{GlobalExceptionHandler_8java_source}{Global\+Exception\+Handler.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ List<String>\ errors\ =\ ex.getConstraintViolations().stream()}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .map(violation\ -\/>\ violation.getPropertyPath()\ +\ \textcolor{stringliteral}{"{}:\ "{}}\ +\ violation.getMessage())}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .toList();}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.badRequest()}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .body(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.FAILURE,\ \textcolor{keyword}{null},\ String.join(\textcolor{stringliteral}{"{},\ "{}},\ errors)));}
+\DoxyCodeLine{00051\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1exception_1_1GlobalExceptionHandler_a33bfb1b34af8170d4006063aa719093c}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1exception_1_1GlobalExceptionHandler_a33bfb1b34af8170d4006063aa719093c} 
+\index{com.hikmethankolay.user\_auth\_system.exception.GlobalExceptionHandler@{com.hikmethankolay.user\_auth\_system.exception.GlobalExceptionHandler}!handleGeneralException@{handleGeneralException}}
+\index{handleGeneralException@{handleGeneralException}!com.hikmethankolay.user\_auth\_system.exception.GlobalExceptionHandler@{com.hikmethankolay.user\_auth\_system.exception.GlobalExceptionHandler}}
+\doxysubsubsection{\texorpdfstring{handleGeneralException()}{handleGeneralException()}}
+{\footnotesize\ttfamily Response\+Entity$<$ Api\+Response\+DTO$<$ String $>$ $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+exception.\+Global\+Exception\+Handler.\+handle\+General\+Exception (\begin{DoxyParamCaption}\item[{Exception}]{ex }\end{DoxyParamCaption})}
+
+
+
+Handles all unhandled exceptions as a fallback. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ex} & The exception to handle. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response entity containing the exception message. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{GlobalExceptionHandler_8java_source_l00059}{59}} of file \mbox{\hyperlink{GlobalExceptionHandler_8java_source}{Global\+Exception\+Handler.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.status(HttpStatus.INTERNAL\_SERVER\_ERROR)}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .body(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.FAILURE,\ \textcolor{keyword}{null},\ ex.getMessage()));}
+\DoxyCodeLine{00062\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+user-\/auth-\/system/src/main/java/com/hikmethankolay/user\+\_\+auth\+\_\+system/exception/\mbox{\hyperlink{GlobalExceptionHandler_8java}{Global\+Exception\+Handler.\+java}}\end{DoxyCompactItemize}

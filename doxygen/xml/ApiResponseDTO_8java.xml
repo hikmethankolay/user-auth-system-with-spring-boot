@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="ApiResponseDTO_8java" kind="file" language="Java">
+    <compoundname>ApiResponseDTO.java</compoundname>
+    <includes local="no">com.hikmethankolay.user_auth_system.enums.EApiStatus</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/ApiResponseDTO.java</label>
+        <link refid="ApiResponseDTO_8java"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>com.hikmethankolay.user_auth_system.enums.EApiStatus</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto">com::hikmethankolay::user_auth_system::dto</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a9640d86735ddd77a3f1936d4d40eca72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>record</type>
+        <definition>record com.hikmethankolay.user_auth_system.dto.ApiResponseDTO&lt; T &gt;</definition>
+        <argsstring>(EApiStatus status, T data, String message)</argsstring>
+        <name>ApiResponseDTO&lt; T &gt;</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.ApiResponseDTO&lt; T &gt;</qualifiedname>
+        <param>
+          <type>EApiStatus</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>T</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Generic API response wrapper. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>ApiResponseDTO </para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the data payload. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/ApiResponseDTO.java" line="28" column="8" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/ApiResponseDTO.java" bodystart="28" bodyend="29"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Data Transfer Object for API responses. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This generic DTO is used to standardize API responses by including a status, data payload, and message.</para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the data payload.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="author"><para>Hikmethan Kolay </para>
+</simplesect>
+<simplesect kind="date"><para>2025-02-12 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">package<sp/></highlight><highlight class="normal">com.hikmethankolay.user_auth_system.dto;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>com.hikmethankolay.user_auth_system.enums.EApiStatus;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a9640d86735ddd77a3f1936d4d40eca72" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>record<sp/><ref refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a9640d86735ddd77a3f1936d4d40eca72" kindref="member">ApiResponseDTO&lt;T&gt;</ref>(EApiStatus<sp/>status,<sp/>T<sp/>data,<sp/>String<sp/>message)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/ApiResponseDTO.java"/>
+  </compounddef>
+</doxygen>

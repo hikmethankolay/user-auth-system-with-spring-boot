@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacecom_1_1hikmethankolay_1_1user__auth__system" kind="namespace" language="Java">
+    <compoundname>com::hikmethankolay::user_auth_system</compoundname>
+    <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1UserAuthSystemApplication" prot="public">com::hikmethankolay::user_auth_system::UserAuthSystemApplication</innerclass>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1aspect">com::hikmethankolay::user_auth_system::aspect</innernamespace>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1config">com::hikmethankolay::user_auth_system::config</innernamespace>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1controller">com::hikmethankolay::user_auth_system::controller</innernamespace>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto">com::hikmethankolay::user_auth_system::dto</innernamespace>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1entity">com::hikmethankolay::user_auth_system::entity</innernamespace>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1enums">com::hikmethankolay::user_auth_system::enums</innernamespace>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1exception">com::hikmethankolay::user_auth_system::exception</innernamespace>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository">com::hikmethankolay::user_auth_system::repository</innernamespace>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1security">com::hikmethankolay::user_auth_system::security</innernamespace>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1service">com::hikmethankolay::user_auth_system::service</innernamespace>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1util">com::hikmethankolay::user_auth_system::util</innernamespace>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator">com::hikmethankolay::user_auth_system::validator</innernamespace>
+    <briefdescription>
+<para>Contains the core components of the User Authentication System. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/UserAuthSystemApplication.java" line="12" column="1"/>
+  </compounddef>
+</doxygen>

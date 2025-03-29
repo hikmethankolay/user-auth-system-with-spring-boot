@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthLogger.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">user-auth-system</a> &gt; <a href="index.source.html" class="el_package">com.hikmethankolay.user_auth_system.aspect</a> &gt; <span class="el_source">AuthLogger.java</span></div><h1>AuthLogger.java</h1><pre class="source lang-java linenums">/**
+ * @file AuthLogger.java
+ * @brief Aspect class for logging method calls in the application.
+ *
+ * This class uses Spring AOP to log method calls before execution, 
+ * after successful execution, and upon exceptions.
+ *
+ * @author Hikmethan Kolay
+ * @date 2025-02-12
+ */
+
+/**
+ * @package com.hikmethankolay.user_auth_system.aspect
+ * @brief Contains the core components of the User Authentication System.
+ */
+package com.hikmethankolay.user_auth_system.aspect;
+
+import com.hikmethankolay.user_auth_system.dto.LoginRequestDTO;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+
+import java.util.logging.Logger;
+
+/**
+ * @class AuthLogger
+ * @brief Aspect for logging application flow.
+ *
+ * This aspect logs method invocations within controller, repository, and service packages.
+ */
+@Aspect
+@Component
+<span class="fc" id="L34">public class AuthLogger {</span>
+
+    /** Logger instance for logging method calls. */
+<span class="fc" id="L37">    private final Logger myLogger = Logger.getLogger(getClass().getName());</span>
+
+    /**
+     * @brief Pointcut for controller package.
+     */
+    @Pointcut(&quot;execution(* com.hikmethankolay.user_auth_system.controller.*.*(..))&quot;)
+<span class="nc" id="L43">    public void forControllerPackage() {}</span>
+
+    /**
+     * @brief Pointcut for repository package.
+     */
+    @Pointcut(&quot;execution(* com.hikmethankolay.user_auth_system.repository.*.*(..))&quot;)
+<span class="nc" id="L49">    public void forRepositoryPackage() {}</span>
+
+    /**
+     * @brief Pointcut for service package.
+     */
+    @Pointcut(&quot;execution(* com.hikmethankolay.user_auth_system.service.*.*(..))&quot;)
+<span class="nc" id="L55">    public void forServicePackage() {}</span>
+
+    /**
+     * @brief Combined pointcut for application flow.
+     */
+    @Pointcut(&quot;forControllerPackage() || forRepositoryPackage() || forServicePackage()&quot;)
+<span class="nc" id="L61">    public void forAppFlow() {}</span>
+
+    /**
+     * @brief Pointcut definition for authentication controller methods.
+     */
+    @Pointcut(&quot;execution(* com.hikmethankolay.user_auth_system.controller.AuthController.*(..))&quot;)
+<span class="nc" id="L67">    public void authMethods() {}</span>
+
+    /**
+     * @brief Logs method call before execution.
+     * @param theJoinPoint The join point representing the method execution.
+     */
+    @Before(&quot;forAppFlow()&quot;)
+    public void beforeAppFlow(JoinPoint theJoinPoint) {
+<span class="fc" id="L75">        String theMethod = theJoinPoint.getSignature().toShortString();</span>
+<span class="fc" id="L76">        myLogger.info(&quot;=====&gt; @Before: calling method: &quot; + theMethod);</span>
+
+<span class="fc" id="L78">        Object[] args = theJoinPoint.getArgs();</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        for (Object arg : args) {</span>
+<span class="fc" id="L80">            myLogger.info(&quot;=====&gt; Argument: &quot; + arg);</span>
+        }
+<span class="fc" id="L82">    }</span>
+
+    /**
+     * @brief Logs method call after successful execution.
+     * @param theJoinPoint The join point representing the method execution.
+     * @param result The result returned by the method.
+     */
+    @AfterReturning(pointcut = &quot;forAppFlow()&quot;, returning = &quot;result&quot;)
+    public void afterAppFlow(JoinPoint theJoinPoint, Object result) {
+<span class="fc" id="L91">        String theMethod = theJoinPoint.getSignature().toShortString();</span>
+<span class="fc" id="L92">        myLogger.info(&quot;=====&gt; @AfterReturning: calling method: &quot; + theMethod);</span>
+<span class="fc" id="L93">        myLogger.info(&quot;=====&gt; Result: &quot; + result);</span>
+<span class="fc" id="L94">    }</span>
+
+    /**
+     * @brief Logs method call when an exception occurs.
+     * @param theJoinPoint The join point representing the method execution.
+     * @param exception The exception thrown by the method.
+     */
+    @AfterThrowing(pointcut = &quot;forAppFlow()&quot;, throwing = &quot;exception&quot;)
+    public void afterError(JoinPoint theJoinPoint, Throwable exception) {
+<span class="fc" id="L103">        String theMethod = theJoinPoint.getSignature().toShortString();</span>
+<span class="fc" id="L104">        myLogger.severe(&quot;=====&gt; @AfterThrowing: Exception in method: &quot; + theMethod);</span>
+<span class="fc" id="L105">        myLogger.severe(&quot;=====&gt; Exception: &quot; + exception.getClass().getName() + &quot; - &quot; + exception.getMessage());</span>
+
+<span class="fc" id="L107">        Object[] args = theJoinPoint.getArgs();</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        for (Object arg : args) {</span>
+<span class="fc" id="L109">            myLogger.severe(&quot;=====&gt; Argument: &quot; + arg);</span>
+        }
+<span class="fc" id="L111">    }</span>
+
+    /**
+     * @brief Logs authentication attempts after method execution.
+     *
+     * This advice captures login attempts and their results, logging whether the
+     * authentication was successful and which user attempted to authenticate.
+     *
+     * @param joinPoint The join point representing the intercepted method.
+     * @param loginRequest The login request containing user credentials.
+     * @param result The result of the authentication attempt.
+     */
+    @AfterReturning(pointcut = &quot;authMethods() &amp;&amp; args(loginRequest,..)&quot;, returning = &quot;result&quot;, argNames = &quot;joinPoint,loginRequest,result&quot;)
+    public void logLoginAttempt(JoinPoint joinPoint, LoginRequestDTO loginRequest, Object result) {
+<span class="nc" id="L125">        String method = joinPoint.getSignature().toShortString();</span>
+
+        boolean success;
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        if (result == null) {</span>
+<span class="nc" id="L129">            success = false;</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        } else if (result instanceof ResponseEntity) {</span>
+<span class="nc" id="L131">            success = ((ResponseEntity&lt;?&gt;) result).getStatusCode().is2xxSuccessful();</span>
+        } else {
+<span class="nc" id="L133">            success = true;</span>
+        }
+
+<span class="nc" id="L136">        myLogger.info(&quot;Authentication attempt: method=&quot; + method +</span>
+<span class="nc" id="L137">                &quot;, username=&quot; + loginRequest.identifier() +</span>
+                &quot;, success=&quot; + success);
+<span class="nc" id="L139">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

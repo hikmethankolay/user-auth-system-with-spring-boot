@@ -1,0 +1,131 @@
+\doxysection{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Enum\+Validator\+For\+Collection Class Reference}
+\hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection}{}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection}\index{com.hikmethankolay.user\_auth\_system.validator.EnumValidatorForCollection@{com.hikmethankolay.user\_auth\_system.validator.EnumValidatorForCollection}}
+
+
+Validator for validating collections of enum values.  
+
+
+Inheritance diagram for com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Enum\+Validator\+For\+Collection\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_acb0624716f2e6079a2ccfee8682db04d}{initialize}} (\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum}{Valid\+Enum}} annotation)
+\begin{DoxyCompactList}\small\item\em Initializes the validator with the specified annotation parameters. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_a8641cbac23c5763e4ac3f50b8019f4a5}{is\+Valid}} (Collection$<$ String $>$ values, Constraint\+Validator\+Context context)
+\begin{DoxyCompactList}\small\item\em Validates a collection of strings against the accepted enum values. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Validator for validating collections of enum values. 
+
+Validates that each string in a collection matches a value in a specified enum. 
+
+Definition at line \mbox{\hyperlink{EnumValidatorForCollection_8java_source_l00023}{23}} of file \mbox{\hyperlink{EnumValidatorForCollection_8java_source}{Enum\+Validator\+For\+Collection.\+java}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_acb0624716f2e6079a2ccfee8682db04d}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_acb0624716f2e6079a2ccfee8682db04d} 
+\index{com.hikmethankolay.user\_auth\_system.validator.EnumValidatorForCollection@{com.hikmethankolay.user\_auth\_system.validator.EnumValidatorForCollection}!initialize@{initialize}}
+\index{initialize@{initialize}!com.hikmethankolay.user\_auth\_system.validator.EnumValidatorForCollection@{com.hikmethankolay.user\_auth\_system.validator.EnumValidatorForCollection}}
+\doxysubsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Enum\+Validator\+For\+Collection.\+initialize (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum}{Valid\+Enum}}}]{annotation }\end{DoxyParamCaption})}
+
+
+
+Initializes the validator with the specified annotation parameters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em annotation} & The Valid\+Enum annotation instance. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{EnumValidatorForCollection_8java_source_l00033}{33}} of file \mbox{\hyperlink{EnumValidatorForCollection_8java_source}{Enum\+Validator\+For\+Collection.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ this.ignoreCase\ =\ annotation.ignoreCase();}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ this.acceptedValues\ =\ Arrays.stream(annotation.enumClass().getEnumConstants())}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .map(Enum::name)}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .collect(Collectors.toList());}
+\DoxyCodeLine{00038\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_a7a6a653012066c23ef9e769edd28fe33}{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Valid\+Enum.\+enum\+Class()}}, and \mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_ab1b319b46babfaa316223e9019a34d99}{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Valid\+Enum.\+ignore\+Case()}}.
+
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_a8641cbac23c5763e4ac3f50b8019f4a5}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_a8641cbac23c5763e4ac3f50b8019f4a5} 
+\index{com.hikmethankolay.user\_auth\_system.validator.EnumValidatorForCollection@{com.hikmethankolay.user\_auth\_system.validator.EnumValidatorForCollection}!isValid@{isValid}}
+\index{isValid@{isValid}!com.hikmethankolay.user\_auth\_system.validator.EnumValidatorForCollection@{com.hikmethankolay.user\_auth\_system.validator.EnumValidatorForCollection}}
+\doxysubsubsection{\texorpdfstring{isValid()}{isValid()}}
+{\footnotesize\ttfamily boolean com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Enum\+Validator\+For\+Collection.\+is\+Valid (\begin{DoxyParamCaption}\item[{Collection$<$ String $>$}]{values,  }\item[{Constraint\+Validator\+Context}]{context }\end{DoxyParamCaption})}
+
+
+
+Validates a collection of strings against the accepted enum values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em values} & The collection of strings to validate. \\
+\hline
+{\em context} & The validation context. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if all strings are valid enum values, otherwise false. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{EnumValidatorForCollection_8java_source_l00047}{47}} of file \mbox{\hyperlink{EnumValidatorForCollection_8java_source}{Enum\+Validator\+For\+Collection.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (values\ ==\ \textcolor{keyword}{null}\ ||\ values.isEmpty())\ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (String\ value\ :\ values)\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ ==\ \textcolor{keyword}{null})\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{boolean}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_a8641cbac23c5763e4ac3f50b8019f4a5}{isValid}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ignoreCase)\ \{}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_a8641cbac23c5763e4ac3f50b8019f4a5}{isValid}}\ =\ acceptedValues.stream()}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .anyMatch(acceptedValue\ -\/>\ acceptedValue.equalsIgnoreCase(value));}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_a8641cbac23c5763e4ac3f50b8019f4a5}{isValid}}\ =\ acceptedValues.contains(value);}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_a8641cbac23c5763e4ac3f50b8019f4a5}{isValid}})\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00071\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{EnumValidatorForCollection_8java_source_l00047}{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Enum\+Validator\+For\+Collection.\+is\+Valid()}}.
+
+
+
+Referenced by \mbox{\hyperlink{EnumValidatorForCollection_8java_source_l00047}{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Enum\+Validator\+For\+Collection.\+is\+Valid()}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+user-\/auth-\/system/src/main/java/com/hikmethankolay/user\+\_\+auth\+\_\+system/validator/\mbox{\hyperlink{EnumValidatorForCollection_8java}{Enum\+Validator\+For\+Collection.\+java}}\end{DoxyCompactItemize}

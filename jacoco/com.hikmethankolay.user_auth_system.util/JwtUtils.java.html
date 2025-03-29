@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JwtUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">user-auth-system</a> &gt; <a href="index.source.html" class="el_package">com.hikmethankolay.user_auth_system.util</a> &gt; <span class="el_source">JwtUtils.java</span></div><h1>JwtUtils.java</h1><pre class="source lang-java linenums">/**
+ * @file JwtUtils.java
+ * @brief Utility class for handling JSON Web Tokens (JWTs).
+ *
+ * Provides methods for generating, validating, and parsing JWT tokens.
+ * This class uses the Auth0 JWT library and is configured via Spring's
+ *
+ * @author Hikmethan Kolay
+ * @date 2025-02-12
+ */
+
+/**
+ * @package com.hikmethankolay.user_auth_system.util
+ * @brief Contains the core components of the User Authentication System.
+ */
+package com.hikmethankolay.user_auth_system.util;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.hikmethankolay.user_auth_system.enums.TokenStatus;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import java.util.Date;
+
+/**
+ * Utility class for generating, validating, and parsing JWT tokens.
+ */
+@Component
+<span class="fc" id="L34">public class JwtUtils {</span>
+
+    /** JWT Secret Key */
+    @Value(&quot;${api.security.token.secret}&quot;)
+    private String jwtSecret;
+
+    /** Standard JWT Token expiration time */
+    @Value(&quot;${api.security.token.expiration}&quot;)
+    private Long jwtExpirationMs;
+
+    /** Extended expiration time for Remember Me */
+    @Value(&quot;${api.security.token.remember-me-expiration}&quot;) // 30 days in milliseconds
+    private Long rememberMeExpirationMs;
+
+    /**
+     * Generates a JWT token for a given user with optional Remember Me.
+     *
+     * @param userId The user ID to set as the token subject
+     * @param username The username to include as a claim
+     * @param rememberMe Whether to use extended expiration time
+     * @return A signed JWT token string
+     */
+    public String generateJwtToken(String userId, String username, boolean rememberMe) {
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        Long expirationTime = rememberMe ? rememberMeExpirationMs : jwtExpirationMs;</span>
+
+<span class="fc" id="L59">        return JWT.create()</span>
+<span class="fc" id="L60">                .withSubject(userId)</span>
+<span class="fc" id="L61">                .withClaim(&quot;username&quot;, username)</span>
+<span class="fc" id="L62">                .withClaim(&quot;rememberMe&quot;, rememberMe)</span>
+<span class="fc" id="L63">                .withIssuedAt(new Date())</span>
+<span class="fc" id="L64">                .withExpiresAt(new Date(System.currentTimeMillis() + expirationTime))</span>
+<span class="fc" id="L65">                .sign(Algorithm.HMAC256(jwtSecret));</span>
+    }
+
+    /**
+     * Validates the JWT token and returns its status.
+     *
+     * @param token The JWT token string to validate
+     * @return The token status (VALID, EXPIRED, or INVALID)
+     */
+    public TokenStatus validateJwtToken(String token) {
+        try {
+<span class="fc" id="L76">            DecodedJWT jwt = JWT.require(Algorithm.HMAC256(jwtSecret)).build().verify(token);</span>
+<span class="fc" id="L77">            return TokenStatus.VALID;</span>
+<span class="fc" id="L78">        } catch (TokenExpiredException e) {</span>
+<span class="fc" id="L79">            return TokenStatus.EXPIRED;</span>
+<span class="fc" id="L80">        } catch (Exception e) {</span>
+<span class="fc" id="L81">            return TokenStatus.INVALID;</span>
+        }
+    }
+
+    /**
+     * Extracts the user ID (subject) from a JWT token.
+     *
+     * @param token The JWT token string
+     * @return The user ID as a Long
+     */
+    public Long getUserIdFromJwtToken(String token) {
+<span class="fc" id="L92">        DecodedJWT jwt = JWT.require(Algorithm.HMAC256(jwtSecret)).build().verify(token);</span>
+<span class="fc" id="L93">        return Long.valueOf(jwt.getSubject());</span>
+    }
+
+    /**
+     * Extracts the username from a JWT token.
+     *
+     * @param token The JWT token string
+     * @return The username claim as a String
+     */
+    public String getUserNameFromJwtToken(String token) {
+<span class="fc" id="L103">        DecodedJWT jwt = JWT.require(Algorithm.HMAC256(jwtSecret)).build().verify(token);</span>
+<span class="fc" id="L104">        return jwt.getClaim(&quot;username&quot;).asString();</span>
+    }
+
+    /**
+     * Checks if the token was created with Remember Me.
+     *
+     * @param token The JWT token string
+     * @return True if the token was created with Remember Me, false otherwise
+     */
+    public boolean wasRememberMe(String token) {
+        try {
+<span class="fc" id="L115">            DecodedJWT jwt = JWT.require(Algorithm.HMAC256(jwtSecret)).build().verify(token);</span>
+<span class="fc" id="L116">            return jwt.getClaim(&quot;rememberMe&quot;).asBoolean();</span>
+<span class="fc" id="L117">        } catch (Exception e) {</span>
+<span class="fc" id="L118">            return false;</span>
+        }
+    }
+    /**
+     * Extracts the JWT token from the request (header or cookie).
+     *
+     * @param request The HTTP request
+     * @return The JWT token or null if not found
+     */
+    public String extractTokenFromRequest(HttpServletRequest request) {
+        // First try to get from Authorization header
+<span class="fc" id="L129">        String bearerToken = request.getHeader(&quot;Authorization&quot;);</span>
+<span class="pc bpc" id="L130" title="1 of 4 branches missed.">        if (bearerToken != null &amp;&amp; bearerToken.startsWith(&quot;Bearer &quot;)) {</span>
+<span class="fc" id="L131">            return bearerToken.substring(7);</span>
+        }
+
+        // Then try to get from cookie
+<span class="fc" id="L135">        Cookie[] cookies = request.getCookies();</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">        if (cookies != null) {</span>
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">            for (Cookie cookie : cookies) {</span>
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">                if (&quot;auth_token&quot;.equals(cookie.getName())) {</span>
+<span class="fc" id="L139">                    return cookie.getValue();</span>
+                }
+            }
+        }
+
+<span class="fc" id="L144">        return null;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

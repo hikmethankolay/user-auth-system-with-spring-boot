@@ -1,0 +1,87 @@
+\doxysection{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+security.\+Auth\+Config Class Reference}
+\hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig}{}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig}\index{com.hikmethankolay.user\_auth\_system.security.AuthConfig@{com.hikmethankolay.user\_auth\_system.security.AuthConfig}}
+
+
+Security configuration class for authentication management.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Password\+Encoder \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig_a54ab1d203ce551286f201549148b1d2a}{password\+Encoder}} ()
+\begin{DoxyCompactList}\small\item\em Bean definition for password encoding. \end{DoxyCompactList}\item 
+Authentication\+Manager \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig_ad5f5d1b5aebdd2a5cd6f45eed67d6396}{authentication\+Manager}} (Authentication\+Configuration authentication\+Configuration)  throws Exception 
+\begin{DoxyCompactList}\small\item\em Bean definition for authentication manager. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Security configuration class for authentication management. 
+
+Definition at line \mbox{\hyperlink{AuthConfig_8java_source_l00029}{29}} of file \mbox{\hyperlink{AuthConfig_8java_source}{Auth\+Config.\+java}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig_ad5f5d1b5aebdd2a5cd6f45eed67d6396}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig_ad5f5d1b5aebdd2a5cd6f45eed67d6396} 
+\index{com.hikmethankolay.user\_auth\_system.security.AuthConfig@{com.hikmethankolay.user\_auth\_system.security.AuthConfig}!authenticationManager@{authenticationManager}}
+\index{authenticationManager@{authenticationManager}!com.hikmethankolay.user\_auth\_system.security.AuthConfig@{com.hikmethankolay.user\_auth\_system.security.AuthConfig}}
+\doxysubsubsection{\texorpdfstring{authenticationManager()}{authenticationManager()}}
+{\footnotesize\ttfamily Authentication\+Manager com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+security.\+Auth\+Config.\+authentication\+Manager (\begin{DoxyParamCaption}\item[{Authentication\+Configuration}]{authentication\+Configuration }\end{DoxyParamCaption}) throws Exception}
+
+
+
+Bean definition for authentication manager. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em authentication\+Configuration} & The authentication configuration. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The authentication manager instance. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & if an error occurs during retrieval. \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line \mbox{\hyperlink{AuthConfig_8java_source_l00047}{47}} of file \mbox{\hyperlink{AuthConfig_8java_source}{Auth\+Config.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ authenticationConfiguration.getAuthenticationManager();}
+\DoxyCodeLine{00050\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig_a54ab1d203ce551286f201549148b1d2a}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig_a54ab1d203ce551286f201549148b1d2a} 
+\index{com.hikmethankolay.user\_auth\_system.security.AuthConfig@{com.hikmethankolay.user\_auth\_system.security.AuthConfig}!passwordEncoder@{passwordEncoder}}
+\index{passwordEncoder@{passwordEncoder}!com.hikmethankolay.user\_auth\_system.security.AuthConfig@{com.hikmethankolay.user\_auth\_system.security.AuthConfig}}
+\doxysubsubsection{\texorpdfstring{passwordEncoder()}{passwordEncoder()}}
+{\footnotesize\ttfamily Password\+Encoder com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+security.\+Auth\+Config.\+password\+Encoder (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Bean definition for password encoding. 
+
+\begin{DoxyReturn}{Returns}
+A BCrypt\+Password\+Encoder instance. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{AuthConfig_8java_source_l00036}{36}} of file \mbox{\hyperlink{AuthConfig_8java_source}{Auth\+Config.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ BCryptPasswordEncoder();}
+\DoxyCodeLine{00038\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+user-\/auth-\/system/src/main/java/com/hikmethankolay/user\+\_\+auth\+\_\+system/security/\mbox{\hyperlink{AuthConfig_8java}{Auth\+Config.\+java}}\end{DoxyCompactItemize}

@@ -1,0 +1,215 @@
+\doxysection{User\+Service.\+java}
+\hypertarget{UserService_8java_source}{}\label{UserService_8java_source}\index{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/service/UserService.java@{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/service/UserService.java}}
+\mbox{\hyperlink{UserService_8java}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00015}00015\ \textcolor{keyword}{package\ }com.hikmethankolay.user\_auth\_system.service;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00017}00017\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.dto.*;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00018}00018\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.entity.Role;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00019}00019\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.entity.User;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00020}00020\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.enums.ERole;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00021}00021\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.enums.TokenStatus;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00022}00022\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.repository.RoleRepository;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00023}00023\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.repository.UserRepository;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00024}00024\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.security.LoginAttemptService;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00025}00025\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.util.JwtUtils;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00026}00026\ \textcolor{keyword}{import}\ jakarta.validation.ConstraintViolation;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00027}00027\ \textcolor{keyword}{import}\ jakarta.validation.ConstraintViolationException;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00028}00028\ \textcolor{keyword}{import}\ jakarta.validation.Validator;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00029}00029\ \textcolor{keyword}{import}\ org.springframework.data.domain.Page;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00030}00030\ \textcolor{keyword}{import}\ org.springframework.data.domain.Pageable;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00031}00031\ \textcolor{keyword}{import}\ org.springframework.security.crypto.password.PasswordEncoder;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00032}00032\ \textcolor{keyword}{import}\ org.springframework.stereotype.Service;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00033}00033\ \textcolor{keyword}{import}\ org.springframework.transaction.annotation.Transactional;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00034}00034\ \textcolor{keyword}{import}\ org.springframework.util.StringUtils;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00036}00036\ \textcolor{keyword}{import}\ java.util.*;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00044}00044\ @Service}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00045}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService}{00045}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService}{UserService}}\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00048}00048\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{final}\ UserRepository\ userRepository;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00051}00051\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{final}\ RoleRepository\ roleRepository;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00054}00054\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{final}\ PasswordEncoder\ passwordEncoder;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00057}00057\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{final}\ JwtUtils\ jwtUtils;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00060}00060\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{final}\ Validator\ validator;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00063}00063\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{final}\ LoginAttemptService\ loginAttemptService;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00073}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_a8968201a405e32457e32ac4f833bc63d}{00073}}\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_a8968201a405e32457e32ac4f833bc63d}{UserService}}(UserRepository\ userRepository,\ RoleRepository\ roleRepository,\ PasswordEncoder\ passwordEncoder,\ JwtUtils\ jwtUtils,\ Validator\ validator,\ LoginAttemptService\ loginAttemptService)\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00074}00074\ \ \ \ \ \ \ \ \ this.userRepository\ =\ userRepository;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00075}00075\ \ \ \ \ \ \ \ \ this.roleRepository\ =\ roleRepository;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00076}00076\ \ \ \ \ \ \ \ \ this.passwordEncoder\ =\ passwordEncoder;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00077}00077\ \ \ \ \ \ \ \ \ this.jwtUtils\ =\ jwtUtils;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00078}00078\ \ \ \ \ \ \ \ \ this.validator\ =\ validator;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00079}00079\ \ \ \ \ \ \ \ \ this.loginAttemptService\ =\ loginAttemptService;}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00080}00080\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00087}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_ae7e64a4df9c372fb1cee4f8834cee6e3}{00087}}\ \ \ \ \ \textcolor{keyword}{public}\ Page<User>\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_ae7e64a4df9c372fb1cee4f8834cee6e3}{findAll}}(Pageable\ pageable)\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00088}00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ userRepository.findAll(pageable);}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00089}00089\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00096}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_ada22ab55c9aa34165ac84dc850f037a8}{00096}}\ \ \ \ \ \textcolor{keyword}{public}\ Optional<User>\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_ada22ab55c9aa34165ac84dc850f037a8}{findByUsernameOrEmail}}(String\ identifier)\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00097}00097\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ userRepository.findByUsernameOrEmail(identifier,\ identifier);}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00098}00098\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00104}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_abc03cb8d49f386aa53863498b2459ef4}{00104}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_abc03cb8d49f386aa53863498b2459ef4}{deleteById}}(Long\ \textcolor{keywordtype}{id},\ Long\ requesterId)\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00105}00105\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{id}.equals(requesterId))\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ RuntimeException(\textcolor{stringliteral}{"{}Cannot\ delete\ your\ own\ account"{}});}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00107}00107\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00109}00109\ \ \ \ \ \ \ \ \ User\ user\ =\ userRepository.findById(\textcolor{keywordtype}{id})}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .orElseThrow(()\ -\/>\ \textcolor{keyword}{new}\ RuntimeException(\textcolor{stringliteral}{"{}User\ not\ found\ with\ id\ "{}}\ +\ \textcolor{keywordtype}{id}));}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00112}00112\ \ \ \ \ \ \ \ \ userRepository.delete(user);}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00113}00113\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00120}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_a7b9129aa963322995ca2dc1405177d9b}{00120}}\ \ \ \ \ \textcolor{keyword}{public}\ Optional<User>\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_a7b9129aa963322995ca2dc1405177d9b}{findById}}(Long\ \textcolor{keywordtype}{id})\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00121}00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ userRepository.findById(\textcolor{keywordtype}{id});}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00122}00122\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00129}00129\ \ \ \ \ @Transactional}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00130}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_a6b5dc0e9c80ff01fc4ae7ff748db1c12}{00130}}\ \ \ \ \ \textcolor{keyword}{public}\ User\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_a6b5dc0e9c80ff01fc4ae7ff748db1c12}{registerUser}}(UserRegisterDTO\ userInfoDTO)\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00131}00131\ \ \ \ \ \ \ \ \ checkUserValidation(userInfoDTO,\textcolor{keyword}{null});}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00133}00133\ \ \ \ \ \ \ \ \ User\ user\ =\ \textcolor{keyword}{new}\ User();}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00135}00135\ \ \ \ \ \ \ \ \ user.setEmail(userInfoDTO.getEmail());}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00136}00136\ \ \ \ \ \ \ \ \ user.setPassword(userInfoDTO.getPassword());}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00137}00137\ \ \ \ \ \ \ \ \ user.setUsername(userInfoDTO.getUsername());}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00138}00138\ \ \ \ \ \ \ \ \ user.setPassword(passwordEncoder.encode(userInfoDTO.getPassword()));}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00140}00140\ \ \ \ \ \ \ \ \ Set<ERole>\ roles\ =\ \textcolor{keyword}{new}\ HashSet<>(Set.of(ERole.ROLE\_USER));}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00141}00141\ \ \ \ \ \ \ \ \ assignRolesToUser(user,roles);}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00142}00142\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00143}00143\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ userRepository.save(user);}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00144}00144\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00153}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_a2374093e760c6e0a4fb56e30454c37d9}{00153}}\ \ \ \ \ \textcolor{keyword}{public}\ String\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_a2374093e760c6e0a4fb56e30454c37d9}{authenticateUser}}(LoginRequestDTO\ loginRequest,\ String\ clientIp)\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00154}00154\ \ \ \ \ \ \ \ \ String\ identifier\ =\ loginRequest.identifier();}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00155}00155\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00156}00156\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ IP\ address\ is\ blocked\ due\ to\ too\ many\ failed\ login\ attempts}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00157}00157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (loginAttemptService.isBlocked(clientIp))\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ RuntimeException(\textcolor{stringliteral}{"{}Too\ many\ failed\ login\ attempts\ from\ this\ IP.\ Please\ try\ again\ later."{}});}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00159}00159\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00160}00160\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00161}00161\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ user\ is\ blocked\ due\ to\ too\ many\ failed\ attempts}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00162}00162\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (loginAttemptService.isBlocked(identifier))\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ RuntimeException(\textcolor{stringliteral}{"{}Account\ is\ temporarily\ locked\ due\ to\ too\ many\ failed\ login\ attempts.\ Please\ try\ again\ later."{}});}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00164}00164\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00166}00166\ \ \ \ \ \ \ \ \ Optional<User>\ user\ =\ userRepository.findByUsernameOrEmail(identifier,\ identifier);}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00168}00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (user.isPresent()\ \&\&\ passwordEncoder.matches(loginRequest.password(),\ user.get().getPassword()))\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Authentication\ successful\ -\/\ reset\ failed\ attempts\ counter}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ loginAttemptService.loginSucceeded(clientIp);}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ loginAttemptService.loginSucceeded(identifier);}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ jwtUtils.generateJwtToken(}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ String.valueOf(user.get().getId()),}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ user.get().getUsername(),}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ loginRequest.rememberMe()}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00178}00178\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Authentication\ failed\ -\/\ increment\ failed\ attempts\ counter}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ loginAttemptService.loginFailed(clientIp);}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ loginAttemptService.loginFailed(identifier);}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00183}00183\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00184}00184\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00185}00185\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00191}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_a7087261b81b4089cca056774fa493942}{00191}}\ \ \ \ \ \textcolor{keyword}{public}\ String\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_a7087261b81b4089cca056774fa493942}{refreshToken}}(String\ token)\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00192}00192\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (token\ !=\ \textcolor{keyword}{null}\ \&\&\ jwtUtils.validateJwtToken(token)\ !=\ TokenStatus.INVALID)\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Long\ userId\ =\ jwtUtils.getUserIdFromJwtToken(token);}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Optional<User>\ userOpt\ =\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_a7b9129aa963322995ca2dc1405177d9b}{findById}}(userId);}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (userOpt.isPresent())\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ User\ user\ =\ userOpt.get();}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{boolean}\ wasRememberMe\ =\ jwtUtils.wasRememberMe(token);}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00200}00200\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ jwtUtils.generateJwtToken(}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ String.valueOf(user.getId()),}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ user.getUsername(),}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ wasRememberMe}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (Exception\ e)\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Token\ processing\ failed}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00211}00211\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00212}00212\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00213}00213\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00214}00214\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00225}00225\ \ \ \ \ @Transactional}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00226}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_a85b25af076364941f35ad15524e0309f}{00226}}\ \ \ \ \ \textcolor{keyword}{public}\ User\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_a85b25af076364941f35ad15524e0309f}{updateUser}}(UserUpdateDTO\ updates,\ Long\ \textcolor{keywordtype}{id},\ Long\ requesterId)\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00227}00227\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (updates\ ==\ \textcolor{keyword}{null})\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ IllegalArgumentException(\textcolor{stringliteral}{"{}Updates\ cannot\ be\ null"{}});}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00229}00229\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00230}00230\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00231}00231\ \ \ \ \ \ \ \ \ checkUserValidation(updates,\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00232}00232\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00233}00233\ \ \ \ \ \ \ \ \ User\ user\ =\ userRepository.findById(\textcolor{keywordtype}{id})}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .orElseThrow(()\ -\/>\ \textcolor{keyword}{new}\ RuntimeException(\textcolor{stringliteral}{"{}User\ not\ found\ with\ id:\ "{}}\ +\ \textcolor{keywordtype}{id}));}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00235}00235\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00236}00236\ \ \ \ \ \ \ \ \ User\ requester\ =\ userRepository.findById(requesterId)}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .orElseThrow(()\ -\/>\ \textcolor{keyword}{new}\ RuntimeException(\textcolor{stringliteral}{"{}Requester\ not\ found\ with\ id:\ "{}}\ +\ requesterId));}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00238}00238\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00239}00239\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{boolean}\ isAdminAction\ =\ requester.getRoles().stream()}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .anyMatch(role\ -\/>\ role.getName().equals(ERole.ROLE\_ADMIN));}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00241}00241\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00242}00242\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (StringUtils.hasText(updates.getUsername()))\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ user.setUsername(updates.getUsername().trim());}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00244}00244\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00245}00245\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00246}00246\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (StringUtils.hasText(updates.getEmail()))\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ user.setEmail(updates.getEmail().trim());}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00248}00248\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00249}00249\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00250}00250\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (StringUtils.hasText(updates.getPassword()))\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ user.setPassword(passwordEncoder.encode(updates.getPassword().trim()));}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00252}00252\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00253}00253\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00254}00254\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (updates.getRoles()\ !=\ \textcolor{keyword}{null}\ \&\&\ !updates.getRoles().isEmpty()\ \&\&\ isAdminAction)\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00255}00255\ \ \ \ \ \ \ \ \ \ \ \ \ user.setRoles(\textcolor{keyword}{new}\ HashSet<>());}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ assignRolesToUser(user,\ updates.getRoles());}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00257}00257\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00258}00258\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00259}00259\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ userRepository.save(user);}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00260}00260\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00261}00261\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00270}00270\ \ \ \ \ private\ <T\ extends\ UserInfo>\ \textcolor{keywordtype}{void}\ checkUserValidation(T\ userInfo,\ Long\ userId)\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00271}00271\ \ \ \ \ \ \ \ \ Set<ConstraintViolation<T>>\ violations\ =\ validator.validate(userInfo);}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00272}00272\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!violations.isEmpty())\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00273}00273\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ ConstraintViolationException(violations);}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00274}00274\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00275}00275\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00276}00276\ \ \ \ \ \ \ \ \ userRepository.findByUsername(userInfo.getUsername())}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .filter(user\ -\/>\ !Objects.equals(user.getId(),\ userId))}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .ifPresent(user\ -\/>\ \{\ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ RuntimeException(\textcolor{stringliteral}{"{}Username\ is\ already\ taken!"{}});\ \});}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00279}00279\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00280}00280\ \ \ \ \ \ \ \ \ userRepository.findByEmail(userInfo.getEmail())}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .filter(user\ -\/>\ !Objects.equals(user.getId(),\ userId))}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .ifPresent(user\ -\/>\ \{\ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ RuntimeException(\textcolor{stringliteral}{"{}Email\ is\ already\ taken!"{}});\ \});}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00283}00283\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00284}00284\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00290}00290\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ assignRolesToUser(User\ user,\ Set<ERole>\ roles)\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00291}00291\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (ERole\ roleName\ :\ roles)\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00292}00292\ \ \ \ \ \ \ \ \ \ \ \ \ Optional<Role>\ role\ =\ roleRepository.findByName(roleName);}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00293}00293\ }
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00294}00294\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (role.isPresent())\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00295}00295\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ user.addRole(role.get());}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00296}00296\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00297}00297\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ RuntimeException(\textcolor{stringliteral}{"{}Role\ not\ found\ with\ name:\ "{}}\ +\ roleName);}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00298}00298\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00299}00299\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00300}00300\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserService_8java_source_l00301}00301\ \}}
+
+\end{DoxyCode}

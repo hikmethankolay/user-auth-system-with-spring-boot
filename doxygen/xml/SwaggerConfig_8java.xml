@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="SwaggerConfig_8java" kind="file" language="Java">
+    <compoundname>SwaggerConfig.java</compoundname>
+    <includes local="no">io.swagger.v3.oas.models.OpenAPI</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/config/SwaggerConfig.java</label>
+        <link refid="SwaggerConfig_8java"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>io.swagger.v3.oas.models.OpenAPI</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1SwaggerConfig" prot="public">com::hikmethankolay::user_auth_system::config::SwaggerConfig</innerclass>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1config">com::hikmethankolay::user_auth_system::config</innernamespace>
+    <briefdescription>
+<para>Configuration class for Swagger/OpenAPI documentation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This class configures the OpenAPI documentation for the TÜBİTAK 1001 backend application. It defines the basic information about the API such as title, description, and version. The configuration is used by SpringDoc to generate the API documentation that can be accessed through the Swagger UI. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">package<sp/></highlight><highlight class="normal">com.hikmethankolay.user_auth_system.config;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>io.swagger.v3.oas.models.OpenAPI;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>io.swagger.v3.oas.models.info.Info;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>org.springframework.context.annotation.Bean;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>org.springframework.context.annotation.Configuration;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal">@Configuration</highlight></codeline>
+<codeline lineno="27" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1SwaggerConfig" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1SwaggerConfig" kindref="compound">SwaggerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>@Bean</highlight></codeline>
+<codeline lineno="38" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1SwaggerConfig_1ab084d302e15c247d5434ab72e05bc91c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>OpenAPI<sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1SwaggerConfig_1ab084d302e15c247d5434ab72e05bc91c" kindref="member">springShopOpenAPI</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>OpenAPI()</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.info(</highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>Info().title(</highlight><highlight class="stringliteral">&quot;User<sp/>Auth<sp/>API&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.description(</highlight><highlight class="stringliteral">&quot;User<sp/>Authentication<sp/>and<sp/>Authorization<sp/>API&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.version(</highlight><highlight class="stringliteral">&quot;v1.0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/config/SwaggerConfig.java"/>
+  </compounddef>
+</doxygen>

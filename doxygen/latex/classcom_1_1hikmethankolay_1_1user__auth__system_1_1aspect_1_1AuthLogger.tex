@@ -1,0 +1,282 @@
+\doxysection{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+aspect.\+Auth\+Logger Class Reference}
+\hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger}{}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger}\index{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger@{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger}}
+
+
+Aspect for logging application flow.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_a6c86e5000d3b2d019041efe6666e0f9f}{for\+Controller\+Package}} ()
+\begin{DoxyCompactList}\small\item\em Pointcut for controller package. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_a0e0a47b95ef89c0c4d5dc139387b2db6}{for\+Repository\+Package}} ()
+\begin{DoxyCompactList}\small\item\em Pointcut for repository package. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_aea0ed65d201bd98ecfb2dfc2adb28aa7}{for\+Service\+Package}} ()
+\begin{DoxyCompactList}\small\item\em Pointcut for service package. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_a3110e4e2691fda6501998199a8ab3fd9}{for\+App\+Flow}} ()
+\begin{DoxyCompactList}\small\item\em Combined pointcut for application flow. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_ae619c4fe730faa7e6c4966eba08ba3ac}{auth\+Methods}} ()
+\begin{DoxyCompactList}\small\item\em Pointcut definition for authentication controller methods. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_ae7d40a35e8eb8342a2eafdaac544b655}{before\+App\+Flow}} (Join\+Point the\+Join\+Point)
+\begin{DoxyCompactList}\small\item\em Logs method call before execution. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_a680faa3f9afc16a9ef4c643528974335}{after\+App\+Flow}} (Join\+Point the\+Join\+Point, Object result)
+\begin{DoxyCompactList}\small\item\em Logs method call after successful execution. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_aac3ce2dbda230a3a6aaa8de362f8d275}{after\+Error}} (Join\+Point the\+Join\+Point, Throwable exception)
+\begin{DoxyCompactList}\small\item\em Logs method call when an exception occurs. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_af531c703d303374a45d599abf3ad1191}{log\+Login\+Attempt}} (Join\+Point join\+Point, Login\+Request\+DTO login\+Request, Object result)
+\begin{DoxyCompactList}\small\item\em Logs authentication attempts after method execution. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Aspect for logging application flow. 
+
+This aspect logs method invocations within controller, repository, and service packages. 
+
+Definition at line \mbox{\hyperlink{AuthLogger_8java_source_l00034}{34}} of file \mbox{\hyperlink{AuthLogger_8java_source}{Auth\+Logger.\+java}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_a680faa3f9afc16a9ef4c643528974335}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_a680faa3f9afc16a9ef4c643528974335} 
+\index{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger@{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger}!afterAppFlow@{afterAppFlow}}
+\index{afterAppFlow@{afterAppFlow}!com.hikmethankolay.user\_auth\_system.aspect.AuthLogger@{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger}}
+\doxysubsubsection{\texorpdfstring{afterAppFlow()}{afterAppFlow()}}
+{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+aspect.\+Auth\+Logger.\+after\+App\+Flow (\begin{DoxyParamCaption}\item[{Join\+Point}]{the\+Join\+Point,  }\item[{Object}]{result }\end{DoxyParamCaption})}
+
+
+
+Logs method call after successful execution. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em the\+Join\+Point} & The join point representing the method execution. \\
+\hline
+{\em result} & The result returned by the method. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{AuthLogger_8java_source_l00090}{90}} of file \mbox{\hyperlink{AuthLogger_8java_source}{Auth\+Logger.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ String\ theMethod\ =\ theJoinPoint.getSignature().toShortString();}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ myLogger.info(\textcolor{stringliteral}{"{}=====>\ @AfterReturning:\ calling\ method:\ "{}}\ +\ theMethod);}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ myLogger.info(\textcolor{stringliteral}{"{}=====>\ Result:\ "{}}\ +\ result);}
+\DoxyCodeLine{00094\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_aac3ce2dbda230a3a6aaa8de362f8d275}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_aac3ce2dbda230a3a6aaa8de362f8d275} 
+\index{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger@{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger}!afterError@{afterError}}
+\index{afterError@{afterError}!com.hikmethankolay.user\_auth\_system.aspect.AuthLogger@{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger}}
+\doxysubsubsection{\texorpdfstring{afterError()}{afterError()}}
+{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+aspect.\+Auth\+Logger.\+after\+Error (\begin{DoxyParamCaption}\item[{Join\+Point}]{the\+Join\+Point,  }\item[{Throwable}]{exception }\end{DoxyParamCaption})}
+
+
+
+Logs method call when an exception occurs. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em the\+Join\+Point} & The join point representing the method execution. \\
+\hline
+{\em exception} & The exception thrown by the method. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{AuthLogger_8java_source_l00102}{102}} of file \mbox{\hyperlink{AuthLogger_8java_source}{Auth\+Logger.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ String\ theMethod\ =\ theJoinPoint.getSignature().toShortString();}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ myLogger.severe(\textcolor{stringliteral}{"{}=====>\ @AfterThrowing:\ Exception\ in\ method:\ "{}}\ +\ theMethod);}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ myLogger.severe(\textcolor{stringliteral}{"{}=====>\ Exception:\ "{}}\ +\ exception.getClass().getName()\ +\ \textcolor{stringliteral}{"{}\ -\/\ "{}}\ +\ exception.getMessage());}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ Object[]\ args\ =\ theJoinPoint.getArgs();}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (Object\ arg\ :\ args)\ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ myLogger.severe(\textcolor{stringliteral}{"{}=====>\ Argument:\ "{}}\ +\ arg);}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00111\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_ae619c4fe730faa7e6c4966eba08ba3ac}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_ae619c4fe730faa7e6c4966eba08ba3ac} 
+\index{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger@{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger}!authMethods@{authMethods}}
+\index{authMethods@{authMethods}!com.hikmethankolay.user\_auth\_system.aspect.AuthLogger@{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger}}
+\doxysubsubsection{\texorpdfstring{authMethods()}{authMethods()}}
+{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+aspect.\+Auth\+Logger.\+auth\+Methods (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Pointcut definition for authentication controller methods. 
+
+
+
+Definition at line \mbox{\hyperlink{AuthLogger_8java_source_l00067}{67}} of file \mbox{\hyperlink{AuthLogger_8java_source}{Auth\+Logger.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00067\ \{\}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_ae7d40a35e8eb8342a2eafdaac544b655}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_ae7d40a35e8eb8342a2eafdaac544b655} 
+\index{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger@{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger}!beforeAppFlow@{beforeAppFlow}}
+\index{beforeAppFlow@{beforeAppFlow}!com.hikmethankolay.user\_auth\_system.aspect.AuthLogger@{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger}}
+\doxysubsubsection{\texorpdfstring{beforeAppFlow()}{beforeAppFlow()}}
+{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+aspect.\+Auth\+Logger.\+before\+App\+Flow (\begin{DoxyParamCaption}\item[{Join\+Point}]{the\+Join\+Point }\end{DoxyParamCaption})}
+
+
+
+Logs method call before execution. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em the\+Join\+Point} & The join point representing the method execution. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{AuthLogger_8java_source_l00074}{74}} of file \mbox{\hyperlink{AuthLogger_8java_source}{Auth\+Logger.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ String\ theMethod\ =\ theJoinPoint.getSignature().toShortString();}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ myLogger.info(\textcolor{stringliteral}{"{}=====>\ @Before:\ calling\ method:\ "{}}\ +\ theMethod);}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ Object[]\ args\ =\ theJoinPoint.getArgs();}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (Object\ arg\ :\ args)\ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ myLogger.info(\textcolor{stringliteral}{"{}=====>\ Argument:\ "{}}\ +\ arg);}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00082\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_a3110e4e2691fda6501998199a8ab3fd9}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_a3110e4e2691fda6501998199a8ab3fd9} 
+\index{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger@{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger}!forAppFlow@{forAppFlow}}
+\index{forAppFlow@{forAppFlow}!com.hikmethankolay.user\_auth\_system.aspect.AuthLogger@{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger}}
+\doxysubsubsection{\texorpdfstring{forAppFlow()}{forAppFlow()}}
+{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+aspect.\+Auth\+Logger.\+for\+App\+Flow (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Combined pointcut for application flow. 
+
+
+
+Definition at line \mbox{\hyperlink{AuthLogger_8java_source_l00061}{61}} of file \mbox{\hyperlink{AuthLogger_8java_source}{Auth\+Logger.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00061\ \{\}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_a6c86e5000d3b2d019041efe6666e0f9f}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_a6c86e5000d3b2d019041efe6666e0f9f} 
+\index{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger@{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger}!forControllerPackage@{forControllerPackage}}
+\index{forControllerPackage@{forControllerPackage}!com.hikmethankolay.user\_auth\_system.aspect.AuthLogger@{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger}}
+\doxysubsubsection{\texorpdfstring{forControllerPackage()}{forControllerPackage()}}
+{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+aspect.\+Auth\+Logger.\+for\+Controller\+Package (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Pointcut for controller package. 
+
+
+
+Definition at line \mbox{\hyperlink{AuthLogger_8java_source_l00043}{43}} of file \mbox{\hyperlink{AuthLogger_8java_source}{Auth\+Logger.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00043\ \{\}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_a0e0a47b95ef89c0c4d5dc139387b2db6}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_a0e0a47b95ef89c0c4d5dc139387b2db6} 
+\index{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger@{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger}!forRepositoryPackage@{forRepositoryPackage}}
+\index{forRepositoryPackage@{forRepositoryPackage}!com.hikmethankolay.user\_auth\_system.aspect.AuthLogger@{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger}}
+\doxysubsubsection{\texorpdfstring{forRepositoryPackage()}{forRepositoryPackage()}}
+{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+aspect.\+Auth\+Logger.\+for\+Repository\+Package (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Pointcut for repository package. 
+
+
+
+Definition at line \mbox{\hyperlink{AuthLogger_8java_source_l00049}{49}} of file \mbox{\hyperlink{AuthLogger_8java_source}{Auth\+Logger.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00049\ \{\}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_aea0ed65d201bd98ecfb2dfc2adb28aa7}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_aea0ed65d201bd98ecfb2dfc2adb28aa7} 
+\index{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger@{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger}!forServicePackage@{forServicePackage}}
+\index{forServicePackage@{forServicePackage}!com.hikmethankolay.user\_auth\_system.aspect.AuthLogger@{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger}}
+\doxysubsubsection{\texorpdfstring{forServicePackage()}{forServicePackage()}}
+{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+aspect.\+Auth\+Logger.\+for\+Service\+Package (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Pointcut for service package. 
+
+
+
+Definition at line \mbox{\hyperlink{AuthLogger_8java_source_l00055}{55}} of file \mbox{\hyperlink{AuthLogger_8java_source}{Auth\+Logger.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00055\ \{\}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_af531c703d303374a45d599abf3ad1191}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_af531c703d303374a45d599abf3ad1191} 
+\index{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger@{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger}!logLoginAttempt@{logLoginAttempt}}
+\index{logLoginAttempt@{logLoginAttempt}!com.hikmethankolay.user\_auth\_system.aspect.AuthLogger@{com.hikmethankolay.user\_auth\_system.aspect.AuthLogger}}
+\doxysubsubsection{\texorpdfstring{logLoginAttempt()}{logLoginAttempt()}}
+{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+aspect.\+Auth\+Logger.\+log\+Login\+Attempt (\begin{DoxyParamCaption}\item[{Join\+Point}]{join\+Point,  }\item[{Login\+Request\+DTO}]{login\+Request,  }\item[{Object}]{result }\end{DoxyParamCaption})}
+
+
+
+Logs authentication attempts after method execution. 
+
+This advice captures login attempts and their results, logging whether the authentication was successful and which user attempted to authenticate.
+
+
+\begin{DoxyParams}{Parameters}
+{\em join\+Point} & The join point representing the intercepted method. \\
+\hline
+{\em login\+Request} & The login request containing user credentials. \\
+\hline
+{\em result} & The result of the authentication attempt. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{AuthLogger_8java_source_l00124}{124}} of file \mbox{\hyperlink{AuthLogger_8java_source}{Auth\+Logger.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ String\ method\ =\ joinPoint.getSignature().toShortString();}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{boolean}\ success;}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (result\ ==\ \textcolor{keyword}{null})\ \{}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ success\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (result\ instanceof\ ResponseEntity)\ \{}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ success\ =\ ((ResponseEntity<?>)\ result).getStatusCode().is2xxSuccessful();}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ success\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ myLogger.info(\textcolor{stringliteral}{"{}Authentication\ attempt:\ method="{}}\ +\ method\ +}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ username="{}}\ +\ loginRequest.identifier()\ +}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ success="{}}\ +\ success);}
+\DoxyCodeLine{00139\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+user-\/auth-\/system/src/main/java/com/hikmethankolay/user\+\_\+auth\+\_\+system/aspect/\mbox{\hyperlink{AuthLogger_8java}{Auth\+Logger.\+java}}\end{DoxyCompactItemize}

@@ -1,0 +1,53 @@
+\doxysection{Role\+Controller.\+java}
+\hypertarget{RoleController_8java_source}{}\label{RoleController_8java_source}\index{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/controller/RoleController.java@{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/controller/RoleController.java}}
+\mbox{\hyperlink{RoleController_8java}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00015}00015\ \textcolor{keyword}{package\ }com.hikmethankolay.user\_auth\_system.controller;}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00017}00017\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.dto.ApiResponseDTO;}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00018}00018\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.dto.RoleInfoDTO;}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00019}00019\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.entity.Role;}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00020}00020\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.enums.EApiStatus;}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00021}00021\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.enums.ERole;}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00022}00022\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.service.RoleService;}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00023}00023\ \textcolor{keyword}{import}\ org.springframework.http.HttpStatus;}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00024}00024\ \textcolor{keyword}{import}\ org.springframework.http.MediaType;}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00025}00025\ \textcolor{keyword}{import}\ org.springframework.http.ResponseEntity;}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00026}00026\ \textcolor{keyword}{import}\ org.springframework.web.bind.annotation.*;}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00028}00028\ \textcolor{keyword}{import}\ java.util.List;}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00029}00029\ \textcolor{keyword}{import}\ java.util.Optional;}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00035}00035\ @RestController}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00036}00036\ @RequestMapping(\textcolor{stringliteral}{"{}/api"{}})}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00037}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController}{00037}}\ public\ class\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController}{RoleController}}\ \{}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00040}00040\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{final}\ RoleService\ roleService;}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00046}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_aa6d53a1da1eb163dc2c47858a7a944cb}{00046}}\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_aa6d53a1da1eb163dc2c47858a7a944cb}{RoleController}}(RoleService\ roleService)\ \{}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00047}00047\ \ \ \ \ \ \ \ \ this.roleService\ =\ roleService;}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00048}00048\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00054}00054\ \ \ \ \ @GetMapping(\textcolor{stringliteral}{"{}/roles"{}})}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00055}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_a9f2684925fa05a46e3b9a87233c60fc9}{00055}}\ \ \ \ \ public\ ResponseEntity<ApiResponseDTO<List<RoleInfoDTO>>>\ findAll()\ \{}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00056}00056\ \ \ \ \ \ \ \ \ List<RoleInfoDTO>\ roleInfoDTOS\ =\ roleService.findAll().stream().map(RoleInfoDTO::new).toList();}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.ok(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.SUCCESS,\ roleInfoDTOS,\ \textcolor{stringliteral}{"{}Roles\ found\ successfully"{}}));}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00058}00058\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00065}00065\ \ \ \ \ @GetMapping(\textcolor{stringliteral}{"{}/roles/\{name\}"{}})}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00066}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1RoleController_a78f4bf4f3f1dde2c6e3b2778f3b8532e}{00066}}\ \ \ \ \ public\ ResponseEntity<ApiResponseDTO<RoleInfoDTO>>\ findByName(@PathVariable\ ERole\ name)\ \{}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00067}00067\ \ \ \ \ \ \ \ \ Optional<Role>\ role\ =\ roleService.findByName(name);}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (role.isPresent())\ \{}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ RoleInfoDTO\ roleInfoDTO\ =\ \textcolor{keyword}{new}\ RoleInfoDTO(role.get());}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.ok(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.SUCCESS,\ roleInfoDTO,\ \textcolor{stringliteral}{"{}Role\ found\ successfully"{}}));}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00072}00072\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.status(HttpStatus.NOT\_FOUND)}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .contentType(MediaType.APPLICATION\_JSON)}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .body(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.FAILURE,\ \textcolor{keyword}{null},\ \textcolor{stringliteral}{"{}Could\ not\ find\ role\ with\ name:\ "{}}\ +\ name));}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00076}00076\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00077}00077\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{RoleController_8java_source_l00078}00078\ \}}
+
+\end{DoxyCode}

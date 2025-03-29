@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoginAttemptService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">user-auth-system</a> &gt; <a href="index.source.html" class="el_package">com.hikmethankolay.user_auth_system.security</a> &gt; <span class="el_source">LoginAttemptService.java</span></div><h1>LoginAttemptService.java</h1><pre class="source lang-java linenums">/**
+ * @file LoginAttemptService.java
+ * @brief Service for tracking and limiting login attempts.
+ *
+ * This service prevents brute force attacks by tracking failed login attempts
+ * and blocking users who exceed the maximum allowed attempts within a time window.
+ *
+ * @author Hikmethan Kolay
+ * @date 2025-03-29
+ */
+
+/**
+ * @package com.hikmethankolay.user_auth_system.security
+ * @brief Contains security components of the User Authentication System.
+ */
+package com.hikmethankolay.user_auth_system.security;
+
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import org.springframework.stereotype.Component;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * @class LoginAttemptService
+ * @brief Service to prevent brute force attacks by limiting login attempts.
+ *
+ * This service maintains a time-based cache of login attempts, blocking users
+ * who exceed the maximum allowed number of failed attempts within a time period.
+ */
+@Component
+public class LoginAttemptService {
+    /** Maximum number of login attempts allowed before blocking. */
+<span class="fc" id="L36">    private final int MAX_ATTEMPT = 10;</span>
+
+    /** Cache storing the number of failed attempts by identifier (username or IP). */
+    private final LoadingCache&lt;String, Integer&gt; attemptsCache;
+
+    /**
+     * @brief Constructor initializing the attempts cache.
+     *
+     * Sets up a cache that expires entries after 1 hour of inactivity.
+     */
+<span class="fc" id="L46">    public LoginAttemptService() {</span>
+<span class="fc" id="L47">        attemptsCache = CacheBuilder.newBuilder()</span>
+<span class="fc" id="L48">                .expireAfterWrite(1, TimeUnit.HOURS)</span>
+<span class="fc" id="L49">                .build(new CacheLoader&lt;&gt;() {</span>
+                    @Override
+                    public Integer load(String key) {
+<span class="fc" id="L52">                        return 0;</span>
+                    }
+                });
+<span class="fc" id="L55">    }</span>
+
+    /**
+     * @brief Clears the login attempts count for successful logins.
+     * @param key The identifier (username or IP) of the login attempt.
+     */
+    public void loginSucceeded(String key) {
+<span class="fc" id="L62">        attemptsCache.invalidate(key);</span>
+<span class="fc" id="L63">    }</span>
+
+    /**
+     * @brief Increments the login attempts count for failed logins.
+     * @param key The identifier (username or IP) of the login attempt.
+     */
+    public void loginFailed(String key) {
+        int attempts;
+        try {
+<span class="fc" id="L72">            attempts = attemptsCache.get(key);</span>
+<span class="nc" id="L73">        } catch (ExecutionException e) {</span>
+<span class="nc" id="L74">            attempts = 0;</span>
+<span class="fc" id="L75">        }</span>
+<span class="fc" id="L76">        attempts++;</span>
+<span class="fc" id="L77">        attemptsCache.put(key, attempts);</span>
+<span class="fc" id="L78">    }</span>
+
+    /**
+     * @brief Checks if a user is blocked due to excessive login attempts.
+     * @param key The identifier (username or IP) to check.
+     * @return True if the user has exceeded the maximum allowed attempts.
+     */
+    public boolean isBlocked(String key) {
+        try {
+<span class="fc bfc" id="L87" title="All 2 branches covered.">            return attemptsCache.get(key) &gt;= MAX_ATTEMPT;</span>
+<span class="nc" id="L88">        } catch (ExecutionException e) {</span>
+<span class="nc" id="L89">            return false;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

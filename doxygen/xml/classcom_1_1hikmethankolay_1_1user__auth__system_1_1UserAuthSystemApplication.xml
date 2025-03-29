@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1UserAuthSystemApplication" kind="class" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::UserAuthSystemApplication</compoundname>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1UserAuthSystemApplication_1a026774ae7ecf3c9d6e7144eac6dbdc80" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void com.hikmethankolay.user_auth_system.UserAuthSystemApplication.main</definition>
+        <argsstring>(String[] args)</argsstring>
+        <name>main</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.UserAuthSystemApplication.main</qualifiedname>
+        <param>
+          <type>String[]</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Main method that launches the Spring Boot application.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>command-line arguments </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/UserAuthSystemApplication.java" line="32" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/UserAuthSystemApplication.java" bodystart="32" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Entry point for the User Authentication System Spring Boot application. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/UserAuthSystemApplication.java" line="25" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/UserAuthSystemApplication.java" bodystart="25" bodyend="35"/>
+    <listofallmembers>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1UserAuthSystemApplication_1a026774ae7ecf3c9d6e7144eac6dbdc80" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::UserAuthSystemApplication</scope><name>main</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

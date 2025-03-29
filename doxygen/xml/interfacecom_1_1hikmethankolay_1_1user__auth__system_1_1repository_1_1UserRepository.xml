@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository" kind="interface" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::repository::UserRepository</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">JpaRepository&lt; User, Long &gt;</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_1a9cce09a602c355d6ce42d7551e0b0521" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Page&lt; User &gt;</type>
+        <definition>Page&lt; User &gt; com.hikmethankolay.user_auth_system.repository.UserRepository.findAll</definition>
+        <argsstring>(@NonNull Pageable pageable)</argsstring>
+        <name>findAll</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.repository.UserRepository.findAll</qualifiedname>
+        <param>
+          <type>@NonNull Pageable</type>
+          <declname>pageable</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves all users with pagination support. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pageable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pagination information. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A paginated list of users. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/repository/UserRepository.java" line="38" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_1a49b78563ef7df2e685793c38e745ed7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional&lt; User &gt;</type>
+        <definition>Optional&lt; User &gt; com.hikmethankolay.user_auth_system.repository.UserRepository.findByUsername</definition>
+        <argsstring>(String username)</argsstring>
+        <name>findByUsername</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.repository.UserRepository.findByUsername</qualifiedname>
+        <param>
+          <type>String</type>
+          <declname>username</declname>
+        </param>
+        <briefdescription>
+<para>Finds a user by username. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>username</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The username of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An Optional containing the User if found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/repository/UserRepository.java" line="45" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_1a936d250bcca453f622e65a498574f5d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional&lt; User &gt;</type>
+        <definition>Optional&lt; User &gt; com.hikmethankolay.user_auth_system.repository.UserRepository.findByEmail</definition>
+        <argsstring>(String email)</argsstring>
+        <name>findByEmail</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.repository.UserRepository.findByEmail</qualifiedname>
+        <param>
+          <type>String</type>
+          <declname>email</declname>
+        </param>
+        <briefdescription>
+<para>Finds a user by email. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>email</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The email of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An Optional containing the User if found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/repository/UserRepository.java" line="52" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_1a011bf32b7064c23e1173a663734b3ade" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional&lt; User &gt;</type>
+        <definition>Optional&lt; User &gt; com.hikmethankolay.user_auth_system.repository.UserRepository.findByUsernameOrEmail</definition>
+        <argsstring>(String username, String email)</argsstring>
+        <name>findByUsernameOrEmail</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.repository.UserRepository.findByUsernameOrEmail</qualifiedname>
+        <param>
+          <type>String</type>
+          <declname>username</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>email</declname>
+        </param>
+        <briefdescription>
+<para>Finds a user by either username or email. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>username</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The username of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>email</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The email of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An Optional containing the User if found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/repository/UserRepository.java" line="60" column="14"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Repository interface for managing User entities. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This interface extends JpaRepository to provide CRUD operations for User entities. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>JpaRepository&lt; User, Long &gt;</label>
+      </node>
+      <node id="1">
+        <label>com.hikmethankolay.user_auth_system.repository.UserRepository</label>
+        <link refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>JpaRepository&lt; User, Long &gt;</label>
+      </node>
+      <node id="1">
+        <label>com.hikmethankolay.user_auth_system.repository.UserRepository</label>
+        <link refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/repository/UserRepository.java" line="30" column="18" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/repository/UserRepository.java" bodystart="30" bodyend="61"/>
+    <listofallmembers>
+      <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_1a9cce09a602c355d6ce42d7551e0b0521" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::repository::UserRepository</scope><name>findAll</name></member>
+      <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_1a936d250bcca453f622e65a498574f5d6" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::repository::UserRepository</scope><name>findByEmail</name></member>
+      <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_1a49b78563ef7df2e685793c38e745ed7b" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::repository::UserRepository</scope><name>findByUsername</name></member>
+      <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_1a011bf32b7064c23e1173a663734b3ade" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::repository::UserRepository</scope><name>findByUsernameOrEmail</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

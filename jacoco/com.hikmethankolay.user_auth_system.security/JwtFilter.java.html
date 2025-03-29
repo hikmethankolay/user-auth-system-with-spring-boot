@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JwtFilter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">user-auth-system</a> &gt; <a href="index.source.html" class="el_package">com.hikmethankolay.user_auth_system.security</a> &gt; <span class="el_source">JwtFilter.java</span></div><h1>JwtFilter.java</h1><pre class="source lang-java linenums">/**
+ * @file JwtFilter.java
+ * @brief JWT authentication filter.
+ *
+ * This filter validates JWT tokens and sets authentication in the security context.
+ *
+ * @author Hikmethan Kolay
+ * @date 2025-02-12
+ */
+
+/**
+ * @package com.hikmethankolay.user_auth_system.security
+ * @brief Contains the core components of the User Authentication System.
+ */
+package com.hikmethankolay.user_auth_system.security;
+
+import com.hikmethankolay.user_auth_system.entity.User;
+import com.hikmethankolay.user_auth_system.enums.TokenStatus;
+import com.hikmethankolay.user_auth_system.service.UserService;
+import com.hikmethankolay.user_auth_system.util.JwtUtils;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.lang.NonNull;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+import java.io.IOException;
+import java.util.Optional;
+
+/**
+ * @class JwtFilter
+ * @brief Filter for JWT authentication.
+ *
+ * This class filters incoming requests to validate JWT tokens and authenticate users.
+ */
+@Component
+public class JwtFilter extends OncePerRequestFilter {
+
+    /** Utility for JWT operations. */
+    private final JwtUtils jwtUtils;
+
+    /** User service for retrieving user details. */
+    private final UserService userService;
+
+    /**
+     * @brief Constructor for JwtFilter.
+     * @param jwtUtils The JWT utility instance.
+     * @param userService The user service instance.
+     */
+<span class="fc" id="L53">    public JwtFilter(JwtUtils jwtUtils, UserService userService) {</span>
+<span class="fc" id="L54">        this.jwtUtils = jwtUtils;</span>
+<span class="fc" id="L55">        this.userService = userService;</span>
+<span class="fc" id="L56">    }</span>
+
+    /**
+     * @brief Filters incoming requests for JWT authentication from headers or cookies.
+     * @param request The HTTP request.
+     * @param response The HTTP response.
+     * @param filterChain The filter chain.
+     * @throws ServletException If a servlet exception occurs.
+     * @throws IOException If an IO exception occurs.
+     */
+    @Override
+    protected void doFilterInternal(
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain
+    ) throws ServletException, IOException {
+<span class="fc" id="L72">        String token = jwtUtils.extractTokenFromRequest(request);</span>
+
+<span class="fc bfc" id="L74" title="All 4 branches covered.">        if (token != null &amp;&amp; jwtUtils.validateJwtToken(token) == TokenStatus.VALID) {</span>
+<span class="fc" id="L75">            Long userId = jwtUtils.getUserIdFromJwtToken(token);</span>
+<span class="fc" id="L76">            Optional&lt;User&gt; user = userService.findById(userId);</span>
+
+<span class="fc bfc" id="L78" title="All 2 branches covered.">            if (user.isPresent()) {</span>
+<span class="fc" id="L79">                UsernamePasswordAuthenticationToken authentication =</span>
+<span class="fc" id="L80">                        new UsernamePasswordAuthenticationToken(user.get(), null, user.get().getAuthorities());</span>
+<span class="fc" id="L81">                SecurityContextHolder.getContext().setAuthentication(authentication);</span>
+
+<span class="fc" id="L83">                request.setAttribute(&quot;userId&quot;, userId);</span>
+            }
+        }
+
+<span class="fc" id="L87">        filterChain.doFilter(request, response);</span>
+<span class="fc" id="L88">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

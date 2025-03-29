@@ -1,0 +1,86 @@
+\doxysection{Auth\+Logger.\+java}
+\hypertarget{AuthLogger_8java_source}{}\label{AuthLogger_8java_source}\index{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/aspect/AuthLogger.java@{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/aspect/AuthLogger.java}}
+\mbox{\hyperlink{AuthLogger_8java}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00016}00016\ \textcolor{keyword}{package\ }com.hikmethankolay.user\_auth\_system.aspect;}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00018}00018\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.dto.LoginRequestDTO;}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00019}00019\ \textcolor{keyword}{import}\ org.aspectj.lang.JoinPoint;}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00020}00020\ \textcolor{keyword}{import}\ org.aspectj.lang.annotation.*;}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00021}00021\ \textcolor{keyword}{import}\ org.springframework.http.ResponseEntity;}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00022}00022\ \textcolor{keyword}{import}\ org.springframework.stereotype.Component;}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00024}00024\ \textcolor{keyword}{import}\ java.util.logging.Logger;}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00032}00032\ @Aspect}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00033}00033\ @Component}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00034}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger}{00034}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger}{AuthLogger}}\ \{}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00037}00037\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{final}\ Logger\ myLogger\ =\ Logger.getLogger(getClass().getName());}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00042}00042\ \ \ \ \ @Pointcut(\textcolor{stringliteral}{"{}execution(*\ com.hikmethankolay.user\_auth\_system.controller.*.*(..))"{}})}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00043}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_a6c86e5000d3b2d019041efe6666e0f9f}{00043}}\ \ \ \ \ public\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_a6c86e5000d3b2d019041efe6666e0f9f}{forControllerPackage}}()\ \{\}}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00048}00048\ \ \ \ \ @Pointcut(\textcolor{stringliteral}{"{}execution(*\ com.hikmethankolay.user\_auth\_system.repository.*.*(..))"{}})}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00049}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_a0e0a47b95ef89c0c4d5dc139387b2db6}{00049}}\ \ \ \ \ public\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_a0e0a47b95ef89c0c4d5dc139387b2db6}{forRepositoryPackage}}()\ \{\}}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00054}00054\ \ \ \ \ @Pointcut(\textcolor{stringliteral}{"{}execution(*\ com.hikmethankolay.user\_auth\_system.service.*.*(..))"{}})}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00055}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_aea0ed65d201bd98ecfb2dfc2adb28aa7}{00055}}\ \ \ \ \ public\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_aea0ed65d201bd98ecfb2dfc2adb28aa7}{forServicePackage}}()\ \{\}}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00060}00060\ \ \ \ \ @Pointcut(\textcolor{stringliteral}{"{}forControllerPackage()\ ||\ forRepositoryPackage()\ ||\ forServicePackage()"{}})}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00061}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_a3110e4e2691fda6501998199a8ab3fd9}{00061}}\ \ \ \ \ public\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_a3110e4e2691fda6501998199a8ab3fd9}{forAppFlow}}()\ \{\}}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00066}00066\ \ \ \ \ @Pointcut(\textcolor{stringliteral}{"{}execution(*\ com.hikmethankolay.user\_auth\_system.controller.AuthController.*(..))"{}})}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00067}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_ae619c4fe730faa7e6c4966eba08ba3ac}{00067}}\ \ \ \ \ public\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_ae619c4fe730faa7e6c4966eba08ba3ac}{authMethods}}()\ \{\}}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00073}00073\ \ \ \ \ @Before(\textcolor{stringliteral}{"{}forAppFlow()"{}})}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00074}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_ae7d40a35e8eb8342a2eafdaac544b655}{00074}}\ \ \ \ \ public\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_ae7d40a35e8eb8342a2eafdaac544b655}{beforeAppFlow}}(JoinPoint\ theJoinPoint)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00075}00075\ \ \ \ \ \ \ \ \ String\ theMethod\ =\ theJoinPoint.getSignature().toShortString();}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00076}00076\ \ \ \ \ \ \ \ \ myLogger.info(\textcolor{stringliteral}{"{}=====>\ @Before:\ calling\ method:\ "{}}\ +\ theMethod);}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00078}00078\ \ \ \ \ \ \ \ \ Object[]\ args\ =\ theJoinPoint.getArgs();}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (Object\ arg\ :\ args)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ myLogger.info(\textcolor{stringliteral}{"{}=====>\ Argument:\ "{}}\ +\ arg);}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00081}00081\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00082}00082\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00089}00089\ \ \ \ \ @AfterReturning(pointcut\ =\ \textcolor{stringliteral}{"{}forAppFlow()"{}},\ returning\ =\ \textcolor{stringliteral}{"{}result"{}})}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00090}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_a680faa3f9afc16a9ef4c643528974335}{00090}}\ \ \ \ \ public\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_a680faa3f9afc16a9ef4c643528974335}{afterAppFlow}}(JoinPoint\ theJoinPoint,\ Object\ result)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00091}00091\ \ \ \ \ \ \ \ \ String\ theMethod\ =\ theJoinPoint.getSignature().toShortString();}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00092}00092\ \ \ \ \ \ \ \ \ myLogger.info(\textcolor{stringliteral}{"{}=====>\ @AfterReturning:\ calling\ method:\ "{}}\ +\ theMethod);}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00093}00093\ \ \ \ \ \ \ \ \ myLogger.info(\textcolor{stringliteral}{"{}=====>\ Result:\ "{}}\ +\ result);}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00094}00094\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00101}00101\ \ \ \ \ @AfterThrowing(pointcut\ =\ \textcolor{stringliteral}{"{}forAppFlow()"{}},\ throwing\ =\ \textcolor{stringliteral}{"{}exception"{}})}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00102}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_aac3ce2dbda230a3a6aaa8de362f8d275}{00102}}\ \ \ \ \ public\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_aac3ce2dbda230a3a6aaa8de362f8d275}{afterError}}(JoinPoint\ theJoinPoint,\ Throwable\ exception)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00103}00103\ \ \ \ \ \ \ \ \ String\ theMethod\ =\ theJoinPoint.getSignature().toShortString();}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00104}00104\ \ \ \ \ \ \ \ \ myLogger.severe(\textcolor{stringliteral}{"{}=====>\ @AfterThrowing:\ Exception\ in\ method:\ "{}}\ +\ theMethod);}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00105}00105\ \ \ \ \ \ \ \ \ myLogger.severe(\textcolor{stringliteral}{"{}=====>\ Exception:\ "{}}\ +\ exception.getClass().getName()\ +\ \textcolor{stringliteral}{"{}\ -\/\ "{}}\ +\ exception.getMessage());}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00107}00107\ \ \ \ \ \ \ \ \ Object[]\ args\ =\ theJoinPoint.getArgs();}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00108}00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (Object\ arg\ :\ args)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ myLogger.severe(\textcolor{stringliteral}{"{}=====>\ Argument:\ "{}}\ +\ arg);}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00110}00110\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00111}00111\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00123}00123\ \ \ \ \ @AfterReturning(pointcut\ =\ \textcolor{stringliteral}{"{}authMethods()\ \&\&\ args(loginRequest,..)"{}},\ returning\ =\ \textcolor{stringliteral}{"{}result"{}},\ argNames\ =\ \textcolor{stringliteral}{"{}joinPoint,loginRequest,result"{}})}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00124}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_af531c703d303374a45d599abf3ad1191}{00124}}\ \ \ \ \ public\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_af531c703d303374a45d599abf3ad1191}{logLoginAttempt}}(JoinPoint\ joinPoint,\ LoginRequestDTO\ loginRequest,\ Object\ result)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00125}00125\ \ \ \ \ \ \ \ \ String\ method\ =\ joinPoint.getSignature().toShortString();}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00126}00126\ }
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00127}00127\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{boolean}\ success;}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00128}00128\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (result\ ==\ \textcolor{keyword}{null})\ \{}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ success\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00130}00130\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (result\ instanceof\ ResponseEntity)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ success\ =\ ((ResponseEntity<?>)\ result).getStatusCode().is2xxSuccessful();}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00132}00132\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ success\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00134}00134\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00136}00136\ \ \ \ \ \ \ \ \ myLogger.info(\textcolor{stringliteral}{"{}Authentication\ attempt:\ method="{}}\ +\ method\ +}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ username="{}}\ +\ loginRequest.identifier()\ +}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ success="{}}\ +\ success);}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00139}00139\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthLogger_8java_source_l00140}00140\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>User.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">user-auth-system</a> &gt; <a href="index.source.html" class="el_package">com.hikmethankolay.user_auth_system.entity</a> &gt; <span class="el_source">User.java</span></div><h1>User.java</h1><pre class="source lang-java linenums">/**
+ * @file User.java
+ * @brief Entity class representing system users.
+ *
+ * This entity defines users in the system, including authentication details and roles.
+ *
+ * @author Hikmethan Kolay
+ * @date 2025-02-12
+ */
+
+/**
+ * @package com.hikmethankolay.user_auth_system.entity
+ * @brief Contains the core components of the User Authentication System.
+ */
+package com.hikmethankolay.user_auth_system.entity;
+
+import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import java.util.*;
+import java.util.stream.Collectors;
+
+/**
+ * @class User
+ * @brief Entity representing a system user.
+ *
+ * This class defines the structure of a user, including authentication credentials and assigned roles.
+ */
+@Entity
+@Table(name = &quot;users&quot;)
+public class User implements UserDetails {
+
+    /** User ID. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    /** Username of the user. */
+    @Column(name = &quot;username&quot;, unique = true, nullable = false)
+    private String username;
+
+    /** Email of the user. */
+    @Column(name = &quot;email&quot;, unique = true, nullable = false)
+    private String email;
+
+    /** Encrypted password of the user. */
+    @Column(name = &quot;password&quot;, nullable = false)
+    private String password;
+
+    /** Roles assigned to the user. */
+<span class="fc" id="L52">    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})</span>
+    @JoinTable(name = &quot;user_roles&quot;,
+            joinColumns = @JoinColumn(name = &quot;user_id&quot;),
+            inverseJoinColumns = @JoinColumn(name = &quot;role_id&quot;))
+    private Set&lt;Role&gt; roles = new HashSet&lt;&gt;();
+
+    /**
+     * @brief Constructor with user details.
+     * @param username The username of the user.
+     * @param email The email of the user.
+     * @param password The password of the user.
+     */
+<span class="fc" id="L64">    public User(String username, String email, String password) {</span>
+<span class="fc" id="L65">        this.username = username;</span>
+<span class="fc" id="L66">        this.email = email;</span>
+<span class="fc" id="L67">        this.password = password;</span>
+<span class="fc" id="L68">    }</span>
+
+    /**
+     * @brief Default constructor.
+     */
+<span class="fc" id="L73">    public User() {}</span>
+
+    /**
+     * @brief Gets the user ID.
+     * @return The ID of the user.
+     */
+<span class="fc" id="L79">    public Long getId() { return id; }</span>
+
+    /**
+     * @brief Sets the user ID.
+     * @param id The ID to be set.
+     */
+<span class="fc" id="L85">    public void setId(Long id) { this.id = id; }</span>
+
+    /**
+     * @brief Gets the username of the user.
+     * @return The username.
+     */
+<span class="fc" id="L91">    public String getUsername() { return username; }</span>
+
+    /**
+     * @brief Sets the username of the user.
+     * @param username The username to be set.
+     */
+<span class="fc" id="L97">    public void setUsername(String username) { this.username = username; }</span>
+
+    /**
+     * @brief Gets the email of the user.
+     * @return The email.
+     */
+<span class="fc" id="L103">    public String getEmail() { return email; }</span>
+
+    /**
+     * @brief Sets the email of the user.
+     * @param email The email to be set.
+     */
+<span class="fc" id="L109">    public void setEmail(String email) { this.email = email; }</span>
+
+    /**
+     * @brief Gets the encrypted password of the user.
+     * @return The password.
+     */
+<span class="fc" id="L115">    public String getPassword() { return password; }</span>
+
+    /**
+     * @brief Sets the encrypted password of the user.
+     * @param password The password to be set.
+     */
+<span class="fc" id="L121">    public void setPassword(String password) { this.password = password; }</span>
+
+    /**
+     * @brief Gets the roles assigned to the user.
+     * @return A set of roles.
+     */
+<span class="fc" id="L127">    public Set&lt;Role&gt; getRoles() { return roles; }</span>
+
+    /**
+     * @brief Sets the roles assigned to the user.
+     * @param roles The set of roles to be assigned.
+     */
+<span class="fc" id="L133">    public void setRoles(Set&lt;Role&gt; roles) { this.roles = roles; }</span>
+
+    /**
+     * @brief Adds a role to the user.
+     * @param role The role to be added.
+     */
+<span class="fc" id="L139">    public void addRole(Role role) { this.roles.add(role); }</span>
+
+    /**
+     * @brief Removes a role from the user.
+     * @param role The role to be removed.
+     */
+<span class="nc" id="L145">    public void removeRole(Role role) { this.roles.remove(role); }</span>
+
+    /**
+     * @brief Gets the authorities (roles) assigned to the user.
+     * @return A collection of granted authorities.
+     */
+    @Override
+    public Collection&lt;? extends GrantedAuthority&gt; getAuthorities() {
+<span class="fc" id="L153">        return roles.stream()</span>
+<span class="fc" id="L154">                .map(role -&gt; new SimpleGrantedAuthority(role.getName().name()))</span>
+<span class="fc" id="L155">                .collect(Collectors.toSet());</span>
+    }
+
+    /**
+     * @brief Converts the User object to a string representation.
+     * @return A string representation of User.
+     */
+    @Override
+    public String toString() {
+<span class="fc" id="L164">        return &quot;User{&quot; +</span>
+                &quot;id=&quot; + id +
+                &quot;, username='&quot; + username + '\'' +
+                &quot;, email='&quot; + email + '\'' +
+                &quot;, password='&quot; + password + '\'' +
+                &quot;, roles=&quot; + roles +
+                '}';
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1TokenStatus" kind="enum" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::enums::TokenStatus</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1TokenStatus_1af6cf952af98e8ffd8ac7b78b759e80af" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>com.hikmethankolay.user_auth_system.enums.TokenStatus.VALID</definition>
+        <argsstring></argsstring>
+        <name>VALID</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.enums.TokenStatus.VALID</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Token is valid and can be used for authentication. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/TokenStatus.java" line="27" column="1" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/TokenStatus.java" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1TokenStatus_1a79fe6334d28086fa339d932013538312" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>com.hikmethankolay.user_auth_system.enums.TokenStatus.EXPIRED</definition>
+        <argsstring></argsstring>
+        <name>EXPIRED</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.enums.TokenStatus.EXPIRED</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Token has exceeded its lifetime and needs to be refreshed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/TokenStatus.java" line="30" column="1" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/TokenStatus.java" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1TokenStatus_1ada5bde5a5361528cba578c32c57c8287" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>com.hikmethankolay.user_auth_system.enums.TokenStatus.INVALID</definition>
+        <argsstring></argsstring>
+        <name>INVALID</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.enums.TokenStatus.INVALID</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Token is invalid due to tampering or other issues. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/TokenStatus.java" line="34" column="1" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/TokenStatus.java" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Enum representing different authentication token statuses.</para>
+<para>This enum defines statuses such as:<itemizedlist>
+<listitem><para>VALID: Token is valid and can be used for authentication.</para>
+</listitem><listitem><para>EXPIRED: Token has exceeded its lifetime and needs to be refreshed.</para>
+</listitem><listitem><para>INVALID: Token is invalid due to tampering or other issues. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/TokenStatus.java" line="25" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/TokenStatus.java" bodystart="25" bodyend="34"/>
+    <listofallmembers>
+      <member refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1TokenStatus_1a79fe6334d28086fa339d932013538312" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::enums::TokenStatus</scope><name>EXPIRED</name></member>
+      <member refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1TokenStatus_1ada5bde5a5361528cba578c32c57c8287" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::enums::TokenStatus</scope><name>INVALID</name></member>
+      <member refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1TokenStatus_1af6cf952af98e8ffd8ac7b78b759e80af" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::enums::TokenStatus</scope><name>VALID</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

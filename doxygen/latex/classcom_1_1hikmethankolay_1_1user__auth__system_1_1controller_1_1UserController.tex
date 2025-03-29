@@ -1,0 +1,342 @@
+\doxysection{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+controller.\+User\+Controller Class Reference}
+\hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController}{}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController}\index{com.hikmethankolay.user\_auth\_system.controller.UserController@{com.hikmethankolay.user\_auth\_system.controller.UserController}}
+
+
+REST controller for handling user-\/related requests.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_a7e8f5e4e86c7f30dd7e301cfcdd215b8}{User\+Controller}} (User\+Service user\+Service)
+\item 
+Response\+Entity$<$ Api\+Response\+DTO$<$ Page$<$ User\+Info\+DTO $>$ $>$ $>$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_a92a05c748a73348fa7643eab35e60592}{get\+Users}} ( @Pageable\+Default(page=0, size=10, sort="{}id"{}) Pageable pageable)
+\begin{DoxyCompactList}\small\item\em Retrieves paginated list of users. \end{DoxyCompactList}\item 
+Response\+Entity$<$ Api\+Response\+DTO$<$ User\+Info\+DTO $>$ $>$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_aa4bc54801894ad6e3b2dcfb3d2a84f6b}{get\+User\+By\+Id}} (@Path\+Variable Long id)
+\begin{DoxyCompactList}\small\item\em Retrieves a user by ID. \end{DoxyCompactList}\item 
+Response\+Entity$<$ Api\+Response\+DTO$<$ User\+Info\+DTO $>$ $>$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_a4a9499a84b10b2e7f0467745c67e6b1d}{get\+Logged\+In\+User}} (@Request\+Attribute("{}user\+Id"{}) Long id)
+\begin{DoxyCompactList}\small\item\em Retrieves the logged-\/in user. \end{DoxyCompactList}\item 
+Response\+Entity$<$ Api\+Response\+DTO$<$ User\+Info\+DTO $>$ $>$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_a758a622a16b931f4ca4f5cc4b570df48}{get\+User\+By\+Username}} (@Request\+Param String username)
+\begin{DoxyCompactList}\small\item\em Retrieves a user by username. \end{DoxyCompactList}\item 
+Response\+Entity$<$ Api\+Response\+DTO$<$ User\+Info\+DTO $>$ $>$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_a8aa5f01c6f5ca6f5845824b67840e4c9}{get\+User\+By\+Email}} (@Request\+Param String email)
+\begin{DoxyCompactList}\small\item\em Retrieves a user by email. \end{DoxyCompactList}\item 
+Response\+Entity$<$ Api\+Response\+DTO$<$ User\+Info\+DTO $>$ $>$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_a6cef1662f88814a100546a47080bcf86}{update\+User}} (@Request\+Body User\+Update\+DTO User\+Update\+DTO, @Path\+Variable Long id, @Request\+Attribute("{}user\+Id"{}) Long requester\+Id)
+\begin{DoxyCompactList}\small\item\em Updates a user by ID. \end{DoxyCompactList}\item 
+Response\+Entity$<$ Api\+Response\+DTO$<$ User\+Info\+DTO $>$ $>$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_af0cfb025a647936f079eec50e8aa1396}{update\+Logged\+In\+User}} (@Request\+Body User\+Update\+DTO User\+Update\+DTO, @Request\+Attribute("{}user\+Id"{}) Long id)
+\begin{DoxyCompactList}\small\item\em Updates logged-\/in user by ID. \end{DoxyCompactList}\item 
+Response\+Entity$<$ Api\+Response\+DTO$<$ Void $>$ $>$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_ac3825e720008b4023539a67188a109ee}{delete\+User}} (@Path\+Variable Long id, @Request\+Attribute("{}user\+Id"{}) Long requester\+Id)
+\begin{DoxyCompactList}\small\item\em Deletes a user by ID. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+REST controller for handling user-\/related requests. 
+
+Definition at line \mbox{\hyperlink{UserController_8java_source_l00041}{41}} of file \mbox{\hyperlink{UserController_8java_source}{User\+Controller.\+java}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_a7e8f5e4e86c7f30dd7e301cfcdd215b8}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_a7e8f5e4e86c7f30dd7e301cfcdd215b8} 
+\index{com.hikmethankolay.user\_auth\_system.controller.UserController@{com.hikmethankolay.user\_auth\_system.controller.UserController}!UserController@{UserController}}
+\index{UserController@{UserController}!com.hikmethankolay.user\_auth\_system.controller.UserController@{com.hikmethankolay.user\_auth\_system.controller.UserController}}
+\doxysubsubsection{\texorpdfstring{UserController()}{UserController()}}
+{\footnotesize\ttfamily com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+controller.\+User\+Controller.\+User\+Controller (\begin{DoxyParamCaption}\item[{User\+Service}]{user\+Service }\end{DoxyParamCaption})}
+
+Controller for user operations. 
+\begin{DoxyParams}{Parameters}
+{\em user\+Service} & The service managing user operations. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyAuthor}{Author}
+Hikmethan Kolay 
+\end{DoxyAuthor}
+
+
+Definition at line \mbox{\hyperlink{UserController_8java_source_l00051}{51}} of file \mbox{\hyperlink{UserController_8java_source}{User\+Controller.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ this.userService\ =\ userService;}
+\DoxyCodeLine{00053\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_ac3825e720008b4023539a67188a109ee}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_ac3825e720008b4023539a67188a109ee} 
+\index{com.hikmethankolay.user\_auth\_system.controller.UserController@{com.hikmethankolay.user\_auth\_system.controller.UserController}!deleteUser@{deleteUser}}
+\index{deleteUser@{deleteUser}!com.hikmethankolay.user\_auth\_system.controller.UserController@{com.hikmethankolay.user\_auth\_system.controller.UserController}}
+\doxysubsubsection{\texorpdfstring{deleteUser()}{deleteUser()}}
+{\footnotesize\ttfamily Response\+Entity$<$ Api\+Response\+DTO$<$ Void $>$ $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+controller.\+User\+Controller.\+delete\+User (\begin{DoxyParamCaption}\item[{@Path\+Variable Long}]{id,  }\item[{@Request\+Attribute("{}user\+Id"{}) Long}]{requester\+Id }\end{DoxyParamCaption})}
+
+
+
+Deletes a user by ID. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & The user ID. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response entity containing delete status. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{UserController_8java_source_l00164}{164}} of file \mbox{\hyperlink{UserController_8java_source}{User\+Controller.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ userService.deleteById(\textcolor{keywordtype}{id},\ requesterId);}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.ok(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.SUCCESS,\ \textcolor{keyword}{null},\ \textcolor{stringliteral}{"{}User\ deleted\ successfully"{}}));}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (Exception\ e)\{}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.status(HttpStatus.BAD\_REQUEST).body(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.FAILURE,\ \textcolor{keyword}{null},\ e.getMessage()));}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00172\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_a4a9499a84b10b2e7f0467745c67e6b1d}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_a4a9499a84b10b2e7f0467745c67e6b1d} 
+\index{com.hikmethankolay.user\_auth\_system.controller.UserController@{com.hikmethankolay.user\_auth\_system.controller.UserController}!getLoggedInUser@{getLoggedInUser}}
+\index{getLoggedInUser@{getLoggedInUser}!com.hikmethankolay.user\_auth\_system.controller.UserController@{com.hikmethankolay.user\_auth\_system.controller.UserController}}
+\doxysubsubsection{\texorpdfstring{getLoggedInUser()}{getLoggedInUser()}}
+{\footnotesize\ttfamily Response\+Entity$<$ Api\+Response\+DTO$<$ User\+Info\+DTO $>$ $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+controller.\+User\+Controller.\+get\+Logged\+In\+User (\begin{DoxyParamCaption}\item[{@Request\+Attribute("{}user\+Id"{}) Long}]{id }\end{DoxyParamCaption})}
+
+
+
+Retrieves the logged-\/in user. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & The ID of the logged-\/in user. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response entity containing user details or error message. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{UserController_8java_source_l00092}{92}} of file \mbox{\hyperlink{UserController_8java_source}{User\+Controller.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_aa4bc54801894ad6e3b2dcfb3d2a84f6b}{getUserById}}(\textcolor{keywordtype}{id});}
+\DoxyCodeLine{00094\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_a8aa5f01c6f5ca6f5845824b67840e4c9}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_a8aa5f01c6f5ca6f5845824b67840e4c9} 
+\index{com.hikmethankolay.user\_auth\_system.controller.UserController@{com.hikmethankolay.user\_auth\_system.controller.UserController}!getUserByEmail@{getUserByEmail}}
+\index{getUserByEmail@{getUserByEmail}!com.hikmethankolay.user\_auth\_system.controller.UserController@{com.hikmethankolay.user\_auth\_system.controller.UserController}}
+\doxysubsubsection{\texorpdfstring{getUserByEmail()}{getUserByEmail()}}
+{\footnotesize\ttfamily Response\+Entity$<$ Api\+Response\+DTO$<$ User\+Info\+DTO $>$ $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+controller.\+User\+Controller.\+get\+User\+By\+Email (\begin{DoxyParamCaption}\item[{@Request\+Param String}]{email }\end{DoxyParamCaption})}
+
+
+
+Retrieves a user by email. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em email} & The username. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response entity containing user details or error message. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{UserController_8java_source_l00119}{119}} of file \mbox{\hyperlink{UserController_8java_source}{User\+Controller.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ Optional<User>\ user\ =\ userService.findByUsernameOrEmail(email);}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (user.isPresent())\ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ UserInfoDTO\ userDTO\ =\ \textcolor{keyword}{new}\ UserInfoDTO(user.get());}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.ok(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.SUCCESS,\ userDTO,\ \textcolor{stringliteral}{"{}User\ found\ successfully"{}}));}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.status(HttpStatus.NOT\_FOUND)}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .body(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.FAILURE,\ \textcolor{keyword}{null},\ \textcolor{stringliteral}{"{}Could\ not\ find\ user\ with\ email:\ "{}}\ +\ email));}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00128\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_aa4bc54801894ad6e3b2dcfb3d2a84f6b}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_aa4bc54801894ad6e3b2dcfb3d2a84f6b} 
+\index{com.hikmethankolay.user\_auth\_system.controller.UserController@{com.hikmethankolay.user\_auth\_system.controller.UserController}!getUserById@{getUserById}}
+\index{getUserById@{getUserById}!com.hikmethankolay.user\_auth\_system.controller.UserController@{com.hikmethankolay.user\_auth\_system.controller.UserController}}
+\doxysubsubsection{\texorpdfstring{getUserById()}{getUserById()}}
+{\footnotesize\ttfamily Response\+Entity$<$ Api\+Response\+DTO$<$ User\+Info\+DTO $>$ $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+controller.\+User\+Controller.\+get\+User\+By\+Id (\begin{DoxyParamCaption}\item[{@Path\+Variable Long}]{id }\end{DoxyParamCaption})}
+
+
+
+Retrieves a user by ID. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & The user ID. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response entity containing user details or error message. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{UserController_8java_source_l00075}{75}} of file \mbox{\hyperlink{UserController_8java_source}{User\+Controller.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ Optional<User>\ user\ =\ userService.findById(\textcolor{keywordtype}{id});}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (user.isPresent())\ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ UserInfoDTO\ userDTO\ =\ \textcolor{keyword}{new}\ UserInfoDTO(user.get());}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.ok(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.SUCCESS,\ userDTO,\ \textcolor{stringliteral}{"{}User\ found\ successfully"{}}));}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.status(HttpStatus.NOT\_FOUND)}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .body(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.FAILURE,\ \textcolor{keyword}{null},\ \textcolor{stringliteral}{"{}Could\ not\ find\ user\ with\ id:\ "{}}\ +\ \textcolor{keywordtype}{id}));}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00084\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_a758a622a16b931f4ca4f5cc4b570df48}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_a758a622a16b931f4ca4f5cc4b570df48} 
+\index{com.hikmethankolay.user\_auth\_system.controller.UserController@{com.hikmethankolay.user\_auth\_system.controller.UserController}!getUserByUsername@{getUserByUsername}}
+\index{getUserByUsername@{getUserByUsername}!com.hikmethankolay.user\_auth\_system.controller.UserController@{com.hikmethankolay.user\_auth\_system.controller.UserController}}
+\doxysubsubsection{\texorpdfstring{getUserByUsername()}{getUserByUsername()}}
+{\footnotesize\ttfamily Response\+Entity$<$ Api\+Response\+DTO$<$ User\+Info\+DTO $>$ $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+controller.\+User\+Controller.\+get\+User\+By\+Username (\begin{DoxyParamCaption}\item[{@Request\+Param String}]{username }\end{DoxyParamCaption})}
+
+
+
+Retrieves a user by username. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & The username. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response entity containing user details or error message. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{UserController_8java_source_l00102}{102}} of file \mbox{\hyperlink{UserController_8java_source}{User\+Controller.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ Optional<User>\ user\ =\ userService.findByUsernameOrEmail(username);}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (user.isPresent())\ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ UserInfoDTO\ userDTO\ =\ \textcolor{keyword}{new}\ UserInfoDTO(user.get());}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.ok(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.SUCCESS,\ userDTO,\ \textcolor{stringliteral}{"{}User\ found\ successfully"{}}));}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.status(HttpStatus.NOT\_FOUND)}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .body(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.FAILURE,\ \textcolor{keyword}{null},\ \textcolor{stringliteral}{"{}Could\ not\ find\ user\ with\ username:\ "{}}\ +\ username));}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00111\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_a92a05c748a73348fa7643eab35e60592}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_a92a05c748a73348fa7643eab35e60592} 
+\index{com.hikmethankolay.user\_auth\_system.controller.UserController@{com.hikmethankolay.user\_auth\_system.controller.UserController}!getUsers@{getUsers}}
+\index{getUsers@{getUsers}!com.hikmethankolay.user\_auth\_system.controller.UserController@{com.hikmethankolay.user\_auth\_system.controller.UserController}}
+\doxysubsubsection{\texorpdfstring{getUsers()}{getUsers()}}
+{\footnotesize\ttfamily Response\+Entity$<$ Api\+Response\+DTO$<$ Page$<$ User\+Info\+DTO $>$ $>$ $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+controller.\+User\+Controller.\+get\+Users (\begin{DoxyParamCaption}\item[{@Pageable\+Default(page=0, size=10, sort="{}id"{}) Pageable}]{pageable }\end{DoxyParamCaption})}
+
+
+
+Retrieves paginated list of users. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pageable} & Pagination details. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response entity containing paginated list of users. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{UserController_8java_source_l00061}{61}} of file \mbox{\hyperlink{UserController_8java_source}{User\+Controller.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ Page<User>\ userPage\ =\ userService.findAll(pageable);}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ Page<UserInfoDTO>\ dtoPage\ =\ userPage.map(UserInfoDTO::new);}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.ok(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.SUCCESS,\ dtoPage,\ \textcolor{stringliteral}{"{}Users\ found\ successfully"{}}));}
+\DoxyCodeLine{00067\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_af0cfb025a647936f079eec50e8aa1396}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_af0cfb025a647936f079eec50e8aa1396} 
+\index{com.hikmethankolay.user\_auth\_system.controller.UserController@{com.hikmethankolay.user\_auth\_system.controller.UserController}!updateLoggedInUser@{updateLoggedInUser}}
+\index{updateLoggedInUser@{updateLoggedInUser}!com.hikmethankolay.user\_auth\_system.controller.UserController@{com.hikmethankolay.user\_auth\_system.controller.UserController}}
+\doxysubsubsection{\texorpdfstring{updateLoggedInUser()}{updateLoggedInUser()}}
+{\footnotesize\ttfamily Response\+Entity$<$ Api\+Response\+DTO$<$ User\+Info\+DTO $>$ $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+controller.\+User\+Controller.\+update\+Logged\+In\+User (\begin{DoxyParamCaption}\item[{@Request\+Body User\+Update\+DTO}]{User\+Update\+DTO,  }\item[{@Request\+Attribute("{}user\+Id"{}) Long}]{id }\end{DoxyParamCaption})}
+
+
+
+Updates logged-\/in user by ID. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em User\+Update\+DTO} & The user update request data. \\
+\hline
+{\em id} & The ID of the logged-\/in user. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response entity containing user details or error message. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{UserController_8java_source_l00154}{154}} of file \mbox{\hyperlink{UserController_8java_source}{User\+Controller.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_a6cef1662f88814a100546a47080bcf86}{updateUser}}(UserUpdateDTO,\ \textcolor{keywordtype}{id},\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{00156\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_a6cef1662f88814a100546a47080bcf86}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1UserController_a6cef1662f88814a100546a47080bcf86} 
+\index{com.hikmethankolay.user\_auth\_system.controller.UserController@{com.hikmethankolay.user\_auth\_system.controller.UserController}!updateUser@{updateUser}}
+\index{updateUser@{updateUser}!com.hikmethankolay.user\_auth\_system.controller.UserController@{com.hikmethankolay.user\_auth\_system.controller.UserController}}
+\doxysubsubsection{\texorpdfstring{updateUser()}{updateUser()}}
+{\footnotesize\ttfamily Response\+Entity$<$ Api\+Response\+DTO$<$ User\+Info\+DTO $>$ $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+controller.\+User\+Controller.\+update\+User (\begin{DoxyParamCaption}\item[{@Request\+Body User\+Update\+DTO}]{User\+Update\+DTO,  }\item[{@Path\+Variable Long}]{id,  }\item[{@Request\+Attribute("{}user\+Id"{}) Long}]{requester\+Id }\end{DoxyParamCaption})}
+
+
+
+Updates a user by ID. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em User\+Update\+DTO} & The user update request data. \\
+\hline
+{\em id} & The user ID. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Response entity containing update status. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{UserController_8java_source_l00137}{137}} of file \mbox{\hyperlink{UserController_8java_source}{User\+Controller.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ User\ updatedUser\ =\ userService.updateUser(UserUpdateDTO,\ \textcolor{keywordtype}{id},\ requesterId);}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.ok(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.SUCCESS,\ \textcolor{keyword}{new}\ UserInfoDTO(updatedUser),\ \textcolor{stringliteral}{"{}User\ updated\ successfully"{}}));}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (Exception\ e)\{}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ResponseEntity.status(HttpStatus.BAD\_REQUEST).body(\textcolor{keyword}{new}\ ApiResponseDTO<>(EApiStatus.FAILURE,\ \textcolor{keyword}{null},\ e.getMessage()));}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00145\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+user-\/auth-\/system/src/main/java/com/hikmethankolay/user\+\_\+auth\+\_\+system/controller/\mbox{\hyperlink{UserController_8java}{User\+Controller.\+java}}\end{DoxyCompactItemize}

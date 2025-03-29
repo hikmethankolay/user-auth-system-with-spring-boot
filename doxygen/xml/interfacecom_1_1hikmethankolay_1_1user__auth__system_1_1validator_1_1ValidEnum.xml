@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum" kind="interface" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::validator::ValidEnum</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a63bfde930c26bbcb2e81383dbd93c4d5" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>com.hikmethankolay.user_auth_system.validator.ValidEnum.values.</definition>
+        <argsstring></argsstring>
+        <name>values.</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.validator.ValidEnum.values.</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/ValidEnum.java" line="33" column="36" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/ValidEnum.java" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a44543a45b2fe1c5064bdfaec5c52f54d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>String</type>
+        <definition>String com.hikmethankolay.user_auth_system.validator.ValidEnum.message</definition>
+        <argsstring>() default &quot;Field should be one of </argsstring>
+        <name>message</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.validator.ValidEnum.message</qualifiedname>
+        <briefdescription>
+<para>Error message to be returned if validation fails. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The error message. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/ValidEnum.java" line="33" column="12" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/ValidEnum.java" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a2fa3bee1b5fe80f8c63b3601dc8f1afe" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Class&lt;?&gt;[]</type>
+        <definition>Class&lt;?&gt;[] com.hikmethankolay.user_auth_system.validator.ValidEnum.groups</definition>
+        <argsstring>() default</argsstring>
+        <name>groups</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.validator.ValidEnum.groups</qualifiedname>
+        <briefdescription>
+<para>Groups for validation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The groups. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/ValidEnum.java" line="39" column="11" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/ValidEnum.java" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1af3b66239ca0b74c2c1f6d808b3bf2843" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Class&lt;? extends Payload &gt;[]</type>
+        <definition>Class&lt;? extends Payload &gt;[] com.hikmethankolay.user_auth_system.validator.ValidEnum.payload</definition>
+        <argsstring>() default</argsstring>
+        <name>payload</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.validator.ValidEnum.payload</qualifiedname>
+        <briefdescription>
+<para>Payload for validation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The payload. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/ValidEnum.java" line="45" column="11" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/ValidEnum.java" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a7a6a653012066c23ef9e769edd28fe33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Class&lt;? extends Enum&lt;?&gt; &gt;</type>
+        <definition>Class&lt;? extends Enum&lt;?&gt; &gt; com.hikmethankolay.user_auth_system.validator.ValidEnum.enumClass</definition>
+        <argsstring>()</argsstring>
+        <name>enumClass</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.validator.ValidEnum.enumClass</qualifiedname>
+        <briefdescription>
+<para>The enum class to validate against. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The enum class. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/ValidEnum.java" line="51" column="11"/>
+        <referencedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_1acb0624716f2e6079a2ccfee8682db04d" compoundref="EnumValidatorForCollection_8java" startline="33" endline="38">com.hikmethankolay.user_auth_system.validator.EnumValidatorForCollection.initialize</referencedby>
+        <referencedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum_1ad4deae60c6a394f31bfb828231d9b9e8" compoundref="EnumValidatorForEnum_8java" startline="32" endline="34">com.hikmethankolay.user_auth_system.validator.EnumValidatorForEnum.initialize</referencedby>
+        <referencedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForString_1a58df7259de2bf243224a9a6c7d5ae8b9" compoundref="EnumValidatorForString_8java" startline="32" endline="37">com.hikmethankolay.user_auth_system.validator.EnumValidatorForString.initialize</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1ab1b319b46babfaa316223e9019a34d99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>boolean</type>
+        <definition>boolean com.hikmethankolay.user_auth_system.validator.ValidEnum.ignoreCase</definition>
+        <argsstring>() default false</argsstring>
+        <name>ignoreCase</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.validator.ValidEnum.ignoreCase</qualifiedname>
+        <briefdescription>
+<para>Whether to ignore case during validation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if case should be ignored, otherwise false. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/ValidEnum.java" line="57" column="13"/>
+        <referencedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_1acb0624716f2e6079a2ccfee8682db04d" compoundref="EnumValidatorForCollection_8java" startline="33" endline="38">com.hikmethankolay.user_auth_system.validator.EnumValidatorForCollection.initialize</referencedby>
+        <referencedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForString_1a58df7259de2bf243224a9a6c7d5ae8b9" compoundref="EnumValidatorForString_8java" startline="32" endline="37">com.hikmethankolay.user_auth_system.validator.EnumValidatorForString.initialize</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Annotation for validating enum values. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>@annotation ValidEnum</para>
+<para>Validates that a field or parameter matches a specified enum type. </para>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/ValidEnum.java" line="27" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/ValidEnum.java" bodystart="27" bodyend="58"/>
+    <listofallmembers>
+      <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a7a6a653012066c23ef9e769edd28fe33" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::validator::ValidEnum</scope><name>enumClass</name></member>
+      <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a2fa3bee1b5fe80f8c63b3601dc8f1afe" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::validator::ValidEnum</scope><name>groups</name></member>
+      <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1ab1b319b46babfaa316223e9019a34d99" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::validator::ValidEnum</scope><name>ignoreCase</name></member>
+      <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a44543a45b2fe1c5064bdfaec5c52f54d" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::validator::ValidEnum</scope><name>message</name></member>
+      <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1af3b66239ca0b74c2c1f6d808b3bf2843" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::validator::ValidEnum</scope><name>payload</name></member>
+      <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a63bfde930c26bbcb2e81383dbd93c4d5" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::validator::ValidEnum</scope><name>values.</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

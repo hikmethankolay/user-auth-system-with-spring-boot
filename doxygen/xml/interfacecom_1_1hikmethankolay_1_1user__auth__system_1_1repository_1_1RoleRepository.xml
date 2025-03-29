@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1RoleRepository" kind="interface" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::repository::RoleRepository</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">JpaRepository&lt; Role, Long &gt;</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1RoleRepository_1a3fab4f0f295273f02e5e6f0e5ecab202" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional&lt; Role &gt;</type>
+        <definition>Optional&lt; Role &gt; com.hikmethankolay.user_auth_system.repository.RoleRepository.findByName</definition>
+        <argsstring>(ERole name)</argsstring>
+        <name>findByName</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.repository.RoleRepository.findByName</qualifiedname>
+        <param>
+          <type>ERole</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Finds a Role by its name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the role. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An Optional containing the Role if found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/repository/RoleRepository.java" line="34" column="14"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Repository interface for managing Role entities. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This interface extends JpaRepository to provide CRUD operations for Role entities. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>JpaRepository&lt; Role, Long &gt;</label>
+      </node>
+      <node id="1">
+        <label>com.hikmethankolay.user_auth_system.repository.RoleRepository</label>
+        <link refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1RoleRepository"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>JpaRepository&lt; Role, Long &gt;</label>
+      </node>
+      <node id="1">
+        <label>com.hikmethankolay.user_auth_system.repository.RoleRepository</label>
+        <link refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1RoleRepository"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/repository/RoleRepository.java" line="28" column="18" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/repository/RoleRepository.java" bodystart="28" bodyend="35"/>
+    <listofallmembers>
+      <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1RoleRepository_1a3fab4f0f295273f02e5e6f0e5ecab202" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::repository::RoleRepository</scope><name>findByName</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

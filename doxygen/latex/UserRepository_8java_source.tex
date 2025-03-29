@@ -1,0 +1,27 @@
+\doxysection{User\+Repository.\+java}
+\hypertarget{UserRepository_8java_source}{}\label{UserRepository_8java_source}\index{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/repository/UserRepository.java@{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/repository/UserRepository.java}}
+\mbox{\hyperlink{UserRepository_8java}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{UserRepository_8java_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{UserRepository_8java_source_l00015}00015\ \textcolor{keyword}{package\ }com.hikmethankolay.user\_auth\_system.repository;}
+\DoxyCodeLine{\Hypertarget{UserRepository_8java_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{UserRepository_8java_source_l00017}00017\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.entity.User;}
+\DoxyCodeLine{\Hypertarget{UserRepository_8java_source_l00018}00018\ \textcolor{keyword}{import}\ org.springframework.data.domain.Page;}
+\DoxyCodeLine{\Hypertarget{UserRepository_8java_source_l00019}00019\ \textcolor{keyword}{import}\ org.springframework.data.domain.Pageable;}
+\DoxyCodeLine{\Hypertarget{UserRepository_8java_source_l00020}00020\ \textcolor{keyword}{import}\ org.springframework.data.jpa.repository.JpaRepository;}
+\DoxyCodeLine{\Hypertarget{UserRepository_8java_source_l00021}00021\ \textcolor{keyword}{import}\ org.springframework.lang.NonNull;}
+\DoxyCodeLine{\Hypertarget{UserRepository_8java_source_l00022}00022\ \textcolor{keyword}{import}\ java.util.Optional;}
+\DoxyCodeLine{\Hypertarget{UserRepository_8java_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{UserRepository_8java_source_l00030}\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository}{00030}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{interface\ }\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository}{UserRepository}}\ \textcolor{keyword}{extends}\ JpaRepository<User,\ Long>\ \{}
+\DoxyCodeLine{\Hypertarget{UserRepository_8java_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{UserRepository_8java_source_l00037}00037\ \ \ \ \ @NonNull}
+\DoxyCodeLine{\Hypertarget{UserRepository_8java_source_l00038}\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_a9cce09a602c355d6ce42d7551e0b0521}{00038}}\ \ \ \ \ Page<User>\ \mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_a9cce09a602c355d6ce42d7551e0b0521}{findAll}}(@NonNull\ Pageable\ pageable);}
+\DoxyCodeLine{\Hypertarget{UserRepository_8java_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{UserRepository_8java_source_l00045}\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_a49b78563ef7df2e685793c38e745ed7b}{00045}}\ \ \ \ \ Optional<User>\ \mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_a49b78563ef7df2e685793c38e745ed7b}{findByUsername}}(String\ username);}
+\DoxyCodeLine{\Hypertarget{UserRepository_8java_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{UserRepository_8java_source_l00052}\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_a936d250bcca453f622e65a498574f5d6}{00052}}\ \ \ \ \ Optional<User>\ \mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_a936d250bcca453f622e65a498574f5d6}{findByEmail}}(String\ email);}
+\DoxyCodeLine{\Hypertarget{UserRepository_8java_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{UserRepository_8java_source_l00060}\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_a011bf32b7064c23e1173a663734b3ade}{00060}}\ \ \ \ \ Optional<User>\ \mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository_a011bf32b7064c23e1173a663734b3ade}{findByUsernameOrEmail}}(String\ username,\ String\ email);}
+\DoxyCodeLine{\Hypertarget{UserRepository_8java_source_l00061}00061\ \}}
+
+\end{DoxyCode}

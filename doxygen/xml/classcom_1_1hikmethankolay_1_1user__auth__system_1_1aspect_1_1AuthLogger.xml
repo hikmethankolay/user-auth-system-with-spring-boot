@@ -1,0 +1,285 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger" kind="class" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::aspect::AuthLogger</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a0586f8be908be5845340f6abfd455766" prot="private" static="no" mutable="no">
+        <type>final Logger</type>
+        <definition>final Logger com.hikmethankolay.user_auth_system.aspect.AuthLogger.myLogger</definition>
+        <argsstring></argsstring>
+        <name>myLogger</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.aspect.AuthLogger.myLogger</qualifiedname>
+        <initializer>= Logger.getLogger(getClass().getName())</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Logger instance for logging method calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java" line="37" column="26" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a6c86e5000d3b2d019041efe6666e0f9f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.aspect.AuthLogger.forControllerPackage</definition>
+        <argsstring>()</argsstring>
+        <name>forControllerPackage</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.aspect.AuthLogger.forControllerPackage</qualifiedname>
+        <briefdescription>
+<para>Pointcut for controller package. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java" line="43" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a0e0a47b95ef89c0c4d5dc139387b2db6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.aspect.AuthLogger.forRepositoryPackage</definition>
+        <argsstring>()</argsstring>
+        <name>forRepositoryPackage</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.aspect.AuthLogger.forRepositoryPackage</qualifiedname>
+        <briefdescription>
+<para>Pointcut for repository package. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java" line="49" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1aea0ed65d201bd98ecfb2dfc2adb28aa7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.aspect.AuthLogger.forServicePackage</definition>
+        <argsstring>()</argsstring>
+        <name>forServicePackage</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.aspect.AuthLogger.forServicePackage</qualifiedname>
+        <briefdescription>
+<para>Pointcut for service package. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java" line="55" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a3110e4e2691fda6501998199a8ab3fd9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.aspect.AuthLogger.forAppFlow</definition>
+        <argsstring>()</argsstring>
+        <name>forAppFlow</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.aspect.AuthLogger.forAppFlow</qualifiedname>
+        <briefdescription>
+<para>Combined pointcut for application flow. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java" line="61" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1ae619c4fe730faa7e6c4966eba08ba3ac" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.aspect.AuthLogger.authMethods</definition>
+        <argsstring>()</argsstring>
+        <name>authMethods</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.aspect.AuthLogger.authMethods</qualifiedname>
+        <briefdescription>
+<para>Pointcut definition for authentication controller methods. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java" line="67" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1ae7d40a35e8eb8342a2eafdaac544b655" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.aspect.AuthLogger.beforeAppFlow</definition>
+        <argsstring>(JoinPoint theJoinPoint)</argsstring>
+        <name>beforeAppFlow</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.aspect.AuthLogger.beforeAppFlow</qualifiedname>
+        <param>
+          <type>JoinPoint</type>
+          <declname>theJoinPoint</declname>
+        </param>
+        <briefdescription>
+<para>Logs method call before execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>theJoinPoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The join point representing the method execution. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java" line="74" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java" bodystart="74" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a680faa3f9afc16a9ef4c643528974335" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.aspect.AuthLogger.afterAppFlow</definition>
+        <argsstring>(JoinPoint theJoinPoint, Object result)</argsstring>
+        <name>afterAppFlow</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.aspect.AuthLogger.afterAppFlow</qualifiedname>
+        <param>
+          <type>JoinPoint</type>
+          <declname>theJoinPoint</declname>
+        </param>
+        <param>
+          <type>Object</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Logs method call after successful execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>theJoinPoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The join point representing the method execution. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The result returned by the method. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java" line="90" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java" bodystart="90" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1aac3ce2dbda230a3a6aaa8de362f8d275" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.aspect.AuthLogger.afterError</definition>
+        <argsstring>(JoinPoint theJoinPoint, Throwable exception)</argsstring>
+        <name>afterError</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.aspect.AuthLogger.afterError</qualifiedname>
+        <param>
+          <type>JoinPoint</type>
+          <declname>theJoinPoint</declname>
+        </param>
+        <param>
+          <type>Throwable</type>
+          <declname>exception</declname>
+        </param>
+        <briefdescription>
+<para>Logs method call when an exception occurs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>theJoinPoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The join point representing the method execution. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>exception</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The exception thrown by the method. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java" line="102" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java" bodystart="102" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1af531c703d303374a45d599abf3ad1191" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.aspect.AuthLogger.logLoginAttempt</definition>
+        <argsstring>(JoinPoint joinPoint, LoginRequestDTO loginRequest, Object result)</argsstring>
+        <name>logLoginAttempt</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.aspect.AuthLogger.logLoginAttempt</qualifiedname>
+        <param>
+          <type>JoinPoint</type>
+          <declname>joinPoint</declname>
+        </param>
+        <param>
+          <type>LoginRequestDTO</type>
+          <declname>loginRequest</declname>
+        </param>
+        <param>
+          <type>Object</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Logs authentication attempts after method execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This advice captures login attempts and their results, logging whether the authentication was successful and which user attempted to authenticate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>joinPoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The join point representing the intercepted method. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>loginRequest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The login request containing user credentials. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The result of the authentication attempt. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java" line="124" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java" bodystart="124" bodyend="139"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aspect for logging application flow. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This aspect logs method invocations within controller, repository, and service packages. </para>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java" line="34" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java" bodystart="34" bodyend="140"/>
+    <listofallmembers>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a680faa3f9afc16a9ef4c643528974335" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::aspect::AuthLogger</scope><name>afterAppFlow</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1aac3ce2dbda230a3a6aaa8de362f8d275" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::aspect::AuthLogger</scope><name>afterError</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1ae619c4fe730faa7e6c4966eba08ba3ac" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::aspect::AuthLogger</scope><name>authMethods</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1ae7d40a35e8eb8342a2eafdaac544b655" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::aspect::AuthLogger</scope><name>beforeAppFlow</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a3110e4e2691fda6501998199a8ab3fd9" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::aspect::AuthLogger</scope><name>forAppFlow</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a6c86e5000d3b2d019041efe6666e0f9f" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::aspect::AuthLogger</scope><name>forControllerPackage</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a0e0a47b95ef89c0c4d5dc139387b2db6" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::aspect::AuthLogger</scope><name>forRepositoryPackage</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1aea0ed65d201bd98ecfb2dfc2adb28aa7" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::aspect::AuthLogger</scope><name>forServicePackage</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1af531c703d303374a45d599abf3ad1191" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::aspect::AuthLogger</scope><name>logLoginAttempt</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a0586f8be908be5845340f6abfd455766" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::aspect::AuthLogger</scope><name>myLogger</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

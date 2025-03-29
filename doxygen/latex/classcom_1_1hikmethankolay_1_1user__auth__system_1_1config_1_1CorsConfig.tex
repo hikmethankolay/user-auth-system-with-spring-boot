@@ -1,0 +1,71 @@
+\doxysection{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+config.\+Cors\+Config Class Reference}
+\hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1CorsConfig}{}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1CorsConfig}\index{com.hikmethankolay.user\_auth\_system.config.CorsConfig@{com.hikmethankolay.user\_auth\_system.config.CorsConfig}}
+
+
+Configuration for Cross-\/\+Origin Resource Sharing (CORS).  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Cors\+Configuration\+Source \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1CorsConfig_afb2fe9985cbc0d41ee547424ad813b0f}{cors\+Configuration\+Source}} ()
+\begin{DoxyCompactList}\small\item\em Creates and configures a CORS configuration source. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Configuration for Cross-\/\+Origin Resource Sharing (CORS). 
+
+This configuration allows the API to accept requests from specified origins, with defined methods and headers, which is necessary for browser-\/based clients. 
+
+Definition at line \mbox{\hyperlink{CorsConfig_8java_source_l00034}{34}} of file \mbox{\hyperlink{CorsConfig_8java_source}{Cors\+Config.\+java}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1CorsConfig_afb2fe9985cbc0d41ee547424ad813b0f}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1CorsConfig_afb2fe9985cbc0d41ee547424ad813b0f} 
+\index{com.hikmethankolay.user\_auth\_system.config.CorsConfig@{com.hikmethankolay.user\_auth\_system.config.CorsConfig}!corsConfigurationSource@{corsConfigurationSource}}
+\index{corsConfigurationSource@{corsConfigurationSource}!com.hikmethankolay.user\_auth\_system.config.CorsConfig@{com.hikmethankolay.user\_auth\_system.config.CorsConfig}}
+\doxysubsubsection{\texorpdfstring{corsConfigurationSource()}{corsConfigurationSource()}}
+{\footnotesize\ttfamily Cors\+Configuration\+Source com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+config.\+Cors\+Config.\+cors\+Configuration\+Source (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Creates and configures a CORS configuration source. 
+
+\begin{DoxyReturn}{Returns}
+A fully configured Cors\+Configuration\+Source bean. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{CorsConfig_8java_source_l00041}{41}} of file \mbox{\hyperlink{CorsConfig_8java_source}{Cors\+Config.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ CorsConfiguration\ configuration\ =\ \textcolor{keyword}{new}\ CorsConfiguration();}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Define\ allowed\ origins\ for\ cross-\/origin\ requests}}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ configuration.setAllowedOrigins(List.of(\textcolor{stringliteral}{"{}http://localhost:3000"{}},\ \textcolor{stringliteral}{"{}https://yourdomain.com"{}}));}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Define\ allowed\ HTTP\ methods}}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ configuration.setAllowedMethods(List.of(\textcolor{stringliteral}{"{}GET"{}},\ \textcolor{stringliteral}{"{}POST"{}},\ \textcolor{stringliteral}{"{}PUT"{}},\ \textcolor{stringliteral}{"{}PATCH"{}},\ \textcolor{stringliteral}{"{}DELETE"{}},\ \textcolor{stringliteral}{"{}OPTIONS"{}}));}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Define\ allowed\ request\ headers}}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ configuration.setAllowedHeaders(List.of(\textcolor{stringliteral}{"{}Authorization"{}},\ \textcolor{stringliteral}{"{}Content-\/Type"{}}));}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Allow\ cookies\ and\ authentication\ headers}}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ configuration.setAllowCredentials(\textcolor{keyword}{true});}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Apply\ this\ configuration\ to\ all\ paths}}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ UrlBasedCorsConfigurationSource\ source\ =\ \textcolor{keyword}{new}\ UrlBasedCorsConfigurationSource();}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ source.registerCorsConfiguration(\textcolor{stringliteral}{"{}/**"{}},\ configuration);}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ source;}
+\DoxyCodeLine{00061\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+user-\/auth-\/system/src/main/java/com/hikmethankolay/user\+\_\+auth\+\_\+system/config/\mbox{\hyperlink{CorsConfig_8java}{Cors\+Config.\+java}}\end{DoxyCompactItemize}

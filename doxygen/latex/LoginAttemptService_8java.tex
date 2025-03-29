@@ -1,0 +1,35 @@
+\doxysection{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\+\_\+auth\+\_\+system/security/\+Login\+Attempt\+Service.java File Reference}
+\hypertarget{LoginAttemptService_8java}{}\label{LoginAttemptService_8java}\index{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/security/LoginAttemptService.java@{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/security/LoginAttemptService.java}}
+
+
+Service for tracking and limiting login attempts.  
+
+
+{\ttfamily import com.\+google.\+common.\+cache.\+Cache\+Builder;}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService}{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+security.\+Login\+Attempt\+Service}}
+\begin{DoxyCompactList}\small\item\em Service to prevent brute force attacks by limiting login attempts. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Packages}
+\begin{DoxyCompactItemize}
+\item 
+package \mbox{\hyperlink{namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1security}{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+security}}
+\begin{DoxyCompactList}\small\item\em Contains the core components of the User Authentication System. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Service for tracking and limiting login attempts. 
+
+This service prevents brute force attacks by tracking failed login attempts and blocking users who exceed the maximum allowed attempts within a time window.
+
+\begin{DoxyAuthor}{Author}
+Hikmethan Kolay 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2025-\/03-\/29 
+\end{DoxyDate}
+
+
+Definition in file \mbox{\hyperlink{LoginAttemptService_8java_source}{Login\+Attempt\+Service.\+java}}.
+

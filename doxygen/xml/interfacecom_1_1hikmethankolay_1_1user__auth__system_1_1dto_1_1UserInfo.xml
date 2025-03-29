@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfo" kind="interface" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::dto::UserInfo</compoundname>
+    <derivedcompoundref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO" prot="public" virt="non-virtual">com.hikmethankolay.user_auth_system.dto.UserInfoDTO</derivedcompoundref>
+    <derivedcompoundref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO" prot="public" virt="non-virtual">com.hikmethankolay.user_auth_system.dto.UserRegisterDTO</derivedcompoundref>
+    <derivedcompoundref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO" prot="public" virt="non-virtual">com.hikmethankolay.user_auth_system.dto.UserUpdateDTO</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfo_1abc6758c24ec8efae2cf18c77b9385a42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Long</type>
+        <definition>Long com.hikmethankolay.user_auth_system.dto.UserInfo.getId</definition>
+        <argsstring>()</argsstring>
+        <name>getId</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserInfo.getId</qualifiedname>
+        <reimplementedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO_1a2e12216de9bc391157b9414be191abaa">getId</reimplementedby>
+        <reimplementedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO_1af884ae5b7667fda68921218912e89a54">getId</reimplementedby>
+        <reimplementedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1aa6fe38df782c968322b4e60f79d43667">getId</reimplementedby>
+        <briefdescription>
+<para>Retrieves the ID of the user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The ID as a Long. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserInfo.java" line="29" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfo_1a36fc1a255d5c08b200033eb9bca551f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String com.hikmethankolay.user_auth_system.dto.UserInfo.getUsername</definition>
+        <argsstring>()</argsstring>
+        <name>getUsername</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserInfo.getUsername</qualifiedname>
+        <reimplementedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO_1a24f322b16dc5079b32faca7c54ce71d7">getUsername</reimplementedby>
+        <reimplementedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO_1a44c51eb5bd88bbdf42de075cd4051e62">getUsername</reimplementedby>
+        <reimplementedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1a7944b7ebde38a93a945389863bda619d">getUsername</reimplementedby>
+        <briefdescription>
+<para>Retrieves the username of the user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The username as a string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserInfo.java" line="35" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfo_1a0f11999bc9099971265d94c5af80b60e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>String</type>
+        <definition>String com.hikmethankolay.user_auth_system.dto.UserInfo.getEmail</definition>
+        <argsstring>()</argsstring>
+        <name>getEmail</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserInfo.getEmail</qualifiedname>
+        <reimplementedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO_1a15192447b093a328bde2451df90a6a07">getEmail</reimplementedby>
+        <reimplementedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO_1a7e931c32455d3e475ce049c083f61038">getEmail</reimplementedby>
+        <reimplementedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO_1ae3025d0043e49886511ab530b3eb6faa">getEmail</reimplementedby>
+        <briefdescription>
+<para>Retrieves the email of the user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The email as a string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserInfo.java" line="41" column="12"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Interface for all user details. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This interface provides methods to access all user information. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>com.hikmethankolay.user_auth_system.dto.UserInfo</label>
+        <link refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfo"/>
+      </node>
+      <node id="2">
+        <label>com.hikmethankolay.user_auth_system.dto.UserInfoDTO</label>
+        <link refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>com.hikmethankolay.user_auth_system.dto.UserRegisterDTO</label>
+        <link refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>com.hikmethankolay.user_auth_system.dto.UserUpdateDTO</label>
+        <link refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserInfo.java" line="24" column="18" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserInfo.java" bodystart="24" bodyend="42"/>
+    <listofallmembers>
+      <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfo_1a0f11999bc9099971265d94c5af80b60e" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserInfo</scope><name>getEmail</name></member>
+      <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfo_1abc6758c24ec8efae2cf18c77b9385a42" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserInfo</scope><name>getId</name></member>
+      <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfo_1a36fc1a255d5c08b200033eb9bca551f1" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserInfo</scope><name>getUsername</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

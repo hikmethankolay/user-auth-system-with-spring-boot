@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController" kind="class" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::controller::AuthController</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1ac9035c15955b40ff10c617956f491832" prot="private" static="no" mutable="no">
+        <type>final UserService</type>
+        <definition>final UserService com.hikmethankolay.user_auth_system.controller.AuthController.userService</definition>
+        <argsstring></argsstring>
+        <name>userService</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.controller.AuthController.userService</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>User service for handling authentication logic. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="39" column="31" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1a06234aeda5e226b9b7acbd2584b94ecd" prot="private" static="no" mutable="no">
+        <type>final JwtUtils</type>
+        <definition>final JwtUtils com.hikmethankolay.user_auth_system.controller.AuthController.jwtUtils</definition>
+        <argsstring></argsstring>
+        <name>jwtUtils</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.controller.AuthController.jwtUtils</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>JWT utilities for token operations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="42" column="28" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1ac3db8f99fbd130eb61b057d3dbba55e7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>com.hikmethankolay.user_auth_system.controller.AuthController.AuthController</definition>
+        <argsstring>(UserService userService, JwtUtils jwtUtils)</argsstring>
+        <name>AuthController</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.controller.AuthController.AuthController</qualifiedname>
+        <param>
+          <type>UserService</type>
+          <declname>userService</declname>
+        </param>
+        <param>
+          <type>JwtUtils</type>
+          <declname>jwtUtils</declname>
+        </param>
+        <briefdescription>
+<para>Constructor for AuthController. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>userService</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The user service instance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>jwtUtils</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The JWT utility instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="49" column="12" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="49" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1ad1b27e4a910517386f9e15744c03ea47" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ResponseEntity&lt; ApiResponseDTO&lt; UserInfoDTO &gt; &gt;</type>
+        <definition>ResponseEntity&lt; ApiResponseDTO&lt; UserInfoDTO &gt; &gt; com.hikmethankolay.user_auth_system.controller.AuthController.register</definition>
+        <argsstring>(@RequestBody UserRegisterDTO registerRequest)</argsstring>
+        <name>register</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.controller.AuthController.register</qualifiedname>
+        <param>
+          <type>@RequestBody UserRegisterDTO</type>
+          <declname>registerRequest</declname>
+        </param>
+        <briefdescription>
+<para>Handles user registration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>registerRequest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The user registration request data. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Response entity containing the registration result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="60" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="60" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1aa05f79719a19cf9bd5cbcaa40e282b06" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ResponseEntity&lt; ApiResponseDTO&lt; AuthResponseDTO &gt; &gt;</type>
+        <definition>ResponseEntity&lt; ApiResponseDTO&lt; AuthResponseDTO &gt; &gt; com.hikmethankolay.user_auth_system.controller.AuthController.login</definition>
+        <argsstring>(HttpServletRequest request, @RequestBody LoginRequestDTO loginRequest)</argsstring>
+        <name>login</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.controller.AuthController.login</qualifiedname>
+        <param>
+          <type>HttpServletRequest</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>@RequestBody LoginRequestDTO</type>
+          <declname>loginRequest</declname>
+        </param>
+        <briefdescription>
+<para>Handles user login with Remember Me support and brute force protection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The HTTP request used to get client IP. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>loginRequest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The login request containing credentials and Remember Me preference. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Response entity with token and optional cookie or error message. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="77" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="77" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1a8180efdb83cdefce76c860e24e6049be" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ResponseEntity&lt; ApiResponseDTO&lt; Void &gt; &gt;</type>
+        <definition>ResponseEntity&lt; ApiResponseDTO&lt; Void &gt; &gt; com.hikmethankolay.user_auth_system.controller.AuthController.logout</definition>
+        <argsstring>()</argsstring>
+        <name>logout</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.controller.AuthController.logout</qualifiedname>
+        <briefdescription>
+<para>Handles user logout by clearing cookies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Response entity with success message. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="133" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="133" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1a682087dd970d9f3b5b1bd505b6f3270a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ResponseEntity&lt; ApiResponseDTO&lt; AuthResponseDTO &gt; &gt;</type>
+        <definition>ResponseEntity&lt; ApiResponseDTO&lt; AuthResponseDTO &gt; &gt; com.hikmethankolay.user_auth_system.controller.AuthController.refreshToken</definition>
+        <argsstring>(HttpServletRequest request)</argsstring>
+        <name>refreshToken</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.controller.AuthController.refreshToken</qualifiedname>
+        <param>
+          <type>HttpServletRequest</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Refreshes an authentication token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The HTTP request containing the current token. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Response entity with a new token. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="154" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="154" bodyend="189"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1a01c165f8dd1cc72b100f1fb894954ebf" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>String</type>
+        <definition>String com.hikmethankolay.user_auth_system.controller.AuthController.getClientIp</definition>
+        <argsstring>(HttpServletRequest request)</argsstring>
+        <name>getClientIp</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.controller.AuthController.getClientIp</qualifiedname>
+        <param>
+          <type>HttpServletRequest</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Extracts the client IP address from the request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The HTTP request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The client IP address. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="120" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="120" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>REST controller for handling authentication requests. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="36" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="36" bodyend="190"/>
+    <listofallmembers>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1ac3db8f99fbd130eb61b057d3dbba55e7" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::AuthController</scope><name>AuthController</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1a01c165f8dd1cc72b100f1fb894954ebf" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::AuthController</scope><name>getClientIp</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1a06234aeda5e226b9b7acbd2584b94ecd" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::AuthController</scope><name>jwtUtils</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1aa05f79719a19cf9bd5cbcaa40e282b06" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::AuthController</scope><name>login</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1a8180efdb83cdefce76c860e24e6049be" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::AuthController</scope><name>logout</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1a682087dd970d9f3b5b1bd505b6f3270a" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::AuthController</scope><name>refreshToken</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1ad1b27e4a910517386f9e15744c03ea47" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::AuthController</scope><name>register</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1ac9035c15955b40ff10c617956f491832" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::AuthController</scope><name>userService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

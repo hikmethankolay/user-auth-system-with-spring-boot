@@ -1,0 +1,84 @@
+\doxysection{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+service.\+Role\+Service Class Reference}
+\hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService}{}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService}\index{com.hikmethankolay.user\_auth\_system.service.RoleService@{com.hikmethankolay.user\_auth\_system.service.RoleService}}
+
+
+Service class for handling role-\/related operations.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+List$<$ Role $>$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService_ac8f457569194c2a2af2871f93f45f3d6}{find\+All}} ()
+\begin{DoxyCompactList}\small\item\em Retrieves all roles. \end{DoxyCompactList}\item 
+Optional$<$ Role $>$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService_a74813b3a339b30702837a0f08aa72dc3}{find\+By\+Name}} (ERole name)
+\begin{DoxyCompactList}\small\item\em Finds a role by its name. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Service class for handling role-\/related operations. 
+
+This service interacts with the Role\+Repository to fetch role details. 
+
+Definition at line \mbox{\hyperlink{RoleService_8java_source_l00031}{31}} of file \mbox{\hyperlink{RoleService_8java_source}{Role\+Service.\+java}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService_ac8f457569194c2a2af2871f93f45f3d6}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService_ac8f457569194c2a2af2871f93f45f3d6} 
+\index{com.hikmethankolay.user\_auth\_system.service.RoleService@{com.hikmethankolay.user\_auth\_system.service.RoleService}!findAll@{findAll}}
+\index{findAll@{findAll}!com.hikmethankolay.user\_auth\_system.service.RoleService@{com.hikmethankolay.user\_auth\_system.service.RoleService}}
+\doxysubsubsection{\texorpdfstring{findAll()}{findAll()}}
+{\footnotesize\ttfamily List$<$ Role $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+service.\+Role\+Service.\+find\+All (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Retrieves all roles. 
+
+\begin{DoxyReturn}{Returns}
+A list of all roles. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{RoleService_8java_source_l00048}{48}} of file \mbox{\hyperlink{RoleService_8java_source}{Role\+Service.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ roleRepository.findAll();}
+\DoxyCodeLine{00050\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService_a74813b3a339b30702837a0f08aa72dc3}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService_a74813b3a339b30702837a0f08aa72dc3} 
+\index{com.hikmethankolay.user\_auth\_system.service.RoleService@{com.hikmethankolay.user\_auth\_system.service.RoleService}!findByName@{findByName}}
+\index{findByName@{findByName}!com.hikmethankolay.user\_auth\_system.service.RoleService@{com.hikmethankolay.user\_auth\_system.service.RoleService}}
+\doxysubsubsection{\texorpdfstring{findByName()}{findByName()}}
+{\footnotesize\ttfamily Optional$<$ Role $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+service.\+Role\+Service.\+find\+By\+Name (\begin{DoxyParamCaption}\item[{ERole}]{name }\end{DoxyParamCaption})}
+
+
+
+Finds a role by its name. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & The name of the role. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An Optional containing the role if found. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{RoleService_8java_source_l00057}{57}} of file \mbox{\hyperlink{RoleService_8java_source}{Role\+Service.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ roleRepository.findByName(name);}
+\DoxyCodeLine{00059\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+user-\/auth-\/system/src/main/java/com/hikmethankolay/user\+\_\+auth\+\_\+system/service/\mbox{\hyperlink{RoleService_8java}{Role\+Service.\+java}}\end{DoxyCompactItemize}

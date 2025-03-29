@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="RoleUserInfoDTO_8java" kind="file" language="Java">
+    <compoundname>RoleUserInfoDTO.java</compoundname>
+    <includes local="no">com.hikmethankolay.user_auth_system.entity.User</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/RoleUserInfoDTO.java</label>
+        <link refid="RoleUserInfoDTO_8java"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>com.hikmethankolay.user_auth_system.entity.User</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto">com::hikmethankolay::user_auth_system::dto</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a6724b6895ea4bdc96b3a62aed61a1bb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>record</type>
+        <definition>record com.hikmethankolay.user_auth_system.dto.RoleUserInfoDTO</definition>
+        <argsstring>(Long id, String username, String email)</argsstring>
+        <name>RoleUserInfoDTO</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.RoleUserInfoDTO</qualifiedname>
+        <param>
+          <type>Long</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>username</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>email</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Constructs a RoleUserInfoDTO from a User entity. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The user entity.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/RoleUserInfoDTO.java" line="29" column="15" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/RoleUserInfoDTO.java" bodystart="29" bodyend="45"/>
+        <references refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a6724b6895ea4bdc96b3a62aed61a1bb8" compoundref="RoleUserInfoDTO_8java" startline="29" endline="45">com.hikmethankolay.user_auth_system.dto.RoleUserInfoDTO</references>
+        <referencedby refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a6724b6895ea4bdc96b3a62aed61a1bb8" compoundref="RoleUserInfoDTO_8java" startline="29" endline="45">com.hikmethankolay.user_auth_system.dto.RoleUserInfoDTO</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Data Transfer Object for role-user information. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This DTO represents a user associated with a role, including user credentials.</para>
+<para><simplesect kind="author"><para>Hikmethan Kolay </para>
+</simplesect>
+<simplesect kind="date"><para>2025-02-12 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">package<sp/></highlight><highlight class="normal">com.hikmethankolay.user_auth_system.dto;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>com.hikmethankolay.user_auth_system.entity.User;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a6724b6895ea4bdc96b3a62aed61a1bb8" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>record<sp/><ref refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a6724b6895ea4bdc96b3a62aed61a1bb8" kindref="member">RoleUserInfoDTO</ref>(</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Long<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/>username,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/>email</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a6724b6895ea4bdc96b3a62aed61a1bb8" kindref="member">RoleUserInfoDTO</ref>(User<sp/>user)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>user.getId(),</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>user.getUsername(),</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>user.getEmail()</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/RoleUserInfoDTO.java"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository" kind="namespace" language="Java">
+    <compoundname>com::hikmethankolay::user_auth_system::repository</compoundname>
+    <innerclass refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1RoleRepository" prot="public">com::hikmethankolay::user_auth_system::repository::RoleRepository</innerclass>
+    <innerclass refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1UserRepository" prot="public">com::hikmethankolay::user_auth_system::repository::UserRepository</innerclass>
+    <briefdescription>
+<para>Contains the core components of the User Authentication System. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/repository/RoleRepository.java" line="12" column="1"/>
+  </compounddef>
+</doxygen>

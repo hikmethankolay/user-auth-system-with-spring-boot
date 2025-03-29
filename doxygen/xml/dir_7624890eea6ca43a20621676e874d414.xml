@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_7624890eea6ca43a20621676e874d414" kind="dir">
+    <compoundname>user-auth-system/src/main/java/com/hikmethankolay</compoundname>
+    <innerdir refid="dir_16ec37d6713a298e2793cc3826e8d99c">user-auth-system/src/main/java/com/hikmethankolay/user_auth_system</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/"/>
+  </compounddef>
+</doxygen>

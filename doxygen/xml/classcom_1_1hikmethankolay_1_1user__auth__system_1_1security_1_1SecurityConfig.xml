@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1SecurityConfig" kind="class" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::security::SecurityConfig</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1SecurityConfig_1a7f5fc84ce2f1dc53d2bae93dacc8f8cf" prot="private" static="no" mutable="no">
+        <type>final <ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter" kindref="compound">JwtFilter</ref></type>
+        <definition>final JwtFilter com.hikmethankolay.user_auth_system.security.SecurityConfig.jwtFilter</definition>
+        <argsstring></argsstring>
+        <name>jwtFilter</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.security.SecurityConfig.jwtFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>JWT authentication filter. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security/SecurityConfig.java" line="38" column="29" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security/SecurityConfig.java" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1SecurityConfig_1ac1b8b8869340bda61520281a07ccb88a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>com.hikmethankolay.user_auth_system.security.SecurityConfig.SecurityConfig</definition>
+        <argsstring>(JwtFilter jwtFilter)</argsstring>
+        <name>SecurityConfig</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.security.SecurityConfig.SecurityConfig</qualifiedname>
+        <param>
+          <type><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter" kindref="compound">JwtFilter</ref></type>
+          <declname>jwtFilter</declname>
+        </param>
+        <briefdescription>
+<para>Constructor for SecurityConfig. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>jwtFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The JWT authentication filter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security/SecurityConfig.java" line="44" column="12" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security/SecurityConfig.java" bodystart="44" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1SecurityConfig_1afa1ac82a669d6abe5070771566ecccf5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>SecurityFilterChain</type>
+        <definition>SecurityFilterChain com.hikmethankolay.user_auth_system.security.SecurityConfig.securityFilterChain</definition>
+        <argsstring>(HttpSecurity http)</argsstring>
+        <name>securityFilterChain</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.security.SecurityConfig.securityFilterChain</qualifiedname>
+        <param>
+          <type>HttpSecurity</type>
+          <declname>http</declname>
+        </param>
+        <exceptions> throws Exception </exceptions>
+        <briefdescription>
+<para>Configures security filter chain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>http</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The HttpSecurity configuration object. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The configured SecurityFilterChain. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>Exception</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If an error occurs during configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security/SecurityConfig.java" line="55" column="32" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security/SecurityConfig.java" bodystart="55" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Security configuration class for HTTP security. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This class defines authentication policies, role-based access, and session management. </para>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security/SecurityConfig.java" line="35" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security/SecurityConfig.java" bodystart="35" bodyend="82"/>
+    <listofallmembers>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1SecurityConfig_1a7f5fc84ce2f1dc53d2bae93dacc8f8cf" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::security::SecurityConfig</scope><name>jwtFilter</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1SecurityConfig_1ac1b8b8869340bda61520281a07ccb88a" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::security::SecurityConfig</scope><name>SecurityConfig</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1SecurityConfig_1afa1ac82a669d6abe5070771566ecccf5" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::security::SecurityConfig</scope><name>securityFilterChain</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

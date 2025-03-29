@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RoleUserInfoDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">user-auth-system</a> &gt; <a href="index.source.html" class="el_package">com.hikmethankolay.user_auth_system.dto</a> &gt; <span class="el_source">RoleUserInfoDTO.java</span></div><h1>RoleUserInfoDTO.java</h1><pre class="source lang-java linenums">/**
+ * @file RoleUserInfoDTO.java
+ * @brief Data Transfer Object for role-user information.
+ *
+ * This DTO represents a user associated with a role, including user credentials.
+ *
+ * @author Hikmethan Kolay
+ * @date 2025-02-12
+ */
+
+/**
+ * @package com.hikmethankolay.user_auth_system.dto
+ * @brief Contains the core components of the User Authentication System.
+ */
+package com.hikmethankolay.user_auth_system.dto;
+
+import com.hikmethankolay.user_auth_system.entity.User;
+
+/**
+ * @class RoleUserInfoDTO
+ * @brief DTO for user details in a role.
+ *
+ * @param id The id of the role.
+ * @param username The username of the role member.
+ * @param email The name of the role member.
+ *
+ * This record holds basic user information associated with a role.
+ */
+<span class="nc" id="L29">public record RoleUserInfoDTO(</span>
+        Long id,
+        String username,
+        String email
+) {
+    /**
+     * @brief Constructs a RoleUserInfoDTO from a User entity.
+     * @param user The user entity.
+     */
+    public RoleUserInfoDTO(User user) {
+<span class="nc" id="L39">        this(</span>
+<span class="nc" id="L40">                user.getId(),</span>
+<span class="nc" id="L41">                user.getUsername(),</span>
+<span class="nc" id="L42">                user.getEmail()</span>
+        );
+<span class="nc" id="L44">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

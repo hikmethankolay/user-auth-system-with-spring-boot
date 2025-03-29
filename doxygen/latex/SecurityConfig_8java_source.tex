@@ -1,0 +1,58 @@
+\doxysection{Security\+Config.\+java}
+\hypertarget{SecurityConfig_8java_source}{}\label{SecurityConfig_8java_source}\index{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/security/SecurityConfig.java@{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/security/SecurityConfig.java}}
+\mbox{\hyperlink{SecurityConfig_8java}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00015}00015\ \textcolor{keyword}{package\ }com.hikmethankolay.user\_auth\_system.security;}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00017}00017\ \textcolor{keyword}{import}\ org.springframework.context.annotation.Bean;}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00018}00018\ \textcolor{keyword}{import}\ org.springframework.context.annotation.Configuration;}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00019}00019\ \textcolor{keyword}{import}\ org.springframework.http.HttpMethod;}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00020}00020\ \textcolor{keyword}{import}\ org.springframework.http.HttpStatus;}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00021}00021\ \textcolor{keyword}{import}\ org.springframework.http.MediaType;}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00022}00022\ \textcolor{keyword}{import}\ org.springframework.security.config.annotation.web.builders.HttpSecurity;}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00023}00023\ \textcolor{keyword}{import}\ org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00024}00024\ \textcolor{keyword}{import}\ org.springframework.security.config.http.SessionCreationPolicy;}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00025}00025\ \textcolor{keyword}{import}\ org.springframework.security.web.SecurityFilterChain;}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00026}00026\ \textcolor{keyword}{import}\ org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00034}00034\ @Configuration}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00035}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1SecurityConfig}{00035}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1SecurityConfig}{SecurityConfig}}\ \{}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00038}00038\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{final}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter}{JwtFilter}}\ jwtFilter;}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00044}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1SecurityConfig_ac1b8b8869340bda61520281a07ccb88a}{00044}}\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1SecurityConfig_ac1b8b8869340bda61520281a07ccb88a}{SecurityConfig}}(\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter}{JwtFilter}}\ jwtFilter)\ \{}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00045}00045\ \ \ \ \ \ \ \ \ this.jwtFilter\ =\ jwtFilter;}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00046}00046\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00054}00054\ \ \ \ \ @Bean}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00055}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1SecurityConfig_afa1ac82a669d6abe5070771566ecccf5}{00055}}\ \ \ \ \ \textcolor{keyword}{public}\ SecurityFilterChain\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1SecurityConfig_afa1ac82a669d6abe5070771566ecccf5}{securityFilterChain}}(HttpSecurity\ http)\ \textcolor{keywordflow}{throws}\ Exception\ \{}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00056}00056\ \ \ \ \ \ \ \ \ http}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .csrf(AbstractHttpConfigurer::disable)}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .authorizeHttpRequests(auth\ -\/>\ auth}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .requestMatchers(HttpMethod.POST,\textcolor{stringliteral}{"{}/api/auth/login"{}}).permitAll()}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .requestMatchers(HttpMethod.POST,\ \textcolor{stringliteral}{"{}/api/auth/register"{}}).permitAll()}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .requestMatchers(HttpMethod.GET,\ \textcolor{stringliteral}{"{}/api/users/me"{}}).authenticated()}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .requestMatchers(HttpMethod.PATCH,\ \textcolor{stringliteral}{"{}/api/users/me"{}}).authenticated()}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .requestMatchers(HttpMethod.GET,\ \textcolor{stringliteral}{"{}/api/users/**"{}}).hasRole(\textcolor{stringliteral}{"{}ADMIN"{}})}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .requestMatchers(HttpMethod.PATCH,\ \textcolor{stringliteral}{"{}/api/users/**"{}}).hasRole(\textcolor{stringliteral}{"{}ADMIN"{}})}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .requestMatchers(HttpMethod.DELETE,\textcolor{stringliteral}{"{}/api/users/**"{}}).hasRole(\textcolor{stringliteral}{"{}ADMIN"{}})}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .requestMatchers(HttpMethod.GET,\textcolor{stringliteral}{"{}/api/roles/**"{}}).hasRole(\textcolor{stringliteral}{"{}ADMIN"{}})}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .anyRequest().permitAll()}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .exceptionHandling(ex\ -\/>\ ex}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .authenticationEntryPoint((request,\ response,\ authException)\ -\/>\ \{}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ response.setContentType(MediaType.APPLICATION\_JSON\_VALUE);}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ response.setStatus(HttpStatus.UNAUTHORIZED.value());}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ response.getWriter().write(\textcolor{stringliteral}{"{}\{\(\backslash\)"{}status\(\backslash\)"{}:\(\backslash\)"{}FAILURE\(\backslash\)"{},\ \(\backslash\)"{}data\(\backslash\)"{}:\(\backslash\)"{}\(\backslash\)"{}\ ,\(\backslash\)"{}message\(\backslash\)"{}:\(\backslash\)"{}Unauthorized\(\backslash\)"{}\}"{}});}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \})}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .sessionManagement(session\ -\/>\ session}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .sessionCreationPolicy(SessionCreationPolicy.STATELESS)}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .addFilterBefore(jwtFilter,\ UsernamePasswordAuthenticationFilter.class);}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00080}00080\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ http.build();}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00081}00081\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{SecurityConfig_8java_source_l00082}00082\ \}}
+
+\end{DoxyCode}

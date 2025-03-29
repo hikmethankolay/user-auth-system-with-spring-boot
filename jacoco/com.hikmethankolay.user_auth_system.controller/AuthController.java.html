@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">user-auth-system</a> &gt; <a href="index.source.html" class="el_package">com.hikmethankolay.user_auth_system.controller</a> &gt; <span class="el_source">AuthController.java</span></div><h1>AuthController.java</h1><pre class="source lang-java linenums">/**
+ * @file AuthController.java
+ * @brief Controller for user authentication.
+ * This controller provides endpoints for user registration and authentication.
+ *
+ * @author Hikmethan Kolay
+ * @date 2025-02-12
+ */
+
+/**
+ * @package com.hikmethankolay.user_auth_system.controller
+ * @brief Contains the core components of the User Authentication System.
+ */
+package com.hikmethankolay.user_auth_system.controller;
+
+import com.hikmethankolay.user_auth_system.dto.*;
+import com.hikmethankolay.user_auth_system.entity.User;
+import com.hikmethankolay.user_auth_system.enums.EApiStatus;
+import com.hikmethankolay.user_auth_system.service.UserService;
+import com.hikmethankolay.user_auth_system.util.JwtUtils;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.Duration;
+
+/**
+ * @class AuthController
+ * @brief REST controller for handling authentication requests.
+ */
+@RestController
+@RequestMapping(&quot;/api/auth&quot;)
+public class AuthController {
+
+    /** User service for handling authentication logic. */
+    private final UserService userService;
+
+    /** JWT utilities for token operations. */
+    private final JwtUtils jwtUtils;
+
+    /**
+     * @brief Constructor for AuthController.
+     * @param userService The user service instance.
+     * @param jwtUtils The JWT utility instance.
+     */
+<span class="fc" id="L49">    public AuthController(UserService userService, JwtUtils jwtUtils) {</span>
+<span class="fc" id="L50">        this.userService = userService;</span>
+<span class="fc" id="L51">        this.jwtUtils = jwtUtils;</span>
+<span class="fc" id="L52">    }</span>
+
+    /**
+     * @brief Handles user registration.
+     * @param registerRequest The user registration request data.
+     * @return Response entity containing the registration result.
+     */
+    @PostMapping(&quot;/register&quot;)
+    public ResponseEntity&lt;ApiResponseDTO&lt;UserInfoDTO&gt;&gt; register(@RequestBody UserRegisterDTO registerRequest) {
+        try {
+<span class="fc" id="L62">            User registeredUser = userService.registerUser(registerRequest);</span>
+<span class="fc" id="L63">            return ResponseEntity.ok(new ApiResponseDTO&lt;&gt;(EApiStatus.SUCCESS, new UserInfoDTO(registeredUser), &quot;User registered successfully&quot;));</span>
+<span class="fc" id="L64">        } catch (Exception e) {</span>
+<span class="fc" id="L65">            return ResponseEntity.status(HttpStatus.BAD_REQUEST)</span>
+<span class="fc" id="L66">                    .body(new ApiResponseDTO&lt;&gt;(EApiStatus.FAILURE, null, e.getMessage()));</span>
+        }
+    }
+
+    /**
+     * @brief Handles user login with Remember Me support and brute force protection.
+     * @param request The HTTP request used to get client IP.
+     * @param loginRequest The login request containing credentials and Remember Me preference.
+     * @return Response entity with token and optional cookie or error message.
+     */
+    @PostMapping(&quot;/login&quot;)
+    public ResponseEntity&lt;ApiResponseDTO&lt;AuthResponseDTO&gt;&gt; login(HttpServletRequest request, @RequestBody LoginRequestDTO loginRequest) {
+        // Get client IP address for rate limiting
+<span class="fc" id="L79">        String clientIp = getClientIp(request);</span>
+
+        try {
+            // Authentication is performed in the service layer
+<span class="fc" id="L83">            String token = userService.authenticateUser(loginRequest, clientIp);</span>
+
+<span class="fc bfc" id="L85" title="All 2 branches covered.">            if (token != null) {</span>
+                // Login successful
+<span class="fc" id="L87">                AuthResponseDTO responseDTO = new AuthResponseDTO(token);</span>
+<span class="fc" id="L88">                ResponseEntity.BodyBuilder responseBuilder = ResponseEntity.ok();</span>
+
+                // If Remember Me is enabled, set a persistent cookie
+<span class="fc bfc" id="L91" title="All 2 branches covered.">                if (loginRequest.rememberMe()) {</span>
+<span class="fc" id="L92">                    ResponseCookie authCookie = ResponseCookie.from(&quot;auth_token&quot;, token)</span>
+<span class="fc" id="L93">                            .httpOnly(true)</span>
+<span class="fc" id="L94">                            .secure(false) // Enable in production with HTTPS</span>
+<span class="fc" id="L95">                            .path(&quot;/&quot;)</span>
+<span class="fc" id="L96">                            .maxAge(Duration.ofDays(30))</span>
+<span class="fc" id="L97">                            .sameSite(&quot;Strict&quot;)</span>
+<span class="fc" id="L98">                            .build();</span>
+
+<span class="fc" id="L100">                    responseBuilder.header(HttpHeaders.SET_COOKIE, authCookie.toString());</span>
+                }
+
+<span class="fc" id="L103">                return responseBuilder.body(new ApiResponseDTO&lt;&gt;(EApiStatus.SUCCESS, responseDTO, &quot;User authenticated successfully&quot;));</span>
+            } else {
+<span class="fc" id="L105">                return ResponseEntity.status(HttpStatus.BAD_REQUEST)</span>
+<span class="fc" id="L106">                        .body(new ApiResponseDTO&lt;&gt;(EApiStatus.FAILURE, null, &quot;Wrong username or password&quot;));</span>
+            }
+<span class="fc" id="L108">        } catch (RuntimeException e) {</span>
+            // Handle account/IP blocking errors with appropriate status code
+<span class="fc" id="L110">            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)</span>
+<span class="fc" id="L111">                    .body(new ApiResponseDTO&lt;&gt;(EApiStatus.FAILURE, null, e.getMessage()));</span>
+        }
+    }
+
+    /**
+     * @brief Extracts the client IP address from the request.
+     * @param request The HTTP request.
+     * @return The client IP address.
+     */
+    private String getClientIp(HttpServletRequest request) {
+<span class="fc" id="L121">        String xfHeader = request.getHeader(&quot;X-Forwarded-For&quot;);</span>
+<span class="pc bpc" id="L122" title="5 of 6 branches missed.">        if (xfHeader == null || xfHeader.isEmpty() || &quot;unknown&quot;.equalsIgnoreCase(xfHeader)) {</span>
+<span class="fc" id="L123">            return request.getRemoteAddr();</span>
+        }
+<span class="nc" id="L125">        return xfHeader.split(&quot;,&quot;)[0];</span>
+    }
+
+    /**
+     * @brief Handles user logout by clearing cookies.
+     * @return Response entity with success message.
+     */
+    @PostMapping(&quot;/logout&quot;)
+    public ResponseEntity&lt;ApiResponseDTO&lt;Void&gt;&gt; logout() {
+        // Clear the auth cookie by setting its max age to 0
+<span class="fc" id="L135">        ResponseCookie clearCookie = ResponseCookie.from(&quot;auth_token&quot;, &quot;&quot;)</span>
+<span class="fc" id="L136">                .httpOnly(true)</span>
+<span class="fc" id="L137">                .secure(false)</span>
+<span class="fc" id="L138">                .path(&quot;/&quot;)</span>
+<span class="fc" id="L139">                .maxAge(0)</span>
+<span class="fc" id="L140">                .sameSite(&quot;Strict&quot;)</span>
+<span class="fc" id="L141">                .build();</span>
+
+<span class="fc" id="L143">        return ResponseEntity.ok()</span>
+<span class="fc" id="L144">                .header(HttpHeaders.SET_COOKIE, clearCookie.toString())</span>
+<span class="fc" id="L145">                .body(new ApiResponseDTO&lt;&gt;(EApiStatus.SUCCESS, null, &quot;Logged out successfully&quot;));</span>
+    }
+
+    /**
+     * @brief Refreshes an authentication token.
+     * @param request The HTTP request containing the current token.
+     * @return Response entity with a new token.
+     */
+    @PostMapping(&quot;/refresh-token&quot;)
+    public ResponseEntity&lt;ApiResponseDTO&lt;AuthResponseDTO&gt;&gt; refreshToken(HttpServletRequest request) {
+        try {
+            // Token validation and refresh handled in service layer
+<span class="fc" id="L157">            String token = jwtUtils.extractTokenFromRequest(request);</span>
+
+            // Service handles validating the token and creating new one
+<span class="fc" id="L160">            String newToken = userService.refreshToken(token);</span>
+<span class="fc" id="L161">            boolean wasRememberMe = jwtUtils.wasRememberMe(token);</span>
+
+<span class="fc bfc" id="L163" title="All 2 branches covered.">            if (newToken != null) {</span>
+<span class="fc" id="L164">                AuthResponseDTO responseDTO = new AuthResponseDTO(newToken);</span>
+<span class="fc" id="L165">                ResponseEntity.BodyBuilder responseBuilder = ResponseEntity.ok();</span>
+
+<span class="fc bfc" id="L167" title="All 2 branches covered.">                if (wasRememberMe) {</span>
+<span class="fc" id="L168">                    ResponseCookie authCookie = ResponseCookie.from(&quot;auth_token&quot;, newToken)</span>
+<span class="fc" id="L169">                            .httpOnly(true)</span>
+<span class="fc" id="L170">                            .secure(true)</span>
+<span class="fc" id="L171">                            .path(&quot;/&quot;)</span>
+<span class="fc" id="L172">                            .maxAge(Duration.ofDays(30))</span>
+<span class="fc" id="L173">                            .sameSite(&quot;Strict&quot;)</span>
+<span class="fc" id="L174">                            .build();</span>
+
+<span class="fc" id="L176">                    responseBuilder.header(HttpHeaders.SET_COOKIE, authCookie.toString());</span>
+                }
+
+<span class="fc" id="L179">                return responseBuilder.body(</span>
+                        new ApiResponseDTO&lt;&gt;(EApiStatus.SUCCESS, responseDTO, &quot;Token refreshed successfully&quot;)
+                );
+            }
+<span class="nc" id="L183">        } catch (Exception e) {</span>
+            // Token processing failed, handled by the catch block
+<span class="fc" id="L185">        }</span>
+
+<span class="fc" id="L187">        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)</span>
+<span class="fc" id="L188">                .body(new ApiResponseDTO&lt;&gt;(EApiStatus.UNAUTHORIZED, null, &quot;Invalid or expired token&quot;));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

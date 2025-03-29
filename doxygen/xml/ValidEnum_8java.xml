@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="ValidEnum_8java" kind="file" language="Java">
+    <compoundname>ValidEnum.java</compoundname>
+    <includes local="no">jakarta.validation.Constraint</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/ValidEnum.java</label>
+        <link refid="ValidEnum_8java"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jakarta.validation.Constraint</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum" prot="public">com::hikmethankolay::user_auth_system::validator::ValidEnum</innerclass>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator">com::hikmethankolay::user_auth_system::validator</innernamespace>
+    <innernamespace refid="namespacecom_1_1tubitak__1001_1_1backend__app_1_1valiadator">com::tubitak_1001::backend_app::valiadator</innernamespace>
+    <briefdescription>
+<para>Annotation for validating enum values. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This annotation is used to validate that a field or parameter matches a specified enum type. <simplesect kind="version"><para>1.0 </para>
+</simplesect>
+<simplesect kind="date"><para>2025 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">package<sp/></highlight><highlight class="normal">com.hikmethankolay.user_auth_system.validator;<sp/></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>jakarta.validation.Constraint;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>jakarta.validation.Payload;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>java.lang.annotation.*;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal">@Target({<sp/>ElementType.FIELD,<sp/>ElementType.PARAMETER<sp/>})</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">@Retention(RetentionPolicy.RUNTIME)</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">@Constraint(validatedBy<sp/>=<sp/>{<sp/>EnumValidatorForString.class,<sp/>EnumValidatorForCollection.class,<sp/>EnumValidatorForEnum.class<sp/>})</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">@Documented</highlight></codeline>
+<codeline lineno="27" refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">@interface</highlight><highlight class="normal"><sp/><ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum" kindref="compound">ValidEnum</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a44543a45b2fe1c5064bdfaec5c52f54d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a44543a45b2fe1c5064bdfaec5c52f54d" kindref="member">message</ref>()<sp/>default<sp/>&quot;Field<sp/>should<sp/>be<sp/>one<sp/>of<sp/>{enumClass}<sp/>values.</highlight><highlight class="stringliteral">&quot;;</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="39" refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a2fa3bee1b5fe80f8c63b3601dc8f1afe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Class&lt;?&gt;[]<sp/>groups()<sp/>default<sp/>{};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1af3b66239ca0b74c2c1f6d808b3bf2843" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Class&lt;?<sp/>extends<sp/>Payload&gt;[]<sp/>payload()<sp/>default<sp/>{};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a7a6a653012066c23ef9e769edd28fe33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Class&lt;?<sp/>extends<sp/>Enum&lt;?&gt;&gt;<sp/>enumClass();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1ab1b319b46babfaa316223e9019a34d99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>boolean<sp/>ignoreCase()<sp/>default<sp/>false;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/ValidEnum.java"/>
+  </compounddef>
+</doxygen>

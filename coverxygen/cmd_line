@@ -1,0 +1,1 @@
+genhtml /home/runner/work/user-auth-system-with-spring-boot/user-auth-system-with-spring-boot/user-auth-system/target/site/coverxygen/lcov.info --legend --title 'Documentation Coverage Report' -o /home/runner/work/user-auth-system-with-spring-boot/user-auth-system-with-spring-boot/user-auth-system/target/site/coverxygen

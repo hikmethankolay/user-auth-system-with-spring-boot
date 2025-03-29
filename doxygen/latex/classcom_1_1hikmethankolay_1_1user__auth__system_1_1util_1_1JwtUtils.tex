@@ -1,0 +1,236 @@
+\doxysection{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+util.\+Jwt\+Utils Class Reference}
+\hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils}{}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils}\index{com.hikmethankolay.user\_auth\_system.util.JwtUtils@{com.hikmethankolay.user\_auth\_system.util.JwtUtils}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+String \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_a1583bddbf45cffe1efb11c638c8a268b}{generate\+Jwt\+Token}} (String user\+Id, String username, boolean remember\+Me)
+\item 
+Token\+Status \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_ace10c8b64e63add2996c47807d73bd88}{validate\+Jwt\+Token}} (String token)
+\item 
+Long \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_a02ed9bef0a3816c37a64cbfdb076b533}{get\+User\+Id\+From\+Jwt\+Token}} (String token)
+\item 
+String \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_a15a7a219af5af270b3b8efb088c7385f}{get\+User\+Name\+From\+Jwt\+Token}} (String token)
+\item 
+boolean \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_af4bbd316ea9fdb561f25997680855cde}{was\+Remember\+Me}} (String token)
+\item 
+String \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_a9ca6c4825293a3e75da72563f2c427fa}{extract\+Token\+From\+Request}} (Http\+Servlet\+Request request)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Utility class for generating, validating, and parsing JWT tokens. 
+
+Definition at line \mbox{\hyperlink{JwtUtils_8java_source_l00034}{34}} of file \mbox{\hyperlink{JwtUtils_8java_source}{Jwt\+Utils.\+java}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_a9ca6c4825293a3e75da72563f2c427fa}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_a9ca6c4825293a3e75da72563f2c427fa} 
+\index{com.hikmethankolay.user\_auth\_system.util.JwtUtils@{com.hikmethankolay.user\_auth\_system.util.JwtUtils}!extractTokenFromRequest@{extractTokenFromRequest}}
+\index{extractTokenFromRequest@{extractTokenFromRequest}!com.hikmethankolay.user\_auth\_system.util.JwtUtils@{com.hikmethankolay.user\_auth\_system.util.JwtUtils}}
+\doxysubsubsection{\texorpdfstring{extractTokenFromRequest()}{extractTokenFromRequest()}}
+{\footnotesize\ttfamily String com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+util.\+Jwt\+Utils.\+extract\+Token\+From\+Request (\begin{DoxyParamCaption}\item[{Http\+Servlet\+Request}]{request }\end{DoxyParamCaption})}
+
+Extracts the JWT token from the request (header or cookie).
+
+
+\begin{DoxyParams}{Parameters}
+{\em request} & The HTTP request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The JWT token or null if not found 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{JwtUtils_8java_source_l00127}{127}} of file \mbox{\hyperlink{JwtUtils_8java_source}{Jwt\+Utils.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ First\ try\ to\ get\ from\ Authorization\ header}}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ String\ bearerToken\ =\ request.getHeader(\textcolor{stringliteral}{"{}Authorization"{}});}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bearerToken\ !=\ \textcolor{keyword}{null}\ \&\&\ bearerToken.startsWith(\textcolor{stringliteral}{"{}Bearer\ "{}}))\ \{}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ bearerToken.substring(7);}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Then\ try\ to\ get\ from\ cookie}}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ Cookie[]\ cookies\ =\ request.getCookies();}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cookies\ !=\ \textcolor{keyword}{null})\ \{}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (Cookie\ cookie\ :\ cookies)\ \{}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{stringliteral}{"{}auth\_token"{}}.equals(cookie.getName()))\ \{}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cookie.getValue();}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00145\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_a1583bddbf45cffe1efb11c638c8a268b}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_a1583bddbf45cffe1efb11c638c8a268b} 
+\index{com.hikmethankolay.user\_auth\_system.util.JwtUtils@{com.hikmethankolay.user\_auth\_system.util.JwtUtils}!generateJwtToken@{generateJwtToken}}
+\index{generateJwtToken@{generateJwtToken}!com.hikmethankolay.user\_auth\_system.util.JwtUtils@{com.hikmethankolay.user\_auth\_system.util.JwtUtils}}
+\doxysubsubsection{\texorpdfstring{generateJwtToken()}{generateJwtToken()}}
+{\footnotesize\ttfamily String com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+util.\+Jwt\+Utils.\+generate\+Jwt\+Token (\begin{DoxyParamCaption}\item[{String}]{user\+Id,  }\item[{String}]{username,  }\item[{boolean}]{remember\+Me }\end{DoxyParamCaption})}
+
+Generates a JWT token for a given user with optional Remember Me.
+
+
+\begin{DoxyParams}{Parameters}
+{\em user\+Id} & The user ID to set as the token subject \\
+\hline
+{\em username} & The username to include as a claim \\
+\hline
+{\em remember\+Me} & Whether to use extended expiration time \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A signed JWT token string 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{JwtUtils_8java_source_l00056}{56}} of file \mbox{\hyperlink{JwtUtils_8java_source}{Jwt\+Utils.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ Long\ expirationTime\ =\ rememberMe\ ?\ rememberMeExpirationMs\ :\ jwtExpirationMs;}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ JWT.create()}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .withSubject(userId)}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .withClaim(\textcolor{stringliteral}{"{}username"{}},\ username)}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .withClaim(\textcolor{stringliteral}{"{}rememberMe"{}},\ rememberMe)}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .withIssuedAt(\textcolor{keyword}{new}\ Date())}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .withExpiresAt(\textcolor{keyword}{new}\ Date(System.currentTimeMillis()\ +\ expirationTime))}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .sign(Algorithm.HMAC256(jwtSecret));}
+\DoxyCodeLine{00066\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_a02ed9bef0a3816c37a64cbfdb076b533}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_a02ed9bef0a3816c37a64cbfdb076b533} 
+\index{com.hikmethankolay.user\_auth\_system.util.JwtUtils@{com.hikmethankolay.user\_auth\_system.util.JwtUtils}!getUserIdFromJwtToken@{getUserIdFromJwtToken}}
+\index{getUserIdFromJwtToken@{getUserIdFromJwtToken}!com.hikmethankolay.user\_auth\_system.util.JwtUtils@{com.hikmethankolay.user\_auth\_system.util.JwtUtils}}
+\doxysubsubsection{\texorpdfstring{getUserIdFromJwtToken()}{getUserIdFromJwtToken()}}
+{\footnotesize\ttfamily Long com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+util.\+Jwt\+Utils.\+get\+User\+Id\+From\+Jwt\+Token (\begin{DoxyParamCaption}\item[{String}]{token }\end{DoxyParamCaption})}
+
+Extracts the user ID (subject) from a JWT token.
+
+
+\begin{DoxyParams}{Parameters}
+{\em token} & The JWT token string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The user ID as a Long 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{JwtUtils_8java_source_l00091}{91}} of file \mbox{\hyperlink{JwtUtils_8java_source}{Jwt\+Utils.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ DecodedJWT\ jwt\ =\ JWT.require(Algorithm.HMAC256(jwtSecret)).build().verify(token);}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Long.valueOf(jwt.getSubject());}
+\DoxyCodeLine{00094\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_a15a7a219af5af270b3b8efb088c7385f}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_a15a7a219af5af270b3b8efb088c7385f} 
+\index{com.hikmethankolay.user\_auth\_system.util.JwtUtils@{com.hikmethankolay.user\_auth\_system.util.JwtUtils}!getUserNameFromJwtToken@{getUserNameFromJwtToken}}
+\index{getUserNameFromJwtToken@{getUserNameFromJwtToken}!com.hikmethankolay.user\_auth\_system.util.JwtUtils@{com.hikmethankolay.user\_auth\_system.util.JwtUtils}}
+\doxysubsubsection{\texorpdfstring{getUserNameFromJwtToken()}{getUserNameFromJwtToken()}}
+{\footnotesize\ttfamily String com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+util.\+Jwt\+Utils.\+get\+User\+Name\+From\+Jwt\+Token (\begin{DoxyParamCaption}\item[{String}]{token }\end{DoxyParamCaption})}
+
+Extracts the username from a JWT token.
+
+
+\begin{DoxyParams}{Parameters}
+{\em token} & The JWT token string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The username claim as a String 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{JwtUtils_8java_source_l00102}{102}} of file \mbox{\hyperlink{JwtUtils_8java_source}{Jwt\+Utils.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ DecodedJWT\ jwt\ =\ JWT.require(Algorithm.HMAC256(jwtSecret)).build().verify(token);}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ jwt.getClaim(\textcolor{stringliteral}{"{}username"{}}).asString();}
+\DoxyCodeLine{00105\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_ace10c8b64e63add2996c47807d73bd88}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_ace10c8b64e63add2996c47807d73bd88} 
+\index{com.hikmethankolay.user\_auth\_system.util.JwtUtils@{com.hikmethankolay.user\_auth\_system.util.JwtUtils}!validateJwtToken@{validateJwtToken}}
+\index{validateJwtToken@{validateJwtToken}!com.hikmethankolay.user\_auth\_system.util.JwtUtils@{com.hikmethankolay.user\_auth\_system.util.JwtUtils}}
+\doxysubsubsection{\texorpdfstring{validateJwtToken()}{validateJwtToken()}}
+{\footnotesize\ttfamily Token\+Status com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+util.\+Jwt\+Utils.\+validate\+Jwt\+Token (\begin{DoxyParamCaption}\item[{String}]{token }\end{DoxyParamCaption})}
+
+Validates the JWT token and returns its status.
+
+
+\begin{DoxyParams}{Parameters}
+{\em token} & The JWT token string to validate \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The token status (VALID, EXPIRED, or INVALID) 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{JwtUtils_8java_source_l00074}{74}} of file \mbox{\hyperlink{JwtUtils_8java_source}{Jwt\+Utils.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ DecodedJWT\ jwt\ =\ JWT.require(Algorithm.HMAC256(jwtSecret)).build().verify(token);}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ TokenStatus.VALID;}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (TokenExpiredException\ e)\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ TokenStatus.EXPIRED;}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (Exception\ e)\ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ TokenStatus.INVALID;}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00083\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_af4bbd316ea9fdb561f25997680855cde}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_af4bbd316ea9fdb561f25997680855cde} 
+\index{com.hikmethankolay.user\_auth\_system.util.JwtUtils@{com.hikmethankolay.user\_auth\_system.util.JwtUtils}!wasRememberMe@{wasRememberMe}}
+\index{wasRememberMe@{wasRememberMe}!com.hikmethankolay.user\_auth\_system.util.JwtUtils@{com.hikmethankolay.user\_auth\_system.util.JwtUtils}}
+\doxysubsubsection{\texorpdfstring{wasRememberMe()}{wasRememberMe()}}
+{\footnotesize\ttfamily boolean com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+util.\+Jwt\+Utils.\+was\+Remember\+Me (\begin{DoxyParamCaption}\item[{String}]{token }\end{DoxyParamCaption})}
+
+Checks if the token was created with Remember Me.
+
+
+\begin{DoxyParams}{Parameters}
+{\em token} & The JWT token string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the token was created with Remember Me, false otherwise 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{JwtUtils_8java_source_l00113}{113}} of file \mbox{\hyperlink{JwtUtils_8java_source}{Jwt\+Utils.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ DecodedJWT\ jwt\ =\ JWT.require(Algorithm.HMAC256(jwtSecret)).build().verify(token);}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ jwt.getClaim(\textcolor{stringliteral}{"{}rememberMe"{}}).asBoolean();}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (Exception\ e)\ \{}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00120\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+user-\/auth-\/system/src/main/java/com/hikmethankolay/user\+\_\+auth\+\_\+system/util/\mbox{\hyperlink{JwtUtils_8java}{Jwt\+Utils.\+java}}\end{DoxyCompactItemize}

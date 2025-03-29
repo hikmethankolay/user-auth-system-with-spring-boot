@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_6ba4a70139f84308b80afca3277910e5" kind="dir">
+    <compoundname>user-auth-system</compoundname>
+    <innerdir refid="dir_8bc60edc166728f8aa0e4e197cc31dba">user-auth-system/src</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="user-auth-system/"/>
+  </compounddef>
+</doxygen>

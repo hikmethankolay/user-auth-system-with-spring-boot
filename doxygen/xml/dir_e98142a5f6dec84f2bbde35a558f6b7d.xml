@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_e98142a5f6dec84f2bbde35a558f6b7d" kind="dir">
+    <compoundname>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums</compoundname>
+    <innerfile refid="EApiStatus_8java">EApiStatus.java</innerfile>
+    <innerfile refid="ERole_8java">ERole.java</innerfile>
+    <innerfile refid="TokenStatus_8java">TokenStatus.java</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/"/>
+  </compounddef>
+</doxygen>

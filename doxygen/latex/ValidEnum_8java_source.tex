@@ -1,0 +1,29 @@
+\doxysection{Valid\+Enum.\+java}
+\hypertarget{ValidEnum_8java_source}{}\label{ValidEnum_8java_source}\index{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/validator/ValidEnum.java@{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/validator/ValidEnum.java}}
+\mbox{\hyperlink{ValidEnum_8java}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00009}00009\ \textcolor{keyword}{package\ }com.hikmethankolay.user\_auth\_system.validator;\ }
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00014}00014\ \textcolor{keyword}{import}\ jakarta.validation.Constraint;}
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00015}00015\ \textcolor{keyword}{import}\ jakarta.validation.Payload;}
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00016}00016\ \textcolor{keyword}{import}\ java.lang.annotation.*;}
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00023}00023\ @Target(\{\ ElementType.FIELD,\ ElementType.PARAMETER\ \})}
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00024}00024\ @Retention(RetentionPolicy.RUNTIME)}
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00025}00025\ @Constraint(validatedBy\ =\ \{\ EnumValidatorForString.class,\ EnumValidatorForCollection.class,\ EnumValidatorForEnum.class\ \})}
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00026}00026\ @Documented}
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00027}\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum}{00027}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{@interface}\ \mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum}{ValidEnum}}\ \{}
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00033}\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_a44543a45b2fe1c5064bdfaec5c52f54d}{00033}}\ \ \ \ \ String\ \mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_a44543a45b2fe1c5064bdfaec5c52f54d}{message}}()\ default\ "{}Field\ should\ be\ one\ of\ \{enumClass\}\ values.\textcolor{stringliteral}{"{};}}
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00034}00034\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00039}\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_a2fa3bee1b5fe80f8c63b3601dc8f1afe}{00039}}\ \ \ \ \ Class<?>[]\ groups()\ default\ \{\};}
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00045}\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_af3b66239ca0b74c2c1f6d808b3bf2843}{00045}}\ \ \ \ \ Class<?\ extends\ Payload>[]\ payload()\ default\ \{\};}
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00051}\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_a7a6a653012066c23ef9e769edd28fe33}{00051}}\ \ \ \ \ Class<?\ extends\ Enum<?>>\ enumClass();}
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00057}\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_ab1b319b46babfaa316223e9019a34d99}{00057}}\ \ \ \ \ boolean\ ignoreCase()\ default\ false;}
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00058}00058\ \}}
+\DoxyCodeLine{\Hypertarget{ValidEnum_8java_source_l00059}00059\ }
+
+\end{DoxyCode}

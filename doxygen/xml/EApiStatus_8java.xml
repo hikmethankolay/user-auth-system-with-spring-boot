@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="EApiStatus_8java" kind="file" language="Java">
+    <compoundname>EApiStatus.java</compoundname>
+    <innerclass refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1EApiStatus" prot="public">com::hikmethankolay::user_auth_system::enums::EApiStatus</innerclass>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1enums">com::hikmethankolay::user_auth_system::enums</innernamespace>
+    <briefdescription>
+<para>Enum representing API response statuses. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This enum defines different statuses for API responses, such as success, failure, and unauthorized access.</para>
+<para><simplesect kind="author"><para>Hikmethan Kolay </para>
+</simplesect>
+<simplesect kind="date"><para>2025-02-12 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">package<sp/></highlight><highlight class="normal">com.hikmethankolay.user_auth_system.enums;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1EApiStatus" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1EApiStatus" kindref="compound">EApiStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1EApiStatus_1afc248abbcb92c9391ed52657ae176282" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1EApiStatus_1afc248abbcb92c9391ed52657ae176282" kindref="member">SUCCESS</ref>,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1EApiStatus_1ad6d2c6a603084f524cc88fc994cb7d30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1EApiStatus_1ad6d2c6a603084f524cc88fc994cb7d30" kindref="member">FAILURE</ref>,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>UNAUTHORIZED</highlight></codeline>
+<codeline lineno="35" refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1EApiStatus_1ab04c2f3c35764d818cda05a9fd1edac4" refkind="member"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/EApiStatus.java"/>
+  </compounddef>
+</doxygen>

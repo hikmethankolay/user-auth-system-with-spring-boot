@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="LoginRequestDTO_8java" kind="file" language="Java">
+    <compoundname>LoginRequestDTO.java</compoundname>
+    <includes local="no">com.fasterxml.jackson.annotation.JsonProperty</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/LoginRequestDTO.java</label>
+        <link refid="LoginRequestDTO_8java"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>com.fasterxml.jackson.annotation.JsonProperty</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto">com::hikmethankolay::user_auth_system::dto</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a1ffc5379ce56476acdefa9d0be09e24d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>record</type>
+        <definition>record com.hikmethankolay.user_auth_system.dto.LoginRequestDTO</definition>
+        <argsstring>(String identifier, String password, @JsonProperty(defaultValue=&quot;false&quot;) boolean rememberMe)</argsstring>
+        <name>LoginRequestDTO</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.LoginRequestDTO</qualifiedname>
+        <param>
+          <type>String</type>
+          <declname>identifier</declname>
+        </param>
+        <param>
+          <type>String</type>
+          <declname>password</declname>
+        </param>
+        <param>
+          <type>@JsonProperty(defaultValue=&quot;false&quot;) boolean</type>
+          <declname>rememberMe</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/LoginRequestDTO.java" line="26" column="15" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/LoginRequestDTO.java" bodystart="26" bodyend="27"/>
+        <references refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a1ffc5379ce56476acdefa9d0be09e24d" compoundref="LoginRequestDTO_8java" startline="26" endline="27">com.hikmethankolay.user_auth_system.dto.LoginRequestDTO</references>
+        <referencedby refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a1ffc5379ce56476acdefa9d0be09e24d" compoundref="LoginRequestDTO_8java" startline="26" endline="27">com.hikmethankolay.user_auth_system.dto.LoginRequestDTO</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Data Transfer Object for login requests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This DTO encapsulates user login credentials, including an identifier (username or email) and password.</para>
+<para><simplesect kind="author"><para>Hikmethan Kolay </para>
+</simplesect>
+<simplesect kind="date"><para>2025-02-12 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">package<sp/></highlight><highlight class="normal">com.hikmethankolay.user_auth_system.dto;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>com.fasterxml.jackson.annotation.JsonProperty;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a1ffc5379ce56476acdefa9d0be09e24d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>record<sp/><ref refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1a1ffc5379ce56476acdefa9d0be09e24d" kindref="member">LoginRequestDTO</ref>(String<sp/>identifier,<sp/>String<sp/>password,<sp/>@JsonProperty(defaultValue<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;false&quot;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keywordtype">boolean</highlight><highlight class="normal"><sp/>rememberMe)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/LoginRequestDTO.java"/>
+  </compounddef>
+</doxygen>

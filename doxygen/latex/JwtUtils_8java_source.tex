@@ -1,0 +1,94 @@
+\doxysection{Jwt\+Utils.\+java}
+\hypertarget{JwtUtils_8java_source}{}\label{JwtUtils_8java_source}\index{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/util/JwtUtils.java@{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/util/JwtUtils.java}}
+\mbox{\hyperlink{JwtUtils_8java}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00016}00016\ \textcolor{keyword}{package\ }com.hikmethankolay.user\_auth\_system.util;}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00018}00018\ \textcolor{keyword}{import}\ com.auth0.jwt.JWT;}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00019}00019\ \textcolor{keyword}{import}\ com.auth0.jwt.algorithms.Algorithm;}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00020}00020\ \textcolor{keyword}{import}\ com.auth0.jwt.exceptions.TokenExpiredException;}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00021}00021\ \textcolor{keyword}{import}\ com.auth0.jwt.interfaces.DecodedJWT;}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00022}00022\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.enums.TokenStatus;}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00023}00023\ \textcolor{keyword}{import}\ jakarta.servlet.http.Cookie;}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00024}00024\ \textcolor{keyword}{import}\ jakarta.servlet.http.HttpServletRequest;}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00025}00025\ \textcolor{keyword}{import}\ org.springframework.beans.factory.annotation.Value;}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00026}00026\ \textcolor{keyword}{import}\ org.springframework.stereotype.Component;}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00028}00028\ \textcolor{keyword}{import}\ java.util.Date;}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00033}00033\ @Component}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00034}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils}{00034}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils}{JwtUtils}}\ \{}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00037}00037\ \ \ \ \ @Value(\textcolor{stringliteral}{"{}\$\{api.security.token.secret\}"{}})}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00038}00038\ \ \ \ \ \textcolor{keyword}{private}\ String\ jwtSecret;}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00041}00041\ \ \ \ \ @Value(\textcolor{stringliteral}{"{}\$\{api.security.token.expiration\}"{}})}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00042}00042\ \ \ \ \ \textcolor{keyword}{private}\ Long\ jwtExpirationMs;}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00045}00045\ \ \ \ \ @Value(\textcolor{stringliteral}{"{}\$\{api.security.token.remember-\/me-\/expiration\}"{}})\ \textcolor{comment}{//\ 30\ days\ in\ milliseconds}}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00046}00046\ \ \ \ \ \textcolor{keyword}{private}\ Long\ rememberMeExpirationMs;}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00056}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_a1583bddbf45cffe1efb11c638c8a268b}{00056}}\ \ \ \ \ \textcolor{keyword}{public}\ String\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_a1583bddbf45cffe1efb11c638c8a268b}{generateJwtToken}}(String\ userId,\ String\ username,\ \textcolor{keywordtype}{boolean}\ rememberMe)\ \{}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00057}00057\ \ \ \ \ \ \ \ \ Long\ expirationTime\ =\ rememberMe\ ?\ rememberMeExpirationMs\ :\ jwtExpirationMs;}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ JWT.create()}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .withSubject(userId)}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .withClaim(\textcolor{stringliteral}{"{}username"{}},\ username)}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .withClaim(\textcolor{stringliteral}{"{}rememberMe"{}},\ rememberMe)}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .withIssuedAt(\textcolor{keyword}{new}\ Date())}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .withExpiresAt(\textcolor{keyword}{new}\ Date(System.currentTimeMillis()\ +\ expirationTime))}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .sign(Algorithm.HMAC256(jwtSecret));}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00066}00066\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00074}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_ace10c8b64e63add2996c47807d73bd88}{00074}}\ \ \ \ \ \textcolor{keyword}{public}\ TokenStatus\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_ace10c8b64e63add2996c47807d73bd88}{validateJwtToken}}(String\ token)\ \{}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00075}00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ DecodedJWT\ jwt\ =\ JWT.require(Algorithm.HMAC256(jwtSecret)).build().verify(token);}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ TokenStatus.VALID;}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00078}00078\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (TokenExpiredException\ e)\ \{}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ TokenStatus.EXPIRED;}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00080}00080\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (Exception\ e)\ \{}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ TokenStatus.INVALID;}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00082}00082\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00083}00083\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00091}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_a02ed9bef0a3816c37a64cbfdb076b533}{00091}}\ \ \ \ \ \textcolor{keyword}{public}\ Long\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_a02ed9bef0a3816c37a64cbfdb076b533}{getUserIdFromJwtToken}}(String\ token)\ \{}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00092}00092\ \ \ \ \ \ \ \ \ DecodedJWT\ jwt\ =\ JWT.require(Algorithm.HMAC256(jwtSecret)).build().verify(token);}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00093}00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Long.valueOf(jwt.getSubject());}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00094}00094\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00102}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_a15a7a219af5af270b3b8efb088c7385f}{00102}}\ \ \ \ \ \textcolor{keyword}{public}\ String\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_a15a7a219af5af270b3b8efb088c7385f}{getUserNameFromJwtToken}}(String\ token)\ \{}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00103}00103\ \ \ \ \ \ \ \ \ DecodedJWT\ jwt\ =\ JWT.require(Algorithm.HMAC256(jwtSecret)).build().verify(token);}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00104}00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ jwt.getClaim(\textcolor{stringliteral}{"{}username"{}}).asString();}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00105}00105\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00113}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_af4bbd316ea9fdb561f25997680855cde}{00113}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{boolean}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_af4bbd316ea9fdb561f25997680855cde}{wasRememberMe}}(String\ token)\ \{}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ DecodedJWT\ jwt\ =\ JWT.require(Algorithm.HMAC256(jwtSecret)).build().verify(token);}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ jwt.getClaim(\textcolor{stringliteral}{"{}rememberMe"{}}).asBoolean();}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00117}00117\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (Exception\ e)\ \{}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00119}00119\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00120}00120\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00127}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_a9ca6c4825293a3e75da72563f2c427fa}{00127}}\ \ \ \ \ \textcolor{keyword}{public}\ String\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1util_1_1JwtUtils_a9ca6c4825293a3e75da72563f2c427fa}{extractTokenFromRequest}}(HttpServletRequest\ request)\ \{}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00128}00128\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ First\ try\ to\ get\ from\ Authorization\ header}}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00129}00129\ \ \ \ \ \ \ \ \ String\ bearerToken\ =\ request.getHeader(\textcolor{stringliteral}{"{}Authorization"{}});}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00130}00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bearerToken\ !=\ \textcolor{keyword}{null}\ \&\&\ bearerToken.startsWith(\textcolor{stringliteral}{"{}Bearer\ "{}}))\ \{}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ bearerToken.substring(7);}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00132}00132\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00133}00133\ }
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00134}00134\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Then\ try\ to\ get\ from\ cookie}}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00135}00135\ \ \ \ \ \ \ \ \ Cookie[]\ cookies\ =\ request.getCookies();}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00136}00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cookies\ !=\ \textcolor{keyword}{null})\ \{}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (Cookie\ cookie\ :\ cookies)\ \{}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{stringliteral}{"{}auth\_token"{}}.equals(cookie.getName()))\ \{}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cookie.getValue();}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00142}00142\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00143}00143\ }
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00144}00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00145}00145\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{JwtUtils_8java_source_l00146}00146\ \}}
+
+\end{DoxyCode}

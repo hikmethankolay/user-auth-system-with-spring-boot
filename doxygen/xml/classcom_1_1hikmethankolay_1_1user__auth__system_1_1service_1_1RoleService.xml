@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService" kind="class" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::service::RoleService</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService_1ab5dd58a1bcabf84313494cbae8b93b4b" prot="private" static="no" mutable="no">
+        <type>final RoleRepository</type>
+        <definition>final RoleRepository com.hikmethankolay.user_auth_system.service.RoleService.roleRepository</definition>
+        <argsstring></argsstring>
+        <name>roleRepository</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.service.RoleService.roleRepository</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Repository for role data access. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/RoleService.java" line="34" column="34" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/RoleService.java" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="package-func">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService_1a7543e7dc9927e5f53268515382960fda" prot="package" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>com.hikmethankolay.user_auth_system.service.RoleService.RoleService</definition>
+        <argsstring>(RoleRepository roleRepository)</argsstring>
+        <name>RoleService</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.service.RoleService.RoleService</qualifiedname>
+        <param>
+          <type>RoleRepository</type>
+          <declname>roleRepository</declname>
+        </param>
+        <briefdescription>
+<para>Constructor for RoleService. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>roleRepository</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The role repository instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/RoleService.java" line="40" column="5" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/RoleService.java" bodystart="40" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService_1ac8f457569194c2a2af2871f93f45f3d6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>List&lt; Role &gt;</type>
+        <definition>List&lt; Role &gt; com.hikmethankolay.user_auth_system.service.RoleService.findAll</definition>
+        <argsstring>()</argsstring>
+        <name>findAll</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.service.RoleService.findAll</qualifiedname>
+        <briefdescription>
+<para>Retrieves all roles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A list of all roles. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/RoleService.java" line="48" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/RoleService.java" bodystart="48" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService_1a74813b3a339b30702837a0f08aa72dc3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Optional&lt; Role &gt;</type>
+        <definition>Optional&lt; Role &gt; com.hikmethankolay.user_auth_system.service.RoleService.findByName</definition>
+        <argsstring>(ERole name)</argsstring>
+        <name>findByName</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.service.RoleService.findByName</qualifiedname>
+        <param>
+          <type>ERole</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Finds a role by its name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the role. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An Optional containing the role if found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/RoleService.java" line="57" column="21" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/RoleService.java" bodystart="57" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Service class for handling role-related operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This service interacts with the RoleRepository to fetch role details. </para>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/RoleService.java" line="31" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/RoleService.java" bodystart="31" bodyend="60"/>
+    <listofallmembers>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService_1ac8f457569194c2a2af2871f93f45f3d6" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::RoleService</scope><name>findAll</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService_1a74813b3a339b30702837a0f08aa72dc3" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::RoleService</scope><name>findByName</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService_1ab5dd58a1bcabf84313494cbae8b93b4b" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::RoleService</scope><name>roleRepository</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService_1a7543e7dc9927e5f53268515382960fda" prot="package" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::RoleService</scope><name>RoleService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

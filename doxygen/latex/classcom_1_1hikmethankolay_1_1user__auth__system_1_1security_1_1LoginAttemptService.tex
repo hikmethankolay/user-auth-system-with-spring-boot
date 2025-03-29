@@ -1,0 +1,158 @@
+\doxysection{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+security.\+Login\+Attempt\+Service Class Reference}
+\hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService}{}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService}\index{com.hikmethankolay.user\_auth\_system.security.LoginAttemptService@{com.hikmethankolay.user\_auth\_system.security.LoginAttemptService}}
+
+
+Service to prevent brute force attacks by limiting login attempts.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_a18e240123c25c56601f4451d68a228f0}{Login\+Attempt\+Service}} ()
+\begin{DoxyCompactList}\small\item\em Constructor initializing the attempts cache. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_acc8d5d14ab2e70978b3c1b27e04725ba}{login\+Succeeded}} (String key)
+\begin{DoxyCompactList}\small\item\em Clears the login attempts count for successful logins. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_aafdd195c54762faacee909d0db541f2f}{login\+Failed}} (String key)
+\begin{DoxyCompactList}\small\item\em Increments the login attempts count for failed logins. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_a5af871aa1ee39afce94b6af4b3eb29ae}{is\+Blocked}} (String key)
+\begin{DoxyCompactList}\small\item\em Checks if a user is blocked due to excessive login attempts. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Service to prevent brute force attacks by limiting login attempts. 
+
+This service maintains a time-\/based cache of login attempts, blocking users who exceed the maximum allowed number of failed attempts within a time period. 
+
+Definition at line \mbox{\hyperlink{LoginAttemptService_8java_source_l00034}{34}} of file \mbox{\hyperlink{LoginAttemptService_8java_source}{Login\+Attempt\+Service.\+java}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_a18e240123c25c56601f4451d68a228f0}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_a18e240123c25c56601f4451d68a228f0} 
+\index{com.hikmethankolay.user\_auth\_system.security.LoginAttemptService@{com.hikmethankolay.user\_auth\_system.security.LoginAttemptService}!LoginAttemptService@{LoginAttemptService}}
+\index{LoginAttemptService@{LoginAttemptService}!com.hikmethankolay.user\_auth\_system.security.LoginAttemptService@{com.hikmethankolay.user\_auth\_system.security.LoginAttemptService}}
+\doxysubsubsection{\texorpdfstring{LoginAttemptService()}{LoginAttemptService()}}
+{\footnotesize\ttfamily com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+security.\+Login\+Attempt\+Service.\+Login\+Attempt\+Service (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Constructor initializing the attempts cache. 
+
+Sets up a cache that expires entries after 1 hour of inactivity. 
+
+Definition at line \mbox{\hyperlink{LoginAttemptService_8java_source_l00046}{46}} of file \mbox{\hyperlink{LoginAttemptService_8java_source}{Login\+Attempt\+Service.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ attemptsCache\ =\ CacheBuilder.newBuilder()}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .expireAfterWrite(1,\ TimeUnit.HOURS)}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .build(\textcolor{keyword}{new}\ CacheLoader<>()\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ @Override}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ Integer\ load(String\ key)\ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00055\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_a5af871aa1ee39afce94b6af4b3eb29ae}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_a5af871aa1ee39afce94b6af4b3eb29ae} 
+\index{com.hikmethankolay.user\_auth\_system.security.LoginAttemptService@{com.hikmethankolay.user\_auth\_system.security.LoginAttemptService}!isBlocked@{isBlocked}}
+\index{isBlocked@{isBlocked}!com.hikmethankolay.user\_auth\_system.security.LoginAttemptService@{com.hikmethankolay.user\_auth\_system.security.LoginAttemptService}}
+\doxysubsubsection{\texorpdfstring{isBlocked()}{isBlocked()}}
+{\footnotesize\ttfamily boolean com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+security.\+Login\+Attempt\+Service.\+is\+Blocked (\begin{DoxyParamCaption}\item[{String}]{key }\end{DoxyParamCaption})}
+
+
+
+Checks if a user is blocked due to excessive login attempts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & The identifier (username or IP) to check. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the user has exceeded the maximum allowed attempts. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{LoginAttemptService_8java_source_l00085}{85}} of file \mbox{\hyperlink{LoginAttemptService_8java_source}{Login\+Attempt\+Service.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ attemptsCache.get(key)\ >=\ MAX\_ATTEMPT;}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (ExecutionException\ e)\ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00091\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_aafdd195c54762faacee909d0db541f2f}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_aafdd195c54762faacee909d0db541f2f} 
+\index{com.hikmethankolay.user\_auth\_system.security.LoginAttemptService@{com.hikmethankolay.user\_auth\_system.security.LoginAttemptService}!loginFailed@{loginFailed}}
+\index{loginFailed@{loginFailed}!com.hikmethankolay.user\_auth\_system.security.LoginAttemptService@{com.hikmethankolay.user\_auth\_system.security.LoginAttemptService}}
+\doxysubsubsection{\texorpdfstring{loginFailed()}{loginFailed()}}
+{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+security.\+Login\+Attempt\+Service.\+login\+Failed (\begin{DoxyParamCaption}\item[{String}]{key }\end{DoxyParamCaption})}
+
+
+
+Increments the login attempts count for failed logins. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & The identifier (username or IP) of the login attempt. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{LoginAttemptService_8java_source_l00069}{69}} of file \mbox{\hyperlink{LoginAttemptService_8java_source}{Login\+Attempt\+Service.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ attempts;}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ attempts\ =\ attemptsCache.get(key);}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (ExecutionException\ e)\ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ attempts\ =\ 0;}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ attempts++;}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ attemptsCache.put(key,\ attempts);}
+\DoxyCodeLine{00078\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_acc8d5d14ab2e70978b3c1b27e04725ba}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_acc8d5d14ab2e70978b3c1b27e04725ba} 
+\index{com.hikmethankolay.user\_auth\_system.security.LoginAttemptService@{com.hikmethankolay.user\_auth\_system.security.LoginAttemptService}!loginSucceeded@{loginSucceeded}}
+\index{loginSucceeded@{loginSucceeded}!com.hikmethankolay.user\_auth\_system.security.LoginAttemptService@{com.hikmethankolay.user\_auth\_system.security.LoginAttemptService}}
+\doxysubsubsection{\texorpdfstring{loginSucceeded()}{loginSucceeded()}}
+{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+security.\+Login\+Attempt\+Service.\+login\+Succeeded (\begin{DoxyParamCaption}\item[{String}]{key }\end{DoxyParamCaption})}
+
+
+
+Clears the login attempts count for successful logins. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & The identifier (username or IP) of the login attempt. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{LoginAttemptService_8java_source_l00061}{61}} of file \mbox{\hyperlink{LoginAttemptService_8java_source}{Login\+Attempt\+Service.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ attemptsCache.invalidate(key);}
+\DoxyCodeLine{00063\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+user-\/auth-\/system/src/main/java/com/hikmethankolay/user\+\_\+auth\+\_\+system/security/\mbox{\hyperlink{LoginAttemptService_8java}{Login\+Attempt\+Service.\+java}}\end{DoxyCompactItemize}

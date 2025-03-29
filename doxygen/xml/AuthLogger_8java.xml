@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="AuthLogger_8java" kind="file" language="Java">
+    <compoundname>AuthLogger.java</compoundname>
+    <includes local="no">com.hikmethankolay.user_auth_system.dto.LoginRequestDTO</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java</label>
+        <link refid="AuthLogger_8java"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>com.hikmethankolay.user_auth_system.dto.LoginRequestDTO</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger" prot="public">com::hikmethankolay::user_auth_system::aspect::AuthLogger</innerclass>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1aspect">com::hikmethankolay::user_auth_system::aspect</innernamespace>
+    <innernamespace refid="namespacejava_1_1lang">java::lang</innernamespace>
+    <briefdescription>
+<para>Aspect class for logging method calls in the application. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This class uses Spring AOP to log method calls before execution, after successful execution, and upon exceptions.</para>
+<para><simplesect kind="author"><para>Hikmethan Kolay </para>
+</simplesect>
+<simplesect kind="date"><para>2025-02-12 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">package<sp/></highlight><highlight class="normal">com.hikmethankolay.user_auth_system.aspect;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>com.hikmethankolay.user_auth_system.dto.LoginRequestDTO;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>org.aspectj.lang.JoinPoint;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>org.aspectj.lang.annotation.*;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>org.springframework.http.ResponseEntity;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>org.springframework.stereotype.Component;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>java.util.logging.Logger;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal">@Aspect</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">@Component</highlight></codeline>
+<codeline lineno="34" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger" kindref="compound">AuthLogger</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">final</highlight><highlight class="normal"><sp/>Logger<sp/>myLogger<sp/>=<sp/>Logger.getLogger(getClass().getName());</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>@Pointcut(</highlight><highlight class="stringliteral">&quot;execution(*<sp/>com.hikmethankolay.user_auth_system.controller.*.*(..))&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="43" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a6c86e5000d3b2d019041efe6666e0f9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>public<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a6c86e5000d3b2d019041efe6666e0f9f" kindref="member">forControllerPackage</ref>()<sp/>{}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>@Pointcut(</highlight><highlight class="stringliteral">&quot;execution(*<sp/>com.hikmethankolay.user_auth_system.repository.*.*(..))&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="49" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a0e0a47b95ef89c0c4d5dc139387b2db6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>public<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a0e0a47b95ef89c0c4d5dc139387b2db6" kindref="member">forRepositoryPackage</ref>()<sp/>{}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>@Pointcut(</highlight><highlight class="stringliteral">&quot;execution(*<sp/>com.hikmethankolay.user_auth_system.service.*.*(..))&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="55" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1aea0ed65d201bd98ecfb2dfc2adb28aa7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>public<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1aea0ed65d201bd98ecfb2dfc2adb28aa7" kindref="member">forServicePackage</ref>()<sp/>{}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>@Pointcut(</highlight><highlight class="stringliteral">&quot;forControllerPackage()<sp/>||<sp/>forRepositoryPackage()<sp/>||<sp/>forServicePackage()&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="61" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a3110e4e2691fda6501998199a8ab3fd9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>public<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a3110e4e2691fda6501998199a8ab3fd9" kindref="member">forAppFlow</ref>()<sp/>{}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>@Pointcut(</highlight><highlight class="stringliteral">&quot;execution(*<sp/>com.hikmethankolay.user_auth_system.controller.AuthController.*(..))&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="67" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1ae619c4fe730faa7e6c4966eba08ba3ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>public<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1ae619c4fe730faa7e6c4966eba08ba3ac" kindref="member">authMethods</ref>()<sp/>{}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>@Before(</highlight><highlight class="stringliteral">&quot;forAppFlow()&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="74" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1ae7d40a35e8eb8342a2eafdaac544b655" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>public<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1ae7d40a35e8eb8342a2eafdaac544b655" kindref="member">beforeAppFlow</ref>(JoinPoint<sp/>theJoinPoint)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/>theMethod<sp/>=<sp/>theJoinPoint.getSignature().toShortString();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>myLogger.info(</highlight><highlight class="stringliteral">&quot;=====&gt;<sp/>@Before:<sp/>calling<sp/>method:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>theMethod);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Object[]<sp/>args<sp/>=<sp/>theJoinPoint.getArgs();</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(Object<sp/>arg<sp/>:<sp/>args)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>myLogger.info(</highlight><highlight class="stringliteral">&quot;=====&gt;<sp/>Argument:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>arg);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>@AfterReturning(pointcut<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;forAppFlow()&quot;</highlight><highlight class="normal">,<sp/>returning<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;result&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="90" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a680faa3f9afc16a9ef4c643528974335" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>public<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1a680faa3f9afc16a9ef4c643528974335" kindref="member">afterAppFlow</ref>(JoinPoint<sp/>theJoinPoint,<sp/>Object<sp/>result)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/>theMethod<sp/>=<sp/>theJoinPoint.getSignature().toShortString();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>myLogger.info(</highlight><highlight class="stringliteral">&quot;=====&gt;<sp/>@AfterReturning:<sp/>calling<sp/>method:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>theMethod);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>myLogger.info(</highlight><highlight class="stringliteral">&quot;=====&gt;<sp/>Result:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>result);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>@AfterThrowing(pointcut<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;forAppFlow()&quot;</highlight><highlight class="normal">,<sp/>throwing<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;exception&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="102" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1aac3ce2dbda230a3a6aaa8de362f8d275" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>public<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1aac3ce2dbda230a3a6aaa8de362f8d275" kindref="member">afterError</ref>(JoinPoint<sp/>theJoinPoint,<sp/>Throwable<sp/>exception)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/>theMethod<sp/>=<sp/>theJoinPoint.getSignature().toShortString();</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>myLogger.severe(</highlight><highlight class="stringliteral">&quot;=====&gt;<sp/>@AfterThrowing:<sp/>Exception<sp/>in<sp/>method:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>theMethod);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>myLogger.severe(</highlight><highlight class="stringliteral">&quot;=====&gt;<sp/>Exception:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>exception.getClass().getName()<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>-<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>exception.getMessage());</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Object[]<sp/>args<sp/>=<sp/>theJoinPoint.getArgs();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(Object<sp/>arg<sp/>:<sp/>args)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>myLogger.severe(</highlight><highlight class="stringliteral">&quot;=====&gt;<sp/>Argument:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>arg);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>@AfterReturning(pointcut<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;authMethods()<sp/>&amp;&amp;<sp/>args(loginRequest,..)&quot;</highlight><highlight class="normal">,<sp/>returning<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;result&quot;</highlight><highlight class="normal">,<sp/>argNames<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;joinPoint,loginRequest,result&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="124" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1af531c703d303374a45d599abf3ad1191" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>public<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1aspect_1_1AuthLogger_1af531c703d303374a45d599abf3ad1191" kindref="member">logLoginAttempt</ref>(JoinPoint<sp/>joinPoint,<sp/>LoginRequestDTO<sp/>loginRequest,<sp/>Object<sp/>result)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>String<sp/>method<sp/>=<sp/>joinPoint.getSignature().toShortString();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">boolean</highlight><highlight class="normal"><sp/>success;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result<sp/>==<sp/></highlight><highlight class="keyword">null</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>success<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result<sp/>instanceof<sp/>ResponseEntity)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>success<sp/>=<sp/>((ResponseEntity&lt;?&gt;)<sp/>result).getStatusCode().is2xxSuccessful();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>success<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>myLogger.info(</highlight><highlight class="stringliteral">&quot;Authentication<sp/>attempt:<sp/>method=&quot;</highlight><highlight class="normal"><sp/>+<sp/>method<sp/>+</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;,<sp/>username=&quot;</highlight><highlight class="normal"><sp/>+<sp/>loginRequest.identifier()<sp/>+</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;,<sp/>success=&quot;</highlight><highlight class="normal"><sp/>+<sp/>success);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/aspect/AuthLogger.java"/>
+  </compounddef>
+</doxygen>

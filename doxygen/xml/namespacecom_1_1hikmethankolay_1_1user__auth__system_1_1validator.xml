@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator" kind="namespace" language="Java">
+    <compoundname>com::hikmethankolay::user_auth_system::validator</compoundname>
+    <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection" prot="public">com::hikmethankolay::user_auth_system::validator::EnumValidatorForCollection</innerclass>
+    <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum" prot="public">com::hikmethankolay::user_auth_system::validator::EnumValidatorForEnum</innerclass>
+    <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForString" prot="public">com::hikmethankolay::user_auth_system::validator::EnumValidatorForString</innerclass>
+    <innerclass refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum" prot="public">com::hikmethankolay::user_auth_system::validator::ValidEnum</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForCollection.java" line="9" column="15"/>
+  </compounddef>
+</doxygen>

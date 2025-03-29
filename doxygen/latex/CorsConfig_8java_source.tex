@@ -1,0 +1,43 @@
+\doxysection{Cors\+Config.\+java}
+\hypertarget{CorsConfig_8java_source}{}\label{CorsConfig_8java_source}\index{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/config/CorsConfig.java@{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/config/CorsConfig.java}}
+\mbox{\hyperlink{CorsConfig_8java}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00016}00016\ \textcolor{keyword}{package\ }com.hikmethankolay.user\_auth\_system.config;}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00018}00018\ \textcolor{keyword}{import}\ org.springframework.context.annotation.Bean;}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00019}00019\ \textcolor{keyword}{import}\ org.springframework.context.annotation.Configuration;}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00020}00020\ \textcolor{keyword}{import}\ org.springframework.web.cors.CorsConfiguration;}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00021}00021\ \textcolor{keyword}{import}\ org.springframework.web.cors.CorsConfigurationSource;}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00022}00022\ \textcolor{keyword}{import}\ org.springframework.web.cors.UrlBasedCorsConfigurationSource;}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00024}00024\ \textcolor{keyword}{import}\ java.util.List;}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00033}00033\ @Configuration}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00034}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1CorsConfig}{00034}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1CorsConfig}{CorsConfig}}\ \{}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00040}00040\ \ \ \ \ @Bean}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00041}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1CorsConfig_afb2fe9985cbc0d41ee547424ad813b0f}{00041}}\ \ \ \ \ \textcolor{keyword}{public}\ CorsConfigurationSource\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1CorsConfig_afb2fe9985cbc0d41ee547424ad813b0f}{corsConfigurationSource}}()\ \{}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00042}00042\ \ \ \ \ \ \ \ \ CorsConfiguration\ configuration\ =\ \textcolor{keyword}{new}\ CorsConfiguration();}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00044}00044\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Define\ allowed\ origins\ for\ cross-\/origin\ requests}}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00045}00045\ \ \ \ \ \ \ \ \ configuration.setAllowedOrigins(List.of(\textcolor{stringliteral}{"{}http://localhost:3000"{}},\ \textcolor{stringliteral}{"{}https://yourdomain.com"{}}));}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Define\ allowed\ HTTP\ methods}}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00048}00048\ \ \ \ \ \ \ \ \ configuration.setAllowedMethods(List.of(\textcolor{stringliteral}{"{}GET"{}},\ \textcolor{stringliteral}{"{}POST"{}},\ \textcolor{stringliteral}{"{}PUT"{}},\ \textcolor{stringliteral}{"{}PATCH"{}},\ \textcolor{stringliteral}{"{}DELETE"{}},\ \textcolor{stringliteral}{"{}OPTIONS"{}}));}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Define\ allowed\ request\ headers}}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00051}00051\ \ \ \ \ \ \ \ \ configuration.setAllowedHeaders(List.of(\textcolor{stringliteral}{"{}Authorization"{}},\ \textcolor{stringliteral}{"{}Content-\/Type"{}}));}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Allow\ cookies\ and\ authentication\ headers}}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00054}00054\ \ \ \ \ \ \ \ \ configuration.setAllowCredentials(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Apply\ this\ configuration\ to\ all\ paths}}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00057}00057\ \ \ \ \ \ \ \ \ UrlBasedCorsConfigurationSource\ source\ =\ \textcolor{keyword}{new}\ UrlBasedCorsConfigurationSource();}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00058}00058\ \ \ \ \ \ \ \ \ source.registerCorsConfiguration(\textcolor{stringliteral}{"{}/**"{}},\ configuration);}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ source;}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00061}00061\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{CorsConfig_8java_source_l00062}00062\ \}}
+
+\end{DoxyCode}

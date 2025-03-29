@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1exception_1_1GlobalExceptionHandler" kind="class" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::exception::GlobalExceptionHandler</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1exception_1_1GlobalExceptionHandler_1a544ca7429df1c35bb2cf28f92533cb96" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ResponseEntity&lt; ApiResponseDTO&lt; String &gt; &gt;</type>
+        <definition>ResponseEntity&lt; ApiResponseDTO&lt; String &gt; &gt; com.hikmethankolay.user_auth_system.exception.GlobalExceptionHandler.handleConstraintViolationException</definition>
+        <argsstring>(ConstraintViolationException ex)</argsstring>
+        <name>handleConstraintViolationException</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.exception.GlobalExceptionHandler.handleConstraintViolationException</qualifiedname>
+        <param>
+          <type>ConstraintViolationException</type>
+          <declname>ex</declname>
+        </param>
+        <briefdescription>
+<para>Handles validation constraint violations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The constraint violation exception. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Response entity containing validation error details. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/exception/GlobalExceptionHandler.java" line="44" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/exception/GlobalExceptionHandler.java" bodystart="44" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1exception_1_1GlobalExceptionHandler_1a33bfb1b34af8170d4006063aa719093c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ResponseEntity&lt; ApiResponseDTO&lt; String &gt; &gt;</type>
+        <definition>ResponseEntity&lt; ApiResponseDTO&lt; String &gt; &gt; com.hikmethankolay.user_auth_system.exception.GlobalExceptionHandler.handleGeneralException</definition>
+        <argsstring>(Exception ex)</argsstring>
+        <name>handleGeneralException</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.exception.GlobalExceptionHandler.handleGeneralException</qualifiedname>
+        <param>
+          <type>Exception</type>
+          <declname>ex</declname>
+        </param>
+        <briefdescription>
+<para>Handles all unhandled exceptions as a fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The exception to handle. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Response entity containing the exception message. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/exception/GlobalExceptionHandler.java" line="59" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/exception/GlobalExceptionHandler.java" bodystart="59" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Controller advice for handling exceptions across the application. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This class provides centralized exception handling for converting exceptions into standardized API responses with appropriate HTTP status codes. </para>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/exception/GlobalExceptionHandler.java" line="36" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/exception/GlobalExceptionHandler.java" bodystart="36" bodyend="63"/>
+    <listofallmembers>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1exception_1_1GlobalExceptionHandler_1a544ca7429df1c35bb2cf28f92533cb96" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::exception::GlobalExceptionHandler</scope><name>handleConstraintViolationException</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1exception_1_1GlobalExceptionHandler_1a33bfb1b34af8170d4006063aa719093c" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::exception::GlobalExceptionHandler</scope><name>handleGeneralException</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnumValidatorForEnum.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">user-auth-system</a> &gt; <a href="index.source.html" class="el_package">com.hikmethankolay.user_auth_system.validator</a> &gt; <span class="el_source">EnumValidatorForEnum.java</span></div><h1>EnumValidatorForEnum.java</h1><pre class="source lang-java linenums">/**
+ * @file EnumValidatorForEnum.java
+ * @brief Validator for validating enum values.
+ * @details This class provides validation logic for enum values to ensure they match a specified enum type.
+ * @version 1.0
+ * @date 2025
+ */
+
+package com.hikmethankolay.user_auth_system.validator; /**&lt; @package com.tubitak_1001.backend_app.valiadator
+                                                 *   @brief Package for custom validators in the application.
+                                                 *   @details This package contains custom validation logic for various use cases.
+                                                 */
+
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import java.util.Arrays;
+
+/**
+ * @class EnumValidatorForEnum
+ * @brief Validator for validating enum values.
+ * @details Validates that an enum value matches a value in a specified enum type.
+ */
+<span class="fc" id="L23">public class EnumValidatorForEnum implements ConstraintValidator&lt;ValidEnum, Enum&lt;?&gt;&gt; {</span>
+
+    private Class&lt;? extends Enum&lt;?&gt;&gt; enumClass;
+
+    /**
+     * @brief Initializes the validator with the specified annotation parameters.
+     * @param annotation The ValidEnum annotation instance.
+     */
+    @Override
+    public void initialize(ValidEnum annotation) {
+<span class="fc" id="L33">        this.enumClass = annotation.enumClass();</span>
+<span class="fc" id="L34">    }</span>
+
+    /**
+     * @brief Validates an enum value against the accepted enum type.
+     * @param value The enum value to validate.
+     * @param context The validation context.
+     * @return True if the value is a valid enum value, otherwise false.
+     */
+    @Override
+    public boolean isValid(Enum&lt;?&gt; value, ConstraintValidatorContext context) {
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (value == null) {</span>
+<span class="fc" id="L45">            return false;</span>
+        }
+
+<span class="fc" id="L48">        return Arrays.stream(enumClass.getEnumConstants())</span>
+<span class="fc" id="L49">                .anyMatch(validEnum -&gt; validEnum.name().equals(value.name()));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

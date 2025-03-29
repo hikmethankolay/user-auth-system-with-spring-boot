@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="RoleRepository_8java" kind="file" language="Java">
+    <compoundname>RoleRepository.java</compoundname>
+    <includes local="no">com.hikmethankolay.user_auth_system.entity.Role</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/repository/RoleRepository.java</label>
+        <link refid="RoleRepository_8java"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>com.hikmethankolay.user_auth_system.entity.Role</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1RoleRepository" prot="public">com::hikmethankolay::user_auth_system::repository::RoleRepository</innerclass>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository">com::hikmethankolay::user_auth_system::repository</innernamespace>
+    <briefdescription>
+<para>Repository interface for Role entity. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This interface defines methods for retrieving Role entities from the database.</para>
+<para><simplesect kind="author"><para>Hikmethan Kolay </para>
+</simplesect>
+<simplesect kind="date"><para>2025-02-12 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">package<sp/></highlight><highlight class="normal">com.hikmethankolay.user_auth_system.repository;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>com.hikmethankolay.user_auth_system.entity.Role;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>com.hikmethankolay.user_auth_system.enums.ERole;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>org.springframework.data.jpa.repository.JpaRepository;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>java.util.Optional;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1RoleRepository" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">interface<sp/></highlight><highlight class="normal"><ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1RoleRepository" kindref="compound">RoleRepository</ref><sp/></highlight><highlight class="keyword">extends</highlight><highlight class="normal"><sp/>JpaRepository&lt;Role,<sp/>Long&gt;<sp/>{</highlight></codeline>
+<codeline lineno="34" refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1RoleRepository_1a3fab4f0f295273f02e5e6f0e5ecab202" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Optional&lt;Role&gt;<sp/><ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1repository_1_1RoleRepository_1a3fab4f0f295273f02e5e6f0e5ecab202" kindref="member">findByName</ref>(ERole<sp/>name);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/repository/RoleRepository.java"/>
+  </compounddef>
+</doxygen>

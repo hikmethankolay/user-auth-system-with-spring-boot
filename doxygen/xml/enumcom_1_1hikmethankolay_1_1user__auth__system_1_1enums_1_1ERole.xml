@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1ERole" kind="enum" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::enums::ERole</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1ERole_1a3f73b964974c089f56417b80b2aeafe1" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>com.hikmethankolay.user_auth_system.enums.ERole.ROLE_USER</definition>
+        <argsstring></argsstring>
+        <name>ROLE_USER</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.enums.ERole.ROLE_USER</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Standard user role. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/ERole.java" line="27" column="1" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/ERole.java" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1ERole_1a742a6748e842d8815040f6286e378660" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>com.hikmethankolay.user_auth_system.enums.ERole.ROLE_MODERATOR</definition>
+        <argsstring></argsstring>
+        <name>ROLE_MODERATOR</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.enums.ERole.ROLE_MODERATOR</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Moderator role with additional privileges. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/ERole.java" line="30" column="1" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/ERole.java" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1ERole_1a42307d7c778e5dd1ae8f3b73bdfd011a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>com.hikmethankolay.user_auth_system.enums.ERole.ROLE_ADMIN</definition>
+        <argsstring></argsstring>
+        <name>ROLE_ADMIN</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.enums.ERole.ROLE_ADMIN</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Administrator role with full access. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/ERole.java" line="34" column="1" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/ERole.java" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Enum representing different user roles.</para>
+<para>This enum defines roles such as:<itemizedlist>
+<listitem><para>ROLE_USER: Standard user role.</para>
+</listitem><listitem><para>ROLE_MODERATOR: Moderator role with additional privileges.</para>
+</listitem><listitem><para>ROLE_ADMIN: Administrator role with full access. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/ERole.java" line="25" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/enums/ERole.java" bodystart="25" bodyend="34"/>
+    <listofallmembers>
+      <member refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1ERole_1a42307d7c778e5dd1ae8f3b73bdfd011a" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::enums::ERole</scope><name>ROLE_ADMIN</name></member>
+      <member refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1ERole_1a742a6748e842d8815040f6286e378660" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::enums::ERole</scope><name>ROLE_MODERATOR</name></member>
+      <member refid="enumcom_1_1hikmethankolay_1_1user__auth__system_1_1enums_1_1ERole_1a3f73b964974c089f56417b80b2aeafe1" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::enums::ERole</scope><name>ROLE_USER</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

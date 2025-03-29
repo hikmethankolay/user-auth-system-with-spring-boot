@@ -1,0 +1,103 @@
+\doxysection{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Enum\+Validator\+For\+Enum Class Reference}
+\hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum}{}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum}\index{com.hikmethankolay.user\_auth\_system.validator.EnumValidatorForEnum@{com.hikmethankolay.user\_auth\_system.validator.EnumValidatorForEnum}}
+
+
+Validator for validating enum values.  
+
+
+Inheritance diagram for com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Enum\+Validator\+For\+Enum\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum_ad4deae60c6a394f31bfb828231d9b9e8}{initialize}} (\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum}{Valid\+Enum}} annotation)
+\begin{DoxyCompactList}\small\item\em Initializes the validator with the specified annotation parameters. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum_ab88df041951ab1c02fbd782b5c231f55}{is\+Valid}} (Enum$<$?$>$ value, Constraint\+Validator\+Context context)
+\begin{DoxyCompactList}\small\item\em Validates an enum value against the accepted enum type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Validator for validating enum values. 
+
+Validates that an enum value matches a value in a specified enum type. 
+
+Definition at line \mbox{\hyperlink{EnumValidatorForEnum_8java_source_l00023}{23}} of file \mbox{\hyperlink{EnumValidatorForEnum_8java_source}{Enum\+Validator\+For\+Enum.\+java}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum_ad4deae60c6a394f31bfb828231d9b9e8}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum_ad4deae60c6a394f31bfb828231d9b9e8} 
+\index{com.hikmethankolay.user\_auth\_system.validator.EnumValidatorForEnum@{com.hikmethankolay.user\_auth\_system.validator.EnumValidatorForEnum}!initialize@{initialize}}
+\index{initialize@{initialize}!com.hikmethankolay.user\_auth\_system.validator.EnumValidatorForEnum@{com.hikmethankolay.user\_auth\_system.validator.EnumValidatorForEnum}}
+\doxysubsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Enum\+Validator\+For\+Enum.\+initialize (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum}{Valid\+Enum}}}]{annotation }\end{DoxyParamCaption})}
+
+
+
+Initializes the validator with the specified annotation parameters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em annotation} & The Valid\+Enum annotation instance. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{EnumValidatorForEnum_8java_source_l00032}{32}} of file \mbox{\hyperlink{EnumValidatorForEnum_8java_source}{Enum\+Validator\+For\+Enum.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ this.enumClass\ =\ annotation.enumClass();}
+\DoxyCodeLine{00034\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_a7a6a653012066c23ef9e769edd28fe33}{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Valid\+Enum.\+enum\+Class()}}.
+
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum_ab88df041951ab1c02fbd782b5c231f55}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum_ab88df041951ab1c02fbd782b5c231f55} 
+\index{com.hikmethankolay.user\_auth\_system.validator.EnumValidatorForEnum@{com.hikmethankolay.user\_auth\_system.validator.EnumValidatorForEnum}!isValid@{isValid}}
+\index{isValid@{isValid}!com.hikmethankolay.user\_auth\_system.validator.EnumValidatorForEnum@{com.hikmethankolay.user\_auth\_system.validator.EnumValidatorForEnum}}
+\doxysubsubsection{\texorpdfstring{isValid()}{isValid()}}
+{\footnotesize\ttfamily boolean com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Enum\+Validator\+For\+Enum.\+is\+Valid (\begin{DoxyParamCaption}\item[{Enum$<$?$>$}]{value,  }\item[{Constraint\+Validator\+Context}]{context }\end{DoxyParamCaption})}
+
+
+
+Validates an enum value against the accepted enum type. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & The enum value to validate. \\
+\hline
+{\em context} & The validation context. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the value is a valid enum value, otherwise false. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{EnumValidatorForEnum_8java_source_l00043}{43}} of file \mbox{\hyperlink{EnumValidatorForEnum_8java_source}{Enum\+Validator\+For\+Enum.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ ==\ \textcolor{keyword}{null})\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Arrays.stream(enumClass.getEnumConstants())}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .anyMatch(validEnum\ -\/>\ validEnum.name().equals(value.name()));}
+\DoxyCodeLine{00050\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+user-\/auth-\/system/src/main/java/com/hikmethankolay/user\+\_\+auth\+\_\+system/validator/\mbox{\hyperlink{EnumValidatorForEnum_8java}{Enum\+Validator\+For\+Enum.\+java}}\end{DoxyCompactItemize}

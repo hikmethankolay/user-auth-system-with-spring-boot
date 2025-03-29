@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TokenStatus.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">user-auth-system</a> &gt; <a href="index.source.html" class="el_package">com.hikmethankolay.user_auth_system.enums</a> &gt; <span class="el_source">TokenStatus.java</span></div><h1>TokenStatus.java</h1><pre class="source lang-java linenums">/**
+ * @file TokenStatus.java
+ * @brief Enum representing authentication token statuses.
+ *
+ * This enum defines different statuses for authentication tokens, such as valid, expired, and invalid.
+ *
+ * @author Hikmethan Kolay
+ * @date 2025-03-29
+ */
+
+/**
+ * @package com.hikmethankolay.user_auth_system.enums
+ * @brief Contains the core components of the User Authentication System.
+ */
+package com.hikmethankolay.user_auth_system.enums;
+
+/**
+ * Enum representing different authentication token statuses.
+ *
+ * This enum defines statuses such as:
+ * - VALID: Token is valid and can be used for authentication.
+ * - EXPIRED: Token has exceeded its lifetime and needs to be refreshed.
+ * - INVALID: Token is invalid due to tampering or other issues.
+ */
+<span class="fc" id="L25">public enum TokenStatus {</span>
+    /** Token is valid and can be used for authentication. */
+<span class="fc" id="L27">    VALID,</span>
+
+    /** Token has exceeded its lifetime and needs to be refreshed. */
+<span class="fc" id="L30">    EXPIRED,</span>
+
+    /** Token is invalid due to tampering or other issues. */
+<span class="fc" id="L33">    INVALID</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
