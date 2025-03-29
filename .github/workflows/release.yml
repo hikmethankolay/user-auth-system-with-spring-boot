@@ -19,6 +19,36 @@ jobs:
       checks: write
       pull-requests: write
     
+    # Add PostgreSQL service
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: test-password
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    
+    # Define environment variables with dummy values
+    env:
+      DB_NAME: postgres
+      CURRENT_SCHEMA: user_auth_db
+      DB_USERNAME: postgres
+      DB_PASSWORD: test-password
+      JWT_SECRET: dummy-jwt-secret-for-testing-only
+      JWT_EXPIRATION_TIME: 3600000
+      JWT_REMEMBER_ME_EXPIRATION_TIME: 86400000
+      API_USERNAME: test_admin
+      API_PASSWORD: test_password
+      API_ROLES: ADMIN
+    
     steps:
       - name: Configure Git
         run: sudo git config --system core.longpaths true
@@ -34,7 +64,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
-          cache: 'maven'  # This caches Maven dependencies
+          cache: 'maven'
           
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v4
@@ -51,11 +81,20 @@ jobs:
           sudo apt-get install -y doxygen lcov libxml2-utils
           pip install coverxygen
           dotnet tool install -g dotnet-reportgenerator-globaltool
-        
+      
+      # Initialize PostgreSQL database with schema
+      - name: Initialize Database Schema
+        run: |
+          PGPASSWORD=$DB_PASSWORD psql -h localhost -U $DB_USERNAME -d $DB_NAME -f sql_tables.sql
+      
       # Build and Test
       - name: Build and Test
         run: mvn clean test package
         working-directory: ./user-auth-system
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/${{ env.DB_NAME }}?currentSchema=${{ env.CURRENT_SCHEMA }}
+          SPRING_DATASOURCE_USERNAME: ${{ env.DB_USERNAME }}
+          SPRING_DATASOURCE_PASSWORD: ${{ env.DB_PASSWORD }}
       
       # Create directories
       - name: Prepare Directories
@@ -121,17 +160,10 @@ jobs:
       # Copy and prepare assets
       - name: Prepare Assets
         run: |
-          # Create assets directory if it doesn't exist
           mkdir -p assets
-          
-          # Copy badges to assets directory
           cp user-auth-system/target/site/coveragereport/badge_*.svg assets/
-          
-          # Copy assets to site resources
           cp README.md user-auth-system/src/site/markdown/readme.md
           cp -r ./assets/ ./user-auth-system/src/site/resources || echo "Assets not fully copied"
-          
-          # Generate site
           (cd user-auth-system && mvn site)
       
       # Compress artifacts
