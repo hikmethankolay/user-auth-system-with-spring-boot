@@ -77,7 +77,7 @@
 		</repository>
 	</distributionManagement>
 	<properties>
-		<java.version>23</java.version>
+		<java.version>21</java.version>
 	</properties>
 	<dependencies>
 		<dependency>

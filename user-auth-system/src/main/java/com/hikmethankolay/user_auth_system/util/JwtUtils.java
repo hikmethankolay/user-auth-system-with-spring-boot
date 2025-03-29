@@ -17,6 +17,7 @@ package com.hikmethankolay.user_auth_system.util;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.hikmethankolay.user_auth_system.enums.TokenStatus;
 import jakarta.servlet.http.Cookie;
@@ -31,7 +32,6 @@ import java.util.Date;
  */
 @Component
 public class JwtUtils {
-
 
     /** JWT Secret Key */
     @Value("${api.security.token.secret}")
@@ -74,11 +74,9 @@ public class JwtUtils {
     public TokenStatus validateJwtToken(String token) {
         try {
             DecodedJWT jwt = JWT.require(Algorithm.HMAC256(jwtSecret)).build().verify(token);
-            Date expirationDate = jwt.getExpiresAt();
-            if (expirationDate.before(new Date())) {
-                return TokenStatus.EXPIRED;
-            }
             return TokenStatus.VALID;
+        } catch (TokenExpiredException e) {
+            return TokenStatus.EXPIRED;
         } catch (Exception e) {
             return TokenStatus.INVALID;
         }

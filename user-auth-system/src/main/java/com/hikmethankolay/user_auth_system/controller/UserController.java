@@ -17,11 +17,8 @@ package com.hikmethankolay.user_auth_system.controller;
 import com.hikmethankolay.user_auth_system.dto.ApiResponseDTO;
 import com.hikmethankolay.user_auth_system.dto.UserInfoDTO;
 import com.hikmethankolay.user_auth_system.dto.UserUpdateDTO;
-import com.hikmethankolay.user_auth_system.entity.Role;
 import com.hikmethankolay.user_auth_system.entity.User;
 import com.hikmethankolay.user_auth_system.enums.EApiStatus;
-import com.hikmethankolay.user_auth_system.enums.ERole;
-import com.hikmethankolay.user_auth_system.repository.UserRepository;
 import com.hikmethankolay.user_auth_system.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,17 +42,14 @@ public class UserController {
 
     /** User service for handling user-related operations. */
     private final UserService userService;
-    private final UserRepository userRepository;
 
     /**
      * Controller for user operations.
      * @param userService The service managing user operations.
-     * @param userRepository The repository handling user persistence.
      * @author Hikmethan Kolay
      */
-    public UserController(UserService userService, UserRepository userRepository) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.userRepository = userRepository;
     }
 
     /**

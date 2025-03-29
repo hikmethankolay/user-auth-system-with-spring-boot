@@ -6,10 +6,7 @@
  * @date 2025
  */
 
-package com.hikmethankolay.user_auth_system.validator; /**< @package com.tubitak_1001.backend_app.valiadator
-                                                 *   @brief Package for custom validators in the application.
-                                                 *   @details This package contains custom validation logic for various use cases.
-                                                 */
+package com.hikmethankolay.user_auth_system.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -33,15 +30,10 @@ public class EnumValidatorForString implements ConstraintValidator<ValidEnum, St
      */
     @Override
     public void initialize(ValidEnum annotation) {
-        ignoreCase = annotation.ignoreCase();
-        acceptedValues = Arrays.stream(annotation.enumClass().getEnumConstants())
+        this.ignoreCase = annotation.ignoreCase();
+        this.acceptedValues = Arrays.stream(annotation.enumClass().getEnumConstants())
                 .map(Enum::name)
                 .collect(Collectors.toList());
-        if (ignoreCase) {
-            acceptedValues = acceptedValues.stream()
-                    .map(String::toLowerCase)
-                    .collect(Collectors.toList());
-        }
     }
 
     /**
@@ -55,7 +47,12 @@ public class EnumValidatorForString implements ConstraintValidator<ValidEnum, St
         if (value == null) {
             return true;
         }
-        String valueToCheck = ignoreCase ? value.toLowerCase() : value;
-        return acceptedValues.contains(valueToCheck);
+
+        if (ignoreCase) {
+            return acceptedValues.stream()
+                    .anyMatch(acceptedValue -> acceptedValue.equalsIgnoreCase(value));
+        } else {
+            return acceptedValues.contains(value);
+        }
     }
 }
