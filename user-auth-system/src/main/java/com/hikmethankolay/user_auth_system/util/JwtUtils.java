@@ -39,11 +39,11 @@ public class JwtUtils {
 
     /** Standard JWT Token expiration time */
     @Value("${api.security.token.expiration}")
-    private int jwtExpirationMs;
+    private Long jwtExpirationMs;
 
     /** Extended expiration time for Remember Me */
-    @Value("${api.security.token.remember-me-expiration:2592000000}") // 30 days in milliseconds
-    private int rememberMeExpirationMs;
+    @Value("${api.security.token.remember-me-expiration}") // 30 days in milliseconds
+    private Long rememberMeExpirationMs;
 
     /**
      * Generates a JWT token for a given user with optional Remember Me.
@@ -54,7 +54,7 @@ public class JwtUtils {
      * @return A signed JWT token string
      */
     public String generateJwtToken(String userId, String username, boolean rememberMe) {
-        int expirationTime = rememberMe ? rememberMeExpirationMs : jwtExpirationMs;
+        Long expirationTime = rememberMe ? rememberMeExpirationMs : jwtExpirationMs;
 
         return JWT.create()
                 .withSubject(userId)
