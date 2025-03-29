@@ -78,14 +78,14 @@ public class UserController {
      * @return Response entity containing user details or error message.
      */
     @GetMapping("/users/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponseDTO<UserInfoDTO>> getUserById(@PathVariable Long id) {
         Optional<User> user = userService.findById(id);
         if (user.isPresent()) {
             UserInfoDTO userDTO = new UserInfoDTO(user.get());
             return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS, userDTO, "User found successfully"));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponseDTO<>(EApiStatus.FAILURE, "", "Could not find user with id: " + id));
+                    .body(new ApiResponseDTO<>(EApiStatus.FAILURE, null, "Could not find user with id: " + id));
         }
     }
 
@@ -95,8 +95,7 @@ public class UserController {
      * @return Response entity containing user details or error message.
      */
     @GetMapping("/users/me")
-    public ResponseEntity<?> getLoggedInUser(@RequestAttribute("userId") Long id) {
-
+    public ResponseEntity<ApiResponseDTO<UserInfoDTO>> getLoggedInUser(@RequestAttribute("userId") Long id) {
         return getUserById(id);
     }
 
@@ -106,14 +105,14 @@ public class UserController {
      * @return Response entity containing user details or error message.
      */
     @GetMapping(value = "/users", params = "username")
-    public ResponseEntity<?> getUserByUsername(@RequestParam String username) {
+    public ResponseEntity<ApiResponseDTO<UserInfoDTO>> getUserByUsername(@RequestParam String username) {
         Optional<User> user = userService.findByUsernameOrEmail(username);
         if (user.isPresent()) {
             UserInfoDTO userDTO = new UserInfoDTO(user.get());
             return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS, userDTO, "User found successfully"));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponseDTO<>(EApiStatus.FAILURE, "", "Could not find user with username: " + username));
+                    .body(new ApiResponseDTO<>(EApiStatus.FAILURE, null, "Could not find user with username: " + username));
         }
     }
 
@@ -123,14 +122,14 @@ public class UserController {
      * @return Response entity containing user details or error message.
      */
     @GetMapping(value = "/users", params = "email")
-    public ResponseEntity<?> getUserByEmail(@RequestParam String email) {
+    public ResponseEntity<ApiResponseDTO<UserInfoDTO>> getUserByEmail(@RequestParam String email) {
         Optional<User> user = userService.findByUsernameOrEmail(email);
         if (user.isPresent()) {
             UserInfoDTO userDTO = new UserInfoDTO(user.get());
             return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS, userDTO, "User found successfully"));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponseDTO<>(EApiStatus.FAILURE, "", "Could not find user with email: " + email));
+                    .body(new ApiResponseDTO<>(EApiStatus.FAILURE, null, "Could not find user with email: " + email));
         }
     }
 
@@ -141,13 +140,13 @@ public class UserController {
      * @return Response entity containing update status.
      */
     @PatchMapping("/users/{id}")
-    public ResponseEntity<?> updateUser(@RequestBody UserUpdateDTO UserUpdateDTO, @PathVariable Long id, @RequestAttribute("userId") Long requesterId) {
+    public ResponseEntity<ApiResponseDTO<UserInfoDTO>> updateUser(@RequestBody UserUpdateDTO UserUpdateDTO, @PathVariable Long id, @RequestAttribute("userId") Long requesterId) {
         try {
             User updatedUser = userService.updateUser(UserUpdateDTO, id, requesterId);
-            return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS,new UserInfoDTO(updatedUser),"User updated successfully"));
+            return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS, new UserInfoDTO(updatedUser), "User updated successfully"));
         }
         catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponseDTO<>(EApiStatus.FAILURE,"",e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponseDTO<>(EApiStatus.FAILURE, null, e.getMessage()));
         }
     }
 
@@ -158,7 +157,7 @@ public class UserController {
      * @return Response entity containing user details or error message.
      */
     @PatchMapping("/users/me")
-    public ResponseEntity<?> updateLoggedInUser(@RequestBody UserUpdateDTO UserUpdateDTO, @RequestAttribute("userId") Long id) {
+    public ResponseEntity<ApiResponseDTO<UserInfoDTO>> updateLoggedInUser(@RequestBody UserUpdateDTO UserUpdateDTO, @RequestAttribute("userId") Long id) {
         return updateUser(UserUpdateDTO, id, id);
     }
 
@@ -168,13 +167,13 @@ public class UserController {
      * @return Response entity containing delete status.
      */
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id, @RequestAttribute("userId") Long requesterId) {
+    public ResponseEntity<ApiResponseDTO<Void>> deleteUser(@PathVariable Long id, @RequestAttribute("userId") Long requesterId) {
         try {
-            userService.deleteById(id,requesterId);
-            return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS,"","User deleted successfully"));
+            userService.deleteById(id, requesterId);
+            return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS, null, "User deleted successfully"));
         }
         catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponseDTO<>(EApiStatus.FAILURE,"",e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponseDTO<>(EApiStatus.FAILURE, null, e.getMessage()));
         }
     }
 }

@@ -57,12 +57,13 @@ public class AuthController {
      * @return Response entity containing the registration result.
      */
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserRegisterDTO registerRequest) {
+    public ResponseEntity<ApiResponseDTO<UserInfoDTO>> register(@RequestBody UserRegisterDTO registerRequest) {
         try {
             User registeredUser = userService.registerUser(registerRequest);
-            return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS,new UserInfoDTO(registeredUser),"User registered successfully"));
+            return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS, new UserInfoDTO(registeredUser), "User registered successfully"));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponseDTO<>(EApiStatus.FAILURE,"",e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiResponseDTO<>(EApiStatus.FAILURE, null, e.getMessage()));
         }
     }
 
@@ -73,7 +74,7 @@ public class AuthController {
      * @return Response entity with token and optional cookie or error message.
      */
     @PostMapping("/login")
-    public ResponseEntity<?> login(HttpServletRequest request, @RequestBody LoginRequestDTO loginRequest) {
+    public ResponseEntity<ApiResponseDTO<AuthResponseDTO>> login(HttpServletRequest request, @RequestBody LoginRequestDTO loginRequest) {
         // Get client IP address for rate limiting
         String clientIp = getClientIp(request);
 
@@ -102,12 +103,12 @@ public class AuthController {
                 return responseBuilder.body(new ApiResponseDTO<>(EApiStatus.SUCCESS, responseDTO, "User authenticated successfully"));
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body(new ApiResponseDTO<>(EApiStatus.FAILURE, "", "Wrong username or password"));
+                        .body(new ApiResponseDTO<>(EApiStatus.FAILURE, null, "Wrong username or password"));
             }
         } catch (RuntimeException e) {
             // Handle account/IP blocking errors with appropriate status code
             return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
-                    .body(new ApiResponseDTO<>(EApiStatus.FAILURE, "", e.getMessage()));
+                    .body(new ApiResponseDTO<>(EApiStatus.FAILURE, null, e.getMessage()));
         }
     }
 
@@ -129,7 +130,7 @@ public class AuthController {
      * @return Response entity with success message.
      */
     @PostMapping("/logout")
-    public ResponseEntity<?> logout() {
+    public ResponseEntity<ApiResponseDTO<Void>> logout() {
         // Clear the auth cookie by setting its max age to 0
         ResponseCookie clearCookie = ResponseCookie.from("auth_token", "")
                 .httpOnly(true)
@@ -150,7 +151,7 @@ public class AuthController {
      * @return Response entity with a new token.
      */
     @PostMapping("/refresh-token")
-    public ResponseEntity<?> refreshToken(HttpServletRequest request) {
+    public ResponseEntity<ApiResponseDTO<AuthResponseDTO>> refreshToken(HttpServletRequest request) {
         try {
             // Token validation and refresh handled in service layer
             String token = jwtUtils.extractTokenFromRequest(request);

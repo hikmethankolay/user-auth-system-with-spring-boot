@@ -52,7 +52,7 @@ public class RoleController {
      * @return Response entity containing a list of all roles.
      */
     @GetMapping("/roles")
-    public ResponseEntity<?> findAll() {
+    public ResponseEntity<ApiResponseDTO<List<RoleInfoDTO>>> findAll() {
         List<RoleInfoDTO> roleInfoDTOS = roleService.findAll().stream().map(RoleInfoDTO::new).toList();
         return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS, roleInfoDTOS, "Roles found successfully"));
     }
@@ -63,7 +63,7 @@ public class RoleController {
      * @return Response entity containing the role information or an error message if not found.
      */
     @GetMapping("/roles/{name}")
-    public ResponseEntity<?> findByName(@PathVariable ERole name) {
+    public ResponseEntity<ApiResponseDTO<RoleInfoDTO>> findByName(@PathVariable ERole name) {
         Optional<Role> role = roleService.findByName(name);
 
         if (role.isPresent()) {
@@ -72,7 +72,7 @@ public class RoleController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body(new ApiResponseDTO<>(EApiStatus.FAILURE, "", "Could not find role with name: " + name));
+                    .body(new ApiResponseDTO<>(EApiStatus.FAILURE, null, "Could not find role with name: " + name));
         }
     }
 }
