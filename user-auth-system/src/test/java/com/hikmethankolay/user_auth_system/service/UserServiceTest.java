@@ -79,7 +79,7 @@ public class UserServiceTest extends BaseServiceTest {
         registerDTO.setEmail("test@example.com");
         registerDTO.setPassword("P@ssw0rd123!");
 
-        when(validator.validate(registerDTO)).thenReturn(Collections.emptySet());
+        when(validator.validate(registerDTO, UserDTO.Registration.class)).thenReturn(Collections.emptySet());
         when(userRepository.findByUsername(registerDTO.getUsername())).thenReturn(Optional.empty());
         when(userRepository.findByEmail(registerDTO.getEmail())).thenReturn(Optional.empty());
         when(passwordEncoder.encode(registerDTO.getPassword())).thenReturn("encodedPassword");
@@ -122,12 +122,12 @@ public class UserServiceTest extends BaseServiceTest {
         Set<ConstraintViolation<UserDTO>> violations = new HashSet<>();
         violations.add(mockViolation);
 
-        when(validator.validate(registerDTO)).thenReturn(violations);
+        when(validator.validate(registerDTO, UserDTO.Registration.class)).thenReturn(violations);
 
         // Act & Assert
         assertThrows(ConstraintViolationException.class, () -> userService.registerUser(registerDTO));
 
-        verify(validator).validate(registerDTO);
+        verify(validator).validate(registerDTO, UserDTO.Registration.class);
         verify(userRepository, never()).save(any(User.class));
     }
 
@@ -147,7 +147,7 @@ public class UserServiceTest extends BaseServiceTest {
         User existingUser = new User("existinguser", "existing@example.com", "password");
         existingUser.setId(2L); // Explicitly set non-null ID to pass the filter condition
 
-        when(validator.validate(registerDTO)).thenReturn(Collections.emptySet());
+        when(validator.validate(registerDTO, UserDTO.Registration.class)).thenReturn(Collections.emptySet());
         when(userRepository.findByUsername(registerDTO.getUsername())).thenReturn(Optional.of(existingUser));
 
         // Act & Assert
@@ -172,7 +172,7 @@ public class UserServiceTest extends BaseServiceTest {
         User existingUser = new User("existinguser", "existing@example.com", "password");
         existingUser.setId(2L); // Explicitly set non-null ID to pass the filter condition
 
-        when(validator.validate(registerDTO)).thenReturn(Collections.emptySet());
+        when(validator.validate(registerDTO, UserDTO.Registration.class)).thenReturn(Collections.emptySet());
         when(userRepository.findByUsername(registerDTO.getUsername())).thenReturn(Optional.empty());
         when(userRepository.findByEmail(registerDTO.getEmail())).thenReturn(Optional.of(existingUser));
 
@@ -180,7 +180,7 @@ public class UserServiceTest extends BaseServiceTest {
         RuntimeException exception = assertThrows(RuntimeException.class, () -> userService.registerUser(registerDTO));
         assertEquals("Email is already taken!", exception.getMessage());
 
-        verify(validator).validate(registerDTO);
+        verify(validator).validate(registerDTO, UserDTO.Registration.class);
         verify(userRepository).findByUsername(registerDTO.getUsername());
         verify(userRepository).findByEmail(registerDTO.getEmail());
         verify(userRepository, never()).save(any(User.class));
@@ -403,7 +403,7 @@ public class UserServiceTest extends BaseServiceTest {
         Role adminRole = new Role(ERole.ROLE_ADMIN);
         requester.setRole(adminRole);
 
-        when(validator.validate(updateDTO)).thenReturn(Collections.emptySet());
+        when(validator.validate(updateDTO, UserDTO.Update.class)).thenReturn(Collections.emptySet());
         when(userRepository.findById(1L)).thenReturn(Optional.of(existingUser));
         when(userRepository.findById(2L)).thenReturn(Optional.of(requester));
         when(userRepository.findByUsername(updateDTO.getUsername())).thenReturn(Optional.empty());
@@ -420,7 +420,7 @@ public class UserServiceTest extends BaseServiceTest {
         assertEquals("new@example.com", result.getEmail());
         assertEquals("newEncodedPassword", result.getPassword());
 
-        verify(validator).validate(updateDTO);
+        verify(validator).validate(updateDTO, UserDTO.Update.class);
         verify(userRepository).findById(1L);
         verify(userRepository).findById(2L);
         verify(userRepository).findByUsername(updateDTO.getUsername());
@@ -445,12 +445,12 @@ public class UserServiceTest extends BaseServiceTest {
         Set<ConstraintViolation<UserDTO>> violations = new HashSet<>();
         violations.add(mockViolation);
 
-        when(validator.validate(updateDTO)).thenReturn(violations);
+        when(validator.validate(updateDTO, UserDTO.Update.class)).thenReturn(violations);
 
         // Act & Assert
         assertThrows(ConstraintViolationException.class, () -> userService.updateUser(updateDTO, 1L, 2L));
 
-        verify(validator).validate(updateDTO);
+        verify(validator).validate(updateDTO, UserDTO.Update.class);
         verify(userRepository, never()).save(any(User.class));
     }
 
@@ -469,7 +469,7 @@ public class UserServiceTest extends BaseServiceTest {
         User otherUser = new User("existinguser", "other@example.com", "otherpassword");
         otherUser.setId(2L);
 
-        when(validator.validate(updateDTO)).thenReturn(Collections.emptySet());
+        when(validator.validate(updateDTO, UserDTO.Update.class)).thenReturn(Collections.emptySet());
         when(userRepository.findByUsername(updateDTO.getUsername())).thenReturn(Optional.of(otherUser));
 
         // Act & Assert
@@ -477,7 +477,7 @@ public class UserServiceTest extends BaseServiceTest {
                 () -> userService.updateUser(updateDTO, 1L, 3L));
         assertEquals("Username is already taken!", exception.getMessage());
 
-        verify(validator).validate(updateDTO);
+        verify(validator).validate(updateDTO, UserDTO.Update.class);
         verify(userRepository).findByUsername(updateDTO.getUsername());
         verify(userRepository, never()).save(any(User.class));
     }
@@ -503,7 +503,7 @@ public class UserServiceTest extends BaseServiceTest {
         User requester = new User("admin", "admin@example.com", "adminpassword");
         requester.setId(3L);
 
-        when(validator.validate(updateDTO)).thenReturn(Collections.emptySet());
+        when(validator.validate(updateDTO, UserDTO.Update.class)).thenReturn(Collections.emptySet());
         when(userRepository.findById(1L)).thenReturn(Optional.of(existingUser));
         when(userRepository.findById(3L)).thenReturn(Optional.of(requester));
         when(userRepository.findByUsername(updateDTO.getUsername())).thenReturn(Optional.empty());
@@ -514,7 +514,7 @@ public class UserServiceTest extends BaseServiceTest {
                 () -> userService.updateUser(updateDTO, 1L, 3L));
         assertEquals("Email is already taken!", exception.getMessage());
 
-        verify(validator).validate(updateDTO);
+        verify(validator).validate(updateDTO, UserDTO.Update.class);
         verify(userRepository).findByUsername(updateDTO.getUsername());
         verify(userRepository).findByEmail(updateDTO.getEmail());
         verify(userRepository, never()).save(any(User.class));
@@ -535,7 +535,7 @@ public class UserServiceTest extends BaseServiceTest {
         User requester = new User("admin", "admin@example.com", "adminpassword");
         requester.setId(2L);
 
-        when(validator.validate(updateDTO)).thenReturn(Collections.emptySet());
+        when(validator.validate(updateDTO, UserDTO.Update.class)).thenReturn(Collections.emptySet());
         when(userRepository.findById(99L)).thenReturn(Optional.empty());
         when(userRepository.findById(2L)).thenReturn(Optional.of(requester));
 
@@ -544,7 +544,7 @@ public class UserServiceTest extends BaseServiceTest {
                 () -> userService.updateUser(updateDTO, 99L, 2L));
         assertEquals("User not found with id: 99", exception.getMessage());
 
-        verify(validator).validate(updateDTO);
+        verify(validator).validate(updateDTO, UserDTO.Update.class);
         verify(userRepository).findById(99L);
         verify(userRepository, never()).save(any(User.class));
     }
@@ -564,7 +564,7 @@ public class UserServiceTest extends BaseServiceTest {
         User existingUser = new User("oldusername", "old@example.com", "oldpassword");
         existingUser.setId(1L);
 
-        when(validator.validate(updateDTO)).thenReturn(Collections.emptySet());
+        when(validator.validate(updateDTO, UserDTO.Update.class)).thenReturn(Collections.emptySet());
         when(userRepository.findById(1L)).thenReturn(Optional.of(existingUser));
         when(userRepository.findById(99L)).thenReturn(Optional.empty());
 
@@ -573,7 +573,7 @@ public class UserServiceTest extends BaseServiceTest {
                 () -> userService.updateUser(updateDTO, 1L, 99L));
         assertEquals("Requester not found with id: 99", exception.getMessage());
 
-        verify(validator).validate(updateDTO);
+        verify(validator).validate(updateDTO, UserDTO.Update.class);
         verify(userRepository).findById(1L);
         verify(userRepository).findById(99L);
         verify(userRepository, never()).save(any(User.class));

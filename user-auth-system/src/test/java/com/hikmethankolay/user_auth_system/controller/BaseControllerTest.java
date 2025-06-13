@@ -11,15 +11,20 @@
 package com.hikmethankolay.user_auth_system.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hikmethankolay.user_auth_system.repository.RoleRepository;
+import com.hikmethankolay.user_auth_system.repository.UserRepository;
 import com.hikmethankolay.user_auth_system.service.RoleService;
 import com.hikmethankolay.user_auth_system.service.UserService;
+import com.hikmethankolay.user_auth_system.service.LoginAttemptService;
 import com.hikmethankolay.user_auth_system.util.JwtUtils;
+import jakarta.validation.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -70,6 +75,36 @@ public abstract class BaseControllerTest {
      */
     @MockitoBean
     protected JwtUtils jwtUtils;
+
+    /**
+     * Mock UserRepository for service dependencies.
+     */
+    @MockitoBean
+    protected UserRepository userRepository;
+
+    /**
+     * Mock RoleRepository for service dependencies.
+     */
+    @MockitoBean
+    protected RoleRepository roleRepository;
+
+    /**
+     * Mock PasswordEncoder for service dependencies.
+     */
+    @MockitoBean
+    protected PasswordEncoder passwordEncoder;
+
+    /**
+     * Mock Validator for service dependencies.
+     */
+    @MockitoBean
+    protected Validator validator;
+
+    /**
+     * Mock LoginAttemptService for service dependencies.
+     */
+    @MockitoBean
+    protected LoginAttemptService loginAttemptService;
 
     /**
      * @brief Setup method that runs before each test.

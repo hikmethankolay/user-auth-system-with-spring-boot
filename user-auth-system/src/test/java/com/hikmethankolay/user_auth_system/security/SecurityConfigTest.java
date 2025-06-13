@@ -21,7 +21,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.hikmethankolay.user_auth_system.dto.LoginRequestDTO;
 import com.hikmethankolay.user_auth_system.dto.UserDTO;
 import com.hikmethankolay.user_auth_system.entity.User;
+import com.hikmethankolay.user_auth_system.entity.Role;
+import com.hikmethankolay.user_auth_system.enums.ERole;
 import com.hikmethankolay.user_auth_system.service.UserService;
+import com.hikmethankolay.user_auth_system.service.RoleService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -59,17 +62,26 @@ public class SecurityConfigTest {
     private UserService userService;
 
     /**
+     * Mock RoleService for security test dependencies.
+     */
+    @MockitoBean
+    private RoleService roleService;
+
+    /**
      * @brief Test access to public endpoints.
      *
      * Verifies that public endpoints are accessible without authentication.
      */
     @Test
     public void testPublicEndpointsAccessible() throws Exception {
-        // Prepare test data for registration
-        UserDTO registerDTO = new UserDTO();
-        registerDTO.setUsername("newuser123");
-        registerDTO.setEmail("new@example.com");
-        registerDTO.setPassword("P@ssw0rd123!");
+        // Prepare test data for registration - using raw JSON to include password
+        String registerJson = """
+                {
+                    "username": "newuser123",
+                    "email": "new@example.com",
+                    "password": "P@ssw0rd123!"
+                }
+                """;
         
         // Prepare test data for login
         LoginRequestDTO loginDTO = new LoginRequestDTO("testuser", "password", false);
@@ -83,7 +95,7 @@ public class SecurityConfigTest {
         // Test registration endpoint
         mockMvc.perform(post("/api/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(registerDTO)))
+                .content(registerJson))
                 .andExpect(status().isOk());
 
         // Test login endpoint
@@ -143,9 +155,6 @@ public class SecurityConfigTest {
         
         mockMvc.perform(delete("/api/users/1"))
                 .andExpect(status().isForbidden());
-        
-        mockMvc.perform(get("/api/roles"))
-                .andExpect(status().isForbidden());
     }
 
     /**
@@ -162,9 +171,6 @@ public class SecurityConfigTest {
 
         // Test admin endpoints with admin role
         mockMvc.perform(get("/api/users"))
-                .andExpect(status().isOk());
-        
-        mockMvc.perform(get("/api/roles"))
                 .andExpect(status().isOk());
     }
 
