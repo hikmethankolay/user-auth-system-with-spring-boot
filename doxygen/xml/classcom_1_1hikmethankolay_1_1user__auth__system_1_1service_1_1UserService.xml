@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="48" column="34" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="48" bodyend="-1"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="47" column="34" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="47" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a9e31a367ff43e874ef81b3d96ba3ea40" prot="private" static="no" mutable="no">
         <type>final RoleRepository</type>
@@ -31,7 +31,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="51" column="34" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="51" bodyend="-1"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="50" column="34" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="50" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1adeea96e5da3e16c34fffb1de90c622b1" prot="private" static="no" mutable="no">
         <type>final PasswordEncoder</type>
@@ -46,7 +46,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="54" column="35" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="54" bodyend="-1"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="53" column="35" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="53" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a3b1cd1fba329b8d05771e350cb74dae7" prot="private" static="no" mutable="no">
         <type>final JwtUtils</type>
@@ -61,7 +61,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="57" column="28" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="57" bodyend="-1"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="56" column="28" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="56" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a979fe3bd0d3e2840f6f63796b2987d9e" prot="private" static="no" mutable="no">
         <type>final Validator</type>
@@ -76,10 +76,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="60" column="29" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="60" bodyend="-1"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="59" column="29" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="59" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1ae340fbd96e2365a5c52e78cac67db04d" prot="private" static="no" mutable="no">
-        <type>final LoginAttemptService</type>
+        <type>final <ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService" kindref="compound">LoginAttemptService</ref></type>
         <definition>final LoginAttemptService com.hikmethankolay.user_auth_system.service.UserService.loginAttemptService</definition>
         <argsstring></argsstring>
         <name>loginAttemptService</name>
@@ -91,7 +91,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="63" column="39" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="63" bodyend="-1"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="62" column="39" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="62" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -122,7 +122,7 @@
           <declname>validator</declname>
         </param>
         <param>
-          <type>LoginAttemptService</type>
+          <type><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService" kindref="compound">LoginAttemptService</ref></type>
           <declname>loginAttemptService</declname>
         </param>
         <briefdescription>
@@ -174,7 +174,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="73" column="12" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="73" bodyend="80"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="72" column="12" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="72" bodyend="79"/>
       </memberdef>
       <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1ae7e64a4df9c372fb1cee4f8834cee6e3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>Page&lt; User &gt;</type>
@@ -205,7 +205,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="87" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="87" bodyend="89"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="86" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="86" bodyend="88"/>
       </memberdef>
       <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1ada22ab55c9aa34165ac84dc850f037a8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>Optional&lt; User &gt;</type>
@@ -236,7 +236,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="96" column="21" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="96" bodyend="98"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="95" column="21" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="95" bodyend="97"/>
       </memberdef>
       <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1abc03cb8d49f386aa53863498b2459ef4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -269,7 +269,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="104" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="104" bodyend="113"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="103" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="103" bodyend="112"/>
       </memberdef>
       <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a7b9129aa963322995ca2dc1405177d9b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>Optional&lt; User &gt;</type>
@@ -300,18 +300,18 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="120" column="21" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="120" bodyend="122"/>
-        <referencedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a7087261b81b4089cca056774fa493942" compoundref="UserService_8java" startline="191" endline="213">com.hikmethankolay.user_auth_system.service.UserService.refreshToken</referencedby>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="119" column="21" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="119" bodyend="121"/>
+        <referencedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a7087261b81b4089cca056774fa493942" compoundref="UserService_8java" startline="194" endline="216">com.hikmethankolay.user_auth_system.service.UserService.refreshToken</referencedby>
       </memberdef>
-      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a6b5dc0e9c80ff01fc4ae7ff748db1c12" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a8415d4b918e26df349aea6733af3e83d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>User</type>
         <definition>User com.hikmethankolay.user_auth_system.service.UserService.registerUser</definition>
-        <argsstring>(UserRegisterDTO userInfoDTO)</argsstring>
+        <argsstring>(UserDTO userDTO)</argsstring>
         <name>registerUser</name>
         <qualifiedname>com.hikmethankolay.user_auth_system.service.UserService.registerUser</qualifiedname>
         <param>
-          <type>UserRegisterDTO</type>
-          <declname>userInfoDTO</declname>
+          <type>UserDTO</type>
+          <declname>userDTO</declname>
         </param>
         <briefdescription>
 <para>Registers a new user. </para>
@@ -319,7 +319,7 @@
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername>userInfoDTO</parametername>
+<parametername>userDTO</parametername>
 </parameternamelist>
 <parameterdescription>
 <para>The user information for registration. </para>
@@ -332,7 +332,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="130" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="130" bodyend="144"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="129" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="129" bodyend="147"/>
       </memberdef>
       <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a2374093e760c6e0a4fb56e30454c37d9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>String</type>
@@ -384,7 +384,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="153" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="153" bodyend="184"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="156" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="156" bodyend="187"/>
+        <references refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_1aecd42fbec86671d4d3a546a1639e9877" compoundref="LoginAttemptService_8java" startline="81" endline="87">com.hikmethankolay.user_auth_system.service.LoginAttemptService.isBlocked</references>
+        <references refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_1a31b95093be2a9d3a9164ebe000ff0135" compoundref="LoginAttemptService_8java" startline="65" endline="74">com.hikmethankolay.user_auth_system.service.LoginAttemptService.loginFailed</references>
+        <references refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_1a3a95a0484df8c17297cf17d50fdb8a70" compoundref="LoginAttemptService_8java" startline="57" endline="59">com.hikmethankolay.user_auth_system.service.LoginAttemptService.loginSucceeded</references>
       </memberdef>
       <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a7087261b81b4089cca056774fa493942" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>String</type>
@@ -415,17 +418,17 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="191" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="191" bodyend="213"/>
-        <references refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a7b9129aa963322995ca2dc1405177d9b" compoundref="UserService_8java" startline="120" endline="122">com.hikmethankolay.user_auth_system.service.UserService.findById</references>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="194" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="194" bodyend="216"/>
+        <references refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a7b9129aa963322995ca2dc1405177d9b" compoundref="UserService_8java" startline="119" endline="121">com.hikmethankolay.user_auth_system.service.UserService.findById</references>
       </memberdef>
-      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a85b25af076364941f35ad15524e0309f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a95e402acb22cca6848371dd955eae7de" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>User</type>
         <definition>User com.hikmethankolay.user_auth_system.service.UserService.updateUser</definition>
-        <argsstring>(UserUpdateDTO updates, Long id, Long requesterId)</argsstring>
+        <argsstring>(UserDTO updates, Long id, Long requesterId)</argsstring>
         <name>updateUser</name>
         <qualifiedname>com.hikmethankolay.user_auth_system.service.UserService.updateUser</qualifiedname>
         <param>
-          <type>UserUpdateDTO</type>
+          <type>UserDTO</type>
           <declname>updates</declname>
         </param>
         <param>
@@ -480,19 +483,19 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="226" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="226" bodyend="260"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="229" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="229" bodyend="268"/>
       </memberdef>
     </sectiondef>
-    <sectiondef kind="package-func">
-      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1afd70df67a049a2961e1df31f0f8465be" prot="package" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type>private&lt; T extends UserInfo &gt; void</type>
-        <definition>private&lt; T extends UserInfo &gt; void com.hikmethankolay.user_auth_system.service.UserService.checkUserValidation</definition>
-        <argsstring>(T userInfo, Long userId)</argsstring>
-        <name>checkUserValidation</name>
-        <qualifiedname>com.hikmethankolay.user_auth_system.service.UserService.checkUserValidation</qualifiedname>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1aad1cb6dddbf097e8e2c0750729ec6afc" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.service.UserService.checkUserUniqueness</definition>
+        <argsstring>(UserDTO userDTO, Long userId)</argsstring>
+        <name>checkUserUniqueness</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.service.UserService.checkUserUniqueness</qualifiedname>
         <param>
-          <type>T</type>
-          <declname>userInfo</declname>
+          <type>UserDTO</type>
+          <declname>userDTO</declname>
         </param>
         <param>
           <type>Long</type>
@@ -501,13 +504,13 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para>Validates user information and checks that username and email are unique.</para>
+<para>Validates user uniqueness (username and email).</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername>userInfo</parametername>
+<parametername>userDTO</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>the user info to validate </para>
+<para>the user DTO to validate </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -521,14 +524,6 @@
 </parameterlist>
 <parameterlist kind="exception"><parameteritem>
 <parameternamelist>
-<parametername>ConstraintViolationException</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>if validation fails </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
 <parametername>RuntimeException</parametername>
 </parameternamelist>
 <parameterdescription>
@@ -540,26 +535,24 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="270" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="270" bodyend="283"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="277" column="18" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="277" bodyend="289"/>
       </memberdef>
-    </sectiondef>
-    <sectiondef kind="private-func">
-      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1aa0747fee23f66ab0d1b853bfe8188d84" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1afcf613843c7281878164c512247a92fb" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
-        <definition>void com.hikmethankolay.user_auth_system.service.UserService.assignRolesToUser</definition>
-        <argsstring>(User user, Set&lt; ERole &gt; roles)</argsstring>
-        <name>assignRolesToUser</name>
-        <qualifiedname>com.hikmethankolay.user_auth_system.service.UserService.assignRolesToUser</qualifiedname>
+        <definition>void com.hikmethankolay.user_auth_system.service.UserService.assignRoleToUser</definition>
+        <argsstring>(User user, ERole roleName)</argsstring>
+        <name>assignRoleToUser</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.service.UserService.assignRoleToUser</qualifiedname>
         <param>
           <type>User</type>
           <declname>user</declname>
         </param>
         <param>
-          <type>Set&lt; ERole &gt;</type>
-          <declname>roles</declname>
+          <type>ERole</type>
+          <declname>roleName</declname>
         </param>
         <briefdescription>
-<para>Assigns roles to a user. </para>
+<para>Assigns a role to a user. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -567,15 +560,15 @@
 <parametername>user</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The user to whom roles will be assigned. </para>
+<para>The user to whom the role will be assigned. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername>roles</parametername>
+<parametername>roleName</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The set of roles to assign. </para>
+<para>The role to assign. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -583,7 +576,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="290" column="18" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="290" bodyend="300"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="296" column="18" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="296" bodyend="303"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -592,11 +585,11 @@
     <detaileddescription>
 <para>This service interacts with repositories to manage user authentication, validation, and user-related data. </para>
     </detaileddescription>
-    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="45" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="45" bodyend="301"/>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" line="44" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/UserService.java" bodystart="44" bodyend="304"/>
     <listofallmembers>
-      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1aa0747fee23f66ab0d1b853bfe8188d84" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::UserService</scope><name>assignRolesToUser</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1afcf613843c7281878164c512247a92fb" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::UserService</scope><name>assignRoleToUser</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a2374093e760c6e0a4fb56e30454c37d9" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::UserService</scope><name>authenticateUser</name></member>
-      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1afd70df67a049a2961e1df31f0f8465be" prot="package" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::UserService</scope><name>checkUserValidation</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1aad1cb6dddbf097e8e2c0750729ec6afc" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::UserService</scope><name>checkUserUniqueness</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1abc03cb8d49f386aa53863498b2459ef4" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::UserService</scope><name>deleteById</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1ae7e64a4df9c372fb1cee4f8834cee6e3" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::UserService</scope><name>findAll</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a7b9129aa963322995ca2dc1405177d9b" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::UserService</scope><name>findById</name></member>
@@ -605,9 +598,9 @@
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1ae340fbd96e2365a5c52e78cac67db04d" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::UserService</scope><name>loginAttemptService</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1adeea96e5da3e16c34fffb1de90c622b1" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::UserService</scope><name>passwordEncoder</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a7087261b81b4089cca056774fa493942" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::UserService</scope><name>refreshToken</name></member>
-      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a6b5dc0e9c80ff01fc4ae7ff748db1c12" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::UserService</scope><name>registerUser</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a8415d4b918e26df349aea6733af3e83d" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::UserService</scope><name>registerUser</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a9e31a367ff43e874ef81b3d96ba3ea40" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::UserService</scope><name>roleRepository</name></member>
-      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a85b25af076364941f35ad15524e0309f" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::UserService</scope><name>updateUser</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a95e402acb22cca6848371dd955eae7de" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::UserService</scope><name>updateUser</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1ae3f5da92abb42d46cff1bb1d02b8d4a9" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::UserService</scope><name>userRepository</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a8968201a405e32457e32ac4f833bc63d" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::UserService</scope><name>UserService</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a979fe3bd0d3e2840f6f63796b2987d9e" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::UserService</scope><name>validator</name></member>

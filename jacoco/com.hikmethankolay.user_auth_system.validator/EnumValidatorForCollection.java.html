@@ -6,7 +6,10 @@
  * @date 2025
  */
 
-package com.hikmethankolay.user_auth_system.validator;
+package com.hikmethankolay.user_auth_system.validator; /**&lt; @package com.hikmethankolay.user_auth_system.validator
+                                                 *   @brief Package for custom validators in the application.
+                                                 *   @details This package contains custom validation logic for various use cases.
+                                                 */
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -20,7 +23,7 @@ import java.util.stream.Collectors;
  * @brief Validator for validating collections of enum values.
  * @details Validates that each string in a collection matches a value in a specified enum.
  */
-<span class="fc" id="L23">public class EnumValidatorForCollection implements ConstraintValidator&lt;ValidEnum, Collection&lt;String&gt;&gt; {</span>
+<span class="fc" id="L26">public class EnumValidatorForCollection implements ConstraintValidator&lt;ValidEnum, Collection&lt;String&gt;&gt; {</span>
 
     private List&lt;String&gt; acceptedValues;
     private boolean ignoreCase;
@@ -31,11 +34,16 @@ import java.util.stream.Collectors;
      */
     @Override
     public void initialize(ValidEnum annotation) {
-<span class="fc" id="L34">        this.ignoreCase = annotation.ignoreCase();</span>
-<span class="fc" id="L35">        this.acceptedValues = Arrays.stream(annotation.enumClass().getEnumConstants())</span>
-<span class="fc" id="L36">                .map(Enum::name)</span>
-<span class="fc" id="L37">                .collect(Collectors.toList());</span>
-<span class="fc" id="L38">    }</span>
+<span class="fc" id="L37">        ignoreCase = annotation.ignoreCase();</span>
+<span class="fc" id="L38">        acceptedValues = Arrays.stream(annotation.enumClass().getEnumConstants())</span>
+<span class="fc" id="L39">                .map(Enum::name)</span>
+<span class="fc" id="L40">                .collect(Collectors.toList());</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        if (ignoreCase) {</span>
+<span class="fc" id="L42">            acceptedValues = acceptedValues.stream()</span>
+<span class="fc" id="L43">                    .map(String::toLowerCase)</span>
+<span class="fc" id="L44">                    .collect(Collectors.toList());</span>
+        }
+<span class="fc" id="L46">    }</span>
 
     /**
      * @brief Validates a collection of strings against the accepted enum values.
@@ -45,29 +53,19 @@ import java.util.stream.Collectors;
      */
     @Override
     public boolean isValid(Collection&lt;String&gt; values, ConstraintValidatorContext context) {
-<span class="fc bfc" id="L48" title="All 4 branches covered.">        if (values == null || values.isEmpty()) {</span>
-<span class="fc" id="L49">            return true;</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (values == null) {</span>
+<span class="fc" id="L57">            return true;</span>
         }
-
-<span class="fc bfc" id="L52" title="All 2 branches covered.">        for (String value : values) {</span>
-<span class="fc bfc" id="L53" title="All 2 branches covered.">            if (value == null) {</span>
-<span class="fc" id="L54">                return false;</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        for (String value : values) {</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">            if (value == null) {</span>
+<span class="fc" id="L61">                return false;</span>
             }
-
-<span class="fc" id="L57">            boolean isValid = false;</span>
-<span class="fc bfc" id="L58" title="All 2 branches covered.">            if (ignoreCase) {</span>
-<span class="fc" id="L59">                isValid = acceptedValues.stream()</span>
-<span class="fc" id="L60">                        .anyMatch(acceptedValue -&gt; acceptedValue.equalsIgnoreCase(value));</span>
-            } else {
-<span class="fc" id="L62">                isValid = acceptedValues.contains(value);</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">            String valueToCheck = ignoreCase ? value.toLowerCase() : value;</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">            if (!acceptedValues.contains(valueToCheck)) {</span>
+<span class="fc" id="L65">                return false;</span>
             }
-
-<span class="fc bfc" id="L65" title="All 2 branches covered.">            if (!isValid) {</span>
-<span class="fc" id="L66">                return false;</span>
-            }
-<span class="fc" id="L68">        }</span>
-
-<span class="fc" id="L70">        return true;</span>
+<span class="fc" id="L67">        }</span>
+<span class="fc" id="L68">        return true;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -25,7 +25,7 @@ Validator for validating collections of enum values.
 
 Validates that each string in a collection matches a value in a specified enum. 
 
-Definition at line \mbox{\hyperlink{EnumValidatorForCollection_8java_source_l00023}{23}} of file \mbox{\hyperlink{EnumValidatorForCollection_8java_source}{Enum\+Validator\+For\+Collection.\+java}}.
+Definition at line \mbox{\hyperlink{EnumValidatorForCollection_8java_source_l00026}{26}} of file \mbox{\hyperlink{EnumValidatorForCollection_8java_source}{Enum\+Validator\+For\+Collection.\+java}}.
 
 
 
@@ -47,16 +47,21 @@ Initializes the validator with the specified annotation parameters.
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{EnumValidatorForCollection_8java_source_l00033}{33}} of file \mbox{\hyperlink{EnumValidatorForCollection_8java_source}{Enum\+Validator\+For\+Collection.\+java}}.
+Definition at line \mbox{\hyperlink{EnumValidatorForCollection_8java_source_l00036}{36}} of file \mbox{\hyperlink{EnumValidatorForCollection_8java_source}{Enum\+Validator\+For\+Collection.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ this.ignoreCase\ =\ annotation.ignoreCase();}
-\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ this.acceptedValues\ =\ Arrays.stream(annotation.enumClass().getEnumConstants())}
-\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .map(Enum::name)}
-\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .collect(Collectors.toList());}
-\DoxyCodeLine{00038\ \ \ \ \ \}}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ ignoreCase\ =\ annotation.ignoreCase();}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ acceptedValues\ =\ Arrays.stream(annotation.enumClass().getEnumConstants())}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .map(Enum::name)}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .collect(Collectors.toList());}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ignoreCase)\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ acceptedValues\ =\ acceptedValues.stream()}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .map(String::toLowerCase)}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .collect(Collectors.toList());}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00046\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
@@ -85,45 +90,27 @@ True if all strings are valid enum values, otherwise false.
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{EnumValidatorForCollection_8java_source_l00047}{47}} of file \mbox{\hyperlink{EnumValidatorForCollection_8java_source}{Enum\+Validator\+For\+Collection.\+java}}.
+Definition at line \mbox{\hyperlink{EnumValidatorForCollection_8java_source_l00055}{55}} of file \mbox{\hyperlink{EnumValidatorForCollection_8java_source}{Enum\+Validator\+For\+Collection.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (values\ ==\ \textcolor{keyword}{null}\ ||\ values.isEmpty())\ \{}
-\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00051\ }
-\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (String\ value\ :\ values)\ \{}
-\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ ==\ \textcolor{keyword}{null})\ \{}
-\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00056\ }
-\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{boolean}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_a8641cbac23c5763e4ac3f50b8019f4a5}{isValid}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ignoreCase)\ \{}
-\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_a8641cbac23c5763e4ac3f50b8019f4a5}{isValid}}\ =\ acceptedValues.stream()}
-\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .anyMatch(acceptedValue\ -\/>\ acceptedValue.equalsIgnoreCase(value));}
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_a8641cbac23c5763e4ac3f50b8019f4a5}{isValid}}\ =\ acceptedValues.contains(value);}
-\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00064\ }
-\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_a8641cbac23c5763e4ac3f50b8019f4a5}{isValid}})\ \{}
-\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00069\ }
-\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00071\ \ \ \ \ \}}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (values\ ==\ \textcolor{keyword}{null})\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (String\ value\ :\ values)\ \{}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ ==\ \textcolor{keyword}{null})\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ String\ valueToCheck\ =\ ignoreCase\ ?\ value.toLowerCase()\ :\ value;}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!acceptedValues.contains(valueToCheck))\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00069\ \ \ \ \ \}}
 
 \end{DoxyCode}
-
-
-References \mbox{\hyperlink{EnumValidatorForCollection_8java_source_l00047}{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Enum\+Validator\+For\+Collection.\+is\+Valid()}}.
-
-
-
-Referenced by \mbox{\hyperlink{EnumValidatorForCollection_8java_source_l00047}{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+validator.\+Enum\+Validator\+For\+Collection.\+is\+Valid()}}.
-
 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}

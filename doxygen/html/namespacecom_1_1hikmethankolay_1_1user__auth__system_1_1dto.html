@@ -86,17 +86,8 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">interface &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfo.html">UserInfo</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface for all user details.  <a href="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfo.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO.html">UserInfoDTO</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">DTO for user information.  <a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserInfoDTO.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO.html">UserRegisterDTO</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">DTO for user register.  <a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserRegisterDTO.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO.html">UserUpdateDTO</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">DTO for updating user information.  <a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserUpdateDTO.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO.html">UserDTO</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unified Data Transfer Object for all user operations.  <a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -108,10 +99,6 @@ Functions</h2></td></tr>
 <tr class="separator:a2d96fe3850604a83898af04b1da7d2fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ffc5379ce56476acdefa9d0be09e24d" id="r_a1ffc5379ce56476acdefa9d0be09e24d"><td class="memItemLeft" align="right" valign="top">record&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto.html#a1ffc5379ce56476acdefa9d0be09e24d">LoginRequestDTO</a> (String identifier, String password, @JsonProperty(defaultValue=&quot;false&quot;) boolean rememberMe)</td></tr>
 <tr class="separator:a1ffc5379ce56476acdefa9d0be09e24d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09f643951d5a9176d67125e257d38390" id="r_a09f643951d5a9176d67125e257d38390"><td class="memItemLeft" align="right" valign="top">record&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto.html#a09f643951d5a9176d67125e257d38390">RoleInfoDTO</a> (String name, Set&lt; <a class="el" href="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto.html#a6724b6895ea4bdc96b3a62aed61a1bb8">RoleUserInfoDTO</a> &gt; users)</td></tr>
-<tr class="separator:a09f643951d5a9176d67125e257d38390"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6724b6895ea4bdc96b3a62aed61a1bb8" id="r_a6724b6895ea4bdc96b3a62aed61a1bb8"><td class="memItemLeft" align="right" valign="top">record&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto.html#a6724b6895ea4bdc96b3a62aed61a1bb8">RoleUserInfoDTO</a> (Long id, String username, String email)</td></tr>
-<tr class="separator:a6724b6895ea4bdc96b3a62aed61a1bb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains the core components of the User Authentication System. </p>
@@ -257,121 +244,6 @@ Functions</h2></td></tr>
 <p class="reference">References <a class="el" href="LoginRequestDTO_8java_source.html#l00026">com.hikmethankolay.user_auth_system.dto.LoginRequestDTO()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="LoginRequestDTO_8java_source.html#l00026">com.hikmethankolay.user_auth_system.dto.LoginRequestDTO()</a>.</p>
-
-</div>
-</div>
-<a id="a09f643951d5a9176d67125e257d38390" name="a09f643951d5a9176d67125e257d38390"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a09f643951d5a9176d67125e257d38390">&#9670;&#160;</a></span>RoleInfoDTO()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">record com.hikmethankolay.user_auth_system.dto.RoleInfoDTO </td>
-          <td>(</td>
-          <td class="paramtype">String&#160;</td>
-          <td class="paramname"><em>name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Set&lt; <a class="el" href="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto.html#a6724b6895ea4bdc96b3a62aed61a1bb8">RoleUserInfoDTO</a> &gt;&#160;</td>
-          <td class="paramname"><em>users</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>DTO representing role information. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">name</td><td>The name of the role. </td></tr>
-    <tr><td class="paramname">users</td><td>The users assigned to the role. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section author"><dt>Author</dt><dd>Hikmethan Kolay </dd></dl>
-<p>Constructs a RoleInfoDTO from a Role entity. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">role</td><td>The role entity.</td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="RoleInfoDTO_8java_source.html#l00027">27</a> of file <a class="el" href="RoleInfoDTO_8java_source.html">RoleInfoDTO.java</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   30</span>  {</div>
-<div class="line"><span class="lineno">   35</span>    <span class="keyword">public</span> <a class="code hl_function" href="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto.html#a09f643951d5a9176d67125e257d38390">RoleInfoDTO</a>(Role role) {</div>
-<div class="line"><span class="lineno">   36</span>        <span class="keyword">this</span>(</div>
-<div class="line"><span class="lineno">   37</span>                role.getName().name(),</div>
-<div class="line"><span class="lineno">   38</span>                role.getUsers() != <span class="keyword">null</span></div>
-<div class="line"><span class="lineno">   39</span>                        ? role.getUsers().stream().map(RoleUserInfoDTO::new).collect(Collectors.toSet())</div>
-<div class="line"><span class="lineno">   40</span>                        : Set.of()</div>
-<div class="line"><span class="lineno">   41</span>        );</div>
-<div class="line"><span class="lineno">   42</span>    }</div>
-<div class="line"><span class="lineno">   43</span>}</div>
-<div class="ttc" id="anamespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_html_a09f643951d5a9176d67125e257d38390"><div class="ttname"><a href="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto.html#a09f643951d5a9176d67125e257d38390">com.hikmethankolay.user_auth_system.dto.RoleInfoDTO</a></div><div class="ttdeci">record RoleInfoDTO(String name, Set&lt; RoleUserInfoDTO &gt; users)</div><div class="ttdef"><b>Definition</b> <a href="RoleInfoDTO_8java_source.html#l00027">RoleInfoDTO.java:27</a></div></div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="RoleInfoDTO_8java_source.html#l00027">com.hikmethankolay.user_auth_system.dto.RoleInfoDTO()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="RoleInfoDTO_8java_source.html#l00027">com.hikmethankolay.user_auth_system.dto.RoleInfoDTO()</a>.</p>
-
-</div>
-</div>
-<a id="a6724b6895ea4bdc96b3a62aed61a1bb8" name="a6724b6895ea4bdc96b3a62aed61a1bb8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6724b6895ea4bdc96b3a62aed61a1bb8">&#9670;&#160;</a></span>RoleUserInfoDTO()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">record com.hikmethankolay.user_auth_system.dto.RoleUserInfoDTO </td>
-          <td>(</td>
-          <td class="paramtype">Long&#160;</td>
-          <td class="paramname"><em>id</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">String&#160;</td>
-          <td class="paramname"><em>username</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">String&#160;</td>
-          <td class="paramname"><em>email</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Constructs a RoleUserInfoDTO from a User entity. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">user</td><td>The user entity.</td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="RoleUserInfoDTO_8java_source.html#l00029">29</a> of file <a class="el" href="RoleUserInfoDTO_8java_source.html">RoleUserInfoDTO.java</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   33</span>  {</div>
-<div class="line"><span class="lineno">   38</span>    <span class="keyword">public</span> <a class="code hl_function" href="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto.html#a6724b6895ea4bdc96b3a62aed61a1bb8">RoleUserInfoDTO</a>(User user) {</div>
-<div class="line"><span class="lineno">   39</span>        <span class="keyword">this</span>(</div>
-<div class="line"><span class="lineno">   40</span>                user.getId(),</div>
-<div class="line"><span class="lineno">   41</span>                user.getUsername(),</div>
-<div class="line"><span class="lineno">   42</span>                user.getEmail()</div>
-<div class="line"><span class="lineno">   43</span>        );</div>
-<div class="line"><span class="lineno">   44</span>    }</div>
-<div class="line"><span class="lineno">   45</span>}</div>
-<div class="ttc" id="anamespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_html_a6724b6895ea4bdc96b3a62aed61a1bb8"><div class="ttname"><a href="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto.html#a6724b6895ea4bdc96b3a62aed61a1bb8">com.hikmethankolay.user_auth_system.dto.RoleUserInfoDTO</a></div><div class="ttdeci">record RoleUserInfoDTO(Long id, String username, String email)</div><div class="ttdef"><b>Definition</b> <a href="RoleUserInfoDTO_8java_source.html#l00029">RoleUserInfoDTO.java:29</a></div></div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="RoleUserInfoDTO_8java_source.html#l00029">com.hikmethankolay.user_auth_system.dto.RoleUserInfoDTO()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="RoleUserInfoDTO_8java_source.html#l00029">com.hikmethankolay.user_auth_system.dto.RoleUserInfoDTO()</a>.</p>
 
 </div>
 </div>

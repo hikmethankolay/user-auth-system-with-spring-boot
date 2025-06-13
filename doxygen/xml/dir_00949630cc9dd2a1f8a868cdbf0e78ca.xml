@@ -2,9 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="dir_00949630cc9dd2a1f8a868cdbf0e78ca" kind="dir">
     <compoundname>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security</compoundname>
-    <innerfile refid="AuthConfig_8java">AuthConfig.java</innerfile>
     <innerfile refid="JwtFilter_8java">JwtFilter.java</innerfile>
-    <innerfile refid="LoginAttemptService_8java">LoginAttemptService.java</innerfile>
     <innerfile refid="SecurityConfig_8java">SecurityConfig.java</innerfile>
     <briefdescription>
     </briefdescription>

@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="39" column="31" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="39" bodyend="-1"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="40" column="31" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="40" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1a06234aeda5e226b9b7acbd2584b94ecd" prot="private" static="no" mutable="no">
         <type>final JwtUtils</type>
@@ -31,7 +31,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="42" column="28" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="42" bodyend="-1"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="43" column="28" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="43" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -74,16 +74,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="49" column="12" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="49" bodyend="52"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="50" column="12" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="50" bodyend="53"/>
       </memberdef>
-      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1ad1b27e4a910517386f9e15744c03ea47" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type>ResponseEntity&lt; ApiResponseDTO&lt; UserInfoDTO &gt; &gt;</type>
-        <definition>ResponseEntity&lt; ApiResponseDTO&lt; UserInfoDTO &gt; &gt; com.hikmethankolay.user_auth_system.controller.AuthController.register</definition>
-        <argsstring>(@RequestBody UserRegisterDTO registerRequest)</argsstring>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1a5ce2e5c2e488b2b9421001d358b0b9d0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ResponseEntity&lt; ApiResponseDTO&lt; UserDTO &gt; &gt;</type>
+        <definition>ResponseEntity&lt; ApiResponseDTO&lt; UserDTO &gt; &gt; com.hikmethankolay.user_auth_system.controller.AuthController.register</definition>
+        <argsstring>( @Validated(UserDTO.Registration.class) @RequestBody UserDTO registerRequest)</argsstring>
         <name>register</name>
         <qualifiedname>com.hikmethankolay.user_auth_system.controller.AuthController.register</qualifiedname>
         <param>
-          <type>@RequestBody UserRegisterDTO</type>
+          <type>@Validated(UserDTO.Registration.class) @RequestBody UserDTO</type>
           <declname>registerRequest</declname>
         </param>
         <briefdescription>
@@ -105,7 +105,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="60" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="60" bodyend="68"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="61" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="61" bodyend="70"/>
       </memberdef>
       <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1aa05f79719a19cf9bd5cbcaa40e282b06" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>ResponseEntity&lt; ApiResponseDTO&lt; AuthResponseDTO &gt; &gt;</type>
@@ -148,7 +148,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="77" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="77" bodyend="113"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="79" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="79" bodyend="115"/>
       </memberdef>
       <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1a8180efdb83cdefce76c860e24e6049be" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>ResponseEntity&lt; ApiResponseDTO&lt; Void &gt; &gt;</type>
@@ -166,7 +166,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="133" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="133" bodyend="146"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="135" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="135" bodyend="148"/>
       </memberdef>
       <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1a682087dd970d9f3b5b1bd505b6f3270a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>ResponseEntity&lt; ApiResponseDTO&lt; AuthResponseDTO &gt; &gt;</type>
@@ -197,7 +197,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="154" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="154" bodyend="189"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="156" column="27" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="156" bodyend="191"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -230,7 +230,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="120" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="120" bodyend="126"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="122" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="122" bodyend="128"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -238,7 +238,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="36" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="36" bodyend="190"/>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" line="37" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller/AuthController.java" bodystart="37" bodyend="192"/>
     <listofallmembers>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1ac3db8f99fbd130eb61b057d3dbba55e7" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::AuthController</scope><name>AuthController</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1a01c165f8dd1cc72b100f1fb894954ebf" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::AuthController</scope><name>getClientIp</name></member>
@@ -246,7 +246,7 @@
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1aa05f79719a19cf9bd5cbcaa40e282b06" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::AuthController</scope><name>login</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1a8180efdb83cdefce76c860e24e6049be" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::AuthController</scope><name>logout</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1a682087dd970d9f3b5b1bd505b6f3270a" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::AuthController</scope><name>refreshToken</name></member>
-      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1ad1b27e4a910517386f9e15744c03ea47" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::AuthController</scope><name>register</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1a5ce2e5c2e488b2b9421001d358b0b9d0" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::AuthController</scope><name>register</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1controller_1_1AuthController_1ac9035c15955b40ff10c617956f491832" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::controller::AuthController</scope><name>userService</name></member>
     </listofallmembers>
   </compounddef>

@@ -1,30 +1,30 @@
 \doxysection{Auth\+Config.\+java}
-\hypertarget{AuthConfig_8java_source}{}\label{AuthConfig_8java_source}\index{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/security/AuthConfig.java@{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/security/AuthConfig.java}}
+\hypertarget{AuthConfig_8java_source}{}\label{AuthConfig_8java_source}\index{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/config/AuthConfig.java@{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/config/AuthConfig.java}}
 \mbox{\hyperlink{AuthConfig_8java}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00001}00001\ }
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00015}00015\ \textcolor{keyword}{package\ }com.hikmethankolay.user\_auth\_system.security;}
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00016}00016\ }
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00017}00017\ \textcolor{keyword}{import}\ org.springframework.context.annotation.Bean;}
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00018}00018\ \textcolor{keyword}{import}\ org.springframework.context.annotation.Configuration;}
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00019}00019\ \textcolor{keyword}{import}\ org.springframework.security.authentication.AuthenticationManager;}
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00020}00020\ \textcolor{keyword}{import}\ org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;}
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00021}00021\ \textcolor{keyword}{import}\ org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;}
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00022}00022\ \textcolor{keyword}{import}\ org.springframework.security.crypto.password.PasswordEncoder;}
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00023}00023\ }
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00028}00028\ @Configuration}
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00029}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig}{00029}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig}{AuthConfig}}\ \{}
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00030}00030\ }
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00035}00035\ \ \ \ \ @Bean}
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00036}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig_a54ab1d203ce551286f201549148b1d2a}{00036}}\ \ \ \ \ \textcolor{keyword}{public}\ PasswordEncoder\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig_a54ab1d203ce551286f201549148b1d2a}{passwordEncoder}}()\ \{}
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ BCryptPasswordEncoder();}
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00038}00038\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00039}00039\ }
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00046}00046\ \ \ \ \ @Bean}
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00047}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig_ad5f5d1b5aebdd2a5cd6f45eed67d6396}{00047}}\ \ \ \ \ \textcolor{keyword}{public}\ AuthenticationManager\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig_ad5f5d1b5aebdd2a5cd6f45eed67d6396}{authenticationManager}}(}
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ AuthenticationConfiguration\ authenticationConfiguration)\ \textcolor{keywordflow}{throws}\ Exception\ \{}
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ authenticationConfiguration.getAuthenticationManager();}
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00050}00050\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00051}00051\ \}}
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00011}\mbox{\hyperlink{namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1config}{00011}}\ \textcolor{keyword}{package\ }com.hikmethankolay.user\_auth\_system.config;}
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00013}00013\ \textcolor{keyword}{import}\ org.springframework.context.annotation.Bean;}
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00014}00014\ \textcolor{keyword}{import}\ org.springframework.context.annotation.Configuration;}
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00015}00015\ \textcolor{keyword}{import}\ org.springframework.security.authentication.AuthenticationManager;}
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00016}00016\ \textcolor{keyword}{import}\ org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;}
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00017}00017\ \textcolor{keyword}{import}\ org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;}
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00018}00018\ \textcolor{keyword}{import}\ org.springframework.security.crypto.password.PasswordEncoder;}
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00024}00024\ @Configuration}
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00025}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig}{00025}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig}{AuthConfig}}\ \{}
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00031}00031\ \ \ \ \ @Bean}
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00032}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig_a0975d4c2c55a1be122b5853a5de520ec}{00032}}\ \ \ \ \ \textcolor{keyword}{public}\ PasswordEncoder\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig_a0975d4c2c55a1be122b5853a5de520ec}{passwordEncoder}}()\ \{}
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ BCryptPasswordEncoder();}
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00034}00034\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00042}00042\ \ \ \ \ @Bean}
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00043}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig_a1925b9305546723d571e51247586f4b6}{00043}}\ \ \ \ \ \textcolor{keyword}{public}\ AuthenticationManager\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig_a1925b9305546723d571e51247586f4b6}{authenticationManager}}(}
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ AuthenticationConfiguration\ authenticationConfiguration)\ \textcolor{keywordflow}{throws}\ Exception\ \{}
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ authenticationConfiguration.getAuthenticationManager();}
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00046}00046\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthConfig_8java_source_l00047}00047\ \}\ }
 
 \end{DoxyCode}

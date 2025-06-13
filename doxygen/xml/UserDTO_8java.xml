@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="UserDTO_8java" kind="file" language="Java">
+    <compoundname>UserDTO.java</compoundname>
+    <includes local="no">com.fasterxml.jackson.annotation.JsonProperty</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java</label>
+        <link refid="UserDTO_8java"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>com.fasterxml.jackson.annotation.JsonProperty</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO" prot="public">com::hikmethankolay::user_auth_system::dto::UserDTO</innerclass>
+    <innerclass refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1_1Registration" prot="public">com::hikmethankolay::user_auth_system::dto::UserDTO::Registration</innerclass>
+    <innerclass refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1_1Update" prot="public">com::hikmethankolay::user_auth_system::dto::UserDTO::Update</innerclass>
+    <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto">com::hikmethankolay::user_auth_system::dto</innernamespace>
+    <briefdescription>
+<para>Unified Data Transfer Object for all user operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This DTO handles user registration, updates, and display operations using validation groups to conditionally apply validation rules based on the operation type. It provides a single, unified interface for all user-related data transfer operations while maintaining security and validation integrity.</para>
+<para><simplesect kind="author"><para>Hikmethan Kolay </para>
+</simplesect>
+<simplesect kind="date"><para>2025-02-12 </para>
+</simplesect>
+<simplesect kind="version"><para>1.0 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">package<sp/></highlight><highlight class="normal">com.hikmethankolay.user_auth_system.dto;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>com.fasterxml.jackson.annotation.JsonProperty;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>com.hikmethankolay.user_auth_system.entity.User;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>com.hikmethankolay.user_auth_system.enums.ERole;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>jakarta.validation.constraints.Email;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>jakarta.validation.constraints.NotBlank;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>jakarta.validation.constraints.Pattern;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>jakarta.validation.constraints.Size;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO" kindref="compound">UserDTO</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal"><sp/>Long<sp/>id;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>@NotBlank(message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Username<sp/>cannot<sp/>be<sp/>blank.&quot;</highlight><highlight class="normal">,<sp/>groups<sp/>=<sp/><ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1_1Registration" kindref="compound">Registration</ref>.class)</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>@Size(min<sp/>=<sp/>8,<sp/>max<sp/>=<sp/>32,<sp/>message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Username<sp/>must<sp/>be<sp/>between<sp/>8<sp/>and<sp/>32<sp/>characters&quot;</highlight><highlight class="normal">,<sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>groups<sp/>=<sp/>{<ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1_1Registration" kindref="compound">Registration</ref>.class,<sp/><ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1_1Update" kindref="compound">Update</ref>.class})</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal"><sp/>String<sp/>username;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>@NotBlank(message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Email<sp/>cannot<sp/>be<sp/>blank.&quot;</highlight><highlight class="normal">,<sp/>groups<sp/>=<sp/><ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1_1Registration" kindref="compound">Registration</ref>.class)</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>@Email(message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Invalid<sp/>email<sp/>format&quot;</highlight><highlight class="normal">,<sp/>groups<sp/>=<sp/>{<ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1_1Registration" kindref="compound">Registration</ref>.class,<sp/><ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1_1Update" kindref="compound">Update</ref>.class})</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal"><sp/>String<sp/>email;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>@NotBlank(message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Password<sp/>cannot<sp/>be<sp/>blank.&quot;</highlight><highlight class="normal">,<sp/>groups<sp/>=<sp/><ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1_1Registration" kindref="compound">Registration</ref>.class)</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>@JsonProperty(access<sp/>=<sp/>JsonProperty.Access.WRITE_ONLY)</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>@Pattern(</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>regexp<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;^(?=.*?[0-9])(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^0-9A-Za-z]).{8,32}$&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Password<sp/>must<sp/>be<sp/>8-32<sp/>characters<sp/>and<sp/>include<sp/>at<sp/>least:<sp/>one<sp/>uppercase<sp/>letter,<sp/>one<sp/>lowercase<sp/>letter,<sp/>one<sp/>digit,<sp/>and<sp/>one<sp/>special<sp/>character.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>groups<sp/>=<sp/>{<ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1_1Registration" kindref="compound">Registration</ref>.class,<sp/><ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1_1Update" kindref="compound">Update</ref>.class}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal"><sp/>String<sp/>password;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal"><sp/>ERole<sp/>role;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1_1Registration" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">interface<sp/></highlight><highlight class="normal"><ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1_1Registration" kindref="compound">Registration</ref><sp/>{}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1_1Update" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">interface<sp/></highlight><highlight class="normal"><ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1_1Update" kindref="compound">Update</ref><sp/>{}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1acc588eda9ef4eb946436f2dfeb1b6272" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1acc588eda9ef4eb946436f2dfeb1b6272" kindref="member">UserDTO</ref>()<sp/>{}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1af88b45028d384c7fc7061e0e0ef7b268" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1af88b45028d384c7fc7061e0e0ef7b268" kindref="member">UserDTO</ref>(User<sp/>user)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(user<sp/>!=<sp/></highlight><highlight class="keyword">null</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this.id<sp/>=<sp/>user.getId();</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this.username<sp/>=<sp/>user.getUsername();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this.email<sp/>=<sp/>user.getEmail();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this.role<sp/>=<sp/>user.getRole()<sp/>!=<sp/></highlight><highlight class="keyword">null</highlight><highlight class="normal"><sp/>?<sp/>user.getRole().getName()<sp/>:<sp/></highlight><highlight class="keyword">null</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Password<sp/>is<sp/>not<sp/>set<sp/>for<sp/>security<sp/>(read<sp/>operations)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a086aaa35b90a575b4066cbcbe88df005" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>Long<sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a086aaa35b90a575b4066cbcbe88df005" kindref="member">getId</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>id;<sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a542ea9c97b36226573e45a3838e1690f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a542ea9c97b36226573e45a3838e1690f" kindref="member">setId</ref>(Long<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>{<sp/>this.id<sp/>=<sp/>id;<sp/>}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a27def7e25bca3ece75968025b6f9130c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>String<sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a27def7e25bca3ece75968025b6f9130c" kindref="member">getUsername</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>username;<sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a3df5609df71bd38d359c349599c9a8d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a3df5609df71bd38d359c349599c9a8d6" kindref="member">setUsername</ref>(String<sp/>username)<sp/>{<sp/>this.username<sp/>=<sp/>username;<sp/>}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a4fa57b70a148f915319ab5ca2dde6f08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>String<sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a4fa57b70a148f915319ab5ca2dde6f08" kindref="member">getEmail</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>email;<sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1aed63ff473d8f2ad40466bac01f05a175" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1aed63ff473d8f2ad40466bac01f05a175" kindref="member">setEmail</ref>(String<sp/>email)<sp/>{<sp/>this.email<sp/>=<sp/>email;<sp/>}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1adda8961e63b6e2b3829a86e1cc7c60e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>String<sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1adda8961e63b6e2b3829a86e1cc7c60e3" kindref="member">getPassword</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>password;<sp/>}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a5969785944ad861bdfb0024e8d6cd6ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a5969785944ad861bdfb0024e8d6cd6ff" kindref="member">setPassword</ref>(String<sp/>password)<sp/>{<sp/>this.password<sp/>=<sp/>password;<sp/>}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1ad8c6aa4287c31a9143bb72ba23ed6245" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>ERole<sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1ad8c6aa4287c31a9143bb72ba23ed6245" kindref="member">getRole</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>role;<sp/>}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a23d85c6639d9fcf9e0bf02d076ea23c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a23d85c6639d9fcf9e0bf02d076ea23c8" kindref="member">setRole</ref>(ERole<sp/>role)<sp/>{<sp/>this.role<sp/>=<sp/>role;<sp/>}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>@Override</highlight></codeline>
+<codeline lineno="241" refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a8f738905e481334f864282b665b72127" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>String<sp/><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a8f738905e481334f864282b665b72127" kindref="member">toString</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;UserDTO{&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;id=&quot;</highlight><highlight class="normal"><sp/>+<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;,<sp/>username=&apos;&quot;</highlight><highlight class="normal"><sp/>+<sp/>username<sp/>+<sp/></highlight><highlight class="charliteral">&apos;\&apos;&apos;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;,<sp/>email=&apos;&quot;</highlight><highlight class="normal"><sp/>+<sp/>email<sp/>+<sp/></highlight><highlight class="charliteral">&apos;\&apos;&apos;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;,<sp/>role=&quot;</highlight><highlight class="normal"><sp/>+<sp/>role<sp/>+</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="charliteral">&apos;}&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal">}<sp/></highlight></codeline>
+    </programlisting>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java"/>
+  </compounddef>
+</doxygen>

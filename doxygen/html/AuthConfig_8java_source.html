@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>User authentication system built with Spring Boot and JWT: user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security/AuthConfig.java Source File</title>
+<title>User authentication system built with Spring Boot and JWT: user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/config/AuthConfig.java Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -75,7 +75,7 @@ $(document).ready(function() { init_codefold(0); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_6ba4a70139f84308b80afca3277910e5.html">user-auth-system</a></li><li class="navelem"><a class="el" href="dir_8bc60edc166728f8aa0e4e197cc31dba.html">src</a></li><li class="navelem"><a class="el" href="dir_c666dfa82a077c8fce08ac3fca50663d.html">main</a></li><li class="navelem"><a class="el" href="dir_0fe0193f07a0a96b508525956996581d.html">java</a></li><li class="navelem"><a class="el" href="dir_44ec1f466ba448f277bc24920f7b1887.html">com</a></li><li class="navelem"><a class="el" href="dir_7624890eea6ca43a20621676e874d414.html">hikmethankolay</a></li><li class="navelem"><a class="el" href="dir_16ec37d6713a298e2793cc3826e8d99c.html">user_auth_system</a></li><li class="navelem"><a class="el" href="dir_00949630cc9dd2a1f8a868cdbf0e78ca.html">security</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_6ba4a70139f84308b80afca3277910e5.html">user-auth-system</a></li><li class="navelem"><a class="el" href="dir_8bc60edc166728f8aa0e4e197cc31dba.html">src</a></li><li class="navelem"><a class="el" href="dir_c666dfa82a077c8fce08ac3fca50663d.html">main</a></li><li class="navelem"><a class="el" href="dir_0fe0193f07a0a96b508525956996581d.html">java</a></li><li class="navelem"><a class="el" href="dir_44ec1f466ba448f277bc24920f7b1887.html">com</a></li><li class="navelem"><a class="el" href="dir_7624890eea6ca43a20621676e874d414.html">hikmethankolay</a></li><li class="navelem"><a class="el" href="dir_16ec37d6713a298e2793cc3826e8d99c.html">user_auth_system</a></li><li class="navelem"><a class="el" href="dir_a65b55a2b167dcbb0138eedfabb2893d.html">config</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -83,38 +83,38 @@ $(document).ready(function() { init_codefold(0); });
 </div><!--header-->
 <div class="contents">
 <a href="AuthConfig_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">package </span>com.hikmethankolay.user_auth_system.security;</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">import</span> org.springframework.context.annotation.Bean;</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">import</span> org.springframework.security.authentication.AuthenticationManager;</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">import</span> org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">import</span> org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">import</span> org.springframework.security.crypto.password.PasswordEncoder;</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>@Configuration</div>
-<div class="foldopen" id="foldopen00029" data-start="{" data-end="};">
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig.html">   29</a></span><span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig.html">AuthConfig</a> {</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    @Bean</div>
-<div class="foldopen" id="foldopen00036" data-start="{" data-end="}">
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig.html#a54ab1d203ce551286f201549148b1d2a">   36</a></span>    <span class="keyword">public</span> PasswordEncoder <a class="code hl_function" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig.html#a54ab1d203ce551286f201549148b1d2a">passwordEncoder</a>() {</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keywordflow">return</span> <span class="keyword">new</span> BCryptPasswordEncoder();</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    }</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1config.html">   11</a></span><span class="keyword">package </span>com.hikmethankolay.user_auth_system.config;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">import</span> org.springframework.context.annotation.Bean;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">import</span> org.springframework.security.authentication.AuthenticationManager;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">import</span> org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">import</span> org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">import</span> org.springframework.security.crypto.password.PasswordEncoder;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>@Configuration</div>
+<div class="foldopen" id="foldopen00025" data-start="{" data-end="};">
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig.html">   25</a></span><span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig.html">AuthConfig</a> {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    @Bean</div>
+<div class="foldopen" id="foldopen00032" data-start="{" data-end="}">
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig.html#a0975d4c2c55a1be122b5853a5de520ec">   32</a></span>    <span class="keyword">public</span> PasswordEncoder <a class="code hl_function" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig.html#a0975d4c2c55a1be122b5853a5de520ec">passwordEncoder</a>() {</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="keywordflow">return</span> <span class="keyword">new</span> BCryptPasswordEncoder();</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    }</div>
 </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    @Bean</div>
-<div class="foldopen" id="foldopen00047" data-start="{" data-end="}">
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig.html#ad5f5d1b5aebdd2a5cd6f45eed67d6396">   47</a></span>    <span class="keyword">public</span> AuthenticationManager <a class="code hl_function" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig.html#ad5f5d1b5aebdd2a5cd6f45eed67d6396">authenticationManager</a>(</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            AuthenticationConfiguration authenticationConfiguration) <span class="keywordflow">throws</span> Exception {</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keywordflow">return</span> authenticationConfiguration.getAuthenticationManager();</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    }</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    @Bean</div>
+<div class="foldopen" id="foldopen00043" data-start="{" data-end="}">
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig.html#a1925b9305546723d571e51247586f4b6">   43</a></span>    <span class="keyword">public</span> AuthenticationManager <a class="code hl_function" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig.html#a1925b9305546723d571e51247586f4b6">authenticationManager</a>(</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            AuthenticationConfiguration authenticationConfiguration) <span class="keywordflow">throws</span> Exception {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="keywordflow">return</span> authenticationConfiguration.getAuthenticationManager();</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    }</div>
 </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>}</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>} </div>
 </div>
-<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig_html"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig.html">com.hikmethankolay.user_auth_system.security.AuthConfig</a></div><div class="ttdoc">Security configuration class for authentication management.</div><div class="ttdef"><b>Definition</b> <a href="AuthConfig_8java_source.html#l00029">AuthConfig.java:29</a></div></div>
-<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig_html_a54ab1d203ce551286f201549148b1d2a"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig.html#a54ab1d203ce551286f201549148b1d2a">com.hikmethankolay.user_auth_system.security.AuthConfig.passwordEncoder</a></div><div class="ttdeci">PasswordEncoder passwordEncoder()</div><div class="ttdoc">Bean definition for password encoding.</div><div class="ttdef"><b>Definition</b> <a href="AuthConfig_8java_source.html#l00036">AuthConfig.java:36</a></div></div>
-<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig_html_ad5f5d1b5aebdd2a5cd6f45eed67d6396"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig.html#ad5f5d1b5aebdd2a5cd6f45eed67d6396">com.hikmethankolay.user_auth_system.security.AuthConfig.authenticationManager</a></div><div class="ttdeci">AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)</div><div class="ttdoc">Bean definition for authentication manager.</div><div class="ttdef"><b>Definition</b> <a href="AuthConfig_8java_source.html#l00047">AuthConfig.java:47</a></div></div>
+<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig_html"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig.html">com.hikmethankolay.user_auth_system.config.AuthConfig</a></div><div class="ttdoc">Configuration class for authentication management.</div><div class="ttdef"><b>Definition</b> <a href="AuthConfig_8java_source.html#l00025">AuthConfig.java:25</a></div></div>
+<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig_html_a0975d4c2c55a1be122b5853a5de520ec"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig.html#a0975d4c2c55a1be122b5853a5de520ec">com.hikmethankolay.user_auth_system.config.AuthConfig.passwordEncoder</a></div><div class="ttdeci">PasswordEncoder passwordEncoder()</div><div class="ttdoc">Bean definition for password encoding.</div><div class="ttdef"><b>Definition</b> <a href="AuthConfig_8java_source.html#l00032">AuthConfig.java:32</a></div></div>
+<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig_html_a1925b9305546723d571e51247586f4b6"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig.html#a1925b9305546723d571e51247586f4b6">com.hikmethankolay.user_auth_system.config.AuthConfig.authenticationManager</a></div><div class="ttdeci">AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)</div><div class="ttdoc">Bean definition for authentication manager.</div><div class="ttdef"><b>Definition</b> <a href="AuthConfig_8java_source.html#l00043">AuthConfig.java:43</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

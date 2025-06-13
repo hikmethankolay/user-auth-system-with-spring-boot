@@ -2,16 +2,13 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1security" kind="namespace" language="Java">
     <compoundname>com::hikmethankolay::user_auth_system::security</compoundname>
-    <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1AuthConfig" prot="public">com::hikmethankolay::user_auth_system::security::AuthConfig</innerclass>
     <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1JwtFilter" prot="public">com::hikmethankolay::user_auth_system::security::JwtFilter</innerclass>
-    <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService" prot="public">com::hikmethankolay::user_auth_system::security::LoginAttemptService</innerclass>
     <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1SecurityConfig" prot="public">com::hikmethankolay::user_auth_system::security::SecurityConfig</innerclass>
     <briefdescription>
 <para>Contains the core components of the User Authentication System. </para>
     </briefdescription>
     <detaileddescription>
-<para>Contains security components of the User Authentication System. </para>
     </detaileddescription>
-    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security/AuthConfig.java" line="12" column="1"/>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/security/JwtFilter.java" line="12" column="1"/>
   </compounddef>
 </doxygen>

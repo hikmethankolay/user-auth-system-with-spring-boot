@@ -87,105 +87,75 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">import</span> com.hikmethankolay.user_auth_system.enums.ERole;</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">import</span> jakarta.persistence.*;</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">import</span> java.util.ArrayList;</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">import</span> java.util.List;</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>@Entity</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>@Table(name = <span class="stringliteral">&quot;roles&quot;</span>)</div>
-<div class="foldopen" id="foldopen00030" data-start="{" data-end="};">
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html">   30</a></span>public class <a class="code hl_class" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html">Role</a> {</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    @Id</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    @GeneratedValue(strategy = GenerationType.IDENTITY)</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    @Column(name = <span class="stringliteral">&quot;id&quot;</span>)</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keyword">private</span> <span class="keywordtype">long</span> id;</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    @Enumerated(EnumType.STRING)</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    @Column(name = <span class="stringliteral">&quot;name&quot;</span>, nullable = <span class="keyword">false</span>)</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keyword">private</span> ERole name;</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    @JoinTable(name = <span class="stringliteral">&quot;user_roles&quot;</span>,</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            joinColumns = @JoinColumn(name = <span class="stringliteral">&quot;role_id&quot;</span>),</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>            inverseJoinColumns = @JoinColumn(name = <span class="stringliteral">&quot;user_id&quot;</span>))</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keyword">private</span> List&lt;User&gt; users = <span class="keyword">new</span> ArrayList&lt;&gt;();</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="foldopen" id="foldopen00053" data-start="{" data-end="}">
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a7cb0b2f48a3bc03a52607e1d68ae73fd">   53</a></span>    <span class="keyword">public</span> <a class="code hl_function" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a7cb0b2f48a3bc03a52607e1d68ae73fd">Role</a>() {</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    }</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>@Entity</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>@Table(name = <span class="stringliteral">&quot;roles&quot;</span>)</div>
+<div class="foldopen" id="foldopen00028" data-start="{" data-end="};">
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html">   28</a></span>public class <a class="code hl_class" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html">Role</a> {</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    @Id</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    @GeneratedValue(strategy = GenerationType.IDENTITY)</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    @Column(name = <span class="stringliteral">&quot;id&quot;</span>)</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keyword">private</span> <span class="keywordtype">long</span> id;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    @Enumerated(EnumType.STRING)</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    @Column(name = <span class="stringliteral">&quot;name&quot;</span>, nullable = <span class="keyword">false</span>)</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keyword">private</span> ERole name;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="foldopen" id="foldopen00044" data-start="{" data-end="}">
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a7cb0b2f48a3bc03a52607e1d68ae73fd">   44</a></span>    <span class="keyword">public</span> <a class="code hl_function" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a7cb0b2f48a3bc03a52607e1d68ae73fd">Role</a>() {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    }</div>
 </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="foldopen" id="foldopen00060" data-start="{" data-end="}">
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#ae2048319014e5ec61044255a6366bad7">   60</a></span>    <span class="keyword">public</span> <a class="code hl_function" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#ae2048319014e5ec61044255a6366bad7">Role</a>(ERole name) {</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        this.name = name;</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    }</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="foldopen" id="foldopen00051" data-start="{" data-end="}">
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#ae2048319014e5ec61044255a6366bad7">   51</a></span>    <span class="keyword">public</span> <a class="code hl_function" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#ae2048319014e5ec61044255a6366bad7">Role</a>(ERole name) {</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        this.name = name;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    }</div>
 </div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="foldopen" id="foldopen00068" data-start="{" data-end="}">
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#ace42271b7582edf071bf219a10c4c1d2">   68</a></span>    <span class="keyword">public</span> <span class="keywordtype">long</span> <a class="code hl_function" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#ace42271b7582edf071bf219a10c4c1d2">getId</a>() {</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="keywordflow">return</span> id;</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    }</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="foldopen" id="foldopen00059" data-start="{" data-end="}">
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#ace42271b7582edf071bf219a10c4c1d2">   59</a></span>    <span class="keyword">public</span> <span class="keywordtype">long</span> <a class="code hl_function" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#ace42271b7582edf071bf219a10c4c1d2">getId</a>() {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="keywordflow">return</span> id;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    }</div>
 </div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
-<div class="foldopen" id="foldopen00076" data-start="{" data-end="}">
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a36d722edc7a6046d79f1608063804289">   76</a></span>    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a36d722edc7a6046d79f1608063804289">setId</a>(<span class="keywordtype">int</span> <span class="keywordtype">id</span>) {</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        this.id = id;</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    }</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="foldopen" id="foldopen00067" data-start="{" data-end="}">
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a346c5b726022c51c080c8fc42c0bcfac">   67</a></span>    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a346c5b726022c51c080c8fc42c0bcfac">setId</a>(<span class="keywordtype">long</span> <span class="keywordtype">id</span>) {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        this.id = id;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    }</div>
 </div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
-<div class="foldopen" id="foldopen00084" data-start="{" data-end="}">
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a3bff212368f5ef950d7fe54d7c7f75d5">   84</a></span>    <span class="keyword">public</span> ERole <a class="code hl_function" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a3bff212368f5ef950d7fe54d7c7f75d5">getName</a>() {</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <span class="keywordflow">return</span> name;</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    }</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="foldopen" id="foldopen00075" data-start="{" data-end="}">
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a3bff212368f5ef950d7fe54d7c7f75d5">   75</a></span>    <span class="keyword">public</span> ERole <a class="code hl_function" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a3bff212368f5ef950d7fe54d7c7f75d5">getName</a>() {</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <span class="keywordflow">return</span> name;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    }</div>
 </div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="foldopen" id="foldopen00083" data-start="{" data-end="}">
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a1123da27fc4910de9d731efee4242cf8">   83</a></span>    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a1123da27fc4910de9d731efee4242cf8">setName</a>(ERole name) {</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        this.name = name;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    }</div>
+</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    @Override</div>
 <div class="foldopen" id="foldopen00092" data-start="{" data-end="}">
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a1123da27fc4910de9d731efee4242cf8">   92</a></span>    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a1123da27fc4910de9d731efee4242cf8">setName</a>(ERole name) {</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        this.name = name;</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    }</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#ae11ea3ccb60f7facba957d5b18db140a">   92</a></span>    <span class="keyword">public</span> String <a class="code hl_function" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#ae11ea3ccb60f7facba957d5b18db140a">toString</a>() {</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <span class="keywordflow">return</span> <span class="stringliteral">&quot;Role{&quot;</span> +</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                <span class="stringliteral">&quot;name=&quot;</span> + name +</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>                <span class="stringliteral">&quot;, id=&quot;</span> + <span class="keywordtype">id</span> +</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                <span class="charliteral">&#39;}&#39;</span>;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    }</div>
 </div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
-<div class="foldopen" id="foldopen00100" data-start="{" data-end="}">
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a6a05fa9622e7153d47d970a75e3fe3d8">  100</a></span>    <span class="keyword">public</span> List&lt;User&gt; <a class="code hl_function" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a6a05fa9622e7153d47d970a75e3fe3d8">getUsers</a>() {</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        <span class="keywordflow">return</span> users;</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    }</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>}</div>
 </div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
-<div class="foldopen" id="foldopen00108" data-start="{" data-end="}">
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a55baeaf7fa78b6cfadf81c1d7979fadf">  108</a></span>    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a55baeaf7fa78b6cfadf81c1d7979fadf">setUsers</a>(List&lt;User&gt; users) {</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        this.users = users;</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    }</div>
-</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
-<div class="foldopen" id="foldopen00116" data-start="{" data-end="}">
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#acbc6cd5e976b4b812a8e647bbb659896">  116</a></span>    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#acbc6cd5e976b4b812a8e647bbb659896">addUser</a>(<a class="code hl_class" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User.html">User</a> user) {</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        users.add(user);</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    }</div>
-</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    @Override</div>
-<div class="foldopen" id="foldopen00125" data-start="{" data-end="}">
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno"><a class="line" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#ae11ea3ccb60f7facba957d5b18db140a">  125</a></span>    <span class="keyword">public</span> String <a class="code hl_function" href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#ae11ea3ccb60f7facba957d5b18db140a">toString</a>() {</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        <span class="keywordflow">return</span> <span class="stringliteral">&quot;Role{&quot;</span> +</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>                <span class="stringliteral">&quot;name=&quot;</span> + name +</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>                <span class="stringliteral">&quot;, id=&quot;</span> + <span class="keywordtype">id</span> +</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>                <span class="charliteral">&#39;}&#39;</span>;</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    }</div>
-</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>}</div>
-</div>
-<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_html"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html">com.hikmethankolay.user_auth_system.entity.Role</a></div><div class="ttdoc">Entity representing a user role.</div><div class="ttdef"><b>Definition</b> <a href="Role_8java_source.html#l00030">Role.java:30</a></div></div>
-<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_html_a1123da27fc4910de9d731efee4242cf8"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a1123da27fc4910de9d731efee4242cf8">com.hikmethankolay.user_auth_system.entity.Role.setName</a></div><div class="ttdeci">void setName(ERole name)</div><div class="ttdoc">Sets the role name.</div><div class="ttdef"><b>Definition</b> <a href="Role_8java_source.html#l00092">Role.java:92</a></div></div>
-<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_html_a36d722edc7a6046d79f1608063804289"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a36d722edc7a6046d79f1608063804289">com.hikmethankolay.user_auth_system.entity.Role.setId</a></div><div class="ttdeci">void setId(int id)</div><div class="ttdoc">Sets the role ID.</div><div class="ttdef"><b>Definition</b> <a href="Role_8java_source.html#l00076">Role.java:76</a></div></div>
-<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_html_a3bff212368f5ef950d7fe54d7c7f75d5"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a3bff212368f5ef950d7fe54d7c7f75d5">com.hikmethankolay.user_auth_system.entity.Role.getName</a></div><div class="ttdeci">ERole getName()</div><div class="ttdoc">Gets the role name.</div><div class="ttdef"><b>Definition</b> <a href="Role_8java_source.html#l00084">Role.java:84</a></div></div>
-<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_html_a55baeaf7fa78b6cfadf81c1d7979fadf"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a55baeaf7fa78b6cfadf81c1d7979fadf">com.hikmethankolay.user_auth_system.entity.Role.setUsers</a></div><div class="ttdeci">void setUsers(List&lt; User &gt; users)</div><div class="ttdoc">Sets the list of users associated with the role.</div><div class="ttdef"><b>Definition</b> <a href="Role_8java_source.html#l00108">Role.java:108</a></div></div>
-<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_html_a6a05fa9622e7153d47d970a75e3fe3d8"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a6a05fa9622e7153d47d970a75e3fe3d8">com.hikmethankolay.user_auth_system.entity.Role.getUsers</a></div><div class="ttdeci">List&lt; User &gt; getUsers()</div><div class="ttdoc">Gets the list of users associated with the role.</div><div class="ttdef"><b>Definition</b> <a href="Role_8java_source.html#l00100">Role.java:100</a></div></div>
-<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_html_a7cb0b2f48a3bc03a52607e1d68ae73fd"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a7cb0b2f48a3bc03a52607e1d68ae73fd">com.hikmethankolay.user_auth_system.entity.Role.Role</a></div><div class="ttdeci">Role()</div><div class="ttdoc">Default constructor.</div><div class="ttdef"><b>Definition</b> <a href="Role_8java_source.html#l00053">Role.java:53</a></div></div>
-<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_html_acbc6cd5e976b4b812a8e647bbb659896"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#acbc6cd5e976b4b812a8e647bbb659896">com.hikmethankolay.user_auth_system.entity.Role.addUser</a></div><div class="ttdeci">void addUser(User user)</div><div class="ttdoc">Adds a user to the role.</div><div class="ttdef"><b>Definition</b> <a href="Role_8java_source.html#l00116">Role.java:116</a></div></div>
-<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_html_ace42271b7582edf071bf219a10c4c1d2"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#ace42271b7582edf071bf219a10c4c1d2">com.hikmethankolay.user_auth_system.entity.Role.getId</a></div><div class="ttdeci">long getId()</div><div class="ttdoc">Gets the role ID.</div><div class="ttdef"><b>Definition</b> <a href="Role_8java_source.html#l00068">Role.java:68</a></div></div>
-<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_html_ae11ea3ccb60f7facba957d5b18db140a"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#ae11ea3ccb60f7facba957d5b18db140a">com.hikmethankolay.user_auth_system.entity.Role.toString</a></div><div class="ttdeci">String toString()</div><div class="ttdoc">Converts the Role object to a string representation.</div><div class="ttdef"><b>Definition</b> <a href="Role_8java_source.html#l00125">Role.java:125</a></div></div>
-<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_html_ae2048319014e5ec61044255a6366bad7"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#ae2048319014e5ec61044255a6366bad7">com.hikmethankolay.user_auth_system.entity.Role.Role</a></div><div class="ttdeci">Role(ERole name)</div><div class="ttdoc">Constructor with role name.</div><div class="ttdef"><b>Definition</b> <a href="Role_8java_source.html#l00060">Role.java:60</a></div></div>
-<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_html"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User.html">com.hikmethankolay.user_auth_system.entity.User</a></div><div class="ttdoc">Entity representing a system user.</div><div class="ttdef"><b>Definition</b> <a href="User_8java_source.html#l00032">User.java:32</a></div></div>
+<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_html"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html">com.hikmethankolay.user_auth_system.entity.Role</a></div><div class="ttdoc">Entity representing a user role.</div><div class="ttdef"><b>Definition</b> <a href="Role_8java_source.html#l00028">Role.java:28</a></div></div>
+<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_html_a1123da27fc4910de9d731efee4242cf8"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a1123da27fc4910de9d731efee4242cf8">com.hikmethankolay.user_auth_system.entity.Role.setName</a></div><div class="ttdeci">void setName(ERole name)</div><div class="ttdoc">Sets the role name.</div><div class="ttdef"><b>Definition</b> <a href="Role_8java_source.html#l00083">Role.java:83</a></div></div>
+<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_html_a346c5b726022c51c080c8fc42c0bcfac"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a346c5b726022c51c080c8fc42c0bcfac">com.hikmethankolay.user_auth_system.entity.Role.setId</a></div><div class="ttdeci">void setId(long id)</div><div class="ttdoc">Sets the role ID.</div><div class="ttdef"><b>Definition</b> <a href="Role_8java_source.html#l00067">Role.java:67</a></div></div>
+<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_html_a3bff212368f5ef950d7fe54d7c7f75d5"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a3bff212368f5ef950d7fe54d7c7f75d5">com.hikmethankolay.user_auth_system.entity.Role.getName</a></div><div class="ttdeci">ERole getName()</div><div class="ttdoc">Gets the role name.</div><div class="ttdef"><b>Definition</b> <a href="Role_8java_source.html#l00075">Role.java:75</a></div></div>
+<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_html_a7cb0b2f48a3bc03a52607e1d68ae73fd"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#a7cb0b2f48a3bc03a52607e1d68ae73fd">com.hikmethankolay.user_auth_system.entity.Role.Role</a></div><div class="ttdeci">Role()</div><div class="ttdoc">Default constructor.</div><div class="ttdef"><b>Definition</b> <a href="Role_8java_source.html#l00044">Role.java:44</a></div></div>
+<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_html_ace42271b7582edf071bf219a10c4c1d2"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#ace42271b7582edf071bf219a10c4c1d2">com.hikmethankolay.user_auth_system.entity.Role.getId</a></div><div class="ttdeci">long getId()</div><div class="ttdoc">Gets the role ID.</div><div class="ttdef"><b>Definition</b> <a href="Role_8java_source.html#l00059">Role.java:59</a></div></div>
+<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_html_ae11ea3ccb60f7facba957d5b18db140a"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#ae11ea3ccb60f7facba957d5b18db140a">com.hikmethankolay.user_auth_system.entity.Role.toString</a></div><div class="ttdeci">String toString()</div><div class="ttdoc">Converts the Role object to a string representation.</div><div class="ttdef"><b>Definition</b> <a href="Role_8java_source.html#l00092">Role.java:92</a></div></div>
+<div class="ttc" id="aclasscom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_html_ae2048319014e5ec61044255a6366bad7"><div class="ttname"><a href="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role.html#ae2048319014e5ec61044255a6366bad7">com.hikmethankolay.user_auth_system.entity.Role.Role</a></div><div class="ttdeci">Role(ERole name)</div><div class="ttdoc">Constructor with role name.</div><div class="ttdef"><b>Definition</b> <a href="Role_8java_source.html#l00051">Role.java:51</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

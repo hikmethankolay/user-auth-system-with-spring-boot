@@ -3,7 +3,6 @@
   <compounddef id="dir_564e52342125fc9c9f84450f1d75b21e" kind="dir">
     <compoundname>user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/controller</compoundname>
     <innerfile refid="AuthController_8java">AuthController.java</innerfile>
-    <innerfile refid="RoleController_8java">RoleController.java</innerfile>
     <innerfile refid="UserController_8java">UserController.java</innerfile>
     <briefdescription>
     </briefdescription>

@@ -15,8 +15,7 @@
 package com.hikmethankolay.user_auth_system.controller;
 
 import com.hikmethankolay.user_auth_system.dto.ApiResponseDTO;
-import com.hikmethankolay.user_auth_system.dto.UserInfoDTO;
-import com.hikmethankolay.user_auth_system.dto.UserUpdateDTO;
+import com.hikmethankolay.user_auth_system.dto.UserDTO;
 import com.hikmethankolay.user_auth_system.entity.User;
 import com.hikmethankolay.user_auth_system.enums.EApiStatus;
 import com.hikmethankolay.user_auth_system.service.UserService;
@@ -25,12 +24,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @class UserController
@@ -48,9 +45,9 @@ public class UserController {
      * @param userService The service managing user operations.
      * @author Hikmethan Kolay
      */
-<span class="fc" id="L51">    public UserController(UserService userService) {</span>
-<span class="fc" id="L52">        this.userService = userService;</span>
-<span class="fc" id="L53">    }</span>
+<span class="fc" id="L48">    public UserController(UserService userService) {</span>
+<span class="fc" id="L49">        this.userService = userService;</span>
+<span class="fc" id="L50">    }</span>
 
     /**
      * @brief Retrieves paginated list of users.
@@ -58,12 +55,12 @@ public class UserController {
      * @return Response entity containing paginated list of users.
      */
     @GetMapping(&quot;/users&quot;)
-    public ResponseEntity&lt;ApiResponseDTO&lt;Page&lt;UserInfoDTO&gt;&gt;&gt; getUsers(
+    public ResponseEntity&lt;ApiResponseDTO&lt;Page&lt;UserDTO&gt;&gt;&gt; getUsers(
             @PageableDefault(page = 0, size = 10, sort = &quot;id&quot;) Pageable pageable
     ) {
-<span class="fc" id="L64">        Page&lt;User&gt; userPage = userService.findAll(pageable);</span>
-<span class="fc" id="L65">        Page&lt;UserInfoDTO&gt; dtoPage = userPage.map(UserInfoDTO::new);</span>
-<span class="fc" id="L66">        return ResponseEntity.ok(new ApiResponseDTO&lt;&gt;(EApiStatus.SUCCESS, dtoPage, &quot;Users found successfully&quot;));</span>
+<span class="fc" id="L61">        Page&lt;User&gt; userPage = userService.findAll(pageable);</span>
+<span class="fc" id="L62">        Page&lt;UserDTO&gt; dtoPage = userPage.map(UserDTO::new);</span>
+<span class="fc" id="L63">        return ResponseEntity.ok(new ApiResponseDTO&lt;&gt;(EApiStatus.SUCCESS, dtoPage, &quot;Users found successfully&quot;));</span>
     }
 
     /**
@@ -72,14 +69,14 @@ public class UserController {
      * @return Response entity containing user details or error message.
      */
     @GetMapping(&quot;/users/{id}&quot;)
-    public ResponseEntity&lt;ApiResponseDTO&lt;UserInfoDTO&gt;&gt; getUserById(@PathVariable Long id) {
-<span class="fc" id="L76">        Optional&lt;User&gt; user = userService.findById(id);</span>
-<span class="fc bfc" id="L77" title="All 2 branches covered.">        if (user.isPresent()) {</span>
-<span class="fc" id="L78">            UserInfoDTO userDTO = new UserInfoDTO(user.get());</span>
-<span class="fc" id="L79">            return ResponseEntity.ok(new ApiResponseDTO&lt;&gt;(EApiStatus.SUCCESS, userDTO, &quot;User found successfully&quot;));</span>
+    public ResponseEntity&lt;ApiResponseDTO&lt;UserDTO&gt;&gt; getUserById(@PathVariable Long id) {
+<span class="fc" id="L73">        Optional&lt;User&gt; user = userService.findById(id);</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (user.isPresent()) {</span>
+<span class="fc" id="L75">            UserDTO userDTO = new UserDTO(user.get());</span>
+<span class="fc" id="L76">            return ResponseEntity.ok(new ApiResponseDTO&lt;&gt;(EApiStatus.SUCCESS, userDTO, &quot;User found successfully&quot;));</span>
         } else {
-<span class="fc" id="L81">            return ResponseEntity.status(HttpStatus.NOT_FOUND)</span>
-<span class="fc" id="L82">                    .body(new ApiResponseDTO&lt;&gt;(EApiStatus.FAILURE, null, &quot;Could not find user with id: &quot; + id));</span>
+<span class="fc" id="L78">            return ResponseEntity.status(HttpStatus.NOT_FOUND)</span>
+<span class="fc" id="L79">                    .body(new ApiResponseDTO&lt;&gt;(EApiStatus.FAILURE, null, &quot;Could not find user with id: &quot; + id));</span>
         }
     }
 
@@ -89,85 +86,93 @@ public class UserController {
      * @return Response entity containing user details or error message.
      */
     @GetMapping(&quot;/users/me&quot;)
-    public ResponseEntity&lt;ApiResponseDTO&lt;UserInfoDTO&gt;&gt; getLoggedInUser(@RequestAttribute(&quot;userId&quot;) Long id) {
-<span class="fc" id="L93">        return getUserById(id);</span>
+    public ResponseEntity&lt;ApiResponseDTO&lt;UserDTO&gt;&gt; getLoggedInUser(@RequestAttribute(&quot;userId&quot;) Long id) {
+<span class="fc" id="L90">        return getUserById(id);</span>
     }
 
     /**
-     * @brief Retrieves a user by username.
+     * @brief Retrieves a user by username or email.
      * @param username The username.
+     * @param email The email.
      * @return Response entity containing user details or error message.
      */
-    @GetMapping(value = &quot;/users&quot;, params = &quot;username&quot;)
-    public ResponseEntity&lt;ApiResponseDTO&lt;UserInfoDTO&gt;&gt; getUserByUsername(@RequestParam String username) {
-<span class="fc" id="L103">        Optional&lt;User&gt; user = userService.findByUsernameOrEmail(username);</span>
-<span class="fc bfc" id="L104" title="All 2 branches covered.">        if (user.isPresent()) {</span>
-<span class="fc" id="L105">            UserInfoDTO userDTO = new UserInfoDTO(user.get());</span>
-<span class="fc" id="L106">            return ResponseEntity.ok(new ApiResponseDTO&lt;&gt;(EApiStatus.SUCCESS, userDTO, &quot;User found successfully&quot;));</span>
-        } else {
-<span class="fc" id="L108">            return ResponseEntity.status(HttpStatus.NOT_FOUND)</span>
-<span class="fc" id="L109">                    .body(new ApiResponseDTO&lt;&gt;(EApiStatus.FAILURE, null, &quot;Could not find user with username: &quot; + username));</span>
-        }
+    @GetMapping(value = &quot;/users&quot;, params = {&quot;username&quot;})
+    public ResponseEntity&lt;ApiResponseDTO&lt;UserDTO&gt;&gt; getUserByUsername(@RequestParam String username) {
+<span class="fc" id="L101">        return findUserByIdentifier(username, &quot;username&quot;);</span>
+    }
+
+    @GetMapping(value = &quot;/users&quot;, params = {&quot;email&quot;})
+    public ResponseEntity&lt;ApiResponseDTO&lt;UserDTO&gt;&gt; getUserByEmail(@RequestParam String email) {
+<span class="fc" id="L106">        return findUserByIdentifier(email, &quot;email&quot;);</span>
     }
 
     /**
-     * @brief Retrieves a user by email.
-     * @param email The username.
+     * @brief Helper method to find user by identifier.
+     * @param identifier The username or email.
+     * @param type The type of identifier for error message.
      * @return Response entity containing user details or error message.
      */
-    @GetMapping(value = &quot;/users&quot;, params = &quot;email&quot;)
-    public ResponseEntity&lt;ApiResponseDTO&lt;UserInfoDTO&gt;&gt; getUserByEmail(@RequestParam String email) {
-<span class="fc" id="L120">        Optional&lt;User&gt; user = userService.findByUsernameOrEmail(email);</span>
-<span class="fc bfc" id="L121" title="All 2 branches covered.">        if (user.isPresent()) {</span>
-<span class="fc" id="L122">            UserInfoDTO userDTO = new UserInfoDTO(user.get());</span>
-<span class="fc" id="L123">            return ResponseEntity.ok(new ApiResponseDTO&lt;&gt;(EApiStatus.SUCCESS, userDTO, &quot;User found successfully&quot;));</span>
+    private ResponseEntity&lt;ApiResponseDTO&lt;UserDTO&gt;&gt; findUserByIdentifier(String identifier, String type) {
+<span class="fc" id="L116">        Optional&lt;User&gt; user = userService.findByUsernameOrEmail(identifier);</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">        if (user.isPresent()) {</span>
+<span class="fc" id="L118">            UserDTO userDTO = new UserDTO(user.get());</span>
+<span class="fc" id="L119">            return ResponseEntity.ok(new ApiResponseDTO&lt;&gt;(EApiStatus.SUCCESS, userDTO, &quot;User found successfully&quot;));</span>
         } else {
-<span class="fc" id="L125">            return ResponseEntity.status(HttpStatus.NOT_FOUND)</span>
-<span class="fc" id="L126">                    .body(new ApiResponseDTO&lt;&gt;(EApiStatus.FAILURE, null, &quot;Could not find user with email: &quot; + email));</span>
+<span class="fc" id="L121">            return ResponseEntity.status(HttpStatus.NOT_FOUND)</span>
+<span class="fc" id="L122">                    .body(new ApiResponseDTO&lt;&gt;(EApiStatus.FAILURE, null, &quot;Could not find user with &quot; + type + &quot;: &quot; + identifier));</span>
         }
     }
 
     /**
      * @brief Updates a user by ID.
-     * @param UserUpdateDTO The user update request data.
+     * @param userDTO The user update request data.
      * @param id The user ID.
+     * @param requesterId The ID of the user making the request.
      * @return Response entity containing update status.
      */
     @PatchMapping(&quot;/users/{id}&quot;)
-    public ResponseEntity&lt;ApiResponseDTO&lt;UserInfoDTO&gt;&gt; updateUser(@RequestBody UserUpdateDTO UserUpdateDTO, @PathVariable Long id, @RequestAttribute(&quot;userId&quot;) Long requesterId) {
+    public ResponseEntity&lt;ApiResponseDTO&lt;UserDTO&gt;&gt; updateUser(
+            @Validated(UserDTO.Update.class) @RequestBody UserDTO userDTO, 
+            @PathVariable Long id, 
+            @RequestAttribute(&quot;userId&quot;) Long requesterId) {
         try {
-<span class="fc" id="L139">            User updatedUser = userService.updateUser(UserUpdateDTO, id, requesterId);</span>
-<span class="fc" id="L140">            return ResponseEntity.ok(new ApiResponseDTO&lt;&gt;(EApiStatus.SUCCESS, new UserInfoDTO(updatedUser), &quot;User updated successfully&quot;));</span>
-        }
-<span class="fc" id="L142">        catch (Exception e){</span>
-<span class="fc" id="L143">            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponseDTO&lt;&gt;(EApiStatus.FAILURE, null, e.getMessage()));</span>
+<span class="fc" id="L139">            User updatedUser = userService.updateUser(userDTO, id, requesterId);</span>
+<span class="fc" id="L140">            return ResponseEntity.ok(new ApiResponseDTO&lt;&gt;(EApiStatus.SUCCESS, new UserDTO(updatedUser), &quot;User updated successfully&quot;));</span>
+<span class="fc" id="L141">        } catch (Exception e) {</span>
+<span class="fc" id="L142">            return ResponseEntity.status(HttpStatus.BAD_REQUEST)</span>
+<span class="fc" id="L143">                    .body(new ApiResponseDTO&lt;&gt;(EApiStatus.FAILURE, null, e.getMessage()));</span>
         }
     }
 
     /**
-     * @brief Updates logged-in user by ID.
-     * @param UserUpdateDTO The user update request data.
+     * @brief Updates logged-in user.
+     * @param userDTO The user update request data.
      * @param id The ID of the logged-in user.
      * @return Response entity containing user details or error message.
      */
     @PatchMapping(&quot;/users/me&quot;)
-    public ResponseEntity&lt;ApiResponseDTO&lt;UserInfoDTO&gt;&gt; updateLoggedInUser(@RequestBody UserUpdateDTO UserUpdateDTO, @RequestAttribute(&quot;userId&quot;) Long id) {
-<span class="fc" id="L155">        return updateUser(UserUpdateDTO, id, id);</span>
+    public ResponseEntity&lt;ApiResponseDTO&lt;UserDTO&gt;&gt; updateLoggedInUser(
+            @Validated(UserDTO.Update.class) @RequestBody UserDTO userDTO, 
+            @RequestAttribute(&quot;userId&quot;) Long id) {
+<span class="fc" id="L157">        return updateUser(userDTO, id, id);</span>
     }
 
     /**
      * @brief Deletes a user by ID.
      * @param id The user ID.
+     * @param requesterId The ID of the user making the request.
      * @return Response entity containing delete status.
      */
     @DeleteMapping(&quot;/users/{id}&quot;)
-    public ResponseEntity&lt;ApiResponseDTO&lt;Void&gt;&gt; deleteUser(@PathVariable Long id, @RequestAttribute(&quot;userId&quot;) Long requesterId) {
+    public ResponseEntity&lt;ApiResponseDTO&lt;Void&gt;&gt; deleteUser(
+            @PathVariable Long id, 
+            @RequestAttribute(&quot;userId&quot;) Long requesterId) {
         try {
-<span class="fc" id="L166">            userService.deleteById(id, requesterId);</span>
-<span class="fc" id="L167">            return ResponseEntity.ok(new ApiResponseDTO&lt;&gt;(EApiStatus.SUCCESS, null, &quot;User deleted successfully&quot;));</span>
-        }
-<span class="fc" id="L169">        catch (Exception e){</span>
-<span class="fc" id="L170">            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponseDTO&lt;&gt;(EApiStatus.FAILURE, null, e.getMessage()));</span>
+<span class="fc" id="L171">            userService.deleteById(id, requesterId);</span>
+<span class="fc" id="L172">            return ResponseEntity.ok(new ApiResponseDTO&lt;&gt;(EApiStatus.SUCCESS, null, &quot;User deleted successfully&quot;));</span>
+<span class="fc" id="L173">        } catch (Exception e) {</span>
+<span class="fc" id="L174">            return ResponseEntity.status(HttpStatus.BAD_REQUEST)</span>
+<span class="fc" id="L175">                    .body(new ApiResponseDTO&lt;&gt;(EApiStatus.FAILURE, null, e.getMessage()));</span>
         }
     }
 }

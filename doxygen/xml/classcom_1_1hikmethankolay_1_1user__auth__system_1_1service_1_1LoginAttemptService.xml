@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService" kind="class" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::service::LoginAttemptService</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_1a89fed88bfd22fe619ffe4e709a17ed6e" prot="private" static="no" mutable="no">
+        <type>final int</type>
+        <definition>final int com.hikmethankolay.user_auth_system.service.LoginAttemptService.MAX_ATTEMPT</definition>
+        <argsstring></argsstring>
+        <name>MAX_ATTEMPT</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.service.LoginAttemptService.MAX_ATTEMPT</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of login attempts allowed before blocking. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/LoginAttemptService.java" line="32" column="23" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/LoginAttemptService.java" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_1a00a3f2b43bcff3e58bf1fb204d0d15e3" prot="private" static="no" mutable="no">
+        <type>final LoadingCache&lt; String, Integer &gt;</type>
+        <definition>final LoadingCache&lt;String, Integer&gt; com.hikmethankolay.user_auth_system.service.LoginAttemptService.attemptsCache</definition>
+        <argsstring></argsstring>
+        <name>attemptsCache</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.service.LoginAttemptService.attemptsCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Cache storing the number of failed attempts by identifier (username or IP). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/LoginAttemptService.java" line="35" column="32" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/LoginAttemptService.java" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_1a1fabd093841ea3b053267d302b76954a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>com.hikmethankolay.user_auth_system.service.LoginAttemptService.LoginAttemptService</definition>
+        <argsstring>()</argsstring>
+        <name>LoginAttemptService</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.service.LoginAttemptService.LoginAttemptService</qualifiedname>
+        <briefdescription>
+<para>Constructor initializing the attempts cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets up a cache that expires entries after 1 hour of inactivity. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/LoginAttemptService.java" line="42" column="12" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/LoginAttemptService.java" bodystart="42" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_1a3a95a0484df8c17297cf17d50fdb8a70" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.service.LoginAttemptService.loginSucceeded</definition>
+        <argsstring>(String key)</argsstring>
+        <name>loginSucceeded</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.service.LoginAttemptService.loginSucceeded</qualifiedname>
+        <param>
+          <type>String</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Clears the login attempts count for successful logins. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The identifier (username or IP) of the login attempt. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/LoginAttemptService.java" line="57" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/LoginAttemptService.java" bodystart="57" bodyend="59"/>
+        <referencedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a2374093e760c6e0a4fb56e30454c37d9" compoundref="UserService_8java" startline="156" endline="187">com.hikmethankolay.user_auth_system.service.UserService.authenticateUser</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_1a31b95093be2a9d3a9164ebe000ff0135" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.service.LoginAttemptService.loginFailed</definition>
+        <argsstring>(String key)</argsstring>
+        <name>loginFailed</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.service.LoginAttemptService.loginFailed</qualifiedname>
+        <param>
+          <type>String</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Increments the login attempts count for failed logins. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The identifier (username or IP) of the login attempt. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/LoginAttemptService.java" line="65" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/LoginAttemptService.java" bodystart="65" bodyend="74"/>
+        <referencedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a2374093e760c6e0a4fb56e30454c37d9" compoundref="UserService_8java" startline="156" endline="187">com.hikmethankolay.user_auth_system.service.UserService.authenticateUser</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_1aecd42fbec86671d4d3a546a1639e9877" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>boolean</type>
+        <definition>boolean com.hikmethankolay.user_auth_system.service.LoginAttemptService.isBlocked</definition>
+        <argsstring>(String key)</argsstring>
+        <name>isBlocked</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.service.LoginAttemptService.isBlocked</qualifiedname>
+        <param>
+          <type>String</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Checks if a user is blocked due to excessive login attempts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The identifier (username or IP) to check. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the user has exceeded the maximum allowed attempts. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/LoginAttemptService.java" line="81" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/LoginAttemptService.java" bodystart="81" bodyend="87"/>
+        <referencedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService_1a2374093e760c6e0a4fb56e30454c37d9" compoundref="UserService_8java" startline="156" endline="187">com.hikmethankolay.user_auth_system.service.UserService.authenticateUser</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Service to prevent brute force attacks by limiting login attempts. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This service maintains a time-based cache of login attempts, blocking users who exceed the maximum allowed number of failed attempts within a time period. </para>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/LoginAttemptService.java" line="30" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/LoginAttemptService.java" bodystart="30" bodyend="88"/>
+    <listofallmembers>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_1a00a3f2b43bcff3e58bf1fb204d0d15e3" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::LoginAttemptService</scope><name>attemptsCache</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_1aecd42fbec86671d4d3a546a1639e9877" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::LoginAttemptService</scope><name>isBlocked</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_1a1fabd093841ea3b053267d302b76954a" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::LoginAttemptService</scope><name>LoginAttemptService</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_1a31b95093be2a9d3a9164ebe000ff0135" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::LoginAttemptService</scope><name>loginFailed</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_1a3a95a0484df8c17297cf17d50fdb8a70" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::LoginAttemptService</scope><name>loginSucceeded</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_1a89fed88bfd22fe619ffe4e709a17ed6e" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::service::LoginAttemptService</scope><name>MAX_ATTEMPT</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -14,18 +14,12 @@ Entity representing a user role.
 \begin{DoxyCompactList}\small\item\em Constructor with role name. \end{DoxyCompactList}\item 
 long \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_ace42271b7582edf071bf219a10c4c1d2}{get\+Id}} ()
 \begin{DoxyCompactList}\small\item\em Gets the role ID. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a36d722edc7a6046d79f1608063804289}{set\+Id}} (int id)
+void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a346c5b726022c51c080c8fc42c0bcfac}{set\+Id}} (long id)
 \begin{DoxyCompactList}\small\item\em Sets the role ID. \end{DoxyCompactList}\item 
 ERole \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a3bff212368f5ef950d7fe54d7c7f75d5}{get\+Name}} ()
 \begin{DoxyCompactList}\small\item\em Gets the role name. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a1123da27fc4910de9d731efee4242cf8}{set\+Name}} (ERole name)
 \begin{DoxyCompactList}\small\item\em Sets the role name. \end{DoxyCompactList}\item 
-List$<$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User}{User}} $>$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a6a05fa9622e7153d47d970a75e3fe3d8}{get\+Users}} ()
-\begin{DoxyCompactList}\small\item\em Gets the list of users associated with the role. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a55baeaf7fa78b6cfadf81c1d7979fadf}{set\+Users}} (List$<$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User}{User}} $>$ users)
-\begin{DoxyCompactList}\small\item\em Sets the list of users associated with the role. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_acbc6cd5e976b4b812a8e647bbb659896}{add\+User}} (\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User}{User}} user)
-\begin{DoxyCompactList}\small\item\em Adds a user to the role. \end{DoxyCompactList}\item 
 String \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_ae11ea3ccb60f7facba957d5b18db140a}{to\+String}} ()
 \begin{DoxyCompactList}\small\item\em Converts the Role object to a string representation. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
@@ -33,9 +27,9 @@ String \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1enti
 \doxysubsection{Detailed Description}
 Entity representing a user role. 
 
-This class defines the structure of roles, including their ID, name, and associated users. 
+This class defines the structure of roles. 
 
-Definition at line \mbox{\hyperlink{Role_8java_source_l00030}{30}} of file \mbox{\hyperlink{Role_8java_source}{Role.\+java}}.
+Definition at line \mbox{\hyperlink{Role_8java_source_l00028}{28}} of file \mbox{\hyperlink{Role_8java_source}{Role.\+java}}.
 
 
 
@@ -52,12 +46,12 @@ Default constructor.
 
 
 
-Definition at line \mbox{\hyperlink{Role_8java_source_l00053}{53}} of file \mbox{\hyperlink{Role_8java_source}{Role.\+java}}.
+Definition at line \mbox{\hyperlink{Role_8java_source_l00044}{44}} of file \mbox{\hyperlink{Role_8java_source}{Role.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00054\ \ \ \ \ \}}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \}}
 
 \end{DoxyCode}
 \Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_ae2048319014e5ec61044255a6366bad7}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_ae2048319014e5ec61044255a6366bad7} 
@@ -77,44 +71,18 @@ Constructor with role name.
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{Role_8java_source_l00060}{60}} of file \mbox{\hyperlink{Role_8java_source}{Role.\+java}}.
+Definition at line \mbox{\hyperlink{Role_8java_source_l00051}{51}} of file \mbox{\hyperlink{Role_8java_source}{Role.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ this.name\ =\ name;}
-\DoxyCodeLine{00062\ \ \ \ \ \}}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ this.name\ =\ name;}
+\DoxyCodeLine{00053\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
 \doxysubsection{Member Function Documentation}
-\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_acbc6cd5e976b4b812a8e647bbb659896}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_acbc6cd5e976b4b812a8e647bbb659896} 
-\index{com.hikmethankolay.user\_auth\_system.entity.Role@{com.hikmethankolay.user\_auth\_system.entity.Role}!addUser@{addUser}}
-\index{addUser@{addUser}!com.hikmethankolay.user\_auth\_system.entity.Role@{com.hikmethankolay.user\_auth\_system.entity.Role}}
-\doxysubsubsection{\texorpdfstring{addUser()}{addUser()}}
-{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+entity.\+Role.\+add\+User (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User}{User}}}]{user }\end{DoxyParamCaption})}
-
-
-
-Adds a user to the role. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em user} & The user to be added. \\
-\hline
-\end{DoxyParams}
-
-
-Definition at line \mbox{\hyperlink{Role_8java_source_l00116}{116}} of file \mbox{\hyperlink{Role_8java_source}{Role.\+java}}.
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ users.add(user);}
-\DoxyCodeLine{00118\ \ \ \ \ \}}
-
-\end{DoxyCode}
 \Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_ace42271b7582edf071bf219a10c4c1d2}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_ace42271b7582edf071bf219a10c4c1d2} 
 \index{com.hikmethankolay.user\_auth\_system.entity.Role@{com.hikmethankolay.user\_auth\_system.entity.Role}!getId@{getId}}
 \index{getId@{getId}!com.hikmethankolay.user\_auth\_system.entity.Role@{com.hikmethankolay.user\_auth\_system.entity.Role}}
@@ -130,13 +98,13 @@ The role ID.
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{Role_8java_source_l00068}{68}} of file \mbox{\hyperlink{Role_8java_source}{Role.\+java}}.
+Definition at line \mbox{\hyperlink{Role_8java_source_l00059}{59}} of file \mbox{\hyperlink{Role_8java_source}{Role.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ id;}
-\DoxyCodeLine{00070\ \ \ \ \ \}}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ id;}
+\DoxyCodeLine{00061\ \ \ \ \ \}}
 
 \end{DoxyCode}
 \Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a3bff212368f5ef950d7fe54d7c7f75d5}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a3bff212368f5ef950d7fe54d7c7f75d5} 
@@ -154,44 +122,24 @@ The name of the role.
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{Role_8java_source_l00084}{84}} of file \mbox{\hyperlink{Role_8java_source}{Role.\+java}}.
+Definition at line \mbox{\hyperlink{Role_8java_source_l00075}{75}} of file \mbox{\hyperlink{Role_8java_source}{Role.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ name;}
-\DoxyCodeLine{00086\ \ \ \ \ \}}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ name;}
+\DoxyCodeLine{00077\ \ \ \ \ \}}
 
 \end{DoxyCode}
-\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a6a05fa9622e7153d47d970a75e3fe3d8}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a6a05fa9622e7153d47d970a75e3fe3d8} 
-\index{com.hikmethankolay.user\_auth\_system.entity.Role@{com.hikmethankolay.user\_auth\_system.entity.Role}!getUsers@{getUsers}}
-\index{getUsers@{getUsers}!com.hikmethankolay.user\_auth\_system.entity.Role@{com.hikmethankolay.user\_auth\_system.entity.Role}}
-\doxysubsubsection{\texorpdfstring{getUsers()}{getUsers()}}
-{\footnotesize\ttfamily List$<$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User}{User}} $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+entity.\+Role.\+get\+Users (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
+Referenced by \mbox{\hyperlink{User_8java_source_l00137}{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+entity.\+User.\+get\+Authorities()}}.
 
-Gets the list of users associated with the role. 
-
-\begin{DoxyReturn}{Returns}
-List of users. 
-\end{DoxyReturn}
-
-
-Definition at line \mbox{\hyperlink{Role_8java_source_l00100}{100}} of file \mbox{\hyperlink{Role_8java_source}{Role.\+java}}.
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ users;}
-\DoxyCodeLine{00102\ \ \ \ \ \}}
-
-\end{DoxyCode}
-\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a36d722edc7a6046d79f1608063804289}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a36d722edc7a6046d79f1608063804289} 
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a346c5b726022c51c080c8fc42c0bcfac}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a346c5b726022c51c080c8fc42c0bcfac} 
 \index{com.hikmethankolay.user\_auth\_system.entity.Role@{com.hikmethankolay.user\_auth\_system.entity.Role}!setId@{setId}}
 \index{setId@{setId}!com.hikmethankolay.user\_auth\_system.entity.Role@{com.hikmethankolay.user\_auth\_system.entity.Role}}
 \doxysubsubsection{\texorpdfstring{setId()}{setId()}}
-{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+entity.\+Role.\+set\+Id (\begin{DoxyParamCaption}\item[{int}]{id }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+entity.\+Role.\+set\+Id (\begin{DoxyParamCaption}\item[{long}]{id }\end{DoxyParamCaption})}
 
 
 
@@ -204,13 +152,13 @@ Sets the role ID.
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{Role_8java_source_l00076}{76}} of file \mbox{\hyperlink{Role_8java_source}{Role.\+java}}.
+Definition at line \mbox{\hyperlink{Role_8java_source_l00067}{67}} of file \mbox{\hyperlink{Role_8java_source}{Role.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ this.id\ =\ id;}
-\DoxyCodeLine{00078\ \ \ \ \ \}}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ this.id\ =\ id;}
+\DoxyCodeLine{00069\ \ \ \ \ \}}
 
 \end{DoxyCode}
 \Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a1123da27fc4910de9d731efee4242cf8}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a1123da27fc4910de9d731efee4242cf8} 
@@ -230,39 +178,13 @@ Sets the role name.
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{Role_8java_source_l00092}{92}} of file \mbox{\hyperlink{Role_8java_source}{Role.\+java}}.
+Definition at line \mbox{\hyperlink{Role_8java_source_l00083}{83}} of file \mbox{\hyperlink{Role_8java_source}{Role.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ this.name\ =\ name;}
-\DoxyCodeLine{00094\ \ \ \ \ \}}
-
-\end{DoxyCode}
-\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a55baeaf7fa78b6cfadf81c1d7979fadf}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a55baeaf7fa78b6cfadf81c1d7979fadf} 
-\index{com.hikmethankolay.user\_auth\_system.entity.Role@{com.hikmethankolay.user\_auth\_system.entity.Role}!setUsers@{setUsers}}
-\index{setUsers@{setUsers}!com.hikmethankolay.user\_auth\_system.entity.Role@{com.hikmethankolay.user\_auth\_system.entity.Role}}
-\doxysubsubsection{\texorpdfstring{setUsers()}{setUsers()}}
-{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+entity.\+Role.\+set\+Users (\begin{DoxyParamCaption}\item[{List$<$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User}{User}} $>$}]{users }\end{DoxyParamCaption})}
-
-
-
-Sets the list of users associated with the role. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em users} & The list of users to be assigned. \\
-\hline
-\end{DoxyParams}
-
-
-Definition at line \mbox{\hyperlink{Role_8java_source_l00108}{108}} of file \mbox{\hyperlink{Role_8java_source}{Role.\+java}}.
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ this.users\ =\ users;}
-\DoxyCodeLine{00110\ \ \ \ \ \}}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ this.name\ =\ name;}
+\DoxyCodeLine{00085\ \ \ \ \ \}}
 
 \end{DoxyCode}
 \Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_ae11ea3ccb60f7facba957d5b18db140a}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_ae11ea3ccb60f7facba957d5b18db140a} 
@@ -280,16 +202,16 @@ A string representation of Role.
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{Role_8java_source_l00125}{125}} of file \mbox{\hyperlink{Role_8java_source}{Role.\+java}}.
+Definition at line \mbox{\hyperlink{Role_8java_source_l00092}{92}} of file \mbox{\hyperlink{Role_8java_source}{Role.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Role\{"{}}\ +}
-\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}name="{}}\ +\ name\ +}
-\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ id="{}}\ +\ \textcolor{keywordtype}{id}\ +}
-\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{charliteral}{'\}'};}
-\DoxyCodeLine{00130\ \ \ \ \ \}}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Role\{"{}}\ +}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}name="{}}\ +\ name\ +}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ id="{}}\ +\ \textcolor{keywordtype}{id}\ +}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{charliteral}{'\}'};}
+\DoxyCodeLine{00097\ \ \ \ \ \}}
 
 \end{DoxyCode}
 

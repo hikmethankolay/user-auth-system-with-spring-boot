@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForCollection.java" line="25" column="18" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForCollection.java" bodystart="25" bodyend="-1"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForCollection.java" line="28" column="18" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForCollection.java" bodystart="28" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_1a18691cc4fbce8248bbfbc9209ec4db5c" prot="private" static="no" mutable="no">
         <type>boolean</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForCollection.java" line="26" column="21" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForCollection.java" bodystart="26" bodyend="-1"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForCollection.java" line="29" column="21" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForCollection.java" bodystart="29" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -61,7 +61,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForCollection.java" line="33" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForCollection.java" bodystart="33" bodyend="38"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForCollection.java" line="36" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForCollection.java" bodystart="36" bodyend="46"/>
         <references refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a7a6a653012066c23ef9e769edd28fe33">com.hikmethankolay.user_auth_system.validator.ValidEnum.enumClass</references>
         <references refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1ab1b319b46babfaa316223e9019a34d99">com.hikmethankolay.user_auth_system.validator.ValidEnum.ignoreCase</references>
       </memberdef>
@@ -106,9 +106,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForCollection.java" line="47" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForCollection.java" bodystart="47" bodyend="71"/>
-        <references refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_1a8641cbac23c5763e4ac3f50b8019f4a5" compoundref="EnumValidatorForCollection_8java" startline="47" endline="71">com.hikmethankolay.user_auth_system.validator.EnumValidatorForCollection.isValid</references>
-        <referencedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_1a8641cbac23c5763e4ac3f50b8019f4a5" compoundref="EnumValidatorForCollection_8java" startline="47" endline="71">com.hikmethankolay.user_auth_system.validator.EnumValidatorForCollection.isValid</referencedby>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForCollection.java" line="55" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForCollection.java" bodystart="55" bodyend="69"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -139,7 +137,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForCollection.java" line="23" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForCollection.java" bodystart="23" bodyend="72"/>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForCollection.java" line="26" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForCollection.java" bodystart="26" bodyend="70"/>
     <listofallmembers>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_1a66301c7bb974bd0119c2ba12428f02d4" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::validator::EnumValidatorForCollection</scope><name>acceptedValues</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_1a18691cc4fbce8248bbfbc9209ec4db5c" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::validator::EnumValidatorForCollection</scope><name>ignoreCase</name></member>

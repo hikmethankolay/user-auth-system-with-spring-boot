@@ -2,7 +2,7 @@
  * @file UserService.java
  * @brief Service class for user management.
  *
- * This class provides methods for managing users, authentication, validation, and role assignments.
+ * This class provides methods for managing users, authentication, validation, and role assignment.
  *
  * @author Hikmethan Kolay
  * @date 2025-02-12
@@ -21,7 +21,6 @@ import com.hikmethankolay.user_auth_system.enums.ERole;
 import com.hikmethankolay.user_auth_system.enums.TokenStatus;
 import com.hikmethankolay.user_auth_system.repository.RoleRepository;
 import com.hikmethankolay.user_auth_system.repository.UserRepository;
-import com.hikmethankolay.user_auth_system.security.LoginAttemptService;
 import com.hikmethankolay.user_auth_system.util.JwtUtils;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -70,14 +69,14 @@ public class UserService {
      * @param jwtUtils The JWT utility instance.
      * @param validator The validator instance.
      */
-<span class="fc" id="L73">    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtUtils jwtUtils, Validator validator, LoginAttemptService loginAttemptService) {</span>
-<span class="fc" id="L74">        this.userRepository = userRepository;</span>
-<span class="fc" id="L75">        this.roleRepository = roleRepository;</span>
-<span class="fc" id="L76">        this.passwordEncoder = passwordEncoder;</span>
-<span class="fc" id="L77">        this.jwtUtils = jwtUtils;</span>
-<span class="fc" id="L78">        this.validator = validator;</span>
-<span class="fc" id="L79">        this.loginAttemptService = loginAttemptService;</span>
-<span class="fc" id="L80">    }</span>
+<span class="fc" id="L72">    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtUtils jwtUtils, Validator validator, LoginAttemptService loginAttemptService) {</span>
+<span class="fc" id="L73">        this.userRepository = userRepository;</span>
+<span class="fc" id="L74">        this.roleRepository = roleRepository;</span>
+<span class="fc" id="L75">        this.passwordEncoder = passwordEncoder;</span>
+<span class="fc" id="L76">        this.jwtUtils = jwtUtils;</span>
+<span class="fc" id="L77">        this.validator = validator;</span>
+<span class="fc" id="L78">        this.loginAttemptService = loginAttemptService;</span>
+<span class="fc" id="L79">    }</span>
 
     /**
      * @brief Retrieves all users with pagination.
@@ -85,7 +84,7 @@ public class UserService {
      * @return A paginated list of users.
      */
     public Page&lt;User&gt; findAll(Pageable pageable) {
-<span class="fc" id="L88">        return userRepository.findAll(pageable);</span>
+<span class="fc" id="L87">        return userRepository.findAll(pageable);</span>
     }
 
     /**
@@ -94,7 +93,7 @@ public class UserService {
      * @return An Optional containing the user if found.
      */
     public Optional&lt;User&gt; findByUsernameOrEmail(String identifier) {
-<span class="fc" id="L97">        return userRepository.findByUsernameOrEmail(identifier, identifier);</span>
+<span class="fc" id="L96">        return userRepository.findByUsernameOrEmail(identifier, identifier);</span>
     }
 
     /**
@@ -102,15 +101,15 @@ public class UserService {
      * @param id The ID of the user to delete.
      */
     public void deleteById(Long id, Long requesterId) {
-<span class="fc bfc" id="L105" title="All 2 branches covered.">        if (id.equals(requesterId)) {</span>
-<span class="fc" id="L106">            throw new RuntimeException(&quot;Cannot delete your own account&quot;);</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">        if (id.equals(requesterId)) {</span>
+<span class="fc" id="L105">            throw new RuntimeException(&quot;Cannot delete your own account&quot;);</span>
         }
 
-<span class="fc" id="L109">        User user = userRepository.findById(id)</span>
-<span class="fc" id="L110">                .orElseThrow(() -&gt; new RuntimeException(&quot;User not found with id &quot; + id));</span>
+<span class="fc" id="L108">        User user = userRepository.findById(id)</span>
+<span class="fc" id="L109">                .orElseThrow(() -&gt; new RuntimeException(&quot;User not found with id &quot; + id));</span>
 
-<span class="fc" id="L112">        userRepository.delete(user);</span>
-<span class="fc" id="L113">    }</span>
+<span class="fc" id="L111">        userRepository.delete(user);</span>
+<span class="fc" id="L112">    }</span>
 
     /**
      * @brief Finds a user by ID.
@@ -118,29 +117,33 @@ public class UserService {
      * @return An Optional containing the user if found.
      */
     public Optional&lt;User&gt; findById(Long id) {
-<span class="fc" id="L121">        return userRepository.findById(id);</span>
+<span class="fc" id="L120">        return userRepository.findById(id);</span>
     }
 
     /**
      * @brief Registers a new user.
-     * @param userInfoDTO The user information for registration.
+     * @param userDTO The user information for registration.
      * @return The newly registered user entity.
      */
     @Transactional
-    public User registerUser(UserRegisterDTO userInfoDTO) {
-<span class="fc" id="L131">        checkUserValidation(userInfoDTO,null);</span>
+    public User registerUser(UserDTO userDTO) {
+        // Validate using Registration group
+<span class="fc" id="L131">        Set&lt;ConstraintViolation&lt;UserDTO&gt;&gt; violations = validator.validate(userDTO, UserDTO.Registration.class);</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        if (!violations.isEmpty()) {</span>
+<span class="fc" id="L133">            throw new ConstraintViolationException(violations);</span>
+        }
+        
+<span class="fc" id="L136">        checkUserUniqueness(userDTO, null);</span>
 
-<span class="fc" id="L133">        User user = new User();</span>
+<span class="fc" id="L138">        User user = new User();</span>
+<span class="fc" id="L139">        user.setEmail(userDTO.getEmail());</span>
+<span class="fc" id="L140">        user.setUsername(userDTO.getUsername());</span>
+<span class="fc" id="L141">        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));</span>
 
-<span class="fc" id="L135">        user.setEmail(userInfoDTO.getEmail());</span>
-<span class="fc" id="L136">        user.setPassword(userInfoDTO.getPassword());</span>
-<span class="fc" id="L137">        user.setUsername(userInfoDTO.getUsername());</span>
-<span class="fc" id="L138">        user.setPassword(passwordEncoder.encode(userInfoDTO.getPassword()));</span>
+        // Assign default role
+<span class="fc" id="L144">        assignRoleToUser(user, ERole.ROLE_USER);</span>
 
-<span class="fc" id="L140">        Set&lt;ERole&gt; roles = new HashSet&lt;&gt;(Set.of(ERole.ROLE_USER));</span>
-<span class="fc" id="L141">        assignRolesToUser(user,roles);</span>
-
-<span class="fc" id="L143">        return userRepository.save(user);</span>
+<span class="fc" id="L146">        return userRepository.save(user);</span>
     }
 
     /**
@@ -151,35 +154,35 @@ public class UserService {
      * @throws RuntimeException if the account or IP is blocked due to too many failed login attempts.
      */
     public String authenticateUser(LoginRequestDTO loginRequest, String clientIp) {
-<span class="fc" id="L154">        String identifier = loginRequest.identifier();</span>
+<span class="fc" id="L157">        String identifier = loginRequest.identifier();</span>
 
         // Check if the IP address is blocked due to too many failed login attempts
-<span class="fc bfc" id="L157" title="All 2 branches covered.">        if (loginAttemptService.isBlocked(clientIp)) {</span>
-<span class="fc" id="L158">            throw new RuntimeException(&quot;Too many failed login attempts from this IP. Please try again later.&quot;);</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">        if (loginAttemptService.isBlocked(clientIp)) {</span>
+<span class="fc" id="L161">            throw new RuntimeException(&quot;Too many failed login attempts from this IP. Please try again later.&quot;);</span>
         }
 
         // Check if the user is blocked due to too many failed attempts
-<span class="fc bfc" id="L162" title="All 2 branches covered.">        if (loginAttemptService.isBlocked(identifier)) {</span>
-<span class="fc" id="L163">            throw new RuntimeException(&quot;Account is temporarily locked due to too many failed login attempts. Please try again later.&quot;);</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">        if (loginAttemptService.isBlocked(identifier)) {</span>
+<span class="fc" id="L166">            throw new RuntimeException(&quot;Account is temporarily locked due to too many failed login attempts. Please try again later.&quot;);</span>
         }
 
-<span class="fc" id="L166">        Optional&lt;User&gt; user = userRepository.findByUsernameOrEmail(identifier, identifier);</span>
+<span class="fc" id="L169">        Optional&lt;User&gt; user = userRepository.findByUsernameOrEmail(identifier, identifier);</span>
 
-<span class="pc bpc" id="L168" title="1 of 4 branches missed.">        if (user.isPresent() &amp;&amp; passwordEncoder.matches(loginRequest.password(), user.get().getPassword())) {</span>
+<span class="pc bpc" id="L171" title="1 of 4 branches missed.">        if (user.isPresent() &amp;&amp; passwordEncoder.matches(loginRequest.password(), user.get().getPassword())) {</span>
             // Authentication successful - reset failed attempts counter
-<span class="fc" id="L170">            loginAttemptService.loginSucceeded(clientIp);</span>
-<span class="fc" id="L171">            loginAttemptService.loginSucceeded(identifier);</span>
+<span class="fc" id="L173">            loginAttemptService.loginSucceeded(clientIp);</span>
+<span class="fc" id="L174">            loginAttemptService.loginSucceeded(identifier);</span>
 
-<span class="fc" id="L173">            return jwtUtils.generateJwtToken(</span>
-<span class="fc" id="L174">                    String.valueOf(user.get().getId()),</span>
-<span class="fc" id="L175">                    user.get().getUsername(),</span>
-<span class="fc" id="L176">                    loginRequest.rememberMe()</span>
+<span class="fc" id="L176">            return jwtUtils.generateJwtToken(</span>
+<span class="fc" id="L177">                    String.valueOf(user.get().getId()),</span>
+<span class="fc" id="L178">                    user.get().getUsername(),</span>
+<span class="fc" id="L179">                    loginRequest.rememberMe()</span>
             );
         } else {
             // Authentication failed - increment failed attempts counter
-<span class="fc" id="L180">            loginAttemptService.loginFailed(clientIp);</span>
-<span class="fc" id="L181">            loginAttemptService.loginFailed(identifier);</span>
-<span class="fc" id="L182">            return null;</span>
+<span class="fc" id="L183">            loginAttemptService.loginFailed(clientIp);</span>
+<span class="fc" id="L184">            loginAttemptService.loginFailed(identifier);</span>
+<span class="fc" id="L185">            return null;</span>
         }
     }
 
@@ -189,27 +192,27 @@ public class UserService {
      * @return A new JWT token if refresh is successful, otherwise null.
      */
     public String refreshToken(String token) {
-<span class="pc bpc" id="L192" title="1 of 4 branches missed.">        if (token != null &amp;&amp; jwtUtils.validateJwtToken(token) != TokenStatus.INVALID) {</span>
+<span class="pc bpc" id="L195" title="1 of 4 branches missed.">        if (token != null &amp;&amp; jwtUtils.validateJwtToken(token) != TokenStatus.INVALID) {</span>
             try {
-<span class="fc" id="L194">                Long userId = jwtUtils.getUserIdFromJwtToken(token);</span>
-<span class="fc" id="L195">                Optional&lt;User&gt; userOpt = findById(userId);</span>
+<span class="fc" id="L197">                Long userId = jwtUtils.getUserIdFromJwtToken(token);</span>
+<span class="fc" id="L198">                Optional&lt;User&gt; userOpt = findById(userId);</span>
 
-<span class="fc bfc" id="L197" title="All 2 branches covered.">                if (userOpt.isPresent()) {</span>
-<span class="fc" id="L198">                    User user = userOpt.get();</span>
-<span class="fc" id="L199">                    boolean wasRememberMe = jwtUtils.wasRememberMe(token);</span>
+<span class="fc bfc" id="L200" title="All 2 branches covered.">                if (userOpt.isPresent()) {</span>
+<span class="fc" id="L201">                    User user = userOpt.get();</span>
+<span class="fc" id="L202">                    boolean wasRememberMe = jwtUtils.wasRememberMe(token);</span>
 
-<span class="fc" id="L201">                    return jwtUtils.generateJwtToken(</span>
-<span class="fc" id="L202">                            String.valueOf(user.getId()),</span>
-<span class="fc" id="L203">                            user.getUsername(),</span>
+<span class="fc" id="L204">                    return jwtUtils.generateJwtToken(</span>
+<span class="fc" id="L205">                            String.valueOf(user.getId()),</span>
+<span class="fc" id="L206">                            user.getUsername(),</span>
                             wasRememberMe
                     );
                 }
-<span class="nc" id="L207">            } catch (Exception e) {</span>
+<span class="nc" id="L210">            } catch (Exception e) {</span>
                 // Token processing failed
-<span class="nc" id="L209">                return null;</span>
-<span class="fc" id="L210">            }</span>
+<span class="nc" id="L212">                return null;</span>
+<span class="fc" id="L213">            }</span>
         }
-<span class="fc" id="L212">        return null;</span>
+<span class="fc" id="L215">        return null;</span>
     }
 
     /**
@@ -223,80 +226,80 @@ public class UserService {
      * @throws RuntimeException if the user is not found or uniqueness checks fail
      */
     @Transactional
-    public User updateUser(UserUpdateDTO updates, Long id, Long requesterId) {
-<span class="pc bpc" id="L227" title="1 of 2 branches missed.">        if (updates == null) {</span>
-<span class="nc" id="L228">            throw new IllegalArgumentException(&quot;Updates cannot be null&quot;);</span>
+    public User updateUser(UserDTO updates, Long id, Long requesterId) {
+<span class="pc bpc" id="L230" title="1 of 2 branches missed.">        if (updates == null) {</span>
+<span class="nc" id="L231">            throw new IllegalArgumentException(&quot;Updates cannot be null&quot;);</span>
         }
 
-<span class="fc" id="L231">        checkUserValidation(updates, id);</span>
-
-<span class="fc" id="L233">        User user = userRepository.findById(id)</span>
-<span class="fc" id="L234">                .orElseThrow(() -&gt; new RuntimeException(&quot;User not found with id: &quot; + id));</span>
-
-<span class="fc" id="L236">        User requester = userRepository.findById(requesterId)</span>
-<span class="fc" id="L237">                .orElseThrow(() -&gt; new RuntimeException(&quot;Requester not found with id: &quot; + requesterId));</span>
-
-<span class="fc" id="L239">        boolean isAdminAction = requester.getRoles().stream()</span>
-<span class="fc" id="L240">                .anyMatch(role -&gt; role.getName().equals(ERole.ROLE_ADMIN));</span>
-
-<span class="pc bpc" id="L242" title="1 of 2 branches missed.">        if (StringUtils.hasText(updates.getUsername())) {</span>
-<span class="fc" id="L243">            user.setUsername(updates.getUsername().trim());</span>
+        // Validate using Update group
+<span class="fc" id="L235">        Set&lt;ConstraintViolation&lt;UserDTO&gt;&gt; violations = validator.validate(updates, UserDTO.Update.class);</span>
+<span class="fc bfc" id="L236" title="All 2 branches covered.">        if (!violations.isEmpty()) {</span>
+<span class="fc" id="L237">            throw new ConstraintViolationException(violations);</span>
         }
 
-<span class="pc bpc" id="L246" title="1 of 2 branches missed.">        if (StringUtils.hasText(updates.getEmail())) {</span>
-<span class="fc" id="L247">            user.setEmail(updates.getEmail().trim());</span>
+<span class="fc" id="L240">        checkUserUniqueness(updates, id);</span>
+
+<span class="fc" id="L242">        User user = userRepository.findById(id)</span>
+<span class="fc" id="L243">                .orElseThrow(() -&gt; new RuntimeException(&quot;User not found with id: &quot; + id));</span>
+
+<span class="fc" id="L245">        User requester = userRepository.findById(requesterId)</span>
+<span class="fc" id="L246">                .orElseThrow(() -&gt; new RuntimeException(&quot;Requester not found with id: &quot; + requesterId));</span>
+
+<span class="pc bpc" id="L248" title="1 of 2 branches missed.">        boolean isAdminAction = requester.getRole() != null &amp;&amp; </span>
+<span class="pc bpc" id="L249" title="1 of 2 branches missed.">                requester.getRole().getName().equals(ERole.ROLE_ADMIN);</span>
+
+<span class="pc bpc" id="L251" title="1 of 2 branches missed.">        if (StringUtils.hasText(updates.getUsername())) {</span>
+<span class="fc" id="L252">            user.setUsername(updates.getUsername().trim());</span>
         }
 
-<span class="pc bpc" id="L250" title="1 of 2 branches missed.">        if (StringUtils.hasText(updates.getPassword())) {</span>
-<span class="fc" id="L251">            user.setPassword(passwordEncoder.encode(updates.getPassword().trim()));</span>
+<span class="pc bpc" id="L255" title="1 of 2 branches missed.">        if (StringUtils.hasText(updates.getEmail())) {</span>
+<span class="fc" id="L256">            user.setEmail(updates.getEmail().trim());</span>
         }
 
-<span class="pc bpc" id="L254" title="5 of 6 branches missed.">        if (updates.getRoles() != null &amp;&amp; !updates.getRoles().isEmpty() &amp;&amp; isAdminAction) {</span>
-<span class="nc" id="L255">            user.setRoles(new HashSet&lt;&gt;());</span>
-<span class="nc" id="L256">            assignRolesToUser(user, updates.getRoles());</span>
+<span class="pc bpc" id="L259" title="1 of 2 branches missed.">        if (StringUtils.hasText(updates.getPassword())) {</span>
+<span class="fc" id="L260">            user.setPassword(passwordEncoder.encode(updates.getPassword().trim()));</span>
         }
 
-<span class="fc" id="L259">        return userRepository.save(user);</span>
+<span class="pc bpc" id="L263" title="3 of 4 branches missed.">        if (updates.getRole() != null &amp;&amp; isAdminAction) {</span>
+<span class="nc" id="L264">            assignRoleToUser(user, updates.getRole());</span>
+        }
+
+<span class="fc" id="L267">        return userRepository.save(user);</span>
     }
 
     /**
-     * Validates user information and checks that username and email are unique.
+     * Validates user uniqueness (username and email).
      *
-     * @param userInfo the user info to validate
+     * @param userDTO the user DTO to validate
      * @param userId the ID of the user (to exclude self-check)
-     * @throws ConstraintViolationException if validation fails
      * @throws RuntimeException if username or email is already taken
      */
-    private &lt;T extends UserInfo&gt; void checkUserValidation(T userInfo, Long userId) {
-<span class="fc" id="L271">        Set&lt;ConstraintViolation&lt;T&gt;&gt; violations = validator.validate(userInfo);</span>
-<span class="fc bfc" id="L272" title="All 2 branches covered.">        if (!violations.isEmpty()) {</span>
-<span class="fc" id="L273">            throw new ConstraintViolationException(violations);</span>
+    private void checkUserUniqueness(UserDTO userDTO, Long userId) {
+<span class="pc bpc" id="L278" title="1 of 2 branches missed.">        if (userDTO.getUsername() != null) {</span>
+<span class="fc" id="L279">            userRepository.findByUsername(userDTO.getUsername())</span>
+<span class="pc bpc" id="L280" title="1 of 2 branches missed.">                    .filter(user -&gt; !Objects.equals(user.getId(), userId))</span>
+<span class="fc" id="L281">                    .ifPresent(user -&gt; { throw new RuntimeException(&quot;Username is already taken!&quot;); });</span>
         }
 
-<span class="fc" id="L276">        userRepository.findByUsername(userInfo.getUsername())</span>
-<span class="pc bpc" id="L277" title="1 of 2 branches missed.">                .filter(user -&gt; !Objects.equals(user.getId(), userId))</span>
-<span class="fc" id="L278">                .ifPresent(user -&gt; { throw new RuntimeException(&quot;Username is already taken!&quot;); });</span>
-
-<span class="fc" id="L280">        userRepository.findByEmail(userInfo.getEmail())</span>
-<span class="pc bpc" id="L281" title="1 of 2 branches missed.">                .filter(user -&gt; !Objects.equals(user.getId(), userId))</span>
-<span class="fc" id="L282">                .ifPresent(user -&gt; { throw new RuntimeException(&quot;Email is already taken!&quot;); });</span>
-<span class="fc" id="L283">    }</span>
+<span class="pc bpc" id="L284" title="1 of 2 branches missed.">        if (userDTO.getEmail() != null) {</span>
+<span class="fc" id="L285">            userRepository.findByEmail(userDTO.getEmail())</span>
+<span class="pc bpc" id="L286" title="1 of 2 branches missed.">                    .filter(user -&gt; !Objects.equals(user.getId(), userId))</span>
+<span class="fc" id="L287">                    .ifPresent(user -&gt; { throw new RuntimeException(&quot;Email is already taken!&quot;); });</span>
+        }
+<span class="fc" id="L289">    }</span>
 
     /**
-     * @brief Assigns roles to a user.
-     * @param user The user to whom roles will be assigned.
-     * @param roles The set of roles to assign.
+     * @brief Assigns a role to a user.
+     * @param user The user to whom the role will be assigned.
+     * @param roleName The role to assign.
      */
-    private void assignRolesToUser(User user, Set&lt;ERole&gt; roles) {
-<span class="fc bfc" id="L291" title="All 2 branches covered.">        for (ERole roleName : roles) {</span>
-<span class="fc" id="L292">            Optional&lt;Role&gt; role = roleRepository.findByName(roleName);</span>
-
-<span class="pc bpc" id="L294" title="1 of 2 branches missed.">            if (role.isPresent()) {</span>
-<span class="fc" id="L295">                user.addRole(role.get());</span>
-            } else {
-<span class="nc" id="L297">                throw new RuntimeException(&quot;Role not found with name: &quot; + roleName);</span>
-            }
-<span class="fc" id="L299">        }</span>
-<span class="fc" id="L300">    }</span>
+    private void assignRoleToUser(User user, ERole roleName) {
+<span class="fc" id="L297">        Optional&lt;Role&gt; role = roleRepository.findByName(roleName);</span>
+<span class="pc bpc" id="L298" title="1 of 2 branches missed.">        if (role.isPresent()) {</span>
+<span class="fc" id="L299">            user.setRole(role.get());</span>
+        } else {
+<span class="nc" id="L301">            throw new RuntimeException(&quot;Role not found with name: &quot; + roleName);</span>
+        }
+<span class="fc" id="L303">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

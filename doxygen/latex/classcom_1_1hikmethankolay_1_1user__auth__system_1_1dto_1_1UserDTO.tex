@@ -1,0 +1,397 @@
+\doxysection{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+dto.\+User\+DTO Class Reference}
+\hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO}{}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO}\index{com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}}
+
+
+Unified Data Transfer Object for all user operations.  
+
+
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+interface \mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1_1Registration}{Registration}}
+\begin{DoxyCompactList}\small\item\em Validation group for user registration operations. \end{DoxyCompactList}\item 
+interface \mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1_1Update}{Update}}
+\begin{DoxyCompactList}\small\item\em Validation group for user update operations. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_acc588eda9ef4eb946436f2dfeb1b6272}{User\+DTO}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_af88b45028d384c7fc7061e0e0ef7b268}{User\+DTO}} (User user)
+\begin{DoxyCompactList}\small\item\em Constructor that creates User\+DTO from User entity. \end{DoxyCompactList}\item 
+Long \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a086aaa35b90a575b4066cbcbe88df005}{get\+Id}} ()
+\begin{DoxyCompactList}\small\item\em Gets the user ID. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a542ea9c97b36226573e45a3838e1690f}{set\+Id}} (Long id)
+\begin{DoxyCompactList}\small\item\em Sets the user ID. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a27def7e25bca3ece75968025b6f9130c}{get\+Username}} ()
+\begin{DoxyCompactList}\small\item\em Gets the username. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a3df5609df71bd38d359c349599c9a8d6}{set\+Username}} (String username)
+\begin{DoxyCompactList}\small\item\em Sets the username. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a4fa57b70a148f915319ab5ca2dde6f08}{get\+Email}} ()
+\begin{DoxyCompactList}\small\item\em Gets the email address. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_aed63ff473d8f2ad40466bac01f05a175}{set\+Email}} (String email)
+\begin{DoxyCompactList}\small\item\em Sets the email address. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_adda8961e63b6e2b3829a86e1cc7c60e3}{get\+Password}} ()
+\begin{DoxyCompactList}\small\item\em Gets the password. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a5969785944ad861bdfb0024e8d6cd6ff}{set\+Password}} (String password)
+\begin{DoxyCompactList}\small\item\em Sets the password. \end{DoxyCompactList}\item 
+ERole \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_ad8c6aa4287c31a9143bb72ba23ed6245}{get\+Role}} ()
+\begin{DoxyCompactList}\small\item\em Gets the user role. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a23d85c6639d9fcf9e0bf02d076ea23c8}{set\+Role}} (ERole role)
+\begin{DoxyCompactList}\small\item\em Sets the user role. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a8f738905e481334f864282b665b72127}{to\+String}} ()
+\begin{DoxyCompactList}\small\item\em Returns a string representation of the User\+DTO. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Unified Data Transfer Object for all user operations. 
+
+This class serves as a single DTO for handling user registration, updates, and display operations. It uses validation groups to apply different validation rules depending on the operation context\+:
+\begin{DoxyItemize}
+\item Registration.\+class\+: Strict validation for new user registration
+\item Update.\+class\+: Lenient validation for user updates (optional fields)
+\end{DoxyItemize}
+
+The class includes security features such as write-\/only password serialization to prevent password leakage in API responses while allowing password input during registration and updates.
+
+\begin{DoxySeeAlso}{See also}
+User 
+
+ERole 
+\end{DoxySeeAlso}
+
+
+Definition at line \mbox{\hyperlink{UserDTO_8java_source_l00042}{42}} of file \mbox{\hyperlink{UserDTO_8java_source}{User\+DTO.\+java}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_acc588eda9ef4eb946436f2dfeb1b6272}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_acc588eda9ef4eb946436f2dfeb1b6272} 
+\index{com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}!UserDTO@{UserDTO}}
+\index{UserDTO@{UserDTO}!com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}}
+\doxysubsubsection{\texorpdfstring{UserDTO()}{UserDTO()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+dto.\+User\+DTO.\+User\+DTO (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Default constructor. 
+
+Creates an empty User\+DTO instance. All fields will be null and must be set using the appropriate setter methods. 
+
+Definition at line \mbox{\hyperlink{UserDTO_8java_source_l00135}{135}} of file \mbox{\hyperlink{UserDTO_8java_source}{User\+DTO.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00135\ \{\}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_af88b45028d384c7fc7061e0e0ef7b268}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_af88b45028d384c7fc7061e0e0ef7b268} 
+\index{com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}!UserDTO@{UserDTO}}
+\index{UserDTO@{UserDTO}!com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}}
+\doxysubsubsection{\texorpdfstring{UserDTO()}{UserDTO()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+dto.\+User\+DTO.\+User\+DTO (\begin{DoxyParamCaption}\item[{User}]{user }\end{DoxyParamCaption})}
+
+
+
+Constructor that creates User\+DTO from User entity. 
+
+This constructor is used to convert a User entity to a DTO for API responses. The password field is intentionally not copied for security reasons.
+
+
+\begin{DoxyParams}{Parameters}
+{\em user} & The user entity to convert to DTO \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Null\+Pointer\+Exception} & if user is null (handled gracefully) \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line \mbox{\hyperlink{UserDTO_8java_source_l00147}{147}} of file \mbox{\hyperlink{UserDTO_8java_source}{User\+DTO.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (user\ !=\ \textcolor{keyword}{null})\ \{}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ this.id\ =\ user.getId();}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ this.username\ =\ user.getUsername();}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ this.email\ =\ user.getEmail();}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ this.role\ =\ user.getRole()\ !=\ \textcolor{keyword}{null}\ ?\ user.getRole().getName()\ :\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Password\ is\ not\ set\ for\ security\ (read\ operations)}}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00155\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a4fa57b70a148f915319ab5ca2dde6f08}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a4fa57b70a148f915319ab5ca2dde6f08} 
+\index{com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}!getEmail@{getEmail}}
+\index{getEmail@{getEmail}!com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}}
+\doxysubsubsection{\texorpdfstring{getEmail()}{getEmail()}}
+{\footnotesize\ttfamily String com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+dto.\+User\+DTO.\+get\+Email (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Gets the email address. 
+
+\begin{DoxyReturn}{Returns}
+The email address of the user, or null if not set 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{UserDTO_8java_source_l00190}{190}} of file \mbox{\hyperlink{UserDTO_8java_source}{User\+DTO.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00190\ \{\ \textcolor{keywordflow}{return}\ email;\ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a086aaa35b90a575b4066cbcbe88df005}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a086aaa35b90a575b4066cbcbe88df005} 
+\index{com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}!getId@{getId}}
+\index{getId@{getId}!com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}}
+\doxysubsubsection{\texorpdfstring{getId()}{getId()}}
+{\footnotesize\ttfamily Long com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+dto.\+User\+DTO.\+get\+Id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Gets the user ID. 
+
+\begin{DoxyReturn}{Returns}
+The unique identifier of the user, or null if not set 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{UserDTO_8java_source_l00162}{162}} of file \mbox{\hyperlink{UserDTO_8java_source}{User\+DTO.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00162\ \{\ \textcolor{keywordflow}{return}\ id;\ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_adda8961e63b6e2b3829a86e1cc7c60e3}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_adda8961e63b6e2b3829a86e1cc7c60e3} 
+\index{com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}!getPassword@{getPassword}}
+\index{getPassword@{getPassword}!com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}}
+\doxysubsubsection{\texorpdfstring{getPassword()}{getPassword()}}
+{\footnotesize\ttfamily String com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+dto.\+User\+DTO.\+get\+Password (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Gets the password. 
+
+Note\+: This method will return the password value but due to the @\+Json\+Property(access = Json\+Property.\+Access.\+WRITE\+\_\+\+ONLY) annotation, the password will never be serialized to JSON responses.
+
+\begin{DoxyReturn}{Returns}
+The password of the user, or null if not set 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{UserDTO_8java_source_l00208}{208}} of file \mbox{\hyperlink{UserDTO_8java_source}{User\+DTO.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00208\ \{\ \textcolor{keywordflow}{return}\ password;\ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_ad8c6aa4287c31a9143bb72ba23ed6245}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_ad8c6aa4287c31a9143bb72ba23ed6245} 
+\index{com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}!getRole@{getRole}}
+\index{getRole@{getRole}!com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}}
+\doxysubsubsection{\texorpdfstring{getRole()}{getRole()}}
+{\footnotesize\ttfamily ERole com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+dto.\+User\+DTO.\+get\+Role (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Gets the user role. 
+
+\begin{DoxyReturn}{Returns}
+The role assigned to the user, or null if not set 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{UserDTO_8java_source_l00222}{222}} of file \mbox{\hyperlink{UserDTO_8java_source}{User\+DTO.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00222\ \{\ \textcolor{keywordflow}{return}\ role;\ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a27def7e25bca3ece75968025b6f9130c}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a27def7e25bca3ece75968025b6f9130c} 
+\index{com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}!getUsername@{getUsername}}
+\index{getUsername@{getUsername}!com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}}
+\doxysubsubsection{\texorpdfstring{getUsername()}{getUsername()}}
+{\footnotesize\ttfamily String com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+dto.\+User\+DTO.\+get\+Username (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Gets the username. 
+
+\begin{DoxyReturn}{Returns}
+The username of the user, or null if not set 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{UserDTO_8java_source_l00176}{176}} of file \mbox{\hyperlink{UserDTO_8java_source}{User\+DTO.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00176\ \{\ \textcolor{keywordflow}{return}\ username;\ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_aed63ff473d8f2ad40466bac01f05a175}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_aed63ff473d8f2ad40466bac01f05a175} 
+\index{com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}!setEmail@{setEmail}}
+\index{setEmail@{setEmail}!com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}}
+\doxysubsubsection{\texorpdfstring{setEmail()}{setEmail()}}
+{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+dto.\+User\+DTO.\+set\+Email (\begin{DoxyParamCaption}\item[{String}]{email }\end{DoxyParamCaption})}
+
+
+
+Sets the email address. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em email} & The email address to set for the user \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{UserDTO_8java_source_l00197}{197}} of file \mbox{\hyperlink{UserDTO_8java_source}{User\+DTO.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00197\ \{\ this.email\ =\ email;\ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a542ea9c97b36226573e45a3838e1690f}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a542ea9c97b36226573e45a3838e1690f} 
+\index{com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}!setId@{setId}}
+\index{setId@{setId}!com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}}
+\doxysubsubsection{\texorpdfstring{setId()}{setId()}}
+{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+dto.\+User\+DTO.\+set\+Id (\begin{DoxyParamCaption}\item[{Long}]{id }\end{DoxyParamCaption})}
+
+
+
+Sets the user ID. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & The unique identifier to set for the user \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{UserDTO_8java_source_l00169}{169}} of file \mbox{\hyperlink{UserDTO_8java_source}{User\+DTO.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00169\ \{\ this.id\ =\ id;\ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a5969785944ad861bdfb0024e8d6cd6ff}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a5969785944ad861bdfb0024e8d6cd6ff} 
+\index{com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}!setPassword@{setPassword}}
+\index{setPassword@{setPassword}!com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}}
+\doxysubsubsection{\texorpdfstring{setPassword()}{setPassword()}}
+{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+dto.\+User\+DTO.\+set\+Password (\begin{DoxyParamCaption}\item[{String}]{password }\end{DoxyParamCaption})}
+
+
+
+Sets the password. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em password} & The password to set for the user \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{UserDTO_8java_source_l00215}{215}} of file \mbox{\hyperlink{UserDTO_8java_source}{User\+DTO.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00215\ \{\ this.password\ =\ password;\ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a23d85c6639d9fcf9e0bf02d076ea23c8}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a23d85c6639d9fcf9e0bf02d076ea23c8} 
+\index{com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}!setRole@{setRole}}
+\index{setRole@{setRole}!com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}}
+\doxysubsubsection{\texorpdfstring{setRole()}{setRole()}}
+{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+dto.\+User\+DTO.\+set\+Role (\begin{DoxyParamCaption}\item[{ERole}]{role }\end{DoxyParamCaption})}
+
+
+
+Sets the user role. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em role} & The role to assign to the user \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{UserDTO_8java_source_l00229}{229}} of file \mbox{\hyperlink{UserDTO_8java_source}{User\+DTO.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00229\ \{\ this.role\ =\ role;\ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a3df5609df71bd38d359c349599c9a8d6}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a3df5609df71bd38d359c349599c9a8d6} 
+\index{com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}!setUsername@{setUsername}}
+\index{setUsername@{setUsername}!com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}}
+\doxysubsubsection{\texorpdfstring{setUsername()}{setUsername()}}
+{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+dto.\+User\+DTO.\+set\+Username (\begin{DoxyParamCaption}\item[{String}]{username }\end{DoxyParamCaption})}
+
+
+
+Sets the username. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & The username to set for the user \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{UserDTO_8java_source_l00183}{183}} of file \mbox{\hyperlink{UserDTO_8java_source}{User\+DTO.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00183\ \{\ this.username\ =\ username;\ \}}
+
+\end{DoxyCode}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a8f738905e481334f864282b665b72127}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_a8f738905e481334f864282b665b72127} 
+\index{com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}!toString@{toString}}
+\index{toString@{toString}!com.hikmethankolay.user\_auth\_system.dto.UserDTO@{com.hikmethankolay.user\_auth\_system.dto.UserDTO}}
+\doxysubsubsection{\texorpdfstring{toString()}{toString()}}
+{\footnotesize\ttfamily String com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+dto.\+User\+DTO.\+to\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns a string representation of the User\+DTO. 
+
+This method provides a readable string representation of the User\+DTO object for debugging and logging purposes. The password field is intentionally excluded for security reasons.
+
+\begin{DoxyReturn}{Returns}
+A string representation containing id, username, email, and role 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{UserDTO_8java_source_l00241}{241}} of file \mbox{\hyperlink{UserDTO_8java_source}{User\+DTO.\+java}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}UserDTO\{"{}}\ +}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}id="{}}\ +\ \textcolor{keywordtype}{id}\ +}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ username='"{}}\ +\ username\ +\ \textcolor{charliteral}{'\(\backslash\)''}\ +}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ email='"{}}\ +\ email\ +\ \textcolor{charliteral}{'\(\backslash\)''}\ +}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ role="{}}\ +\ role\ +}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{charliteral}{'\}'};}
+\DoxyCodeLine{00248\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+user-\/auth-\/system/src/main/java/com/hikmethankolay/user\+\_\+auth\+\_\+system/dto/\mbox{\hyperlink{UserDTO_8java}{User\+DTO.\+java}}\end{DoxyCompactItemize}

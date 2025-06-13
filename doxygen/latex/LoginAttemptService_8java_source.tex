@@ -1,57 +1,57 @@
 \doxysection{Login\+Attempt\+Service.\+java}
-\hypertarget{LoginAttemptService_8java_source}{}\label{LoginAttemptService_8java_source}\index{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/security/LoginAttemptService.java@{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/security/LoginAttemptService.java}}
+\hypertarget{LoginAttemptService_8java_source}{}\label{LoginAttemptService_8java_source}\index{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/service/LoginAttemptService.java@{user-\/auth-\/system/src/main/java/com/hikmethankolay/user\_auth\_system/service/LoginAttemptService.java}}
 \mbox{\hyperlink{LoginAttemptService_8java}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00001}00001\ }
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00016}00016\ \textcolor{keyword}{package\ }com.hikmethankolay.user\_auth\_system.security;}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00017}00017\ }
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00018}00018\ \textcolor{keyword}{import}\ com.google.common.cache.CacheBuilder;}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00019}00019\ \textcolor{keyword}{import}\ com.google.common.cache.CacheLoader;}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00020}00020\ \textcolor{keyword}{import}\ com.google.common.cache.LoadingCache;}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00021}00021\ \textcolor{keyword}{import}\ org.springframework.stereotype.Component;}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00022}00022\ }
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00023}00023\ \textcolor{keyword}{import}\ java.util.concurrent.ExecutionException;}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00024}00024\ \textcolor{keyword}{import}\ java.util.concurrent.TimeUnit;}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00025}00025\ }
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00033}00033\ @Component}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00034}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService}{00034}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService}{LoginAttemptService}}\ \{}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00036}00036\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{final}\ \textcolor{keywordtype}{int}\ MAX\_ATTEMPT\ =\ 10;}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00037}00037\ }
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00039}00039\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{final}\ LoadingCache<String,\ Integer>\ attemptsCache;}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00040}00040\ }
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00046}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_a18e240123c25c56601f4451d68a228f0}{00046}}\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_a18e240123c25c56601f4451d68a228f0}{LoginAttemptService}}()\ \{}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00047}00047\ \ \ \ \ \ \ \ \ attemptsCache\ =\ CacheBuilder.newBuilder()}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .expireAfterWrite(1,\ TimeUnit.HOURS)}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .build(\textcolor{keyword}{new}\ CacheLoader<>()\ \{}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ @Override}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ Integer\ load(String\ key)\ \{}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00055}00055\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00056}00056\ }
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00061}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_acc8d5d14ab2e70978b3c1b27e04725ba}{00061}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_acc8d5d14ab2e70978b3c1b27e04725ba}{loginSucceeded}}(String\ key)\ \{}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00062}00062\ \ \ \ \ \ \ \ \ attemptsCache.invalidate(key);}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00063}00063\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00064}00064\ }
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00069}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_aafdd195c54762faacee909d0db541f2f}{00069}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_aafdd195c54762faacee909d0db541f2f}{loginFailed}}(String\ key)\ \{}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00070}00070\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ attempts;}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ attempts\ =\ attemptsCache.get(key);}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00073}00073\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (ExecutionException\ e)\ \{}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ attempts\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00075}00075\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00076}00076\ \ \ \ \ \ \ \ \ attempts++;}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00077}00077\ \ \ \ \ \ \ \ \ attemptsCache.put(key,\ attempts);}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00078}00078\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00079}00079\ }
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00085}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_a5af871aa1ee39afce94b6af4b3eb29ae}{00085}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{boolean}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1security_1_1LoginAttemptService_a5af871aa1ee39afce94b6af4b3eb29ae}{isBlocked}}(String\ key)\ \{}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00086}00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ attemptsCache.get(key)\ >=\ MAX\_ATTEMPT;}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00088}00088\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (ExecutionException\ e)\ \{}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00090}00090\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00091}00091\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00092}00092\ \}}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00012}\mbox{\hyperlink{namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1service}{00012}}\ \textcolor{keyword}{package\ }com.hikmethankolay.user\_auth\_system.service;}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00014}00014\ \textcolor{keyword}{import}\ com.google.common.cache.CacheBuilder;}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00015}00015\ \textcolor{keyword}{import}\ com.google.common.cache.CacheLoader;}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00016}00016\ \textcolor{keyword}{import}\ com.google.common.cache.LoadingCache;}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00017}00017\ \textcolor{keyword}{import}\ org.springframework.stereotype.Service;}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00019}00019\ \textcolor{keyword}{import}\ java.util.concurrent.ExecutionException;}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00020}00020\ \textcolor{keyword}{import}\ java.util.concurrent.TimeUnit;}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00029}00029\ @Service}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00030}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService}{00030}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService}{LoginAttemptService}}\ \{}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00032}00032\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{final}\ \textcolor{keywordtype}{int}\ MAX\_ATTEMPT\ =\ 10;}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00035}00035\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{final}\ LoadingCache<String,\ Integer>\ attemptsCache;}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00042}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_a1fabd093841ea3b053267d302b76954a}{00042}}\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_a1fabd093841ea3b053267d302b76954a}{LoginAttemptService}}()\ \{}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00043}00043\ \ \ \ \ \ \ \ \ attemptsCache\ =\ CacheBuilder.newBuilder()}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .expireAfterWrite(1,\ TimeUnit.HOURS)}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .build(\textcolor{keyword}{new}\ CacheLoader<>()\ \{}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ @Override}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ Integer\ load(String\ key)\ \{}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00051}00051\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00057}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_a3a95a0484df8c17297cf17d50fdb8a70}{00057}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_a3a95a0484df8c17297cf17d50fdb8a70}{loginSucceeded}}(String\ key)\ \{}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00058}00058\ \ \ \ \ \ \ \ \ attemptsCache.invalidate(key);}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00059}00059\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00065}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_a31b95093be2a9d3a9164ebe000ff0135}{00065}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_a31b95093be2a9d3a9164ebe000ff0135}{loginFailed}}(String\ key)\ \{}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ attempts;}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00067}00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ attempts\ =\ attemptsCache.get(key);}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00069}00069\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (ExecutionException\ e)\ \{}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ attempts\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00071}00071\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00072}00072\ \ \ \ \ \ \ \ \ attempts++;}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00073}00073\ \ \ \ \ \ \ \ \ attemptsCache.put(key,\ attempts);}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00074}00074\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00081}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_aecd42fbec86671d4d3a546a1639e9877}{00081}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{boolean}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService_aecd42fbec86671d4d3a546a1639e9877}{isBlocked}}(String\ key)\ \{}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00082}00082\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ attemptsCache.get(key)\ >=\ MAX\_ATTEMPT;}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00084}00084\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (ExecutionException\ e)\ \{}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00086}00086\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00087}00087\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{LoginAttemptService_8java_source_l00088}00088\ \}\ }
 
 \end{DoxyCode}

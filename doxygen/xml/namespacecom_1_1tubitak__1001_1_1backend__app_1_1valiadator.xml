@@ -9,6 +9,6 @@
 <para>&lt;</para>
 <para>This package contains custom validation logic for various use cases. </para>
     </detaileddescription>
-    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/EnumValidatorForEnum.java" line="9" column="1"/>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/ValidEnum.java" line="9" column="1"/>
   </compounddef>
 </doxygen>

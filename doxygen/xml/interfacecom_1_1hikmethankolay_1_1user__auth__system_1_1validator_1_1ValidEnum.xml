@@ -3,26 +3,26 @@
   <compounddef id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum" kind="interface" language="Java" prot="public">
     <compoundname>com::hikmethankolay::user_auth_system::validator::ValidEnum</compoundname>
     <sectiondef kind="public-attrib">
-      <memberdef kind="variable" id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a63bfde930c26bbcb2e81383dbd93c4d5" prot="public" static="no" mutable="no">
-        <type></type>
-        <definition>com.hikmethankolay.user_auth_system.validator.ValidEnum.values.</definition>
+      <memberdef kind="variable" id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1aa6afa25e4bafb5c2c7fc71d492539afa" prot="public" static="no" mutable="no">
+        <type>değerlerinden biri</type>
+        <definition>değerlerinden biri com.hikmethankolay.user_auth_system.validator.ValidEnum.olmalı.</definition>
         <argsstring></argsstring>
-        <name>values.</name>
-        <qualifiedname>com.hikmethankolay.user_auth_system.validator.ValidEnum.values.</qualifiedname>
+        <name>olmalı.</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.validator.ValidEnum.olmalı.</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/ValidEnum.java" line="33" column="36" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/ValidEnum.java" bodystart="33" bodyend="-1"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/ValidEnum.java" line="33" column="52" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/ValidEnum.java" bodystart="33" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
-      <memberdef kind="function" id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a44543a45b2fe1c5064bdfaec5c52f54d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1acc200fe5f61c2b92b057d8c9ce3a78b4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>String</type>
         <definition>String com.hikmethankolay.user_auth_system.validator.ValidEnum.message</definition>
-        <argsstring>() default &quot;Field should be one of </argsstring>
+        <argsstring>() default &quot;Alan </argsstring>
         <name>message</name>
         <qualifiedname>com.hikmethankolay.user_auth_system.validator.ValidEnum.message</qualifiedname>
         <briefdescription>
@@ -90,9 +90,9 @@
         <inbodydescription>
         </inbodydescription>
         <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/ValidEnum.java" line="51" column="11"/>
-        <referencedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_1acb0624716f2e6079a2ccfee8682db04d" compoundref="EnumValidatorForCollection_8java" startline="33" endline="38">com.hikmethankolay.user_auth_system.validator.EnumValidatorForCollection.initialize</referencedby>
+        <referencedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_1acb0624716f2e6079a2ccfee8682db04d" compoundref="EnumValidatorForCollection_8java" startline="36" endline="46">com.hikmethankolay.user_auth_system.validator.EnumValidatorForCollection.initialize</referencedby>
         <referencedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum_1ad4deae60c6a394f31bfb828231d9b9e8" compoundref="EnumValidatorForEnum_8java" startline="32" endline="34">com.hikmethankolay.user_auth_system.validator.EnumValidatorForEnum.initialize</referencedby>
-        <referencedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForString_1a58df7259de2bf243224a9a6c7d5ae8b9" compoundref="EnumValidatorForString_8java" startline="32" endline="37">com.hikmethankolay.user_auth_system.validator.EnumValidatorForString.initialize</referencedby>
+        <referencedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForString_1a58df7259de2bf243224a9a6c7d5ae8b9" compoundref="EnumValidatorForString_8java" startline="35" endline="45">com.hikmethankolay.user_auth_system.validator.EnumValidatorForString.initialize</referencedby>
       </memberdef>
       <memberdef kind="function" id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1ab1b319b46babfaa316223e9019a34d99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>boolean</type>
@@ -111,8 +111,8 @@
         <inbodydescription>
         </inbodydescription>
         <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/validator/ValidEnum.java" line="57" column="13"/>
-        <referencedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_1acb0624716f2e6079a2ccfee8682db04d" compoundref="EnumValidatorForCollection_8java" startline="33" endline="38">com.hikmethankolay.user_auth_system.validator.EnumValidatorForCollection.initialize</referencedby>
-        <referencedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForString_1a58df7259de2bf243224a9a6c7d5ae8b9" compoundref="EnumValidatorForString_8java" startline="32" endline="37">com.hikmethankolay.user_auth_system.validator.EnumValidatorForString.initialize</referencedby>
+        <referencedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_1acb0624716f2e6079a2ccfee8682db04d" compoundref="EnumValidatorForCollection_8java" startline="36" endline="46">com.hikmethankolay.user_auth_system.validator.EnumValidatorForCollection.initialize</referencedby>
+        <referencedby refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForString_1a58df7259de2bf243224a9a6c7d5ae8b9" compoundref="EnumValidatorForString_8java" startline="35" endline="45">com.hikmethankolay.user_auth_system.validator.EnumValidatorForString.initialize</referencedby>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -127,9 +127,9 @@
       <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a7a6a653012066c23ef9e769edd28fe33" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::validator::ValidEnum</scope><name>enumClass</name></member>
       <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a2fa3bee1b5fe80f8c63b3601dc8f1afe" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::validator::ValidEnum</scope><name>groups</name></member>
       <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1ab1b319b46babfaa316223e9019a34d99" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::validator::ValidEnum</scope><name>ignoreCase</name></member>
-      <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a44543a45b2fe1c5064bdfaec5c52f54d" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::validator::ValidEnum</scope><name>message</name></member>
+      <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1acc200fe5f61c2b92b057d8c9ce3a78b4" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::validator::ValidEnum</scope><name>message</name></member>
+      <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1aa6afa25e4bafb5c2c7fc71d492539afa" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::validator::ValidEnum</scope><name>olmalı.</name></member>
       <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1af3b66239ca0b74c2c1f6d808b3bf2843" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::validator::ValidEnum</scope><name>payload</name></member>
-      <member refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a63bfde930c26bbcb2e81383dbd93c4d5" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::validator::ValidEnum</scope><name>values.</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

@@ -34,14 +34,10 @@ String \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1enti
 \begin{DoxyCompactList}\small\item\em Gets the encrypted password of the user. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_ae13e41fff87e5df86bd7335e3153317e}{set\+Password}} (String password)
 \begin{DoxyCompactList}\small\item\em Sets the encrypted password of the user. \end{DoxyCompactList}\item 
-Set$<$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role}{Role}} $>$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_aeda17bccc77dcd0ccbff4910fc8c8e7f}{get\+Roles}} ()
-\begin{DoxyCompactList}\small\item\em Gets the roles assigned to the user. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a8eb747a51bdc6712e0fce61c3a01b108}{set\+Roles}} (Set$<$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role}{Role}} $>$ roles)
-\begin{DoxyCompactList}\small\item\em Sets the roles assigned to the user. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_af268e4c8a5a56b2531179e5ebbfdbbdd}{add\+Role}} (\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role}{Role}} role)
-\begin{DoxyCompactList}\small\item\em Adds a role to the user. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a761cae6d69deaa36ff5f20bdd87e4468}{remove\+Role}} (\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role}{Role}} role)
-\begin{DoxyCompactList}\small\item\em Removes a role from the user. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role}{Role}} \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a74435073c90237c0d04eab27dcb99010}{get\+Role}} ()
+\begin{DoxyCompactList}\small\item\em Gets the role assigned to the user. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a2aabdc48db8b988dfdee8c61596c43bb}{set\+Role}} (\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role}{Role}} role)
+\begin{DoxyCompactList}\small\item\em Sets the role assigned to the user. \end{DoxyCompactList}\item 
 Collection$<$? extends Granted\+Authority $>$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a86c1b7a8750e8c392fbadfa4674338d8}{get\+Authorities}} ()
 \begin{DoxyCompactList}\small\item\em Gets the authorities (roles) assigned to the user. \end{DoxyCompactList}\item 
 String \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a879166d63131edd925e8ef92e0b4cfe3}{to\+String}} ()
@@ -51,9 +47,9 @@ String \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1enti
 \doxysubsection{Detailed Description}
 Entity representing a system user. 
 
-This class defines the structure of a user, including authentication credentials and assigned roles. 
+This class defines the structure of a user, including authentication credentials and assigned role. 
 
-Definition at line \mbox{\hyperlink{User_8java_source_l00032}{32}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
+Definition at line \mbox{\hyperlink{User_8java_source_l00031}{31}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
 
 
 
@@ -79,15 +75,15 @@ Constructor with user details.
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{User_8java_source_l00064}{64}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
+Definition at line \mbox{\hyperlink{User_8java_source_l00061}{61}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ this.username\ =\ username;}
-\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ this.email\ =\ email;}
-\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ this.password\ =\ password;}
-\DoxyCodeLine{00068\ \ \ \ \ \}}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ this.username\ =\ username;}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ this.email\ =\ email;}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ this.password\ =\ password;}
+\DoxyCodeLine{00065\ \ \ \ \ \}}
 
 \end{DoxyCode}
 \Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_affa8cd8d1b2421a0c85a7c6b51fa54d3}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_affa8cd8d1b2421a0c85a7c6b51fa54d3} 
@@ -102,40 +98,16 @@ Default constructor.
 
 
 
-Definition at line \mbox{\hyperlink{User_8java_source_l00073}{73}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
+Definition at line \mbox{\hyperlink{User_8java_source_l00070}{70}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00073\ \{\}}
+\DoxyCodeLine{00070\ \{\}}
 
 \end{DoxyCode}
 
 
 \doxysubsection{Member Function Documentation}
-\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_af268e4c8a5a56b2531179e5ebbfdbbdd}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_af268e4c8a5a56b2531179e5ebbfdbbdd} 
-\index{com.hikmethankolay.user\_auth\_system.entity.User@{com.hikmethankolay.user\_auth\_system.entity.User}!addRole@{addRole}}
-\index{addRole@{addRole}!com.hikmethankolay.user\_auth\_system.entity.User@{com.hikmethankolay.user\_auth\_system.entity.User}}
-\doxysubsubsection{\texorpdfstring{addRole()}{addRole()}}
-{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+entity.\+User.\+add\+Role (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role}{Role}}}]{role }\end{DoxyParamCaption})}
-
-
-
-Adds a role to the user. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em role} & The role to be added. \\
-\hline
-\end{DoxyParams}
-
-
-Definition at line \mbox{\hyperlink{User_8java_source_l00139}{139}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00139\ \{\ this.roles.add(role);\ \}}
-
-\end{DoxyCode}
 \Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a86c1b7a8750e8c392fbadfa4674338d8}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a86c1b7a8750e8c392fbadfa4674338d8} 
 \index{com.hikmethankolay.user\_auth\_system.entity.User@{com.hikmethankolay.user\_auth\_system.entity.User}!getAuthorities@{getAuthorities}}
 \index{getAuthorities@{getAuthorities}!com.hikmethankolay.user\_auth\_system.entity.User@{com.hikmethankolay.user\_auth\_system.entity.User}}
@@ -151,17 +123,22 @@ A collection of granted authorities.
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{User_8java_source_l00152}{152}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
+Definition at line \mbox{\hyperlink{User_8java_source_l00137}{137}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ roles.stream()}
-\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .map(role\ -\/>\ \textcolor{keyword}{new}\ SimpleGrantedAuthority(role.getName().name()))}
-\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .collect(Collectors.toSet());}
-\DoxyCodeLine{00156\ \ \ \ \ \}}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (role\ !=\ \textcolor{keyword}{null})\ \{}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ List.of(\textcolor{keyword}{new}\ SimpleGrantedAuthority(role.\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a3bff212368f5ef950d7fe54d7c7f75d5}{getName}}().name()));}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ List.of();}
+\DoxyCodeLine{00142\ \ \ \ \ \}}
 
 \end{DoxyCode}
+
+
+References \mbox{\hyperlink{Role_8java_source_l00075}{com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+entity.\+Role.\+get\+Name()}}.
+
 \Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a85c19c800be7ecfce53e05d804233348}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a85c19c800be7ecfce53e05d804233348} 
 \index{com.hikmethankolay.user\_auth\_system.entity.User@{com.hikmethankolay.user\_auth\_system.entity.User}!getEmail@{getEmail}}
 \index{getEmail@{getEmail}!com.hikmethankolay.user\_auth\_system.entity.User@{com.hikmethankolay.user\_auth\_system.entity.User}}
@@ -177,11 +154,11 @@ The email.
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{User_8java_source_l00103}{103}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
+Definition at line \mbox{\hyperlink{User_8java_source_l00100}{100}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00103\ \{\ \textcolor{keywordflow}{return}\ email;\ \}}
+\DoxyCodeLine{00100\ \{\ \textcolor{keywordflow}{return}\ email;\ \}}
 
 \end{DoxyCode}
 \Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a12c89aadeedafb1a0af469d156ecf908}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a12c89aadeedafb1a0af469d156ecf908} 
@@ -199,11 +176,11 @@ The ID of the user.
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{User_8java_source_l00079}{79}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
+Definition at line \mbox{\hyperlink{User_8java_source_l00076}{76}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00079\ \{\ \textcolor{keywordflow}{return}\ id;\ \}}
+\DoxyCodeLine{00076\ \{\ \textcolor{keywordflow}{return}\ id;\ \}}
 
 \end{DoxyCode}
 \Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_ac2bdc203ab904313b10baefdb20ff5e3}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_ac2bdc203ab904313b10baefdb20ff5e3} 
@@ -221,33 +198,33 @@ The password.
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{User_8java_source_l00115}{115}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
+Definition at line \mbox{\hyperlink{User_8java_source_l00112}{112}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00115\ \{\ \textcolor{keywordflow}{return}\ password;\ \}}
+\DoxyCodeLine{00112\ \{\ \textcolor{keywordflow}{return}\ password;\ \}}
 
 \end{DoxyCode}
-\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_aeda17bccc77dcd0ccbff4910fc8c8e7f}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_aeda17bccc77dcd0ccbff4910fc8c8e7f} 
-\index{com.hikmethankolay.user\_auth\_system.entity.User@{com.hikmethankolay.user\_auth\_system.entity.User}!getRoles@{getRoles}}
-\index{getRoles@{getRoles}!com.hikmethankolay.user\_auth\_system.entity.User@{com.hikmethankolay.user\_auth\_system.entity.User}}
-\doxysubsubsection{\texorpdfstring{getRoles()}{getRoles()}}
-{\footnotesize\ttfamily Set$<$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role}{Role}} $>$ com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+entity.\+User.\+get\+Roles (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a74435073c90237c0d04eab27dcb99010}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a74435073c90237c0d04eab27dcb99010} 
+\index{com.hikmethankolay.user\_auth\_system.entity.User@{com.hikmethankolay.user\_auth\_system.entity.User}!getRole@{getRole}}
+\index{getRole@{getRole}!com.hikmethankolay.user\_auth\_system.entity.User@{com.hikmethankolay.user\_auth\_system.entity.User}}
+\doxysubsubsection{\texorpdfstring{getRole()}{getRole()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role}{Role}} com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+entity.\+User.\+get\+Role (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
 
-Gets the roles assigned to the user. 
+Gets the role assigned to the user. 
 
 \begin{DoxyReturn}{Returns}
-A set of roles. 
+The role. 
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{User_8java_source_l00127}{127}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
+Definition at line \mbox{\hyperlink{User_8java_source_l00124}{124}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00127\ \{\ \textcolor{keywordflow}{return}\ roles;\ \}}
+\DoxyCodeLine{00124\ \{\ \textcolor{keywordflow}{return}\ role;\ \}}
 
 \end{DoxyCode}
 \Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a1d1b7d5fbe5a59c6bc5aa821d59af0b6}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a1d1b7d5fbe5a59c6bc5aa821d59af0b6} 
@@ -265,35 +242,11 @@ The username.
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{User_8java_source_l00091}{91}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
+Definition at line \mbox{\hyperlink{User_8java_source_l00088}{88}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00091\ \{\ \textcolor{keywordflow}{return}\ username;\ \}}
-
-\end{DoxyCode}
-\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a761cae6d69deaa36ff5f20bdd87e4468}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a761cae6d69deaa36ff5f20bdd87e4468} 
-\index{com.hikmethankolay.user\_auth\_system.entity.User@{com.hikmethankolay.user\_auth\_system.entity.User}!removeRole@{removeRole}}
-\index{removeRole@{removeRole}!com.hikmethankolay.user\_auth\_system.entity.User@{com.hikmethankolay.user\_auth\_system.entity.User}}
-\doxysubsubsection{\texorpdfstring{removeRole()}{removeRole()}}
-{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+entity.\+User.\+remove\+Role (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role}{Role}}}]{role }\end{DoxyParamCaption})}
-
-
-
-Removes a role from the user. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em role} & The role to be removed. \\
-\hline
-\end{DoxyParams}
-
-
-Definition at line \mbox{\hyperlink{User_8java_source_l00145}{145}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00145\ \{\ this.roles.remove(role);\ \}}
+\DoxyCodeLine{00088\ \{\ \textcolor{keywordflow}{return}\ username;\ \}}
 
 \end{DoxyCode}
 \Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a8ff62e251e6ea0a6746759bd8688c5c5}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a8ff62e251e6ea0a6746759bd8688c5c5} 
@@ -313,11 +266,11 @@ Sets the email of the user.
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{User_8java_source_l00109}{109}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
+Definition at line \mbox{\hyperlink{User_8java_source_l00106}{106}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00109\ \{\ this.email\ =\ email;\ \}}
+\DoxyCodeLine{00106\ \{\ this.email\ =\ email;\ \}}
 
 \end{DoxyCode}
 \Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a1788820c438a1d774a18880323513893}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a1788820c438a1d774a18880323513893} 
@@ -337,11 +290,11 @@ Sets the user ID.
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{User_8java_source_l00085}{85}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
+Definition at line \mbox{\hyperlink{User_8java_source_l00082}{82}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00085\ \{\ this.id\ =\ id;\ \}}
+\DoxyCodeLine{00082\ \{\ this.id\ =\ id;\ \}}
 
 \end{DoxyCode}
 \Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_ae13e41fff87e5df86bd7335e3153317e}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_ae13e41fff87e5df86bd7335e3153317e} 
@@ -361,35 +314,35 @@ Sets the encrypted password of the user.
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{User_8java_source_l00121}{121}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
+Definition at line \mbox{\hyperlink{User_8java_source_l00118}{118}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00121\ \{\ this.password\ =\ password;\ \}}
+\DoxyCodeLine{00118\ \{\ this.password\ =\ password;\ \}}
 
 \end{DoxyCode}
-\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a8eb747a51bdc6712e0fce61c3a01b108}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a8eb747a51bdc6712e0fce61c3a01b108} 
-\index{com.hikmethankolay.user\_auth\_system.entity.User@{com.hikmethankolay.user\_auth\_system.entity.User}!setRoles@{setRoles}}
-\index{setRoles@{setRoles}!com.hikmethankolay.user\_auth\_system.entity.User@{com.hikmethankolay.user\_auth\_system.entity.User}}
-\doxysubsubsection{\texorpdfstring{setRoles()}{setRoles()}}
-{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+entity.\+User.\+set\+Roles (\begin{DoxyParamCaption}\item[{Set$<$ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role}{Role}} $>$}]{roles }\end{DoxyParamCaption})}
+\Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a2aabdc48db8b988dfdee8c61596c43bb}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a2aabdc48db8b988dfdee8c61596c43bb} 
+\index{com.hikmethankolay.user\_auth\_system.entity.User@{com.hikmethankolay.user\_auth\_system.entity.User}!setRole@{setRole}}
+\index{setRole@{setRole}!com.hikmethankolay.user\_auth\_system.entity.User@{com.hikmethankolay.user\_auth\_system.entity.User}}
+\doxysubsubsection{\texorpdfstring{setRole()}{setRole()}}
+{\footnotesize\ttfamily void com.\+hikmethankolay.\+user\+\_\+auth\+\_\+system.\+entity.\+User.\+set\+Role (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role}{Role}}}]{role }\end{DoxyParamCaption})}
 
 
 
-Sets the roles assigned to the user. 
+Sets the role assigned to the user. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em roles} & The set of roles to be assigned. \\
+{\em role} & The role to be assigned. \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{User_8java_source_l00133}{133}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
+Definition at line \mbox{\hyperlink{User_8java_source_l00130}{130}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00133\ \{\ this.roles\ =\ roles;\ \}}
+\DoxyCodeLine{00130\ \{\ this.role\ =\ role;\ \}}
 
 \end{DoxyCode}
 \Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_af5077a67d59f5000cbef7567d5d9be45}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_af5077a67d59f5000cbef7567d5d9be45} 
@@ -409,11 +362,11 @@ Sets the username of the user.
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{User_8java_source_l00097}{97}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
+Definition at line \mbox{\hyperlink{User_8java_source_l00094}{94}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00097\ \{\ this.username\ =\ username;\ \}}
+\DoxyCodeLine{00094\ \{\ this.username\ =\ username;\ \}}
 
 \end{DoxyCode}
 \Hypertarget{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a879166d63131edd925e8ef92e0b4cfe3}\label{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_a879166d63131edd925e8ef92e0b4cfe3} 
@@ -431,19 +384,19 @@ A string representation of User.
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{User_8java_source_l00163}{163}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
+Definition at line \mbox{\hyperlink{User_8java_source_l00149}{149}} of file \mbox{\hyperlink{User_8java_source}{User.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}User\{"{}}\ +}
-\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}id="{}}\ +\ \textcolor{keywordtype}{id}\ +}
-\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ username='"{}}\ +\ username\ +\ \textcolor{charliteral}{'\(\backslash\)''}\ +}
-\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ email='"{}}\ +\ email\ +\ \textcolor{charliteral}{'\(\backslash\)''}\ +}
-\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ password='"{}}\ +\ password\ +\ \textcolor{charliteral}{'\(\backslash\)''}\ +}
-\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ roles="{}}\ +\ roles\ +}
-\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{charliteral}{'\}'};}
-\DoxyCodeLine{00171\ \ \ \ \ \}}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}User\{"{}}\ +}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}id="{}}\ +\ \textcolor{keywordtype}{id}\ +}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ username='"{}}\ +\ username\ +\ \textcolor{charliteral}{'\(\backslash\)''}\ +}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ email='"{}}\ +\ email\ +\ \textcolor{charliteral}{'\(\backslash\)''}\ +}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ password='"{}}\ +\ password\ +\ \textcolor{charliteral}{'\(\backslash\)''}\ +}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ role="{}}\ +\ role\ +}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{charliteral}{'\}'};}
+\DoxyCodeLine{00157\ \ \ \ \ \}}
 
 \end{DoxyCode}
 

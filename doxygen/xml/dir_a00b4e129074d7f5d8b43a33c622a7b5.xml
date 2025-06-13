@@ -5,12 +5,7 @@
     <innerfile refid="ApiResponseDTO_8java">ApiResponseDTO.java</innerfile>
     <innerfile refid="AuthResponseDTO_8java">AuthResponseDTO.java</innerfile>
     <innerfile refid="LoginRequestDTO_8java">LoginRequestDTO.java</innerfile>
-    <innerfile refid="RoleInfoDTO_8java">RoleInfoDTO.java</innerfile>
-    <innerfile refid="RoleUserInfoDTO_8java">RoleUserInfoDTO.java</innerfile>
-    <innerfile refid="UserInfo_8java">UserInfo.java</innerfile>
-    <innerfile refid="UserInfoDTO_8java">UserInfoDTO.java</innerfile>
-    <innerfile refid="UserRegisterDTO_8java">UserRegisterDTO.java</innerfile>
-    <innerfile refid="UserUpdateDTO_8java">UserUpdateDTO.java</innerfile>
+    <innerfile refid="UserDTO_8java">UserDTO.java</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

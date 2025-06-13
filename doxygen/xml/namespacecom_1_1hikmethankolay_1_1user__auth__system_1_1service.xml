@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1service" kind="namespace" language="Java">
     <compoundname>com::hikmethankolay::user_auth_system::service</compoundname>
+    <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1LoginAttemptService" prot="public">com::hikmethankolay::user_auth_system::service::LoginAttemptService</innerclass>
     <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1RoleService" prot="public">com::hikmethankolay::user_auth_system::service::RoleService</innerclass>
     <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1service_1_1UserService" prot="public">com::hikmethankolay::user_auth_system::service::UserService</innerclass>
     <briefdescription>
@@ -9,6 +10,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/RoleService.java" line="12" column="1"/>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/service/LoginAttemptService.java" line="12" column="15"/>
   </compounddef>
 </doxygen>

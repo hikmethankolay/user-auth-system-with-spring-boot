@@ -3,54 +3,48 @@
 \mbox{\hyperlink{EnumValidatorForCollection_8java}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00001}00001\ }
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00009}\mbox{\hyperlink{namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator}{00009}}\ \textcolor{keyword}{package\ }com.hikmethankolay.user\_auth\_system.validator;}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00010}00010\ }
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00011}00011\ \textcolor{keyword}{import}\ jakarta.validation.ConstraintValidator;}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00012}00012\ \textcolor{keyword}{import}\ jakarta.validation.ConstraintValidatorContext;}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00013}00013\ \textcolor{keyword}{import}\ java.util.Arrays;}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00014}00014\ \textcolor{keyword}{import}\ java.util.Collection;}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00015}00015\ \textcolor{keyword}{import}\ java.util.List;}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00016}00016\ \textcolor{keyword}{import}\ java.util.stream.Collectors;}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00017}00017\ }
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00023}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection}{00023}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection}{EnumValidatorForCollection}}\ \textcolor{keyword}{implements}\ ConstraintValidator<ValidEnum,\ Collection<String>>\ \{}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00024}00024\ }
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00025}00025\ \ \ \ \ \textcolor{keyword}{private}\ List<String>\ acceptedValues;}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00026}00026\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{boolean}\ ignoreCase;}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00009}\mbox{\hyperlink{namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator}{00009}}\ \textcolor{keyword}{package\ }com.hikmethankolay.user\_auth\_system.validator;\ }
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00014}00014\ \textcolor{keyword}{import}\ jakarta.validation.ConstraintValidator;}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00015}00015\ \textcolor{keyword}{import}\ jakarta.validation.ConstraintValidatorContext;}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00016}00016\ \textcolor{keyword}{import}\ java.util.Arrays;}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00017}00017\ \textcolor{keyword}{import}\ java.util.Collection;}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00018}00018\ \textcolor{keyword}{import}\ java.util.List;}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00019}00019\ \textcolor{keyword}{import}\ java.util.stream.Collectors;}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00026}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection}{00026}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection}{EnumValidatorForCollection}}\ \textcolor{keyword}{implements}\ ConstraintValidator<ValidEnum,\ Collection<String>>\ \{}
 \DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00027}00027\ }
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00032}00032\ \ \ \ \ @Override}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00033}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_acb0624716f2e6079a2ccfee8682db04d}{00033}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_acb0624716f2e6079a2ccfee8682db04d}{initialize}}(\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum}{ValidEnum}}\ annotation)\ \{}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00034}00034\ \ \ \ \ \ \ \ \ this.ignoreCase\ =\ annotation.\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_ab1b319b46babfaa316223e9019a34d99}{ignoreCase}}();}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00035}00035\ \ \ \ \ \ \ \ \ this.acceptedValues\ =\ Arrays.stream(annotation.\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_a7a6a653012066c23ef9e769edd28fe33}{enumClass}}().getEnumConstants())}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .map(Enum::name)}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .collect(Collectors.toList());}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00038}00038\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00039}00039\ }
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00046}00046\ \ \ \ \ @Override}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00047}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_a8641cbac23c5763e4ac3f50b8019f4a5}{00047}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{boolean}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_a8641cbac23c5763e4ac3f50b8019f4a5}{isValid}}(Collection<String>\ values,\ ConstraintValidatorContext\ context)\ \{}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (values\ ==\ \textcolor{keyword}{null}\ ||\ values.isEmpty())\ \{}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00050}00050\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00051}00051\ }
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (String\ value\ :\ values)\ \{}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ ==\ \textcolor{keyword}{null})\ \{}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00056}00056\ }
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{boolean}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_a8641cbac23c5763e4ac3f50b8019f4a5}{isValid}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ignoreCase)\ \{}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_a8641cbac23c5763e4ac3f50b8019f4a5}{isValid}}\ =\ acceptedValues.stream()}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .anyMatch(acceptedValue\ -\/>\ acceptedValue.equalsIgnoreCase(value));}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_a8641cbac23c5763e4ac3f50b8019f4a5}{isValid}}\ =\ acceptedValues.contains(value);}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00064}00064\ }
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_a8641cbac23c5763e4ac3f50b8019f4a5}{isValid}})\ \{}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00068}00068\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00069}00069\ }
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00070}00070\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00071}00071\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00072}00072\ \}}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00028}00028\ \ \ \ \ \textcolor{keyword}{private}\ List<String>\ acceptedValues;}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00029}00029\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{boolean}\ ignoreCase;}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00035}00035\ \ \ \ \ @Override}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00036}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_acb0624716f2e6079a2ccfee8682db04d}{00036}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_acb0624716f2e6079a2ccfee8682db04d}{initialize}}(\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum}{ValidEnum}}\ annotation)\ \{}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00037}00037\ \ \ \ \ \ \ \ \ ignoreCase\ =\ annotation.\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_ab1b319b46babfaa316223e9019a34d99}{ignoreCase}}();}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00038}00038\ \ \ \ \ \ \ \ \ acceptedValues\ =\ Arrays.stream(annotation.\mbox{\hyperlink{interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_a7a6a653012066c23ef9e769edd28fe33}{enumClass}}().getEnumConstants())}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .map(Enum::name)}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .collect(Collectors.toList());}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ignoreCase)\ \{}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ acceptedValues\ =\ acceptedValues.stream()}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .map(String::toLowerCase)}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .collect(Collectors.toList());}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00045}00045\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00046}00046\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00054}00054\ \ \ \ \ @Override}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00055}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_a8641cbac23c5763e4ac3f50b8019f4a5}{00055}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{boolean}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForCollection_a8641cbac23c5763e4ac3f50b8019f4a5}{isValid}}(Collection<String>\ values,\ ConstraintValidatorContext\ context)\ \{}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (values\ ==\ \textcolor{keyword}{null})\ \{}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00058}00058\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (String\ value\ :\ values)\ \{}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ ==\ \textcolor{keyword}{null})\ \{}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ String\ valueToCheck\ =\ ignoreCase\ ?\ value.toLowerCase()\ :\ value;}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!acceptedValues.contains(valueToCheck))\ \{}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00067}00067\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00068}00068\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00069}00069\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{EnumValidatorForCollection_8java_source_l00070}00070\ \}}
 
 \end{DoxyCode}

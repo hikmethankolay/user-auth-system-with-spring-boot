@@ -25,7 +25,7 @@ Validator for validating string values against enum values.
 
 Validates that a string matches a value in a specified enum type. 
 
-Definition at line \mbox{\hyperlink{EnumValidatorForString_8java_source_l00022}{22}} of file \mbox{\hyperlink{EnumValidatorForString_8java_source}{Enum\+Validator\+For\+String.\+java}}.
+Definition at line \mbox{\hyperlink{EnumValidatorForString_8java_source_l00025}{25}} of file \mbox{\hyperlink{EnumValidatorForString_8java_source}{Enum\+Validator\+For\+String.\+java}}.
 
 
 
@@ -47,16 +47,21 @@ Initializes the validator with the specified annotation parameters.
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{EnumValidatorForString_8java_source_l00032}{32}} of file \mbox{\hyperlink{EnumValidatorForString_8java_source}{Enum\+Validator\+For\+String.\+java}}.
+Definition at line \mbox{\hyperlink{EnumValidatorForString_8java_source_l00035}{35}} of file \mbox{\hyperlink{EnumValidatorForString_8java_source}{Enum\+Validator\+For\+String.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ this.ignoreCase\ =\ annotation.ignoreCase();}
-\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ this.acceptedValues\ =\ Arrays.stream(annotation.enumClass().getEnumConstants())}
-\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .map(Enum::name)}
-\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .collect(Collectors.toList());}
-\DoxyCodeLine{00037\ \ \ \ \ \}}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ ignoreCase\ =\ annotation.ignoreCase();}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ acceptedValues\ =\ Arrays.stream(annotation.enumClass().getEnumConstants())}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .map(Enum::name)}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .collect(Collectors.toList());}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ignoreCase)\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ acceptedValues\ =\ acceptedValues.stream()}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .map(String::toLowerCase)}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .collect(Collectors.toList());}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00045\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
@@ -85,22 +90,17 @@ True if the string is a valid enum value, otherwise false.
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{EnumValidatorForString_8java_source_l00046}{46}} of file \mbox{\hyperlink{EnumValidatorForString_8java_source}{Enum\+Validator\+For\+String.\+java}}.
+Definition at line \mbox{\hyperlink{EnumValidatorForString_8java_source_l00054}{54}} of file \mbox{\hyperlink{EnumValidatorForString_8java_source}{Enum\+Validator\+For\+String.\+java}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ ==\ \textcolor{keyword}{null})\ \{}
-\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00050\ }
-\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ignoreCase)\ \{}
-\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ acceptedValues.stream()}
-\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .anyMatch(acceptedValue\ -\/>\ acceptedValue.equalsIgnoreCase(value));}
-\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ acceptedValues.contains(value);}
-\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00057\ \ \ \ \ \}}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ ==\ \textcolor{keyword}{null})\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ String\ valueToCheck\ =\ ignoreCase\ ?\ value.toLowerCase()\ :\ value;}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ acceptedValues.contains(valueToCheck);}
+\DoxyCodeLine{00060\ \ \ \ \ \}}
 
 \end{DoxyCode}
 

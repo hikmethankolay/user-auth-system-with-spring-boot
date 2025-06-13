@@ -1,11 +1,7 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-user-auth-system,com.hikmethankolay.user_auth_system.dto,UserUpdateDTO,34,51,2,0,9,17,2,12,1,12
-user-auth-system,com.hikmethankolay.user_auth_system.dto,UserInfoDTO,20,52,1,1,9,13,6,6,5,6
-user-auth-system,com.hikmethankolay.user_auth_system.dto,RoleUserInfoDTO,21,0,0,0,6,0,2,0,2,0
+user-auth-system,com.hikmethankolay.user_auth_system.dto,UserDTO,4,72,2,2,0,19,2,13,0,13
 user-auth-system,com.hikmethankolay.user_auth_system.dto,LoginRequestDTO,0,12,0,0,0,1,0,1,0,1
-user-auth-system,com.hikmethankolay.user_auth_system.dto,UserRegisterDTO,19,41,0,0,6,14,1,10,1,10
 user-auth-system,com.hikmethankolay.user_auth_system.dto,ApiResponseDTO,0,12,0,0,0,1,0,1,0,1
-user-auth-system,com.hikmethankolay.user_auth_system.dto,RoleInfoDTO,1,27,1,1,1,6,1,2,0,2
 user-auth-system,com.hikmethankolay.user_auth_system.dto,AuthResponseDTO,0,14,0,0,0,3,0,2,0,2
 user-auth-system,com.hikmethankolay.user_auth_system.aspect,AuthLogger,34,104,4,4,14,19,8,6,6,4
 user-auth-system,com.hikmethankolay.user_auth_system.exception,GlobalExceptionHandler,0,39,0,0,0,8,0,4,0,4
@@ -13,21 +9,20 @@ user-auth-system,com.hikmethankolay.user_auth_system.enums,EApiStatus,0,21,0,0,0
 user-auth-system,com.hikmethankolay.user_auth_system.enums,ERole,0,21,0,0,0,4,0,1,0,1
 user-auth-system,com.hikmethankolay.user_auth_system.enums,TokenStatus,0,21,0,0,0,4,0,1,0,1
 user-auth-system,com.hikmethankolay.user_auth_system.util,JwtUtils,2,139,3,9,0,32,3,10,0,7
-user-auth-system,com.hikmethankolay.user_auth_system.controller,UserController,0,190,0,6,0,34,0,12,0,9
+user-auth-system,com.hikmethankolay.user_auth_system.controller,UserController,0,167,0,4,0,32,0,12,0,10
 user-auth-system,com.hikmethankolay.user_auth_system.controller,AuthController,14,233,5,9,2,61,3,10,0,6
-user-auth-system,com.hikmethankolay.user_auth_system.controller,RoleController,0,59,0,2,0,12,0,4,0,3
 user-auth-system,com.hikmethankolay.user_auth_system,UserAuthSystemApplication,5,3,0,0,2,1,1,1,1,1
-user-auth-system,com.hikmethankolay.user_auth_system.service,UserService,33,400,14,26,6,85,12,27,0,19
+user-auth-system,com.hikmethankolay.user_auth_system.service,UserService,25,409,16,30,5,86,15,26,0,18
+user-auth-system,com.hikmethankolay.user_auth_system.service,LoginAttemptService,6,50,0,2,4,14,0,5,0,4
 user-auth-system,com.hikmethankolay.user_auth_system.service,RoleService,0,15,0,0,0,5,0,3,0,3
-user-auth-system,com.hikmethankolay.user_auth_system.entity,Role,22,32,0,0,9,9,5,5,5,5
-user-auth-system,com.hikmethankolay.user_auth_system.entity,User,6,95,0,0,1,22,1,16,1,16
-user-auth-system,com.hikmethankolay.user_auth_system.security,LoginAttemptService,6,50,0,2,4,14,0,5,0,4
-user-auth-system,com.hikmethankolay.user_auth_system.security,AuthConfig,0,10,0,0,0,3,0,3,0,3
-user-auth-system,com.hikmethankolay.user_auth_system.security,LoginAttemptService.new CacheLoader() {...},0,6,0,0,0,2,0,2,0,2
+user-auth-system,com.hikmethankolay.user_auth_system.service,LoginAttemptService.new CacheLoader() {...},0,6,0,0,0,2,0,2,0,2
+user-auth-system,com.hikmethankolay.user_auth_system.entity,Role,11,19,0,0,5,7,3,4,3,4
+user-auth-system,com.hikmethankolay.user_auth_system.entity,User,0,77,0,2,0,20,0,15,0,14
 user-auth-system,com.hikmethankolay.user_auth_system.security,JwtFilter,0,58,0,6,0,15,0,5,0,2
 user-auth-system,com.hikmethankolay.user_auth_system.security,SecurityConfig,0,136,0,0,0,25,0,6,0,6
 user-auth-system,com.hikmethankolay.user_auth_system.config,SwaggerConfig,0,17,0,0,0,5,0,2,0,2
 user-auth-system,com.hikmethankolay.user_auth_system.config,CorsConfig,0,40,0,0,0,9,0,2,0,2
-user-auth-system,com.hikmethankolay.user_auth_system.validator,EnumValidatorForCollection,0,70,0,12,0,20,0,10,0,4
+user-auth-system,com.hikmethankolay.user_auth_system.config,AuthConfig,0,10,0,0,0,3,0,3,0,3
+user-auth-system,com.hikmethankolay.user_auth_system.validator,EnumValidatorForCollection,1,68,2,10,0,20,2,7,0,3
 user-auth-system,com.hikmethankolay.user_auth_system.validator,EnumValidatorForEnum,0,27,0,2,0,7,0,5,0,4
-user-auth-system,com.hikmethankolay.user_auth_system.validator,EnumValidatorForString,0,43,0,4,0,12,0,6,0,4
+user-auth-system,com.hikmethankolay.user_auth_system.validator,EnumValidatorForString,1,49,2,4,0,14,2,4,0,3

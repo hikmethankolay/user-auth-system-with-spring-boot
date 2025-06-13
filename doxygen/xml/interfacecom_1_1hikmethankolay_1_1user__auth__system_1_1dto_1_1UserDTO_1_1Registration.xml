@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1_1Registration" kind="interface" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::dto::UserDTO::Registration</compoundname>
+    <briefdescription>
+<para>Validation group for user registration operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This validation group applies strict validation rules where most fields are required. Used when creating new user accounts. </para>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" line="117" column="22" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" bodystart="117" bodyend="117"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

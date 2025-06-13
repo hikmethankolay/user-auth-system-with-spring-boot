@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig" kind="class" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::config::AuthConfig</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig_1a0975d4c2c55a1be122b5853a5de520ec" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>PasswordEncoder</type>
+        <definition>PasswordEncoder com.hikmethankolay.user_auth_system.config.AuthConfig.passwordEncoder</definition>
+        <argsstring>()</argsstring>
+        <name>passwordEncoder</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.config.AuthConfig.passwordEncoder</qualifiedname>
+        <briefdescription>
+<para>Bean definition for password encoding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A BCryptPasswordEncoder instance. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/config/AuthConfig.java" line="32" column="28" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/config/AuthConfig.java" bodystart="32" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig_1a1925b9305546723d571e51247586f4b6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>AuthenticationManager</type>
+        <definition>AuthenticationManager com.hikmethankolay.user_auth_system.config.AuthConfig.authenticationManager</definition>
+        <argsstring>(AuthenticationConfiguration authenticationConfiguration)</argsstring>
+        <name>authenticationManager</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.config.AuthConfig.authenticationManager</qualifiedname>
+        <param>
+          <type>AuthenticationConfiguration</type>
+          <declname>authenticationConfiguration</declname>
+        </param>
+        <exceptions> throws Exception </exceptions>
+        <briefdescription>
+<para>Bean definition for authentication manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>authenticationConfiguration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The authentication configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The authentication manager instance. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>Exception</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs during retrieval. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/config/AuthConfig.java" line="43" column="34" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/config/AuthConfig.java" bodystart="43" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration class for authentication management. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/config/AuthConfig.java" line="25" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/config/AuthConfig.java" bodystart="25" bodyend="47"/>
+    <listofallmembers>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig_1a1925b9305546723d571e51247586f4b6" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::config::AuthConfig</scope><name>authenticationManager</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1config_1_1AuthConfig_1a0975d4c2c55a1be122b5853a5de520ec" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::config::AuthConfig</scope><name>passwordEncoder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

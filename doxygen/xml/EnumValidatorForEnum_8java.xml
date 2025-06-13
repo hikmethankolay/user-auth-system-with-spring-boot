@@ -16,7 +16,6 @@
     </incdepgraph>
     <innerclass refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1EnumValidatorForEnum" prot="public">com::hikmethankolay::user_auth_system::validator::EnumValidatorForEnum</innerclass>
     <innernamespace refid="namespacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator">com::hikmethankolay::user_auth_system::validator</innernamespace>
-    <innernamespace refid="namespacecom_1_1tubitak__1001_1_1backend__app_1_1valiadator">com::tubitak_1001::backend_app::valiadator</innernamespace>
     <briefdescription>
 <para>Validator for validating enum values. </para>
     </briefdescription>
@@ -29,7 +28,7 @@
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="normal"></highlight></codeline>
-<codeline lineno="9" refid="namespacecom_1_1tubitak__1001_1_1backend__app_1_1valiadator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">package<sp/></highlight><highlight class="normal">com.hikmethankolay.user_auth_system.validator;<sp/></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">package<sp/></highlight><highlight class="normal">com.hikmethankolay.user_auth_system.validator;<sp/></highlight></codeline>
 <codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>jakarta.validation.ConstraintValidator;</highlight></codeline>
 <codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>jakarta.validation.ConstraintValidatorContext;</highlight></codeline>
 <codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>java.util.Arrays;</highlight></codeline>

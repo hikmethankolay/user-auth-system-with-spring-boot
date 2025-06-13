@@ -7,70 +7,50 @@
 \DoxyCodeLine{\Hypertarget{Role_8java_source_l00016}00016\ }
 \DoxyCodeLine{\Hypertarget{Role_8java_source_l00017}00017\ \textcolor{keyword}{import}\ com.hikmethankolay.user\_auth\_system.enums.ERole;}
 \DoxyCodeLine{\Hypertarget{Role_8java_source_l00018}00018\ \textcolor{keyword}{import}\ jakarta.persistence.*;}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00019}00019\ \textcolor{keyword}{import}\ java.util.ArrayList;}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00020}00020\ \textcolor{keyword}{import}\ java.util.List;}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00021}00021\ }
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00028}00028\ @Entity}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00029}00029\ @Table(name\ =\ \textcolor{stringliteral}{"{}roles"{}})}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00030}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role}{00030}}\ public\ class\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role}{Role}}\ \{}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00031}00031\ }
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00033}00033\ \ \ \ \ @Id}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00034}00034\ \ \ \ \ @GeneratedValue(strategy\ =\ GenerationType.IDENTITY)}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00035}00035\ \ \ \ \ @Column(name\ =\ \textcolor{stringliteral}{"{}id"{}})}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00036}00036\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{long}\ id;}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00037}00037\ }
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00039}00039\ \ \ \ \ @Enumerated(EnumType.STRING)}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00040}00040\ \ \ \ \ @Column(name\ =\ \textcolor{stringliteral}{"{}name"{}},\ nullable\ =\ \textcolor{keyword}{false})}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00041}00041\ \ \ \ \ \textcolor{keyword}{private}\ ERole\ name;}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00042}00042\ }
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00044}00044\ \ \ \ \ @ManyToMany(fetch\ =\ FetchType.EAGER,\ cascade\ =\ \{CascadeType.DETACH,\ CascadeType.MERGE,\ CascadeType.PERSIST,\ CascadeType.REFRESH\})}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00045}00045\ \ \ \ \ @JoinTable(name\ =\ \textcolor{stringliteral}{"{}user\_roles"{}},}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ joinColumns\ =\ @JoinColumn(name\ =\ \textcolor{stringliteral}{"{}role\_id"{}}),}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ inverseJoinColumns\ =\ @JoinColumn(name\ =\ \textcolor{stringliteral}{"{}user\_id"{}}))}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00048}00048\ \ \ \ \ \textcolor{keyword}{private}\ List<User>\ users\ =\ \textcolor{keyword}{new}\ ArrayList<>();}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00049}00049\ }
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00053}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a7cb0b2f48a3bc03a52607e1d68ae73fd}{00053}}\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a7cb0b2f48a3bc03a52607e1d68ae73fd}{Role}}()\ \{}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00054}00054\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00055}00055\ }
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00060}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_ae2048319014e5ec61044255a6366bad7}{00060}}\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_ae2048319014e5ec61044255a6366bad7}{Role}}(ERole\ name)\ \{}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00061}00061\ \ \ \ \ \ \ \ \ this.name\ =\ name;}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00062}00062\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00063}00063\ }
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00068}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_ace42271b7582edf071bf219a10c4c1d2}{00068}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{long}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_ace42271b7582edf071bf219a10c4c1d2}{getId}}()\ \{}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ id;}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00070}00070\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00071}00071\ }
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00076}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a36d722edc7a6046d79f1608063804289}{00076}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a36d722edc7a6046d79f1608063804289}{setId}}(\textcolor{keywordtype}{int}\ \textcolor{keywordtype}{id})\ \{}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00077}00077\ \ \ \ \ \ \ \ \ this.id\ =\ id;}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00078}00078\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00079}00079\ }
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00084}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a3bff212368f5ef950d7fe54d7c7f75d5}{00084}}\ \ \ \ \ \textcolor{keyword}{public}\ ERole\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a3bff212368f5ef950d7fe54d7c7f75d5}{getName}}()\ \{}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00085}00085\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ name;}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00086}00086\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00087}00087\ }
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00092}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a1123da27fc4910de9d731efee4242cf8}{00092}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a1123da27fc4910de9d731efee4242cf8}{setName}}(ERole\ name)\ \{}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00093}00093\ \ \ \ \ \ \ \ \ this.name\ =\ name;}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00094}00094\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00095}00095\ }
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00100}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a6a05fa9622e7153d47d970a75e3fe3d8}{00100}}\ \ \ \ \ \textcolor{keyword}{public}\ List<User>\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a6a05fa9622e7153d47d970a75e3fe3d8}{getUsers}}()\ \{}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00101}00101\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ users;}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00102}00102\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00103}00103\ }
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00108}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a55baeaf7fa78b6cfadf81c1d7979fadf}{00108}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a55baeaf7fa78b6cfadf81c1d7979fadf}{setUsers}}(List<User>\ users)\ \{}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00109}00109\ \ \ \ \ \ \ \ \ this.users\ =\ users;}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00110}00110\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00111}00111\ }
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00116}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_acbc6cd5e976b4b812a8e647bbb659896}{00116}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_acbc6cd5e976b4b812a8e647bbb659896}{addUser}}(\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User}{User}}\ user)\ \{}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00117}00117\ \ \ \ \ \ \ \ \ users.add(user);}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00118}00118\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00119}00119\ }
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00124}00124\ \ \ \ \ @Override}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00125}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_ae11ea3ccb60f7facba957d5b18db140a}{00125}}\ \ \ \ \ \textcolor{keyword}{public}\ String\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_ae11ea3ccb60f7facba957d5b18db140a}{toString}}()\ \{}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00126}00126\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Role\{"{}}\ +}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}name="{}}\ +\ name\ +}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ id="{}}\ +\ \textcolor{keywordtype}{id}\ +}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{charliteral}{'\}'};}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00130}00130\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{Role_8java_source_l00131}00131\ \}}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00026}00026\ @Entity}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00027}00027\ @Table(name\ =\ \textcolor{stringliteral}{"{}roles"{}})}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00028}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role}{00028}}\ public\ class\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role}{Role}}\ \{}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00031}00031\ \ \ \ \ @Id}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00032}00032\ \ \ \ \ @GeneratedValue(strategy\ =\ GenerationType.IDENTITY)}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00033}00033\ \ \ \ \ @Column(name\ =\ \textcolor{stringliteral}{"{}id"{}})}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00034}00034\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{long}\ id;}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00037}00037\ \ \ \ \ @Enumerated(EnumType.STRING)}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00038}00038\ \ \ \ \ @Column(name\ =\ \textcolor{stringliteral}{"{}name"{}},\ nullable\ =\ \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00039}00039\ \ \ \ \ \textcolor{keyword}{private}\ ERole\ name;}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00044}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a7cb0b2f48a3bc03a52607e1d68ae73fd}{00044}}\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a7cb0b2f48a3bc03a52607e1d68ae73fd}{Role}}()\ \{}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00045}00045\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00051}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_ae2048319014e5ec61044255a6366bad7}{00051}}\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_ae2048319014e5ec61044255a6366bad7}{Role}}(ERole\ name)\ \{}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00052}00052\ \ \ \ \ \ \ \ \ this.name\ =\ name;}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00053}00053\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00059}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_ace42271b7582edf071bf219a10c4c1d2}{00059}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{long}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_ace42271b7582edf071bf219a10c4c1d2}{getId}}()\ \{}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ id;}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00061}00061\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00067}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a346c5b726022c51c080c8fc42c0bcfac}{00067}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a346c5b726022c51c080c8fc42c0bcfac}{setId}}(\textcolor{keywordtype}{long}\ \textcolor{keywordtype}{id})\ \{}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00068}00068\ \ \ \ \ \ \ \ \ this.id\ =\ id;}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00069}00069\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00075}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a3bff212368f5ef950d7fe54d7c7f75d5}{00075}}\ \ \ \ \ \textcolor{keyword}{public}\ ERole\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a3bff212368f5ef950d7fe54d7c7f75d5}{getName}}()\ \{}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00076}00076\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ name;}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00077}00077\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00083}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a1123da27fc4910de9d731efee4242cf8}{00083}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_a1123da27fc4910de9d731efee4242cf8}{setName}}(ERole\ name)\ \{}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00084}00084\ \ \ \ \ \ \ \ \ this.name\ =\ name;}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00085}00085\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00091}00091\ \ \ \ \ @Override}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00092}\mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_ae11ea3ccb60f7facba957d5b18db140a}{00092}}\ \ \ \ \ \textcolor{keyword}{public}\ String\ \mbox{\hyperlink{classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_ae11ea3ccb60f7facba957d5b18db140a}{toString}}()\ \{}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00093}00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Role\{"{}}\ +}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}name="{}}\ +\ name\ +}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ id="{}}\ +\ \textcolor{keywordtype}{id}\ +}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{charliteral}{'\}'};}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00097}00097\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{Role_8java_source_l00098}00098\ \}}
 
 \end{DoxyCode}

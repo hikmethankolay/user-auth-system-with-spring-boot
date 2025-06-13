@@ -1,0 +1,456 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO" kind="class" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::dto::UserDTO</compoundname>
+    <innerclass refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1_1Registration" prot="public">com::hikmethankolay::user_auth_system::dto::UserDTO::Registration</innerclass>
+    <innerclass refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1_1Update" prot="public">com::hikmethankolay::user_auth_system::dto::UserDTO::Update</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a324430817a3c5a4935fb49f906150de0" prot="private" static="no" mutable="no">
+        <type>Long</type>
+        <definition>Long com.hikmethankolay.user_auth_system.dto.UserDTO.id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserDTO.id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier for the user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This field represents the primary key of the user entity. It is typically null during registration and populated for existing users. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" line="50" column="18" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1ae11068d781f7a7776dcec1e7465d7f88" prot="private" static="no" mutable="no">
+        <type>String</type>
+        <definition>String com.hikmethankolay.user_auth_system.dto.UserDTO.username</definition>
+        <argsstring></argsstring>
+        <name>username</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserDTO.username</qualifiedname>
+        <briefdescription>
+<para>Username of the user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Must be unique across the system and follow length constraints. Validation:<itemizedlist>
+<listitem><para>Required for registration (Registration.class)</para>
+</listitem><listitem><para>Length: 8-32 characters for both registration and updates</para>
+</listitem><listitem><para>Optional for updates (can be null or empty) </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" line="64" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a7a8b30bcd411ed3125b8bb81d0c7db29" prot="private" static="no" mutable="no">
+        <type>String</type>
+        <definition>String com.hikmethankolay.user_auth_system.dto.UserDTO.email</definition>
+        <argsstring></argsstring>
+        <name>email</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserDTO.email</qualifiedname>
+        <briefdescription>
+<para>Email address of the user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Must be unique across the system and follow valid email format. Validation:<itemizedlist>
+<listitem><para>Required for registration (Registration.class)</para>
+</listitem><listitem><para>Must be valid email format for both registration and updates</para>
+</listitem><listitem><para>Optional for updates (can be null or empty) </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" line="77" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a95af93ce1ab09afc9f22391b469d6b4b" prot="private" static="no" mutable="no">
+        <type>String</type>
+        <definition>String com.hikmethankolay.user_auth_system.dto.UserDTO.password</definition>
+        <argsstring></argsstring>
+        <name>password</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserDTO.password</qualifiedname>
+        <briefdescription>
+<para>Password of the user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This field is write-only for security purposes, meaning it can be deserialized from JSON (for input) but will never be serialized to JSON (for output), preventing password exposure in API responses.</para>
+<para>Validation:<itemizedlist>
+<listitem><para>Required for registration (Registration.class)</para>
+</listitem><listitem><para>Must contain: uppercase, lowercase, digit, special character</para>
+</listitem><listitem><para>Length: 8-32 characters</para>
+</listitem><listitem><para>Optional for updates (allows password changes) </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" line="99" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a5c40735191d914c3c18fb2e648ad7ae3" prot="private" static="no" mutable="no">
+        <type>ERole</type>
+        <definition>ERole com.hikmethankolay.user_auth_system.dto.UserDTO.role</definition>
+        <argsstring></argsstring>
+        <name>role</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserDTO.role</qualifiedname>
+        <briefdescription>
+<para>Role assigned to the user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Represents the user&apos;s role in the system (USER, MODERATOR, ADMIN). This field is typically set by administrators and not directly modifiable by regular users during registration. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" line="108" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1acc588eda9ef4eb946436f2dfeb1b6272" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>com.hikmethankolay.user_auth_system.dto.UserDTO.UserDTO</definition>
+        <argsstring>()</argsstring>
+        <name>UserDTO</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserDTO.UserDTO</qualifiedname>
+        <briefdescription>
+<para>Default constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Creates an empty UserDTO instance. All fields will be null and must be set using the appropriate setter methods. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" line="135" column="12" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1af88b45028d384c7fc7061e0e0ef7b268" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>com.hikmethankolay.user_auth_system.dto.UserDTO.UserDTO</definition>
+        <argsstring>(User user)</argsstring>
+        <name>UserDTO</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserDTO.UserDTO</qualifiedname>
+        <param>
+          <type>User</type>
+          <declname>user</declname>
+        </param>
+        <briefdescription>
+<para>Constructor that creates UserDTO from User entity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This constructor is used to convert a User entity to a DTO for API responses. The password field is intentionally not copied for security reasons.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The user entity to convert to DTO </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>NullPointerException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if user is null (handled gracefully) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" line="147" column="12" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" bodystart="147" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a086aaa35b90a575b4066cbcbe88df005" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Long</type>
+        <definition>Long com.hikmethankolay.user_auth_system.dto.UserDTO.getId</definition>
+        <argsstring>()</argsstring>
+        <name>getId</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserDTO.getId</qualifiedname>
+        <briefdescription>
+<para>Gets the user ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The unique identifier of the user, or null if not set </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" line="162" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" bodystart="162" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a542ea9c97b36226573e45a3838e1690f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.dto.UserDTO.setId</definition>
+        <argsstring>(Long id)</argsstring>
+        <name>setId</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserDTO.setId</qualifiedname>
+        <param>
+          <type>Long</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Sets the user ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The unique identifier to set for the user </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" line="169" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" bodystart="169" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a27def7e25bca3ece75968025b6f9130c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>String</type>
+        <definition>String com.hikmethankolay.user_auth_system.dto.UserDTO.getUsername</definition>
+        <argsstring>()</argsstring>
+        <name>getUsername</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserDTO.getUsername</qualifiedname>
+        <briefdescription>
+<para>Gets the username. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The username of the user, or null if not set </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" line="176" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" bodystart="176" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a3df5609df71bd38d359c349599c9a8d6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.dto.UserDTO.setUsername</definition>
+        <argsstring>(String username)</argsstring>
+        <name>setUsername</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserDTO.setUsername</qualifiedname>
+        <param>
+          <type>String</type>
+          <declname>username</declname>
+        </param>
+        <briefdescription>
+<para>Sets the username. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>username</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The username to set for the user </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" line="183" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" bodystart="183" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a4fa57b70a148f915319ab5ca2dde6f08" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>String</type>
+        <definition>String com.hikmethankolay.user_auth_system.dto.UserDTO.getEmail</definition>
+        <argsstring>()</argsstring>
+        <name>getEmail</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserDTO.getEmail</qualifiedname>
+        <briefdescription>
+<para>Gets the email address. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The email address of the user, or null if not set </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" line="190" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" bodystart="190" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1aed63ff473d8f2ad40466bac01f05a175" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.dto.UserDTO.setEmail</definition>
+        <argsstring>(String email)</argsstring>
+        <name>setEmail</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserDTO.setEmail</qualifiedname>
+        <param>
+          <type>String</type>
+          <declname>email</declname>
+        </param>
+        <briefdescription>
+<para>Sets the email address. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>email</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The email address to set for the user </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" line="197" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" bodystart="197" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1adda8961e63b6e2b3829a86e1cc7c60e3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>String</type>
+        <definition>String com.hikmethankolay.user_auth_system.dto.UserDTO.getPassword</definition>
+        <argsstring>()</argsstring>
+        <name>getPassword</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserDTO.getPassword</qualifiedname>
+        <briefdescription>
+<para>Gets the password. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Note: This method will return the password value but due to the @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) annotation, the password will never be serialized to JSON responses.</para>
+<para><simplesect kind="return"><para>The password of the user, or null if not set </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" line="208" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" bodystart="208" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a5969785944ad861bdfb0024e8d6cd6ff" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.dto.UserDTO.setPassword</definition>
+        <argsstring>(String password)</argsstring>
+        <name>setPassword</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserDTO.setPassword</qualifiedname>
+        <param>
+          <type>String</type>
+          <declname>password</declname>
+        </param>
+        <briefdescription>
+<para>Sets the password. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>password</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The password to set for the user </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" line="215" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" bodystart="215" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1ad8c6aa4287c31a9143bb72ba23ed6245" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ERole</type>
+        <definition>ERole com.hikmethankolay.user_auth_system.dto.UserDTO.getRole</definition>
+        <argsstring>()</argsstring>
+        <name>getRole</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserDTO.getRole</qualifiedname>
+        <briefdescription>
+<para>Gets the user role. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The role assigned to the user, or null if not set </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" line="222" column="18" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" bodystart="222" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a23d85c6639d9fcf9e0bf02d076ea23c8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void com.hikmethankolay.user_auth_system.dto.UserDTO.setRole</definition>
+        <argsstring>(ERole role)</argsstring>
+        <name>setRole</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserDTO.setRole</qualifiedname>
+        <param>
+          <type>ERole</type>
+          <declname>role</declname>
+        </param>
+        <briefdescription>
+<para>Sets the user role. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The role to assign to the user </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" line="229" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" bodystart="229" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a8f738905e481334f864282b665b72127" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>String</type>
+        <definition>String com.hikmethankolay.user_auth_system.dto.UserDTO.toString</definition>
+        <argsstring>()</argsstring>
+        <name>toString</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.dto.UserDTO.toString</qualifiedname>
+        <briefdescription>
+<para>Returns a string representation of the UserDTO. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This method provides a readable string representation of the UserDTO object for debugging and logging purposes. The password field is intentionally excluded for security reasons.</para>
+<para><simplesect kind="return"><para>A string representation containing id, username, email, and role </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" line="241" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" bodystart="241" bodyend="248"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unified Data Transfer Object for all user operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This class serves as a single DTO for handling user registration, updates, and display operations. It uses validation groups to apply different validation rules depending on the operation context:<itemizedlist>
+<listitem><para>Registration.class: Strict validation for new user registration</para>
+</listitem><listitem><para>Update.class: Lenient validation for user updates (optional fields)</para>
+</listitem></itemizedlist>
+</para>
+<para>The class includes security features such as write-only password serialization to prevent password leakage in API responses while allowing password input during registration and updates.</para>
+<para><simplesect kind="see"><para>User </para>
+</simplesect>
+<simplesect kind="see"><para>ERole </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" line="42" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" bodystart="42" bodyend="249"/>
+    <listofallmembers>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a7a8b30bcd411ed3125b8bb81d0c7db29" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserDTO</scope><name>email</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a4fa57b70a148f915319ab5ca2dde6f08" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserDTO</scope><name>getEmail</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a086aaa35b90a575b4066cbcbe88df005" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserDTO</scope><name>getId</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1adda8961e63b6e2b3829a86e1cc7c60e3" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserDTO</scope><name>getPassword</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1ad8c6aa4287c31a9143bb72ba23ed6245" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserDTO</scope><name>getRole</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a27def7e25bca3ece75968025b6f9130c" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserDTO</scope><name>getUsername</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a324430817a3c5a4935fb49f906150de0" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserDTO</scope><name>id</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a95af93ce1ab09afc9f22391b469d6b4b" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserDTO</scope><name>password</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a5c40735191d914c3c18fb2e648ad7ae3" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserDTO</scope><name>role</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1aed63ff473d8f2ad40466bac01f05a175" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserDTO</scope><name>setEmail</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a542ea9c97b36226573e45a3838e1690f" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserDTO</scope><name>setId</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a5969785944ad861bdfb0024e8d6cd6ff" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserDTO</scope><name>setPassword</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a23d85c6639d9fcf9e0bf02d076ea23c8" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserDTO</scope><name>setRole</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a3df5609df71bd38d359c349599c9a8d6" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserDTO</scope><name>setUsername</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1a8f738905e481334f864282b665b72127" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserDTO</scope><name>toString</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1acc588eda9ef4eb946436f2dfeb1b6272" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserDTO</scope><name>UserDTO</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1af88b45028d384c7fc7061e0e0ef7b268" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserDTO</scope><name>UserDTO</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1ae11068d781f7a7776dcec1e7465d7f88" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::dto::UserDTO</scope><name>username</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

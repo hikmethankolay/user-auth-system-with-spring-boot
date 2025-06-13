@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1dto_1_1UserDTO_1_1Update" kind="interface" language="Java" prot="public">
+    <compoundname>com::hikmethankolay::user_auth_system::dto::UserDTO::Update</compoundname>
+    <briefdescription>
+<para>Validation group for user update operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This validation group applies lenient validation rules where fields are optional but must meet format requirements if provided. Used when modifying existing user accounts. </para>
+    </detaileddescription>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" line="127" column="22" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/dto/UserDTO.java" bodystart="127" bodyend="127"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

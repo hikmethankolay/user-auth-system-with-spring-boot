@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="37" column="18" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="37" bodyend="-1"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="36" column="18" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="36" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a75e74a93e40786a247226ede3a576cea" prot="private" static="no" mutable="no">
         <type>String</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="41" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="41" bodyend="-1"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="40" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="40" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a76db39ccf0b5441b09be10a8e1c84cfc" prot="private" static="no" mutable="no">
         <type>String</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="45" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="45" bodyend="-1"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="44" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="44" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a7c2abd965315ae40318c29bba1299497" prot="private" static="no" mutable="no">
         <type>String</type>
@@ -62,23 +62,22 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="49" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="49" bodyend="-1"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="48" column="20" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="48" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a3ffaa36bc3d6a9ec35c7e039d0574d61" prot="private" static="no" mutable="no">
-        <type>Set&lt; <ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role" kindref="compound">Role</ref> &gt;</type>
-        <definition>Set&lt;Role&gt; com.hikmethankolay.user_auth_system.entity.User.roles</definition>
+      <memberdef kind="variable" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1af36e95b791fbdaa4d10011995d779435" prot="private" static="no" mutable="no">
+        <type><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role" kindref="compound">Role</ref></type>
+        <definition>Role com.hikmethankolay.user_auth_system.entity.User.role</definition>
         <argsstring></argsstring>
-        <name>roles</name>
-        <qualifiedname>com.hikmethankolay.user_auth_system.entity.User.roles</qualifiedname>
-        <initializer>= new HashSet&lt;&gt;()</initializer>
+        <name>role</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.entity.User.role</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para>Roles assigned to the user. </para>
+<para>Role assigned to the user. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="56" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="56" bodyend="-1"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="53" column="18" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="53" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -133,7 +132,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="64" column="12" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="64" bodyend="68"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="61" column="12" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="61" bodyend="65"/>
       </memberdef>
       <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1affa8cd8d1b2421a0c85a7c6b51fa54d3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type></type>
@@ -148,7 +147,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="73" column="12" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="73" bodyend="73"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="70" column="12" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="70" bodyend="70"/>
       </memberdef>
       <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a12c89aadeedafb1a0af469d156ecf908" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>Long</type>
@@ -166,7 +165,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="79" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="79" bodyend="79"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="76" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="76" bodyend="76"/>
       </memberdef>
       <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a1788820c438a1d774a18880323513893" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -195,7 +194,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="85" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="85" bodyend="85"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="82" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="82" bodyend="82"/>
       </memberdef>
       <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a1d1b7d5fbe5a59c6bc5aa821d59af0b6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>String</type>
@@ -213,7 +212,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="91" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="91" bodyend="91"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="88" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="88" bodyend="88"/>
       </memberdef>
       <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1af5077a67d59f5000cbef7567d5d9be45" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -242,7 +241,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="97" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="97" bodyend="97"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="94" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="94" bodyend="94"/>
       </memberdef>
       <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a85c19c800be7ecfce53e05d804233348" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>String</type>
@@ -260,7 +259,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="103" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="103" bodyend="103"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="100" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="100" bodyend="100"/>
       </memberdef>
       <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a8ff62e251e6ea0a6746759bd8688c5c5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -289,7 +288,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="109" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="109" bodyend="109"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="106" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="106" bodyend="106"/>
       </memberdef>
       <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1ac2bdc203ab904313b10baefdb20ff5e3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>String</type>
@@ -307,7 +306,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="115" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="115" bodyend="115"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="112" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="112" bodyend="112"/>
       </memberdef>
       <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1ae13e41fff87e5df86bd7335e3153317e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -336,67 +335,38 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="121" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="121" bodyend="121"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="118" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="118" bodyend="118"/>
       </memberdef>
-      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1aeda17bccc77dcd0ccbff4910fc8c8e7f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type>Set&lt; <ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role" kindref="compound">Role</ref> &gt;</type>
-        <definition>Set&lt; Role &gt; com.hikmethankolay.user_auth_system.entity.User.getRoles</definition>
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a74435073c90237c0d04eab27dcb99010" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role" kindref="compound">Role</ref></type>
+        <definition>Role com.hikmethankolay.user_auth_system.entity.User.getRole</definition>
         <argsstring>()</argsstring>
-        <name>getRoles</name>
-        <qualifiedname>com.hikmethankolay.user_auth_system.entity.User.getRoles</qualifiedname>
+        <name>getRole</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.entity.User.getRole</qualifiedname>
         <briefdescription>
-<para>Gets the roles assigned to the user. </para>
+<para>Gets the role assigned to the user. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>A set of roles. </para>
+<para><simplesect kind="return"><para>The role. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="127" column="16" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="127" bodyend="127"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="124" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="124" bodyend="124"/>
       </memberdef>
-      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a8eb747a51bdc6712e0fce61c3a01b108" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a2aabdc48db8b988dfdee8c61596c43bb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
-        <definition>void com.hikmethankolay.user_auth_system.entity.User.setRoles</definition>
-        <argsstring>(Set&lt; Role &gt; roles)</argsstring>
-        <name>setRoles</name>
-        <qualifiedname>com.hikmethankolay.user_auth_system.entity.User.setRoles</qualifiedname>
-        <param>
-          <type>Set&lt; <ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role" kindref="compound">Role</ref> &gt;</type>
-          <declname>roles</declname>
-        </param>
-        <briefdescription>
-<para>Sets the roles assigned to the user. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>roles</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The set of roles to be assigned. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="133" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="133" bodyend="133"/>
-      </memberdef>
-      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1af268e4c8a5a56b2531179e5ebbfdbbdd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type>void</type>
-        <definition>void com.hikmethankolay.user_auth_system.entity.User.addRole</definition>
+        <definition>void com.hikmethankolay.user_auth_system.entity.User.setRole</definition>
         <argsstring>(Role role)</argsstring>
-        <name>addRole</name>
-        <qualifiedname>com.hikmethankolay.user_auth_system.entity.User.addRole</qualifiedname>
+        <name>setRole</name>
+        <qualifiedname>com.hikmethankolay.user_auth_system.entity.User.setRole</qualifiedname>
         <param>
           <type><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role" kindref="compound">Role</ref></type>
           <declname>role</declname>
         </param>
         <briefdescription>
-<para>Adds a role to the user. </para>
+<para>Sets the role assigned to the user. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -404,7 +374,7 @@
 <parametername>role</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The role to be added. </para>
+<para>The role to be assigned. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -412,36 +382,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="139" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="139" bodyend="139"/>
-      </memberdef>
-      <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a761cae6d69deaa36ff5f20bdd87e4468" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type>void</type>
-        <definition>void com.hikmethankolay.user_auth_system.entity.User.removeRole</definition>
-        <argsstring>(Role role)</argsstring>
-        <name>removeRole</name>
-        <qualifiedname>com.hikmethankolay.user_auth_system.entity.User.removeRole</qualifiedname>
-        <param>
-          <type><ref refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role" kindref="compound">Role</ref></type>
-          <declname>role</declname>
-        </param>
-        <briefdescription>
-<para>Removes a role from the user. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>role</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The role to be removed. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="145" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="145" bodyend="145"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="130" column="17" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="130" bodyend="130"/>
       </memberdef>
       <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a86c1b7a8750e8c392fbadfa4674338d8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>Collection&lt;? extends GrantedAuthority &gt;</type>
@@ -459,7 +400,8 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="152" column="23" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="152" bodyend="156"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="137" column="23" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="137" bodyend="142"/>
+        <references refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1Role_1a3bff212368f5ef950d7fe54d7c7f75d5" compoundref="Role_8java" startline="75" endline="77">com.hikmethankolay.user_auth_system.entity.Role.getName</references>
       </memberdef>
       <memberdef kind="function" id="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a879166d63131edd925e8ef92e0b4cfe3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>String</type>
@@ -477,14 +419,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="163" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="163" bodyend="171"/>
+        <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="149" column="19" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="149" bodyend="157"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
 <para>Entity representing a system user. </para>
     </briefdescription>
     <detaileddescription>
-<para>This class defines the structure of a user, including authentication credentials and assigned roles. </para>
+<para>This class defines the structure of a user, including authentication credentials and assigned role. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="2">
@@ -508,24 +450,22 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="32" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="32" bodyend="172"/>
+    <location file="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" line="31" column="7" bodyfile="user-auth-system/src/main/java/com/hikmethankolay/user_auth_system/entity/User.java" bodystart="31" bodyend="158"/>
     <listofallmembers>
-      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1af268e4c8a5a56b2531179e5ebbfdbbdd" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::entity::User</scope><name>addRole</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a76db39ccf0b5441b09be10a8e1c84cfc" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::entity::User</scope><name>email</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a86c1b7a8750e8c392fbadfa4674338d8" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::entity::User</scope><name>getAuthorities</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a85c19c800be7ecfce53e05d804233348" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::entity::User</scope><name>getEmail</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a12c89aadeedafb1a0af469d156ecf908" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::entity::User</scope><name>getId</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1ac2bdc203ab904313b10baefdb20ff5e3" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::entity::User</scope><name>getPassword</name></member>
-      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1aeda17bccc77dcd0ccbff4910fc8c8e7f" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::entity::User</scope><name>getRoles</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a74435073c90237c0d04eab27dcb99010" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::entity::User</scope><name>getRole</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a1d1b7d5fbe5a59c6bc5aa821d59af0b6" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::entity::User</scope><name>getUsername</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1ac4a66bc48ffc61b4d207e7355ba822be" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::entity::User</scope><name>id</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a7c2abd965315ae40318c29bba1299497" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::entity::User</scope><name>password</name></member>
-      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a761cae6d69deaa36ff5f20bdd87e4468" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::entity::User</scope><name>removeRole</name></member>
-      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a3ffaa36bc3d6a9ec35c7e039d0574d61" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::entity::User</scope><name>roles</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1af36e95b791fbdaa4d10011995d779435" prot="private" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::entity::User</scope><name>role</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a8ff62e251e6ea0a6746759bd8688c5c5" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::entity::User</scope><name>setEmail</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a1788820c438a1d774a18880323513893" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::entity::User</scope><name>setId</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1ae13e41fff87e5df86bd7335e3153317e" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::entity::User</scope><name>setPassword</name></member>
-      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a8eb747a51bdc6712e0fce61c3a01b108" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::entity::User</scope><name>setRoles</name></member>
+      <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a2aabdc48db8b988dfdee8c61596c43bb" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::entity::User</scope><name>setRole</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1af5077a67d59f5000cbef7567d5d9be45" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::entity::User</scope><name>setUsername</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1a879166d63131edd925e8ef92e0b4cfe3" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::entity::User</scope><name>toString</name></member>
       <member refid="classcom_1_1hikmethankolay_1_1user__auth__system_1_1entity_1_1User_1aa6fbf6ad236c76e39e7e86bf3128aa97" prot="public" virt="non-virtual"><scope>com::hikmethankolay::user_auth_system::entity::User</scope><name>User</name></member>

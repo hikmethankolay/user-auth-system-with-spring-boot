@@ -29,7 +29,7 @@
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="normal"></highlight></codeline>
-<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">package<sp/></highlight><highlight class="normal">com.hikmethankolay.user_auth_system.validator;<sp/></highlight></codeline>
+<codeline lineno="9" refid="namespacecom_1_1tubitak__1001_1_1backend__app_1_1valiadator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">package<sp/></highlight><highlight class="normal">com.hikmethankolay.user_auth_system.validator;<sp/></highlight></codeline>
 <codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>jakarta.validation.Constraint;</highlight></codeline>
 <codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>jakarta.validation.Payload;</highlight></codeline>
 <codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>java.lang.annotation.*;</highlight></codeline>
@@ -40,7 +40,7 @@
 <codeline lineno="26"><highlight class="normal">@Documented</highlight></codeline>
 <codeline lineno="27" refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">@interface</highlight><highlight class="normal"><sp/><ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum" kindref="compound">ValidEnum</ref><sp/>{</highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight></codeline>
-<codeline lineno="33" refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a44543a45b2fe1c5064bdfaec5c52f54d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a44543a45b2fe1c5064bdfaec5c52f54d" kindref="member">message</ref>()<sp/>default<sp/>&quot;Field<sp/>should<sp/>be<sp/>one<sp/>of<sp/>{enumClass}<sp/>values.</highlight><highlight class="stringliteral">&quot;;</highlight></codeline>
+<codeline lineno="33" refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1acc200fe5f61c2b92b057d8c9ce3a78b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>String<sp/><ref refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1acc200fe5f61c2b92b057d8c9ce3a78b4" kindref="member">message</ref>()<sp/>default<sp/>&quot;Alan<sp/>{enumClass}<sp/>değerlerinden<sp/>biri<sp/>olmalı.</highlight><highlight class="stringliteral">&quot;;</highlight></codeline>
 <codeline lineno="34"><highlight class="stringliteral"></highlight></codeline>
 <codeline lineno="39" refid="interfacecom_1_1hikmethankolay_1_1user__auth__system_1_1validator_1_1ValidEnum_1a2fa3bee1b5fe80f8c63b3601dc8f1afe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Class&lt;?&gt;[]<sp/>groups()<sp/>default<sp/>{};</highlight></codeline>
 <codeline lineno="40"><highlight class="normal"></highlight></codeline>
