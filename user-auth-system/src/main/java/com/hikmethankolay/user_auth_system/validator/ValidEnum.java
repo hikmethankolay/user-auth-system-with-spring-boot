@@ -30,7 +30,7 @@ public @interface ValidEnum {
      * @brief Error message to be returned if validation fails.
      * @return The error message.
      */
-    String message() default "Field should be one of {enumClass} values.";
+    String message() default "Alan {enumClass} değerlerinden biri olmalı.";
 
     /**
      * @brief Groups for validation.

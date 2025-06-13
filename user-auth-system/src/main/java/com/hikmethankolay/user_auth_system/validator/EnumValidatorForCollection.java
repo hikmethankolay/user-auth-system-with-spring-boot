@@ -6,7 +6,10 @@
  * @date 2025
  */
 
-package com.hikmethankolay.user_auth_system.validator;
+package com.hikmethankolay.user_auth_system.validator; /**< @package com.hikmethankolay.user_auth_system.validator
+                                                 *   @brief Package for custom validators in the application.
+                                                 *   @details This package contains custom validation logic for various use cases.
+                                                 */
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -31,10 +34,15 @@ public class EnumValidatorForCollection implements ConstraintValidator<ValidEnum
      */
     @Override
     public void initialize(ValidEnum annotation) {
-        this.ignoreCase = annotation.ignoreCase();
-        this.acceptedValues = Arrays.stream(annotation.enumClass().getEnumConstants())
+        ignoreCase = annotation.ignoreCase();
+        acceptedValues = Arrays.stream(annotation.enumClass().getEnumConstants())
                 .map(Enum::name)
                 .collect(Collectors.toList());
+        if (ignoreCase) {
+            acceptedValues = acceptedValues.stream()
+                    .map(String::toLowerCase)
+                    .collect(Collectors.toList());
+        }
     }
 
     /**
@@ -45,28 +53,18 @@ public class EnumValidatorForCollection implements ConstraintValidator<ValidEnum
      */
     @Override
     public boolean isValid(Collection<String> values, ConstraintValidatorContext context) {
-        if (values == null || values.isEmpty()) {
+        if (values == null) {
             return true;
         }
-
         for (String value : values) {
             if (value == null) {
                 return false;
             }
-
-            boolean isValid = false;
-            if (ignoreCase) {
-                isValid = acceptedValues.stream()
-                        .anyMatch(acceptedValue -> acceptedValue.equalsIgnoreCase(value));
-            } else {
-                isValid = acceptedValues.contains(value);
-            }
-
-            if (!isValid) {
+            String valueToCheck = ignoreCase ? value.toLowerCase() : value;
+            if (!acceptedValues.contains(valueToCheck)) {
                 return false;
             }
         }
-
         return true;
     }
 }

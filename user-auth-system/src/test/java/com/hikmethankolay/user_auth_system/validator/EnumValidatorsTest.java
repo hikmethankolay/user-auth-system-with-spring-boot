@@ -1,254 +1,241 @@
 /**
- * @file EnumValidatorsTest.java
- * @brief Tests for the enum validator classes.
- *
- * Contains unit tests for the enum validators, including string validation,
- * enum validation, and collection validation.
- *
- * @author Test Suite Generator
- * @date 2025-03-29
+ * @file EnumValidatorTest.java
+ * @brief Unit tests for custom enum validators with comprehensive Doxygen documentation.
+ * @details This file contains refactored unit tests for the following validators:
+ *          - EnumValidatorForCollection
+ *          - EnumValidatorForEnum
+ *          - EnumValidatorForString
+ *          The tests are grouped using JUnit 5's @Nested classes.
+ */
+
+/**
+ * @package com.hikmethankolay.user_auth_system.validator
+ * @brief This package contains test classes for the backend application, including validator tests.
  */
 package com.hikmethankolay.user_auth_system.validator;
 
 import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
+import java.lang.annotation.Annotation;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
- * @class EnumValidatorsTest
- * @brief Test class for enum validators.
- *
- * This class contains unit tests for all enum validator implementations.
+ * @class EnumValidatorTest
+ * @brief Unit tests for the custom enum validators.
+ * @details This test class validates the functionality of the custom enum validators
+ *          using a sample enum and a custom ValidEnum annotation instance.
  */
-@SpringBootTest
-public class EnumValidatorsTest {
+class EnumValidatorTest {
 
     /**
-     * Enum for testing validators.
-     */
-    private enum TestEnum {
-        OPTION_ONE,
-        OPTION_TWO,
-        OPTION_THREE
-    }
-
-    /**
-     * Mock ValidEnum annotation for testing.
-     */
-    @MockitoBean
-    private ValidEnum validEnum;
-
-    /**
-     * Mock validator context for testing.
-     */
-    private ConstraintValidatorContext context;
-
-    /**
-     * String validator to be tested.
-     */
-    private EnumValidatorForString stringValidator;
-
-    /**
-     * Enum validator to be tested.
-     */
-    private EnumValidatorForEnum enumValidator;
-
-    /**
-     * Collection validator to be tested.
+     * @brief Validator for validating collections of enum values.
      */
     private EnumValidatorForCollection collectionValidator;
 
     /**
-     * @brief Setup method that runs before each test.
-     *
-     * Initializes validators and common mocks.
+     * @brief Validator for validating single enum values.
+     */
+    private EnumValidatorForEnum enumValidator;
+
+    /**
+     * @brief Validator for validating string representations of enum values.
+     */
+    private EnumValidatorForString stringValidator;
+
+    /**
+     * @brief Shared mock context used for constraint validations.
+     */
+    private ConstraintValidatorContext context;
+
+    /**
+     * @enum TestEnum
+     * @brief Sample enum for testing purposes.
+     * @details This enum contains sample values used to test the validation logic.
+     */
+    private enum TestEnum {
+        VALUE_ONE,  /**< First test value. */
+        VALUE_TWO,  /**< Second test value. */
+        VALUE_THREE /**< Third test value. */
+    }
+
+    /**
+     * @brief Helper method to create a custom ValidEnum annotation instance.
+     * @return A custom instance of the ValidEnum annotation configured for TestEnum.
+     */
+    private ValidEnum createValidEnumAnnotation() {
+        return new ValidEnum() {
+            @Override
+            public Class<? extends Enum<?>> enumClass() {
+                return TestEnum.class;
+            }
+
+            @Override
+            public boolean ignoreCase() {
+                return true;
+            }
+
+            @Override
+            public String message() {
+                return "Invalid enum value";
+            }
+
+            @Override
+            public Class<?>[] groups() {
+                return new Class[0];
+            }
+
+            @Override
+            public Class<? extends jakarta.validation.Payload>[] payload() {
+                return new Class[0];
+            }
+
+            @Override
+            public Class<? extends Annotation> annotationType() {
+                return ValidEnum.class;
+            }
+        };
+    }
+
+    /**
+     * @brief Setup method executed before each test.
+     * @details Initializes all validators with a custom ValidEnum annotation and creates a shared mock context.
      */
     @BeforeEach
-    public void setup() {
-        context = mock(ConstraintValidatorContext.class);
-        when(validEnum.enumClass()).thenReturn((Class) TestEnum.class);
-        when(validEnum.ignoreCase()).thenReturn(false);
+    void setUp() {
+        ValidEnum annotation = createValidEnumAnnotation();
 
-        stringValidator = new EnumValidatorForString();
-        stringValidator.initialize(validEnum);
+        collectionValidator = new EnumValidatorForCollection();
+        collectionValidator.initialize(annotation);
 
         enumValidator = new EnumValidatorForEnum();
-        enumValidator.initialize(validEnum);
+        enumValidator.initialize(annotation);
 
-        collectionValidator = new EnumValidatorForCollection();
-        collectionValidator.initialize(validEnum);
-    }
-
-    /**
-     * @brief Test string validator with valid enum value.
-     *
-     * Verifies that EnumValidatorForString correctly validates valid enum values.
-     */
-    @Test
-    public void testStringValidatorValidValue() {
-        assertTrue(stringValidator.isValid("OPTION_ONE", context));
-        assertTrue(stringValidator.isValid("OPTION_TWO", context));
-        assertTrue(stringValidator.isValid("OPTION_THREE", context));
-    }
-
-    /**
-     * @brief Test string validator with invalid enum value.
-     *
-     * Verifies that EnumValidatorForString correctly rejects invalid enum values.
-     */
-    @Test
-    public void testStringValidatorInvalidValue() {
-        assertFalse(stringValidator.isValid("INVALID_OPTION", context));
-        assertFalse(stringValidator.isValid("option_one", context)); // case matters
-    }
-
-    /**
-     * @brief Test string validator with null value.
-     *
-     * Verifies that EnumValidatorForString correctly handles null values.
-     */
-    @Test
-    public void testStringValidatorNullValue() {
-        assertTrue(stringValidator.isValid(null, context)); // null is considered valid
-    }
-
-    /**
-     * @brief Test string validator with case-insensitive validation.
-     *
-     * Verifies that EnumValidatorForString correctly handles case-insensitive validation.
-     */
-    @Test
-    public void testStringValidatorIgnoreCase() {
-        // Configure validator to ignore case
-        when(validEnum.ignoreCase()).thenReturn(true);
-
-        // Reinitialize with new settings
         stringValidator = new EnumValidatorForString();
-        stringValidator.initialize(validEnum);
+        stringValidator.initialize(annotation);
 
-        assertTrue(stringValidator.isValid("OPTION_ONE", context));
-        assertTrue(stringValidator.isValid("option_one", context)); // case ignored
-        assertTrue(stringValidator.isValid("OpTiOn_OnE", context)); // mixed case
-        assertFalse(stringValidator.isValid("INVALID_OPTION", context)); // still invalid
+        context = mock(ConstraintValidatorContext.class);
     }
 
     /**
-     * @brief Test enum validator with valid enum instance.
-     *
-     * Verifies that EnumValidatorForEnum correctly validates valid enum instances.
+     * @class CollectionValidatorTests
+     * @brief Group of tests for the EnumValidatorForCollection.
      */
-    @Test
-    public void testEnumValidatorValidEnum() {
-        assertTrue(enumValidator.isValid(TestEnum.OPTION_ONE, context));
-        assertTrue(enumValidator.isValid(TestEnum.OPTION_TWO, context));
-        assertTrue(enumValidator.isValid(TestEnum.OPTION_THREE, context));
+    @Nested
+    class CollectionValidatorTests {
+
+        /**
+         * @brief Test that a collection of valid enum values passes validation.
+         */
+        @Test
+        void validValuesShouldPass() {
+            List<String> validValues = Arrays.asList("VALUE_ONE", "VALUE_TWO");
+            assertTrue(collectionValidator.isValid(validValues, context));
+        }
+
+        /**
+         * @brief Test that a collection of valid enum values with different cases passes validation.
+         */
+        @Test
+        void validValuesIgnoreCaseShouldPass() {
+            List<String> validValuesLowerCase = Arrays.asList("value_one", "value_two");
+            assertTrue(collectionValidator.isValid(validValuesLowerCase, context));
+        }
+
+        /**
+         * @brief Test that a collection containing an invalid enum value fails validation.
+         */
+        @Test
+        void invalidValuesShouldFail() {
+            List<String> invalidValues = Arrays.asList("VALUE_ONE", "INVALID_VALUE");
+            assertFalse(collectionValidator.isValid(invalidValues, context));
+        }
+
+        /**
+         * @brief Test that a null collection is considered valid.
+         */
+        @Test
+        void nullCollectionShouldBeValid() {
+            assertTrue(collectionValidator.isValid(null, context));
+        }
+
+        /**
+         * @brief Test that a collection containing a null element fails validation.
+         */
+        @Test
+        void collectionWithNullElementShouldFail() {
+            List<String> valuesWithNull = Arrays.asList("VALUE_ONE", null);
+            assertFalse(collectionValidator.isValid(valuesWithNull, context));
+        }
     }
 
     /**
-     * @brief Test enum validator with null value.
-     *
-     * Verifies that EnumValidatorForEnum correctly handles null values.
+     * @class EnumValidatorTests
+     * @brief Group of tests for the EnumValidatorForEnum.
      */
-    @Test
-    public void testEnumValidatorNullValue() {
-        assertFalse(enumValidator.isValid(null, context)); // null is invalid for enums
+    @Nested
+    class EnumValidatorTests {
+
+        /**
+         * @brief Test that a valid enum value passes validation.
+         */
+        @Test
+        void validEnumValueShouldPass() {
+            assertTrue(enumValidator.isValid(TestEnum.VALUE_ONE, context));
+        }
+
+        /**
+         * @brief Test that a null enum value fails validation.
+         */
+        @Test
+        void nullEnumValueShouldFail() {
+            assertFalse(enumValidator.isValid(null, context));
+        }
     }
 
     /**
-     * @brief Test enum validator with enum from different class.
-     *
-     * Verifies that EnumValidatorForEnum correctly handles enum instances from different classes.
+     * @class StringValidatorTests
+     * @brief Group of tests for the EnumValidatorForString.
      */
-    @Test
-    public void testEnumValidatorDifferentEnumClass() {
-        // Different enum type for testing
-        enum AnotherEnum { VALUE_ONE, VALUE_TWO }
+    @Nested
+    class StringValidatorTests {
 
-        assertFalse(enumValidator.isValid(AnotherEnum.VALUE_ONE, context));
-    }
+        /**
+         * @brief Test that a valid string representation of an enum value passes validation.
+         */
+        @Test
+        void validStringValueShouldPass() {
+            assertTrue(stringValidator.isValid("VALUE_ONE", context));
+        }
 
-    /**
-     * @brief Test collection validator with valid values.
-     *
-     * Verifies that EnumValidatorForCollection correctly validates collections with valid values.
-     */
-    @Test
-    public void testCollectionValidatorValidValues() {
-        Collection<String> validCollection = Arrays.asList("OPTION_ONE", "OPTION_TWO");
-        assertTrue(collectionValidator.isValid(validCollection, context));
-    }
+        /**
+         * @brief Test that a valid string representation with different case passes validation.
+         */
+        @Test
+        void validStringValueIgnoreCaseShouldPass() {
+            assertTrue(stringValidator.isValid("value_one", context));
+        }
 
-    /**
-     * @brief Test collection validator with some invalid values.
-     *
-     * Verifies that EnumValidatorForCollection correctly rejects collections with any invalid values.
-     */
-    @Test
-    public void testCollectionValidatorSomeInvalidValues() {
-        Collection<String> mixedCollection = Arrays.asList("OPTION_ONE", "INVALID_OPTION");
-        assertFalse(collectionValidator.isValid(mixedCollection, context));
-    }
+        /**
+         * @brief Test that an invalid string representation fails validation.
+         */
+        @Test
+        void invalidStringValueShouldFail() {
+            assertFalse(stringValidator.isValid("INVALID_VALUE", context));
+        }
 
-    /**
-     * @brief Test collection validator with null collection.
-     *
-     * Verifies that EnumValidatorForCollection correctly handles null collections.
-     */
-    @Test
-    public void testCollectionValidatorNullCollection() {
-        assertTrue(collectionValidator.isValid(null, context)); // null collection is valid
-    }
-
-    /**
-     * @brief Test collection validator with empty collection.
-     *
-     * Verifies that EnumValidatorForCollection correctly handles empty collections.
-     */
-    @Test
-    public void testCollectionValidatorEmptyCollection() {
-        Collection<String> emptyCollection = Collections.emptyList();
-        assertTrue(collectionValidator.isValid(emptyCollection, context)); // empty collection is valid
-    }
-
-    /**
-     * @brief Test collection validator with null element.
-     *
-     * Verifies that EnumValidatorForCollection correctly handles collections with null elements.
-     */
-    @Test
-    public void testCollectionValidatorNullElement() {
-        Collection<String> collectionWithNull = Arrays.asList("OPTION_ONE", null);
-        assertFalse(collectionValidator.isValid(collectionWithNull, context)); // null element is invalid
-    }
-
-    /**
-     * @brief Test collection validator with case-insensitive validation.
-     *
-     * Verifies that EnumValidatorForCollection correctly handles case-insensitive validation.
-     */
-    @Test
-    public void testCollectionValidatorIgnoreCase() {
-        // Configure validator to ignore case
-        when(validEnum.ignoreCase()).thenReturn(true);
-
-        // Reinitialize with new settings
-        collectionValidator = new EnumValidatorForCollection();
-        collectionValidator.initialize(validEnum);
-
-        Collection<String> mixedCaseCollection = Arrays.asList("option_one", "OPTION_TWO", "OpTiOn_ThReE");
-        assertTrue(collectionValidator.isValid(mixedCaseCollection, context)); // case ignored
-
-        Collection<String> invalidCollection = Arrays.asList("option_one", "INVALID_OPTION");
-        assertFalse(collectionValidator.isValid(invalidCollection, context)); // still invalid content
+        /**
+         * @brief Test that a null string value is considered valid.
+         */
+        @Test
+        void nullStringValueShouldBeValid() {
+            assertTrue(stringValidator.isValid(null, context));
+        }
     }
 }

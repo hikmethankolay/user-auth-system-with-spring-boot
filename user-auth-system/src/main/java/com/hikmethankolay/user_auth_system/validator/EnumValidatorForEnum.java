@@ -6,7 +6,7 @@
  * @date 2025
  */
 
-package com.hikmethankolay.user_auth_system.validator; /**< @package com.tubitak_1001.backend_app.valiadator
+package com.hikmethankolay.user_auth_system.validator; /**< @package com.hikmethankolay.user_auth_system.validator
                                                  *   @brief Package for custom validators in the application.
                                                  *   @details This package contains custom validation logic for various use cases.
                                                  */
