@@ -11,8 +11,7 @@
 package com.hikmethankolay.user_auth_system.service;
 
 import com.hikmethankolay.user_auth_system.dto.LoginRequestDTO;
-import com.hikmethankolay.user_auth_system.dto.UserRegisterDTO;
-import com.hikmethankolay.user_auth_system.dto.UserUpdateDTO;
+import com.hikmethankolay.user_auth_system.dto.UserDTO;
 import com.hikmethankolay.user_auth_system.entity.Role;
 import com.hikmethankolay.user_auth_system.entity.User;
 import com.hikmethankolay.user_auth_system.enums.ERole;
@@ -50,7 +49,7 @@ public class UserServiceTest extends BaseServiceTest {
     /**
      * Set of mock constraint violations for validation testing.
      */
-    private Set<ConstraintViolation<UserRegisterDTO>> violations;
+    private Set<ConstraintViolation<UserDTO>> violations;
 
     /**
      * @brief Setup method that runs before each test.
@@ -75,7 +74,7 @@ public class UserServiceTest extends BaseServiceTest {
     @Test
     public void testRegisterUserSuccess() {
         // Arrange
-        UserRegisterDTO registerDTO = new UserRegisterDTO();
+        UserDTO registerDTO = new UserDTO();
         registerDTO.setUsername("testuser123");
         registerDTO.setEmail("test@example.com");
         registerDTO.setPassword("P@ssw0rd123!");
@@ -114,13 +113,13 @@ public class UserServiceTest extends BaseServiceTest {
     @Test
     public void testRegisterUserValidationError() {
         // Arrange
-        UserRegisterDTO registerDTO = new UserRegisterDTO();
+        UserDTO registerDTO = new UserDTO();
         registerDTO.setUsername("short"); // Too short username
         registerDTO.setEmail("invalid-email"); // Invalid email format
         registerDTO.setPassword("weak"); // Weak password
 
-        ConstraintViolation<UserRegisterDTO> mockViolation = mock(ConstraintViolation.class);
-        Set<ConstraintViolation<UserRegisterDTO>> violations = new HashSet<>();
+        ConstraintViolation<UserDTO> mockViolation = mock(ConstraintViolation.class);
+        Set<ConstraintViolation<UserDTO>> violations = new HashSet<>();
         violations.add(mockViolation);
 
         when(validator.validate(registerDTO)).thenReturn(violations);
@@ -140,7 +139,7 @@ public class UserServiceTest extends BaseServiceTest {
     @Test
     public void testRegisterUserUsernameExists() {
         // Arrange
-        UserRegisterDTO registerDTO = new UserRegisterDTO();
+        UserDTO registerDTO = new UserDTO();
         registerDTO.setUsername("existinguser");
         registerDTO.setEmail("new@example.com");
         registerDTO.setPassword("P@ssw0rd123!");
@@ -165,7 +164,7 @@ public class UserServiceTest extends BaseServiceTest {
     @Test
     public void testRegisterUserEmailExists() {
         // Arrange
-        UserRegisterDTO registerDTO = new UserRegisterDTO();
+        UserDTO registerDTO = new UserDTO();
         registerDTO.setUsername("newuser");
         registerDTO.setEmail("existing@example.com");
         registerDTO.setPassword("P@ssw0rd123!");
@@ -391,7 +390,7 @@ public class UserServiceTest extends BaseServiceTest {
     @Test
     public void testUpdateUserSuccess() {
         // Arrange
-        UserUpdateDTO updateDTO = new UserUpdateDTO();
+        UserDTO updateDTO = new UserDTO();
         updateDTO.setUsername("newusername");
         updateDTO.setEmail("new@example.com");
         updateDTO.setPassword("NewP@ssw0rd123!");
@@ -402,9 +401,7 @@ public class UserServiceTest extends BaseServiceTest {
         User requester = new User("admin", "admin@example.com", "adminpassword");
         requester.setId(2L);
         Role adminRole = new Role(ERole.ROLE_ADMIN);
-        Set<Role> adminRoles = new HashSet<>();
-        adminRoles.add(adminRole);
-        requester.setRoles(adminRoles);
+        requester.setRole(adminRole);
 
         when(validator.validate(updateDTO)).thenReturn(Collections.emptySet());
         when(userRepository.findById(1L)).thenReturn(Optional.of(existingUser));
@@ -440,12 +437,12 @@ public class UserServiceTest extends BaseServiceTest {
     @Test
     public void testUpdateUserValidationError() {
         // Arrange
-        UserUpdateDTO updateDTO = new UserUpdateDTO();
+        UserDTO updateDTO = new UserDTO();
         updateDTO.setUsername("short"); // Too short username
         updateDTO.setEmail("invalid-email"); // Invalid email format
 
-        ConstraintViolation<UserUpdateDTO> mockViolation = mock(ConstraintViolation.class);
-        Set<ConstraintViolation<UserUpdateDTO>> violations = new HashSet<>();
+        ConstraintViolation<UserDTO> mockViolation = mock(ConstraintViolation.class);
+        Set<ConstraintViolation<UserDTO>> violations = new HashSet<>();
         violations.add(mockViolation);
 
         when(validator.validate(updateDTO)).thenReturn(violations);
@@ -465,7 +462,7 @@ public class UserServiceTest extends BaseServiceTest {
     @Test
     public void testUpdateUserUsernameExists() {
         // Arrange
-        UserUpdateDTO updateDTO = new UserUpdateDTO();
+        UserDTO updateDTO = new UserDTO();
         updateDTO.setUsername("existinguser");
         updateDTO.setEmail("new@example.com");
 
@@ -493,7 +490,7 @@ public class UserServiceTest extends BaseServiceTest {
     @Test
     public void testUpdateUserEmailExists() {
         // Arrange
-        UserUpdateDTO updateDTO = new UserUpdateDTO();
+        UserDTO updateDTO = new UserDTO();
         updateDTO.setUsername("newusername");
         updateDTO.setEmail("existing@example.com");
 
@@ -531,7 +528,7 @@ public class UserServiceTest extends BaseServiceTest {
     @Test
     public void testUpdateUserNotFound() {
         // Arrange
-        UserUpdateDTO updateDTO = new UserUpdateDTO();
+        UserDTO updateDTO = new UserDTO();
         updateDTO.setUsername("newusername");
         updateDTO.setEmail("new@example.com");
 
@@ -560,7 +557,7 @@ public class UserServiceTest extends BaseServiceTest {
     @Test
     public void testUpdateUserRequesterNotFound() {
         // Arrange
-        UserUpdateDTO updateDTO = new UserUpdateDTO();
+        UserDTO updateDTO = new UserDTO();
         updateDTO.setUsername("newusername");
         updateDTO.setEmail("new@example.com");
 

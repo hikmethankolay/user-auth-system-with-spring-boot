@@ -23,6 +23,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
@@ -57,10 +58,11 @@ public class AuthController {
      * @return Response entity containing the registration result.
      */
     @PostMapping("/register")
-    public ResponseEntity<ApiResponseDTO<UserInfoDTO>> register(@RequestBody UserRegisterDTO registerRequest) {
+    public ResponseEntity<ApiResponseDTO<UserDTO>> register(
+            @Validated(UserDTO.Registration.class) @RequestBody UserDTO registerRequest) {
         try {
             User registeredUser = userService.registerUser(registerRequest);
-            return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS, new UserInfoDTO(registeredUser), "User registered successfully"));
+            return ResponseEntity.ok(new ApiResponseDTO<>(EApiStatus.SUCCESS, new UserDTO(registeredUser), "User registered successfully"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ApiResponseDTO<>(EApiStatus.FAILURE, null, e.getMessage()));

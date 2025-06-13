@@ -11,7 +11,7 @@
 package com.hikmethankolay.user_auth_system.controller;
 
 import com.hikmethankolay.user_auth_system.dto.LoginRequestDTO;
-import com.hikmethankolay.user_auth_system.dto.UserRegisterDTO;
+import com.hikmethankolay.user_auth_system.dto.UserDTO;
 import com.hikmethankolay.user_auth_system.entity.User;
 import com.hikmethankolay.user_auth_system.enums.EApiStatus;
 import org.junit.jupiter.api.Test;
@@ -42,7 +42,7 @@ public class AuthControllerTest extends BaseControllerTest {
     @Test
     public void testRegisterSuccess() throws Exception {
         // Arrange
-        UserRegisterDTO registerDTO = new UserRegisterDTO();
+        UserDTO registerDTO = new UserDTO();
         registerDTO.setUsername("testuser123");
         registerDTO.setEmail("test@example.com");
         registerDTO.setPassword("P@ssw0rd123!");
@@ -50,7 +50,7 @@ public class AuthControllerTest extends BaseControllerTest {
         User registeredUser = new User(registerDTO.getUsername(), registerDTO.getEmail(), "encodedPassword");
         registeredUser.setId(1L);
 
-        when(userService.registerUser(any(UserRegisterDTO.class))).thenReturn(registeredUser);
+        when(userService.registerUser(any(UserDTO.class))).thenReturn(registeredUser);
 
         // Act & Assert
         mockMvc.perform(post("/api/auth/register")
@@ -72,12 +72,12 @@ public class AuthControllerTest extends BaseControllerTest {
     @Test
     public void testRegisterUserAlreadyExists() throws Exception {
         // Arrange
-        UserRegisterDTO registerDTO = new UserRegisterDTO();
+        UserDTO registerDTO = new UserDTO();
         registerDTO.setUsername("existinguser");
         registerDTO.setEmail("existing@example.com");
         registerDTO.setPassword("P@ssw0rd123!");
 
-        when(userService.registerUser(any(UserRegisterDTO.class)))
+        when(userService.registerUser(any(UserDTO.class)))
                 .thenThrow(new RuntimeException("Username is already taken!"));
 
         // Act & Assert

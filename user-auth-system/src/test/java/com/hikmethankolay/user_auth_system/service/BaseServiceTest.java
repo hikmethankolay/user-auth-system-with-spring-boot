@@ -12,7 +12,7 @@ package com.hikmethankolay.user_auth_system.service;
 
 import com.hikmethankolay.user_auth_system.repository.RoleRepository;
 import com.hikmethankolay.user_auth_system.repository.UserRepository;
-import com.hikmethankolay.user_auth_system.security.LoginAttemptService;
+
 import com.hikmethankolay.user_auth_system.util.JwtUtils;
 import jakarta.validation.Validator;
 import org.junit.jupiter.api.extension.ExtendWith;

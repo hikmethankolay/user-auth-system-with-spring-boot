@@ -9,16 +9,12 @@
  * @date 2025-03-29
  */
 
-/**
- * @package com.hikmethankolay.user_auth_system.security
- * @brief Contains security components of the User Authentication System.
- */
-package com.hikmethankolay.user_auth_system.security;
+package com.hikmethankolay.user_auth_system.service;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -30,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  * This service maintains a time-based cache of login attempts, blocking users
  * who exceed the maximum allowed number of failed attempts within a time period.
  */
-@Component
+@Service
 public class LoginAttemptService {
     /** Maximum number of login attempts allowed before blocking. */
     private final int MAX_ATTEMPT = 10;
@@ -89,4 +85,4 @@ public class LoginAttemptService {
             return false;
         }
     }
-}
+} 

@@ -111,9 +111,7 @@ public class JwtFilterTest {
         
         // Add role to user
         Role role = new Role(ERole.ROLE_USER);
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
-        user.setRoles(roles);
+        user.setRole(role);
         
         when(jwtUtils.extractTokenFromRequest(request)).thenReturn(token);
         when(jwtUtils.validateJwtToken(token)).thenReturn(TokenStatus.VALID);

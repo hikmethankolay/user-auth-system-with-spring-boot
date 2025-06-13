@@ -42,7 +42,7 @@ public class JwtUtils {
     private Long jwtExpirationMs;
 
     /** Extended expiration time for Remember Me */
-    @Value("${api.security.token.remember-me-expiration}") // 30 days in milliseconds
+    @Value("${api.security.token.remember-me-expiration}")
     private Long rememberMeExpirationMs;
 
     /**

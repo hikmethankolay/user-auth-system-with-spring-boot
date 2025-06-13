@@ -19,7 +19,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import com.hikmethankolay.user_auth_system.dto.LoginRequestDTO;
-import com.hikmethankolay.user_auth_system.dto.UserRegisterDTO;
+import com.hikmethankolay.user_auth_system.dto.UserDTO;
 import com.hikmethankolay.user_auth_system.entity.User;
 import com.hikmethankolay.user_auth_system.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -66,7 +66,7 @@ public class SecurityConfigTest {
     @Test
     public void testPublicEndpointsAccessible() throws Exception {
         // Prepare test data for registration
-        UserRegisterDTO registerDTO = new UserRegisterDTO();
+        UserDTO registerDTO = new UserDTO();
         registerDTO.setUsername("newuser123");
         registerDTO.setEmail("new@example.com");
         registerDTO.setPassword("P@ssw0rd123!");
@@ -77,7 +77,7 @@ public class SecurityConfigTest {
         // Mock service responses
         User mockUser = new User("testuser", "test@example.com", "encodedPassword");
         mockUser.setId(1L);
-        when(userService.registerUser(any(UserRegisterDTO.class))).thenReturn(mockUser);
+        when(userService.registerUser(any(UserDTO.class))).thenReturn(mockUser);
         when(userService.authenticateUser(any(LoginRequestDTO.class), anyString())).thenReturn("jwt.token.string");
 
         // Test registration endpoint

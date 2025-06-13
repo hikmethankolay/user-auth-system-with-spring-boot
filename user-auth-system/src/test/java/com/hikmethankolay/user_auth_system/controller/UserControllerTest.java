@@ -9,7 +9,7 @@
  */
 package com.hikmethankolay.user_auth_system.controller;
 
-import com.hikmethankolay.user_auth_system.dto.UserUpdateDTO;
+import com.hikmethankolay.user_auth_system.dto.UserDTO;
 import com.hikmethankolay.user_auth_system.entity.User;
 import com.hikmethankolay.user_auth_system.enums.EApiStatus;
 import org.junit.jupiter.api.Test;
@@ -232,14 +232,14 @@ public class UserControllerTest extends BaseControllerTest {
     @Test
     public void testUpdateUserSuccess() throws Exception {
         // Arrange
-        UserUpdateDTO updateDTO = new UserUpdateDTO();
+        UserDTO updateDTO = new UserDTO();
         updateDTO.setUsername("updateduser");
         updateDTO.setEmail("updated@example.com");
 
         User updatedUser = new User("updateduser", "updated@example.com", "password");
         updatedUser.setId(1L);
 
-        when(userService.updateUser(any(UserUpdateDTO.class), eq(1L), eq(2L))).thenReturn(updatedUser);
+        when(userService.updateUser(any(UserDTO.class), eq(1L), eq(2L))).thenReturn(updatedUser);
 
         // Act & Assert
         mockMvc.perform(patch("/api/users/1")
@@ -262,11 +262,11 @@ public class UserControllerTest extends BaseControllerTest {
     @Test
     public void testUpdateUserValidationError() throws Exception {
         // Arrange
-        UserUpdateDTO updateDTO = new UserUpdateDTO();
+        UserDTO updateDTO = new UserDTO();
         updateDTO.setUsername("short"); // Too short username
         updateDTO.setEmail("invalid-email"); // Invalid email format
 
-        when(userService.updateUser(any(UserUpdateDTO.class), eq(1L), eq(2L)))
+        when(userService.updateUser(any(UserDTO.class), eq(1L), eq(2L)))
                 .thenThrow(new RuntimeException("Validation failed: Username must be between 8 and 32 characters"));
 
         // Act & Assert
@@ -288,14 +288,14 @@ public class UserControllerTest extends BaseControllerTest {
     @Test
     public void testUpdateLoggedInUserSuccess() throws Exception {
         // Arrange
-        UserUpdateDTO updateDTO = new UserUpdateDTO();
+        UserDTO updateDTO = new UserDTO();
         updateDTO.setUsername("updateduser");
         updateDTO.setEmail("updated@example.com");
 
         User updatedUser = new User("updateduser", "updated@example.com", "password");
         updatedUser.setId(1L);
 
-        when(userService.updateUser(any(UserUpdateDTO.class), eq(1L), eq(1L))).thenReturn(updatedUser);
+        when(userService.updateUser(any(UserDTO.class), eq(1L), eq(1L))).thenReturn(updatedUser);
 
         // Act & Assert
         mockMvc.perform(patch("/api/users/me")

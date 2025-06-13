@@ -1,6 +1,6 @@
 /**
  * @file AuthConfig.java
- * @brief Security configuration for authentication.
+ * @brief Configuration for authentication.
  *
  * This class defines beans for password encoding and authentication management.
  *
@@ -8,11 +8,7 @@
  * @date 2025-02-12
  */
 
-/**
- * @package com.hikmethankolay.user_auth_system.security
- * @brief Contains the core components of the User Authentication System.
- */
-package com.hikmethankolay.user_auth_system.security;
+package com.hikmethankolay.user_auth_system.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * @class AuthConfig
- * @brief Security configuration class for authentication management.
+ * @brief Configuration class for authentication management.
  */
 @Configuration
 public class AuthConfig {
@@ -48,4 +44,4 @@ public class AuthConfig {
             AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-}
+} 

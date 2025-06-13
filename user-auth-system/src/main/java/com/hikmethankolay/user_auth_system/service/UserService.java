@@ -2,7 +2,7 @@
  * @file UserService.java
  * @brief Service class for user management.
  *
- * This class provides methods for managing users, authentication, validation, and role assignments.
+ * This class provides methods for managing users, authentication, validation, and role assignment.
  *
  * @author Hikmethan Kolay
  * @date 2025-02-12
@@ -21,7 +21,6 @@ import com.hikmethankolay.user_auth_system.enums.ERole;
 import com.hikmethankolay.user_auth_system.enums.TokenStatus;
 import com.hikmethankolay.user_auth_system.repository.RoleRepository;
 import com.hikmethankolay.user_auth_system.repository.UserRepository;
-import com.hikmethankolay.user_auth_system.security.LoginAttemptService;
 import com.hikmethankolay.user_auth_system.util.JwtUtils;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -123,22 +122,26 @@ public class UserService {
 
     /**
      * @brief Registers a new user.
-     * @param userInfoDTO The user information for registration.
+     * @param userDTO The user information for registration.
      * @return The newly registered user entity.
      */
     @Transactional
-    public User registerUser(UserRegisterDTO userInfoDTO) {
-        checkUserValidation(userInfoDTO,null);
+    public User registerUser(UserDTO userDTO) {
+        // Validate using Registration group
+        Set<ConstraintViolation<UserDTO>> violations = validator.validate(userDTO, UserDTO.Registration.class);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
+        
+        checkUserUniqueness(userDTO, null);
 
         User user = new User();
+        user.setEmail(userDTO.getEmail());
+        user.setUsername(userDTO.getUsername());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 
-        user.setEmail(userInfoDTO.getEmail());
-        user.setPassword(userInfoDTO.getPassword());
-        user.setUsername(userInfoDTO.getUsername());
-        user.setPassword(passwordEncoder.encode(userInfoDTO.getPassword()));
-
-        Set<ERole> roles = new HashSet<>(Set.of(ERole.ROLE_USER));
-        assignRolesToUser(user,roles);
+        // Assign default role
+        assignRoleToUser(user, ERole.ROLE_USER);
 
         return userRepository.save(user);
     }
@@ -223,12 +226,18 @@ public class UserService {
      * @throws RuntimeException if the user is not found or uniqueness checks fail
      */
     @Transactional
-    public User updateUser(UserUpdateDTO updates, Long id, Long requesterId) {
+    public User updateUser(UserDTO updates, Long id, Long requesterId) {
         if (updates == null) {
             throw new IllegalArgumentException("Updates cannot be null");
         }
 
-        checkUserValidation(updates, id);
+        // Validate using Update group
+        Set<ConstraintViolation<UserDTO>> violations = validator.validate(updates, UserDTO.Update.class);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
+
+        checkUserUniqueness(updates, id);
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
@@ -236,8 +245,8 @@ public class UserService {
         User requester = userRepository.findById(requesterId)
                 .orElseThrow(() -> new RuntimeException("Requester not found with id: " + requesterId));
 
-        boolean isAdminAction = requester.getRoles().stream()
-                .anyMatch(role -> role.getName().equals(ERole.ROLE_ADMIN));
+        boolean isAdminAction = requester.getRole() != null && 
+                requester.getRole().getName().equals(ERole.ROLE_ADMIN);
 
         if (StringUtils.hasText(updates.getUsername())) {
             user.setUsername(updates.getUsername().trim());
@@ -251,51 +260,45 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(updates.getPassword().trim()));
         }
 
-        if (updates.getRoles() != null && !updates.getRoles().isEmpty() && isAdminAction) {
-            user.setRoles(new HashSet<>());
-            assignRolesToUser(user, updates.getRoles());
+        if (updates.getRole() != null && isAdminAction) {
+            assignRoleToUser(user, updates.getRole());
         }
 
         return userRepository.save(user);
     }
 
     /**
-     * Validates user information and checks that username and email are unique.
+     * Validates user uniqueness (username and email).
      *
-     * @param userInfo the user info to validate
+     * @param userDTO the user DTO to validate
      * @param userId the ID of the user (to exclude self-check)
-     * @throws ConstraintViolationException if validation fails
      * @throws RuntimeException if username or email is already taken
      */
-    private <T extends UserInfo> void checkUserValidation(T userInfo, Long userId) {
-        Set<ConstraintViolation<T>> violations = validator.validate(userInfo);
-        if (!violations.isEmpty()) {
-            throw new ConstraintViolationException(violations);
+    private void checkUserUniqueness(UserDTO userDTO, Long userId) {
+        if (userDTO.getUsername() != null) {
+            userRepository.findByUsername(userDTO.getUsername())
+                    .filter(user -> !Objects.equals(user.getId(), userId))
+                    .ifPresent(user -> { throw new RuntimeException("Username is already taken!"); });
         }
 
-        userRepository.findByUsername(userInfo.getUsername())
-                .filter(user -> !Objects.equals(user.getId(), userId))
-                .ifPresent(user -> { throw new RuntimeException("Username is already taken!"); });
-
-        userRepository.findByEmail(userInfo.getEmail())
-                .filter(user -> !Objects.equals(user.getId(), userId))
-                .ifPresent(user -> { throw new RuntimeException("Email is already taken!"); });
+        if (userDTO.getEmail() != null) {
+            userRepository.findByEmail(userDTO.getEmail())
+                    .filter(user -> !Objects.equals(user.getId(), userId))
+                    .ifPresent(user -> { throw new RuntimeException("Email is already taken!"); });
+        }
     }
 
     /**
-     * @brief Assigns roles to a user.
-     * @param user The user to whom roles will be assigned.
-     * @param roles The set of roles to assign.
+     * @brief Assigns a role to a user.
+     * @param user The user to whom the role will be assigned.
+     * @param roleName The role to assign.
      */
-    private void assignRolesToUser(User user, Set<ERole> roles) {
-        for (ERole roleName : roles) {
-            Optional<Role> role = roleRepository.findByName(roleName);
-
-            if (role.isPresent()) {
-                user.addRole(role.get());
-            } else {
-                throw new RuntimeException("Role not found with name: " + roleName);
-            }
+    private void assignRoleToUser(User user, ERole roleName) {
+        Optional<Role> role = roleRepository.findByName(roleName);
+        if (role.isPresent()) {
+            user.setRole(role.get());
+        } else {
+            throw new RuntimeException("Role not found with name: " + roleName);
         }
     }
 }

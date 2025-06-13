@@ -8,15 +8,10 @@
  * @author Test Suite Generator
  * @date 2025-03-29
  */
-package com.hikmethankolay.user_auth_system.security;
+package com.hikmethankolay.user_auth_system.config;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -25,7 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 /**
  * @class AuthConfigTest
@@ -80,5 +74,4 @@ public class AuthConfigTest {
         assertTrue(encoder.matches(password, encoded));
         assertFalse(encoder.matches("wrongPassword", encoded));
     }
-
-}
+} 

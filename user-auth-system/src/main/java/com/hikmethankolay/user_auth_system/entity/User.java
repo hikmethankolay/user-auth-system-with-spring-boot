@@ -19,13 +19,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @class User
  * @brief Entity representing a system user.
  *
- * This class defines the structure of a user, including authentication credentials and assigned roles.
+ * This class defines the structure of a user, including authentication credentials and assigned role.
  */
 @Entity
 @Table(name = "users")
@@ -48,12 +47,10 @@ public class User implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
-    /** Roles assigned to the user. */
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    /** Role assigned to the user. */
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     /**
      * @brief Constructor with user details.
@@ -121,28 +118,16 @@ public class User implements UserDetails {
     public void setPassword(String password) { this.password = password; }
 
     /**
-     * @brief Gets the roles assigned to the user.
-     * @return A set of roles.
+     * @brief Gets the role assigned to the user.
+     * @return The role.
      */
-    public Set<Role> getRoles() { return roles; }
+    public Role getRole() { return role; }
 
     /**
-     * @brief Sets the roles assigned to the user.
-     * @param roles The set of roles to be assigned.
+     * @brief Sets the role assigned to the user.
+     * @param role The role to be assigned.
      */
-    public void setRoles(Set<Role> roles) { this.roles = roles; }
-
-    /**
-     * @brief Adds a role to the user.
-     * @param role The role to be added.
-     */
-    public void addRole(Role role) { this.roles.add(role); }
-
-    /**
-     * @brief Removes a role from the user.
-     * @param role The role to be removed.
-     */
-    public void removeRole(Role role) { this.roles.remove(role); }
+    public void setRole(Role role) { this.role = role; }
 
     /**
      * @brief Gets the authorities (roles) assigned to the user.
@@ -150,9 +135,10 @@ public class User implements UserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName().name()))
-                .collect(Collectors.toSet());
+        if (role != null) {
+            return List.of(new SimpleGrantedAuthority(role.getName().name()));
+        }
+        return List.of();
     }
 
     /**
@@ -166,7 +152,7 @@ public class User implements UserDetails {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", roles=" + roles +
+                ", role=" + role +
                 '}';
     }
 }
