@@ -93,7 +93,7 @@ public class AuthControllerTest extends BaseControllerTest {
     /**
      * @brief Test successful user login.
      *
-     * Verifies that the login endpoint correctly processes valid credentials.
+     * Verifies that the login endpoint correctly processes valid credentials and sets session cookie.
      */
     @Test
     public void testLoginSuccess() throws Exception {
@@ -112,7 +112,8 @@ public class AuthControllerTest extends BaseControllerTest {
                 .andExpect(jsonPath("$.data.token").value(token))
                 .andExpect(jsonPath("$.data.tokenType").value("Bearer"))
                 .andExpect(jsonPath("$.message").value("User authenticated successfully"))
-                .andExpect(cookie().doesNotExist("auth_token"));
+                .andExpect(cookie().exists("auth_token"))
+                .andExpect(cookie().httpOnly("auth_token", true));
     }
 
     /**
@@ -205,7 +206,7 @@ public class AuthControllerTest extends BaseControllerTest {
     /**
      * @brief Test successful token refresh.
      *
-     * Verifies that the refresh token endpoint correctly generates new tokens.
+     * Verifies that the refresh token endpoint correctly generates new tokens and sets session cookie.
      */
     @Test
     public void testRefreshTokenSuccess() throws Exception {
@@ -222,7 +223,9 @@ public class AuthControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(EApiStatus.SUCCESS.name()))
                 .andExpect(jsonPath("$.data.token").value(newToken))
-                .andExpect(jsonPath("$.message").value("Token refreshed successfully"));
+                .andExpect(jsonPath("$.message").value("Token refreshed successfully"))
+                .andExpect(cookie().exists("auth_token"))
+                .andExpect(cookie().httpOnly("auth_token", true));
     }
 
     /**

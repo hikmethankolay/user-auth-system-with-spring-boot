@@ -19,6 +19,7 @@ import com.hikmethankolay.user_auth_system.enums.EApiStatus;
 import com.hikmethankolay.user_auth_system.service.UserService;
 import com.hikmethankolay.user_auth_system.util.JwtUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -41,6 +42,14 @@ public class AuthController {
 
     /** JWT utilities for token operations. */
     private final JwtUtils jwtUtils;
+
+    /** Standard JWT Token expiration time in milliseconds. */
+    @Value("${api.security.token.expiration}")
+    private Long jwtExpirationMs;
+
+    /** Extended expiration time for Remember Me in milliseconds. */
+    @Value("${api.security.token.remember-me-expiration}")
+    private Long rememberMeExpirationMs;
 
     /**
      * @brief Constructor for AuthController.
@@ -73,7 +82,7 @@ public class AuthController {
      * @brief Handles user login with Remember Me support and brute force protection.
      * @param request The HTTP request used to get client IP.
      * @param loginRequest The login request containing credentials and Remember Me preference.
-     * @return Response entity with token and optional cookie or error message.
+     * @return Response entity with token and cookie or error message.
      */
     @PostMapping("/login")
     public ResponseEntity<ApiResponseDTO<AuthResponseDTO>> login(HttpServletRequest request, @RequestBody LoginRequestDTO loginRequest) {
@@ -89,18 +98,21 @@ public class AuthController {
                 AuthResponseDTO responseDTO = new AuthResponseDTO(token);
                 ResponseEntity.BodyBuilder responseBuilder = ResponseEntity.ok();
 
-                // If Remember Me is enabled, set a persistent cookie
-                if (loginRequest.rememberMe()) {
-                    ResponseCookie authCookie = ResponseCookie.from("auth_token", token)
-                            .httpOnly(true)
-                            .secure(false) // Enable in production with HTTPS
-                            .path("/")
-                            .maxAge(Duration.ofDays(30))
-                            .sameSite("Strict")
-                            .build();
+                // Always set a cookie with the JWT token
+                // Use configured expiration times from application.properties
+                Duration maxAge = loginRequest.rememberMe() 
+                    ? Duration.ofMillis(rememberMeExpirationMs) 
+                    : Duration.ofSeconds(-1);
+                
+                ResponseCookie authCookie = ResponseCookie.from("auth_token", token)
+                        .httpOnly(true)
+                        .secure(false) // Enable in production with HTTPS
+                        .path("/")
+                        .maxAge(maxAge)
+                        .sameSite("Strict")
+                        .build();
 
-                    responseBuilder.header(HttpHeaders.SET_COOKIE, authCookie.toString());
-                }
+                responseBuilder.header(HttpHeaders.SET_COOKIE, authCookie.toString());
 
                 return responseBuilder.body(new ApiResponseDTO<>(EApiStatus.SUCCESS, responseDTO, "User authenticated successfully"));
             } else {
@@ -166,17 +178,19 @@ public class AuthController {
                 AuthResponseDTO responseDTO = new AuthResponseDTO(newToken);
                 ResponseEntity.BodyBuilder responseBuilder = ResponseEntity.ok();
 
-                if (wasRememberMe) {
-                    ResponseCookie authCookie = ResponseCookie.from("auth_token", newToken)
-                            .httpOnly(true)
-                            .secure(true)
-                            .path("/")
-                            .maxAge(Duration.ofDays(30))
-                            .sameSite("Strict")
-                            .build();
+                // Always set a cookie with the new JWT token
+                // If the original token was Remember Me, maintain that setting
+                Duration maxAge = wasRememberMe ? Duration.ofMillis(rememberMeExpirationMs) : Duration.ofSeconds(-1);
 
-                    responseBuilder.header(HttpHeaders.SET_COOKIE, authCookie.toString());
-                }
+                ResponseCookie authCookie = ResponseCookie.from("auth_token", newToken)
+                        .httpOnly(true)
+                        .secure(false) // Enable when using HTTPS in production
+                        .path("/")
+                        .maxAge(maxAge)
+                        .sameSite("Strict")
+                        .build();
+
+                responseBuilder.header(HttpHeaders.SET_COOKIE, authCookie.toString());
 
                 return responseBuilder.body(
                         new ApiResponseDTO<>(EApiStatus.SUCCESS, responseDTO, "Token refreshed successfully")
