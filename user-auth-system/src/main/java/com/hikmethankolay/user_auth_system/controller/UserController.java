@@ -91,9 +91,8 @@ public class UserController {
     }
 
     /**
-     * @brief Retrieves a user by username or email.
+     * @brief Retrieves a user by username.
      * @param username The username.
-     * @param email The email.
      * @return Response entity containing user details or error message.
      */
     @GetMapping(value = "/users", params = {"username"})
@@ -101,6 +100,11 @@ public class UserController {
         return findUserByIdentifier(username, "username");
     }
 
+    /**
+     * @brief Retrieves a user by email.
+     * @param email The email.
+     * @return Response entity containing user details or error message.
+     */
     @GetMapping(value = "/users", params = {"email"})
     public ResponseEntity<ApiResponseDTO<UserDTO>> getUserByEmail(@RequestParam String email) {
         return findUserByIdentifier(email, "email");
