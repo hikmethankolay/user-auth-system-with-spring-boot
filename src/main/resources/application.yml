@@ -4,7 +4,8 @@ spring:
   application:
     name: spring-boot-template
   config:
-    import: optional:file:.env[.properties]
+    # Optional .env file in the working directory; DOTENV_PATH points elsewhere (tests disable it).
+    import: optional:file:${DOTENV_PATH:.env}[.properties]
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/app}
     username: ${DB_USERNAME:app}

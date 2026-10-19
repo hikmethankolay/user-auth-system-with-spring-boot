@@ -154,6 +154,10 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <argLine>@{argLine} -javaagent:${org.mockito:mockito-core:jar} -Xshare:off</argLine>
+                    <systemPropertyVariables>
+                        <!-- Tests must not depend on a developer's local .env: point to a file that does not exist. -->
+                        <DOTENV_PATH>${project.build.directory}/no-dotenv-in-tests</DOTENV_PATH>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
 
