@@ -47,6 +47,17 @@ detect_compose() {
   fi
 }
 
+# Sets CONTAINER to a working container CLI (docker or podman).
+detect_container_cli() {
+  if command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
+    CONTAINER=(docker)
+  elif command -v podman >/dev/null 2>&1 && podman info >/dev/null 2>&1; then
+    CONTAINER=(podman)
+  else
+    die "Docker or Podman is required (and must be running)."
+  fi
+}
+
 # Points Testcontainers at rootless Podman when Docker is not usable.
 configure_testcontainers() {
   if command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
