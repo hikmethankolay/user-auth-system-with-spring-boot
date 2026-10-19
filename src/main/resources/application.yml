@@ -1,0 +1,76 @@
+# Every value can be overridden with an environment variable or a .env file in the working directory.
+# See .env.example for the full list.
+spring:
+  application:
+    name: spring-boot-template
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/app}
+    username: ${DB_USERNAME:app}
+    password: ${DB_PASSWORD:app}
+  jpa:
+    open-in-view: false
+    hibernate:
+      # Schema is owned by src/main/resources/schema.sql; Hibernate only checks that entities match it.
+      ddl-auto: validate
+  sql:
+    init:
+      mode: always
+  data:
+    web:
+      pageable:
+        max-page-size: 100
+        # Pages are serialized as {"content":[...],"page":{"size","number","totalElements","totalPages"}}.
+        serialization-mode: via-dto
+  threads:
+    virtual:
+      enabled: true
+  web:
+    # Error and validation messages are always English, whatever the server's OS locale.
+    # Switch the resolver to "accept-header" and add messages_xx.properties to localise them.
+    locale: en
+    locale-resolver: fixed
+
+server:
+  port: ${PORT:8080}
+  # Set to "framework" or "native" when running behind a trusted reverse proxy,
+  # otherwise X-Forwarded-For is ignored (it can be spoofed by clients).
+  forward-headers-strategy: ${FORWARD_HEADERS_STRATEGY:none}
+  shutdown: graceful
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+springdoc:
+  swagger-ui:
+    enabled: ${SWAGGER_ENABLED:true}
+  api-docs:
+    enabled: ${SWAGGER_ENABLED:true}
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:}
+    issuer: ${spring.application.name}
+    access-token-ttl: ${JWT_ACCESS_TOKEN_TTL:15m}
+    remember-me-ttl: ${JWT_REMEMBER_ME_TTL:30d}
+  cookie:
+    name: auth_token
+    secure: ${COOKIE_SECURE:false}
+    same-site: Strict
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
+  login:
+    max-attempts: ${LOGIN_MAX_ATTEMPTS:10}
+    lock-duration: ${LOGIN_LOCK_DURATION:1h}
+  admin:
+    username: ${ADMIN_USERNAME:}
+    email: ${ADMIN_EMAIL:}
+    password: ${ADMIN_PASSWORD:}
