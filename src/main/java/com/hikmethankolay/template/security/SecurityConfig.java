@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter.ReferrerPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,6 +50,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
  *   <li>Role checks are declared on controller methods with {@code @PreAuthorize}.</li>
  * </ul>
  *
+ * <p>Every response carries a strict {@code Content-Security-Policy}, {@code Referrer-Policy: no-referrer}
+ * and a {@code Permissions-Policy}, on top of Spring Security's defaults ({@code X-Content-Type-Options},
+ * {@code X-Frame-Options}, {@code Cache-Control: no-store}, and HSTS on HTTPS requests).</p>
+ *
  * <p>CSRF protection is disabled because the API is stateless and the auth cookie defaults to
  * {@code SameSite=Strict}, so browsers never attach it to cross-site requests. Revisit this if
  * {@code app.cookie.same-site} is relaxed to {@code Lax} or {@code None}.</p>
@@ -66,6 +71,19 @@ public class SecurityConfig {
             "/v3/api-docs", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**",
             "/error"
     };
+
+    /**
+     * {@code Content-Security-Policy} for every response. API responses are JSON and never load
+     * anything; the relaxed sources only exist for the Swagger UI pages, which use their own
+     * scripts, inline styles and data-URI images.
+     */
+    private static final String CONTENT_SECURITY_POLICY = "default-src 'none'; script-src 'self'; "
+            + "style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; "
+            + "frame-ancestors 'none'; base-uri 'none'; form-action 'none'";
+
+    /** {@code Permissions-Policy}: the API never needs browser features such as the camera or location. */
+    private static final String PERMISSIONS_POLICY =
+            "camera=(), microphone=(), geolocation=(), payment=(), usb=()";
 
     /**
      * Filter chain for {@code PUBLIC_PATHS}: everything is permitted and no token is read.
@@ -122,6 +140,10 @@ public class SecurityConfig {
                 .logout(AbstractHttpConfigurer::disable)
                 .requestCache(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .headers(headers -> headers
+                        .contentSecurityPolicy(csp -> csp.policyDirectives(CONTENT_SECURITY_POLICY))
+                        .referrerPolicy(referrer -> referrer.policy(ReferrerPolicy.NO_REFERRER))
+                        .permissionsPolicyHeader(permissions -> permissions.policy(PERMISSIONS_POLICY)))
                 .exceptionHandling(exceptions -> exceptions
                         .authenticationEntryPoint(problemHandler)
                         .accessDeniedHandler(problemHandler));

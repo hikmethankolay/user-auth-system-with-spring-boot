@@ -228,6 +228,17 @@ class AuthIntegrationTest extends IntegrationTest {
     }
 
     @Test
+    void responsesCarrySecurityHeaders() throws Exception {
+        mockMvc.perform(get("/api/v1/users/me"))
+                .andExpect(header().string("Content-Security-Policy", containsString("default-src 'none'")))
+                .andExpect(header().string("Content-Security-Policy", containsString("frame-ancestors 'none'")))
+                .andExpect(header().string("Referrer-Policy", "no-referrer"))
+                .andExpect(header().string("Permissions-Policy", containsString("camera=()")))
+                .andExpect(header().string("X-Content-Type-Options", "nosniff"))
+                .andExpect(header().string("X-Frame-Options", "DENY"));
+    }
+
+    @Test
     void healthAndApiDocsArePublic() throws Exception {
         mockMvc.perform(get("/actuator/health"))
                 .andExpect(status().isOk())
