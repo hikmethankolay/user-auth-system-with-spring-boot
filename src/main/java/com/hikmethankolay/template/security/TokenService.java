@@ -1,0 +1,108 @@
+package com.hikmethankolay.template.security;
+
+import com.hikmethankolay.template.config.AppProperties;
+import com.hikmethankolay.template.user.Role;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.List;
+import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
+import org.springframework.security.oauth2.jwt.JwsHeader;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.stereotype.Service;
+
+/**
+ * Issues signed JWTs and reads the application's custom claims.
+ *
+ * <p>Token validation is not done here but by Spring Security's resource server
+ * (see {@link SecurityConfig#jwtDecoder(AppProperties)}).</p>
+ */
+@Service
+public class TokenService {
+
+    /** Claim holding the user's roles, mapped to {@code ROLE_*} authorities. */
+    public static final String ROLES_CLAIM = "roles";
+
+    /** Claim holding the username, for clients that want to display it without an extra request. */
+    public static final String USERNAME_CLAIM = "username";
+
+    /** Claim telling whether the token was issued with "remember me"; preserved on refresh. */
+    public static final String REMEMBER_ME_CLAIM = "remember_me";
+
+    /** Signs the tokens. */
+    private final JwtEncoder jwtEncoder;
+
+    /** Issuer and lifetime settings. */
+    private final AppProperties.Jwt properties;
+
+    /**
+     * Creates the service.
+     *
+     * @param jwtEncoder signs the tokens
+     * @param properties application properties holding issuer and lifetimes
+     */
+    public TokenService(JwtEncoder jwtEncoder, AppProperties properties) {
+        this.jwtEncoder = jwtEncoder;
+        this.properties = properties.jwt();
+    }
+
+    /**
+     * Issues a token for a user.
+     *
+     * @param userId     database id, stored as the {@code sub} claim
+     * @param username   username, stored as the {@code username} claim
+     * @param role       role, stored in the {@code roles} claim
+     * @param rememberMe whether to use the longer remember-me lifetime
+     * @return the signed token with its lifetime
+     */
+    public IssuedToken issue(long userId, String username, Role role, boolean rememberMe) {
+        Instant now = Instant.now();
+        Duration ttl = rememberMe ? properties.rememberMeTtl() : properties.accessTokenTtl();
+
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer(properties.issuer())
+                .subject(Long.toString(userId))
+                .issuedAt(now)
+                .expiresAt(now.plus(ttl))
+                .claim(USERNAME_CLAIM, username)
+                .claim(ROLES_CLAIM, List.of(role.name()))
+                .claim(REMEMBER_ME_CLAIM, rememberMe)
+                .build();
+        JwsHeader header = JwsHeader.with(MacAlgorithm.HS256).build();
+
+        String value = jwtEncoder.encode(JwtEncoderParameters.from(header, claims)).getTokenValue();
+        return new IssuedToken(value, ttl, rememberMe);
+    }
+
+    /**
+     * Reads the user id from a validated token.
+     *
+     * @param jwt the authenticated principal
+     * @return the user id stored in the {@code sub} claim
+     */
+    public static long userId(Jwt jwt) {
+        return Long.parseLong(jwt.getSubject());
+    }
+
+    /**
+     * Tells whether a validated token was issued with "remember me".
+     *
+     * @param jwt the authenticated principal
+     * @return {@code true} if the remember-me claim is set
+     */
+    public static boolean isRememberMe(Jwt jwt) {
+        return Boolean.TRUE.equals(jwt.getClaimAsBoolean(REMEMBER_ME_CLAIM));
+    }
+
+    /**
+     * A freshly issued token.
+     *
+     * @param value      the compact, signed JWT
+     * @param ttl        how long the token is valid
+     * @param rememberMe whether it was issued with "remember me"
+     */
+    public record IssuedToken(String value, Duration ttl, boolean rememberMe) {
+    }
+}
