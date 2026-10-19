@@ -1,0 +1,38 @@
+name: Bug report
+description: Something does not work as documented.
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Include the response or log output, and the X-Trace-Id of the failing request if there is one.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. scripts/dev.sh
+        2. curl -X POST http://localhost:8080/api/v1/auth/login ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Template version or commit
+      placeholder: v2.5.1
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: Linux, JDK 25, Podman 5 / Docker 28, prod profile

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://hikmethankolay.github.io/spring-boot-backend-template/
+    about: Guides for setup, configuration, security and deployment.
+  - name: Report a security vulnerability
+    url: https://github.com/hikmethankolay/spring-boot-backend-template/security/advisories/new
+    about: Please report vulnerabilities privately, not as a public issue.
