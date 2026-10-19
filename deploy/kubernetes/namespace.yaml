@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: backend
+  labels:
+    # Reject pods that are not hardened (see the securityContext in deployment.yaml).
+    pod-security.kubernetes.io/enforce: restricted

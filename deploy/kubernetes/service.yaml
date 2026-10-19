@@ -1,0 +1,13 @@
+# Exposes only the API port. Route your Ingress or Gateway to this Service; the management port
+# (8081) stays reachable inside the cluster for Prometheus only (see networkpolicy.yaml).
+apiVersion: v1
+kind: Service
+metadata:
+  name: app
+spec:
+  selector:
+    app.kubernetes.io/name: spring-boot-template
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
