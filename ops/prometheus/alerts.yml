@@ -1,0 +1,103 @@
+# Prometheus alerting rules for the application. Load them with `rule_files` (see prometheus.yml)
+# and route the alerts with Alertmanager. Thresholds are starting points: tune them to your traffic.
+groups:
+  - name: availability
+    rules:
+      - alert: AppInstanceDown
+        expr: up{job="app"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Instance {{ $labels.instance }} is down"
+          description: "Prometheus cannot scrape {{ $labels.instance }} for 2 minutes."
+
+      - alert: HighServerErrorRate
+        expr: |
+          sum by (application) (rate(http_server_requests_seconds_count{outcome="SERVER_ERROR"}[5m]))
+            / sum by (application) (rate(http_server_requests_seconds_count[5m])) > 0.05
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "More than 5% of requests fail with 5xx"
+          description: "{{ $value | humanizePercentage }} of {{ $labels.application }} requests return 5xx. Look up the X-Trace-Id of a failing request in the logs."
+
+      - alert: HighLatency
+        expr: |
+          histogram_quantile(0.95, sum by (application, le) (
+            rate(http_server_requests_seconds_bucket{uri!~"/actuator.*"}[5m]))) > 1
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "p95 latency above 1s"
+          description: "95th percentile latency of {{ $labels.application }} is {{ $value | humanizeDuration }}."
+
+  - name: security
+    rules:
+      - alert: LoginFailureSpike
+        expr: sum by (application) (rate(security_audit_events_total{event="auth.login_failed"}[5m])) * 60 > 30
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "More than 30 failed logins per minute"
+          description: "Possible credential stuffing against {{ $labels.application }}. Check the 'audit' log for the client IPs."
+
+      - alert: RefreshTokenReused
+        expr: sum by (application) (increase(security_audit_events_total{event="auth.refresh_token_reused"}[15m])) > 0
+        labels:
+          severity: warning
+        annotations:
+          summary: "A refresh token was used twice"
+          description: "A copied refresh token was presented; the session was revoked. Check the 'audit' log for the user and IP."
+
+      - alert: PrivilegeChanges
+        expr: sum by (application) (increase(security_audit_events_total{event="admin.role_changed"}[5m])) > 0
+        labels:
+          severity: info
+        annotations:
+          summary: "A user's role was changed"
+          description: "An administrator changed a role. Confirm it was intended (see the 'audit' log)."
+
+  - name: email
+    rules:
+      - alert: EmailsDropped
+        expr: sum by (application) (increase(mail_outbox_dropped_total[1h])) > 0
+        labels:
+          severity: critical
+        annotations:
+          summary: "Emails were given up after all retries"
+          description: "Users did not receive verification or password reset emails. Check the SMTP settings."
+
+      - alert: EmailBacklog
+        expr: max by (application) (mail_outbox_pending) > 100
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "More than 100 emails waiting"
+          description: "The email outbox of {{ $labels.application }} is not draining; SMTP may be down or slow."
+
+  - name: resources
+    rules:
+      - alert: DatabasePoolExhausted
+        expr: max by (application, instance) (hikaricp_connections_pending) > 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Requests are waiting for database connections"
+          description: "{{ $labels.instance }} has had threads waiting for a connection for 5 minutes. Raise DB_POOL_SIZE or look for slow queries."
+
+      - alert: HeapAlmostFull
+        expr: |
+          sum by (application, instance) (jvm_memory_used_bytes{area="heap"})
+            / sum by (application, instance) (jvm_memory_max_bytes{area="heap"}) > 0.9
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Heap usage above 90%"
+          description: "{{ $labels.instance }} uses {{ $value | humanizePercentage }} of its heap. Raise the container memory limit."

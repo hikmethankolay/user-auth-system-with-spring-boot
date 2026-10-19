@@ -1,6 +1,8 @@
 # Local stack. Values come from .env (see .env.example).
 #   scripts/db.sh up       -> PostgreSQL + Redis only (run the app with scripts/dev.sh)
 #   scripts/docker.sh up   -> PostgreSQL + Redis + app image ("app" profile)
+#   docker compose --profile monitoring up -d -> Prometheus (http://localhost:9090) with the alert
+#                            rules and Grafana (http://localhost:3001, admin/admin) with the dashboard
 name: spring-boot-template
 
 services:
@@ -67,6 +69,32 @@ services:
       retries: 5
     security_opt:
       - no-new-privileges:true
+
+  prometheus:
+    profiles: ["monitoring"]
+    image: prom/prometheus:v3.5.0
+    volumes:
+      - ./ops/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro,z
+      - ./ops/prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro,z
+    # Lets Prometheus scrape the app running on the host (scripts/dev.sh).
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "127.0.0.1:9090:9090"
+
+  grafana:
+    profiles: ["monitoring"]
+    image: grafana/grafana:12.1.0
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+    volumes:
+      - ./ops/grafana/provisioning:/etc/grafana/provisioning:ro,z
+      - ./ops/grafana/dashboards:/var/lib/grafana/dashboards:ro,z
+    ports:
+      - "127.0.0.1:3001:3000"
+    depends_on:
+      - prometheus
 
 volumes:
   pgdata:

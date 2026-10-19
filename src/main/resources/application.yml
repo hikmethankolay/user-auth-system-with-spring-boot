@@ -93,6 +93,11 @@ management:
   metrics:
     tags:
       application: ${spring.application.name}
+    distribution:
+      percentiles-histogram:
+        # Publishes latency buckets, so Prometheus can compute p95/p99 across instances
+        # (used by ops/prometheus/alerts.yml and the Grafana dashboard).
+        "[http.server.requests]": true
   tracing:
     # Share of requests that are traced and exported. Trace ids are in the logs and in the
     # X-Trace-Id header either way. Export is off until an OTLP endpoint is set, e.g.

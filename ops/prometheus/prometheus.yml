@@ -1,0 +1,15 @@
+# Prometheus configuration for local monitoring (docker compose --profile monitoring).
+# In production, point a scrape job named "app" at port 8081 (management port of the prod profile).
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - /etc/prometheus/alerts.yml
+
+scrape_configs:
+  - job_name: app
+    metrics_path: /actuator/prometheus
+    static_configs:
+      # The app started with scripts/dev.sh on the host. Use app:8080 for "scripts/docker.sh up".
+      - targets: ["host.docker.internal:8080"]

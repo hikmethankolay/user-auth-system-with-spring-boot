@@ -33,6 +33,7 @@ class ObservabilityIntegrationTest extends IntegrationTest {
         mockMvc.perform(get("/actuator/prometheus"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("http_server_requests_seconds_count")))
+                .andExpect(content().string(containsString("http_server_requests_seconds_bucket")))
                 .andExpect(content().string(containsString("application=\"spring-boot-template\"")));
     }
 
