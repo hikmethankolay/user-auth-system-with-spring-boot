@@ -1,0 +1,30 @@
+# Doxygen configuration. Only non-default values are listed; run `doxygen -x Doxyfile` to see the rest.
+# Generate with: scripts/docs.sh   (add --strict to fail on any warning, including undocumented code)
+
+PROJECT_NAME           = "Spring Boot Template"
+PROJECT_BRIEF          = "Spring Boot backend template with JWT authentication and user management"
+OUTPUT_DIRECTORY       = target/doxygen
+INPUT                  = README.md src/main/java
+FILE_PATTERNS          = *.java
+RECURSIVE              = YES
+USE_MDFILE_AS_MAINPAGE = README.md
+# Lets Doxygen understand Java records and annotation defaults; see the script for details.
+FILTER_PATTERNS        = *.java="perl scripts/doxygen-filter.pl"
+
+OPTIMIZE_OUTPUT_JAVA   = YES
+JAVADOC_AUTOBRIEF      = YES
+EXTRACT_PACKAGE        = YES
+EXTRACT_STATIC         = YES
+SOURCE_BROWSER         = YES
+
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+GENERATE_TREEVIEW      = YES
+HAVE_DOT               = NO
+
+QUIET                  = YES
+WARN_IF_UNDOCUMENTED   = YES
+WARN_IF_DOC_ERROR      = YES
+WARN_IF_INCOMPLETE_DOC = YES
+WARN_NO_PARAMDOC       = YES
+WARN_LOGFILE           = target/doxygen/warnings.log
