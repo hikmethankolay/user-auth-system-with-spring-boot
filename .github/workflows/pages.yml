@@ -1,0 +1,55 @@
+name: Documentation site
+
+# Builds the documentation website (scripts/site.sh) and publishes it to the gh-pages branch,
+# served by GitHub Pages. Runs for every release tag; can also be started by hand.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0   # tags are needed for the version shown on the site
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: docs/package-lock.json
+
+      - name: Install Doxygen
+        run: |
+          curl -fsSL https://www.doxygen.nl/files/doxygen-1.16.1.linux.bin.tar.gz | tar -xz -C "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/doxygen-1.16.1/bin" >> "$GITHUB_PATH"
+
+      - name: Build site (tests, OpenAPI export, Doxygen, coverage, Starlight)
+        env:
+          # Project site URL: https://<owner>.github.io/<repository>/
+          SITE_URL: https://${{ github.repository_owner }}.github.io
+          SITE_BASE: /${{ github.event.repository.name }}
+        run: scripts/site.sh
+
+      - name: Publish to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: target/pages
+          full_commit_message: Deploy documentation for ${{ github.ref_name }}
