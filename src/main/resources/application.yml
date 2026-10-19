@@ -12,11 +12,13 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      # Schema is owned by src/main/resources/schema.sql; Hibernate only checks that entities match it.
+      # Schema is owned by Flyway (src/main/resources/db/migration); Hibernate only checks that entities match it.
       ddl-auto: validate
-  sql:
-    init:
-      mode: always
+  flyway:
+    # Databases created before Flyway was introduced (they already have the users table) are
+    # baselined at version 1 instead of failing; fresh databases run every migration.
+    baseline-on-migrate: true
+    baseline-version: 1
   data:
     redis:
       host: ${REDIS_HOST:localhost}

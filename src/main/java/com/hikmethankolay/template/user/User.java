@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 import java.time.Instant;
 
 /**
- * A registered user, mapped to the {@code users} table defined in {@code schema.sql}.
+ * A registered user, mapped to the {@code users} table created by the Flyway migration {@code V1__create_users.sql}.
  */
 @Entity
 @Table(name = "users")

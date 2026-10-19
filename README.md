@@ -128,7 +128,7 @@ src/main/java/com/hikmethankolay/template/
 └── config/      AppProperties (typed app.* config), Redis cache, OpenAPI
 src/main/resources/
 ├── application.yml   all configuration, overridable via env/.env
-└── schema.sql        database schema, applied on startup
+└── db/migration/     Flyway migrations (V1__create_users.sql, ...), applied on startup
 scripts/              *.sh and *.bat for every task
 compose.yaml          PostgreSQL + Redis (+ app with --profile app)
 Dockerfile            multi-stage, layered jar, non-root JRE image
@@ -141,7 +141,8 @@ controller, service, repository and `dto/`.
 
 1. Copy the repository, or use it as a GitHub template.
 2. `scripts/rename-project.sh <groupId> <artifactId> [basePackage]`, then `scripts/test.sh`.
-3. Add your tables to `schema.sql` and your feature packages under the base package.
+3. Add your tables as new Flyway migrations (`V2__create_orders.sql`, ...) and your feature packages under the base package.
+   Never edit a migration that has already been applied.
 4. Throw domain errors with `ApiException.notFound(...)`, `.conflict(...)` and so on. They become problem details automatically.
 5. Protect endpoints with `@PreAuthorize`. Everything outside the public paths in `SecurityConfig` requires a valid token by default.
 6. Delete the user/auth features if you don't need them, along with their tests.
@@ -174,7 +175,6 @@ container runtime they are skipped, not failed. CI (`.github/workflows/ci.yml`) 
 
 These are deliberate simplifications. Revisit them for your project:
 
-- **Schema**: `schema.sql` runs idempotently on every start. Switch to Flyway or Liquibase once the schema needs to evolve.
 - **Lockout state** is in memory and per instance. Use Redis or similar when running several instances.
 - **Tokens** are signed with a shared HS256 secret and can't be revoked before they expire. Keep TTLs short, or add a denylist,
   or use an external identity provider (Keycloak, Auth0, ...) and keep only the resource-server part.
