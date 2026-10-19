@@ -21,4 +21,5 @@ if not defined VUS set "VUS=20"
 if not defined DURATION set "DURATION=30s"
 
 echo ==^> Load testing %BASE_URL% with %VUS% virtual users for %DURATION%
-%CONTAINER% run --rm -v "%CD%\load-tests:/scripts:ro" -e BASE_URL=%BASE_URL% -e VUS=%VUS% -e DURATION=%DURATION% docker.io/grafana/k6:1.4.0 run /scripts/api.js
+if not defined THINK_TIME set "THINK_TIME=0.1"
+%CONTAINER% run --rm -v "%CD%\load-tests:/scripts:ro" -e BASE_URL=%BASE_URL% -e VUS=%VUS% -e DURATION=%DURATION% -e THINK_TIME=%THINK_TIME% docker.io/grafana/k6:1.4.0 run /scripts/api.js

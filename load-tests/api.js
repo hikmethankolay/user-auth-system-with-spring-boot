@@ -1,11 +1,13 @@
 // k6 load test: an authenticated user repeatedly reading their profile (JWT validation, rate limiter,
 // cache and database). Run it with scripts/load-test.sh; see that script for the target app's settings.
 //
-// Environment: BASE_URL (default http://localhost:8080), VUS (default 20), DURATION (default 30s).
+// Environment: BASE_URL (default http://localhost:8080), VUS (default 20), DURATION (default 30s),
+// THINK_TIME seconds each user waits between requests (default 0.1; use 0 to measure maximum throughput).
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 
 const BASE_URL = __ENV.BASE_URL || 'http://localhost:8080';
+const THINK_TIME = Number(__ENV.THINK_TIME ?? 0.1);
 const JSON_HEADERS = { headers: { 'Content-Type': 'application/json' } };
 
 export const options = {
@@ -41,5 +43,7 @@ export default function (data) {
     'status is 200': (r) => r.status === 200,
     'not rate limited': (r) => r.status !== 429,
   });
-  sleep(0.1);
+  if (THINK_TIME > 0) {
+    sleep(THINK_TIME);
+  }
 }

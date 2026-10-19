@@ -55,7 +55,7 @@ On Windows use the same names with `.bat`: `scripts\setup.bat`, `scripts\dev.bat
 | `run` | Runs the built jar with the settings from `.env`. |
 | `docker` | Whole stack in containers (PostgreSQL, Redis, Mailpit, app image): `up`, `down`, `logs`, `ps`. |
 | `smoke` | End-to-end check against a running instance: `scripts/smoke.sh [base-url]`. |
-| `load-test` | k6 load test against a running instance (start it with `RATE_LIMIT_ENABLED=false`): `VUS=50 DURATION=1m scripts/load-test.sh [base-url]`. |
+| `load-test` | k6 load test against a running instance (start it with `RATE_LIMIT_ENABLED=false`): `VUS=50 DURATION=1m scripts/load-test.sh [base-url]`. `THINK_TIME=0` measures maximum throughput (about 7,500 req/s on a 20-core dev machine). |
 | `docs` | Doxygen HTML in `target/doxygen/html`. `--strict` fails on any Doxygen warning, including undocumented code. |
 | `rename-project` | Renames Maven coordinates, app name and Java package: `scripts/rename-project.sh com.acme order-service com.acme.orders`. |
 

@@ -5,7 +5,8 @@
 #   RATE_LIMIT_ENABLED=false scripts/dev.sh
 #
 # Usage: scripts/load-test.sh [base-url]   (default http://localhost:8080)
-# Env:   VUS (virtual users, default 20), DURATION (default 30s)
+# Env:   VUS (virtual users, default 20), DURATION (default 30s),
+#        THINK_TIME (seconds between a user's requests, default 0.1; 0 measures maximum throughput)
 # On macOS/Windows with Docker Desktop use http://host.docker.internal:8080 as the base URL.
 source "$(dirname "$0")/lib.sh"
 detect_container_cli
@@ -17,5 +18,5 @@ volume_options="ro"
 info "Load testing $base_url with ${VUS:-20} virtual users for ${DURATION:-30s}"
 "${CONTAINER[@]}" run --rm --network host \
   -v "$ROOT_DIR/load-tests:/scripts:$volume_options" \
-  -e BASE_URL="$base_url" -e VUS="${VUS:-20}" -e DURATION="${DURATION:-30s}" \
+  -e BASE_URL="$base_url" -e VUS="${VUS:-20}" -e DURATION="${DURATION:-30s}" -e THINK_TIME="${THINK_TIME:-0.1}" \
   docker.io/grafana/k6:1.4.0 run /scripts/api.js
