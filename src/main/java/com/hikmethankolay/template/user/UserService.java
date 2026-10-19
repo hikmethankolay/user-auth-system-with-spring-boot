@@ -1,5 +1,7 @@
 package com.hikmethankolay.template.user;
 
+import com.hikmethankolay.template.audit.AuditEvent;
+import com.hikmethankolay.template.audit.AuditLog;
 import com.hikmethankolay.template.common.ApiException;
 import com.hikmethankolay.template.config.CacheConfig.CacheNames;
 import com.hikmethankolay.template.user.dto.AdminUpdateUserRequest;
@@ -39,17 +41,23 @@ public class UserService {
     /** Publishes {@link EmailVerificationRequired} events. */
     private final ApplicationEventPublisher events;
 
+    /** Records security events. */
+    private final AuditLog audit;
+
     /**
      * Creates the service.
      *
      * @param userRepository  user persistence
      * @param passwordEncoder hashes and verifies passwords
      * @param events          publishes user events
+     * @param audit           records security events
      */
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, ApplicationEventPublisher events) {
+    public UserService(
+            UserRepository userRepository, PasswordEncoder passwordEncoder, ApplicationEventPublisher events, AuditLog audit) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.events = events;
+        this.audit = audit;
     }
 
     /**
@@ -72,6 +80,7 @@ public class UserService {
         User user = new User(username, normalizedEmail, passwordEncoder.encode(rawPassword), role);
         user.setEmailVerified(emailVerified);
         User saved = userRepository.save(user);
+        audit.record(AuditEvent.USER_REGISTERED, saved.getId(), "role", role);
         if (!emailVerified) {
             events.publishEvent(new EmailVerificationRequired(saved.getId()));
         }
@@ -88,6 +97,7 @@ public class UserService {
     @CacheEvict(cacheNames = CacheNames.USERS, key = "#id")
     public void markEmailVerified(long id) {
         findUser(id).setEmailVerified(true);
+        audit.record(AuditEvent.EMAIL_VERIFIED, id);
     }
 
     /**
@@ -165,6 +175,7 @@ public class UserService {
             throw ApiException.badRequest("Current password is incorrect.");
         }
         user.setPasswordHash(passwordEncoder.encode(request.newPassword()));
+        audit.record(AuditEvent.PASSWORD_CHANGED, id);
     }
 
     /**
@@ -179,11 +190,19 @@ public class UserService {
     @CacheEvict(cacheNames = CacheNames.USERS, key = "#id")
     public UserResponse update(long id, AdminUpdateUserRequest request) {
         User user = findUser(id);
+        String oldUsername = user.getUsername();
+        String oldEmail = user.getEmail();
         applyIdentityChanges(user, request.username(), request.email());
+        boolean identityChanged = !user.getUsername().equals(oldUsername) || !user.getEmail().equals(oldEmail);
         if (request.password() != null) {
             user.setPasswordHash(passwordEncoder.encode(request.password()));
         }
-        if (request.role() != null) {
+        if (identityChanged || request.password() != null) {
+            audit.record(AuditEvent.USER_UPDATED_BY_ADMIN, id,
+                    "identityChanged", identityChanged, "passwordChanged", request.password() != null);
+        }
+        if (request.role() != null && request.role() != user.getRole()) {
+            audit.record(AuditEvent.ROLE_CHANGED, id, "from", user.getRole(), "to", request.role());
             user.setRole(request.role());
         }
         return UserResponse.from(userRepository.saveAndFlush(user));
@@ -204,6 +223,7 @@ public class UserService {
             throw ApiException.badRequest("You cannot delete your own account.");
         }
         userRepository.delete(findUser(id));
+        audit.record(AuditEvent.USER_DELETED_BY_ADMIN, id);
     }
 
     /**

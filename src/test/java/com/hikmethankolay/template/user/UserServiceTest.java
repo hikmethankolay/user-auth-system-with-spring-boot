@@ -7,10 +7,12 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.hikmethankolay.template.audit.AuditLog;
 import com.hikmethankolay.template.common.ApiException;
 import com.hikmethankolay.template.user.dto.AdminUpdateUserRequest;
 import com.hikmethankolay.template.user.dto.ChangePasswordRequest;
 import com.hikmethankolay.template.user.dto.UserResponse;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,7 +41,7 @@ class UserServiceTest {
 
     @BeforeEach
     void setUp() {
-        userService = new UserService(userRepository, passwordEncoder, events);
+        userService = new UserService(userRepository, passwordEncoder, events, new AuditLog(new SimpleMeterRegistry()));
     }
 
     @Test

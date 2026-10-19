@@ -3,6 +3,7 @@ package com.hikmethankolay.template;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -11,6 +12,7 @@ import com.hikmethankolay.template.common.TraceIdResponseFilter;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.micrometer.metrics.test.autoconfigure.AutoConfigureMetrics;
 import org.springframework.boot.micrometer.tracing.test.autoconfigure.AutoConfigureTracing;
+import org.springframework.http.MediaType;
 
 /** Tracing and metrics are disabled in tests by default; this test turns them on and checks both. */
 @AutoConfigureTracing
@@ -32,5 +34,19 @@ class ObservabilityIntegrationTest extends IntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("http_server_requests_seconds_count")))
                 .andExpect(content().string(containsString("application=\"spring-boot-template\"")));
+    }
+
+    @Test
+    void auditEventsAreCountedInPrometheus() throws Exception {
+        mockMvc.perform(post("/api/v1/auth/login")
+                        .with(fromIp("10.0.9.1"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"identifier":"nobody-here","password":"Wrong#123"}"""))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(get("/actuator/prometheus"))
+                .andExpect(content().string(containsString("security_audit_events_total{")))
+                .andExpect(content().string(containsString("event=\"auth.login_failed\"")));
     }
 }

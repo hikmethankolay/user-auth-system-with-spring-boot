@@ -1,0 +1,96 @@
+package com.hikmethankolay.template.audit;
+
+import org.slf4j.event.Level;
+
+/**
+ * Security-relevant events recorded by {@link AuditLog}. Add an entry here for every new action
+ * that should be traceable after an incident.
+ */
+public enum AuditEvent {
+
+    /** A new account was registered. */
+    USER_REGISTERED("user.registered", Level.INFO),
+
+    /** A user confirmed their email address. */
+    EMAIL_VERIFIED("user.email_verified", Level.INFO),
+
+    /** Correct credentials; a session was started. */
+    LOGIN_SUCCEEDED("auth.login_succeeded", Level.INFO),
+
+    /** Wrong username, email or password. */
+    LOGIN_FAILED("auth.login_failed", Level.WARN),
+
+    /** A login was rejected because the IP or account is locked after too many failures. */
+    LOGIN_BLOCKED("auth.login_blocked", Level.WARN),
+
+    /** Correct credentials, but the email address is not verified yet. */
+    LOGIN_UNVERIFIED("auth.login_unverified", Level.WARN),
+
+    /** A session was ended by the user. */
+    LOGOUT("auth.logout", Level.INFO),
+
+    /** An already used refresh token was presented again: likely stolen. Its session was revoked. */
+    REFRESH_TOKEN_REUSED("auth.refresh_token_reused", Level.WARN),
+
+    /** All sessions of a user were revoked, e.g. after a password change. */
+    SESSIONS_REVOKED("auth.sessions_revoked", Level.INFO),
+
+    /** A user changed their own password. */
+    PASSWORD_CHANGED("user.password_changed", Level.INFO),
+
+    /** A password reset email was requested for an existing account. */
+    PASSWORD_RESET_REQUESTED("user.password_reset_requested", Level.INFO),
+
+    /** A password was set with a reset link. */
+    PASSWORD_RESET_COMPLETED("user.password_reset_completed", Level.INFO),
+
+    /** An administrator changed a user's username, email or password. */
+    USER_UPDATED_BY_ADMIN("admin.user_updated", Level.INFO),
+
+    /** An administrator changed a user's role. */
+    ROLE_CHANGED("admin.role_changed", Level.WARN),
+
+    /** An administrator deleted a user. */
+    USER_DELETED_BY_ADMIN("admin.user_deleted", Level.WARN),
+
+    /** A user deleted their own account. */
+    ACCOUNT_DELETED("user.account_deleted", Level.INFO),
+
+    /** A user downloaded an export of their personal data. */
+    DATA_EXPORTED("user.data_exported", Level.INFO);
+
+    /** Name used in logs and as the {@code event} metric tag, e.g. {@code auth.login_failed}. */
+    private final String action;
+
+    /** Log level; warnings mark events worth alerting on. */
+    private final Level level;
+
+    /**
+     * Creates an event type.
+     *
+     * @param action name used in logs and metrics
+     * @param level  log level
+     */
+    AuditEvent(String action, Level level) {
+        this.action = action;
+        this.level = level;
+    }
+
+    /**
+     * Returns the event name used in logs and metrics.
+     *
+     * @return the action, e.g. {@code auth.login_failed}
+     */
+    public String action() {
+        return action;
+    }
+
+    /**
+     * Returns the log level of the event.
+     *
+     * @return {@code WARN} for events worth alerting on, {@code INFO} otherwise
+     */
+    public Level level() {
+        return level;
+    }
+}

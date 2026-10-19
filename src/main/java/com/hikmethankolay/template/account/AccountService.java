@@ -1,5 +1,7 @@
 package com.hikmethankolay.template.account;
 
+import com.hikmethankolay.template.audit.AuditEvent;
+import com.hikmethankolay.template.audit.AuditLog;
 import com.hikmethankolay.template.common.ApiException;
 import com.hikmethankolay.template.config.AppProperties;
 import com.hikmethankolay.template.user.EmailVerificationRequired;
@@ -58,6 +60,9 @@ public class AccountService {
     /** Token lifetimes. */
     private final AppProperties.Account properties;
 
+    /** Records security events. */
+    private final AuditLog audit;
+
     /**
      * Creates the service.
      *
@@ -66,18 +71,21 @@ public class AccountService {
      * @param userService user changes
      * @param mailer      sends the emails
      * @param properties  application properties holding the token lifetimes
+     * @param audit       records security events
      */
     public AccountService(
             AccountTokenRepository tokens,
             UserRepository users,
             UserService userService,
             AccountMailer mailer,
-            AppProperties properties) {
+            AppProperties properties,
+            AuditLog audit) {
         this.tokens = tokens;
         this.users = users;
         this.userService = userService;
         this.mailer = mailer;
         this.properties = properties.account();
+        this.audit = audit;
     }
 
     /**
@@ -121,10 +129,13 @@ public class AccountService {
      */
     @Transactional
     public void requestPasswordReset(String email) {
-        users.findByEmail(normalize(email)).ifPresent(user -> mailer.sendPasswordReset(
-                user.getEmail(),
-                issue(user.getId(), AccountTokenType.PASSWORD_RESET, properties.passwordResetTokenTtl()),
-                properties.passwordResetTokenTtl()));
+        users.findByEmail(normalize(email)).ifPresent(user -> {
+            mailer.sendPasswordReset(
+                    user.getEmail(),
+                    issue(user.getId(), AccountTokenType.PASSWORD_RESET, properties.passwordResetTokenTtl()),
+                    properties.passwordResetTokenTtl());
+            audit.record(AuditEvent.PASSWORD_RESET_REQUESTED, user.getId());
+        });
     }
 
     /**
@@ -136,7 +147,9 @@ public class AccountService {
      */
     @Transactional
     public void resetPassword(String token, String newPassword) {
-        userService.setPassword(consume(token, AccountTokenType.PASSWORD_RESET).getUserId(), newPassword);
+        long userId = consume(token, AccountTokenType.PASSWORD_RESET).getUserId();
+        userService.setPassword(userId, newPassword);
+        audit.record(AuditEvent.PASSWORD_RESET_COMPLETED, userId);
     }
 
     /** Deletes expired tokens once an hour. Safe to run on several instances at once. */

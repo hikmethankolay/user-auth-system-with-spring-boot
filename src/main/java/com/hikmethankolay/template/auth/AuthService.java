@@ -1,5 +1,7 @@
 package com.hikmethankolay.template.auth;
 
+import com.hikmethankolay.template.audit.AuditEvent;
+import com.hikmethankolay.template.audit.AuditLog;
 import com.hikmethankolay.template.auth.dto.LoginRequest;
 import com.hikmethankolay.template.auth.dto.RegisterRequest;
 import com.hikmethankolay.template.common.ApiException;
@@ -55,6 +57,9 @@ public class AuthService {
     /** Whether login requires a verified email address. */
     private final boolean requireVerifiedEmail;
 
+    /** Records security events. */
+    private final AuditLog audit;
+
     /**
      * Creates the service.
      *
@@ -66,6 +71,7 @@ public class AuthService {
      * @param revocations           denylist of revoked tokens
      * @param jwtDecoder            validates the token presented at logout
      * @param properties            application properties (email verification policy)
+     * @param audit                 records security events
      */
     public AuthService(
             AuthenticationManager authenticationManager,
@@ -75,7 +81,8 @@ public class AuthService {
             UserRepository userRepository,
             TokenRevocationService revocations,
             JwtDecoder jwtDecoder,
-            AppProperties properties) {
+            AppProperties properties,
+            AuditLog audit) {
         this.authenticationManager = authenticationManager;
         this.loginAttempts = loginAttempts;
         this.tokenService = tokenService;
@@ -84,6 +91,7 @@ public class AuthService {
         this.revocations = revocations;
         this.jwtDecoder = jwtDecoder;
         this.requireVerifiedEmail = properties.account().requireVerifiedEmail();
+        this.audit = audit;
     }
 
     /**
@@ -115,6 +123,7 @@ public class AuthService {
         String ipKey = "ip:" + clientIp;
 
         if (loginAttempts.isBlocked(ipKey) || loginAttempts.isBlocked(accountKey)) {
+            audit.record(AuditEvent.LOGIN_BLOCKED, null, "identifier", identifier);
             throw ApiException.tooManyRequests(
                     "Too many failed login attempts. Please try again later.", loginAttempts.lockDuration());
         }
@@ -125,6 +134,7 @@ public class AuthService {
                     UsernamePasswordAuthenticationToken.unauthenticated(identifier, request.password()));
         } catch (AuthenticationException ex) {
             loginAttempts.recordFailure(ipKey, accountKey);
+            audit.record(AuditEvent.LOGIN_FAILED, null, "identifier", identifier);
             throw new BadCredentialsException("Invalid username or password.");
         }
 
@@ -133,8 +143,10 @@ public class AuthService {
         AppUserDetails user = (AppUserDetails) authentication.getPrincipal();
         // Checked only after the password, so the response does not reveal whether an account exists.
         if (requireVerifiedEmail && !user.emailVerified()) {
+            audit.record(AuditEvent.LOGIN_UNVERIFIED, user.id());
             throw new ApiException(HttpStatus.FORBIDDEN, "Email address is not verified.");
         }
+        audit.record(AuditEvent.LOGIN_SUCCEEDED, user.id(), "rememberMe", request.isRememberMe());
         return tokenService.issue(user.id(), user.username(), user.role(), request.isRememberMe());
     }
 
@@ -166,7 +178,9 @@ public class AuthService {
             return;
         }
         try {
-            revocations.revoke(jwtDecoder.decode(token));
+            Jwt jwt = jwtDecoder.decode(token);
+            revocations.revoke(jwt);
+            audit.record(AuditEvent.LOGOUT, TokenService.userId(jwt));
         } catch (JwtException ex) {
             // Already invalid, expired or revoked.
         }
