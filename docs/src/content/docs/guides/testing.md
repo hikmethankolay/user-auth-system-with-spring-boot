@@ -54,4 +54,5 @@ same machine.
 2. It builds the Docker image and scans it with Trivy, failing on fixable critical or high vulnerabilities.
 3. It checks the documentation.
 
-Dependabot opens weekly update PRs for Maven, GitHub Actions, Docker and npm.
+Every action is pinned to a commit SHA and both base images to a digest, so a moved tag cannot change the build.
+Dependabot opens weekly update PRs for Maven, GitHub Actions (SHA pins included), Docker digests and npm.

@@ -14,17 +14,22 @@ The `app.*` settings are bound to a validated record (`AppProperties`), so a mis
 |----------|---------|---------|
 | `SPRING_PROFILES_ACTIVE` | *(none)* | `prod` for production defaults, see [Production](../production/) |
 | `DB_URL`, `DB_USERNAME`, `DB_PASSWORD` | `jdbc:postgresql://localhost:5432/app`, `app`, `app` | Database connection |
-| `REDIS_HOST`, `REDIS_PORT` | `localhost`, `6379` | Redis: cache, lockout, rate limit, token denylist |
+| `DB_POOL_SIZE` / `DB_CONNECTION_TIMEOUT_MS` | `10` / `5000` | Connections per instance; how long a request waits for one |
+| `DB_STATEMENT_TIMEOUT` / `DB_IDLE_IN_TRANSACTION_TIMEOUT` | `30s` / `60s` | PostgreSQL cancels longer queries and idle transactions (`0` disables) |
+| `REDIS_HOST`, `REDIS_PORT` | `localhost`, `6379` | Redis: cache, lockout, rate limit, token revocation |
+| `REDIS_PASSWORD` / `REDIS_SSL_ENABLED` | *(none)* / `false` | Managed Redis with authentication and TLS; add `SPRING_DATA_REDIS_USERNAME` for an ACL user |
 | `CACHE_TTL` | `10m` | How long cached entries live |
 | `JWT_SECRET` | *(required)* | HMAC-SHA256 signing secret, at least 32 characters |
-| `JWT_ACCESS_TOKEN_TTL` / `JWT_REMEMBER_ME_TTL` | `15m` / `30d` | Token lifetimes |
-| `COOKIE_SECURE` | `false` (`true` in prod) | Send the auth cookie over HTTPS only |
+| `JWT_ACCESS_TOKEN_TTL` | `15m` | Access token (JWT) lifetime; keep it short |
+| `JWT_REFRESH_TOKEN_TTL` / `JWT_REMEMBER_ME_TTL` | `1d` / `30d` | Session lifetime without activity, normal / remember-me |
+| `COOKIE_SECURE` | `false` (`true` in prod) | Send the auth cookies over HTTPS only |
 | `CORS_ALLOWED_ORIGINS` | `http://localhost:3000` | Comma-separated browser origins |
 | `LOGIN_MAX_ATTEMPTS` / `LOGIN_LOCK_DURATION` | `10` / `1h` | Brute-force lockout |
 | `RATE_LIMIT_ENABLED` / `RATE_LIMIT_PER_MINUTE` | `true` / `120` | Per-IP API rate limit |
 | `REQUIRE_VERIFIED_EMAIL` | `false` (`true` in prod) | Block login until the email address is verified |
 | `MAIL_HOST`, `MAIL_PORT`, `MAIL_FROM` | `localhost`, `1025`, `no-reply@example.com` | Outgoing mail (Mailpit by default). Set `SPRING_MAIL_USERNAME` / `SPRING_MAIL_PASSWORD` for a real SMTP server |
 | `MAIL_LINK_BASE_URL` | `http://localhost:3000` | Frontend that handles `/verify-email?token=…` and `/reset-password?token=…` |
+| `MAIL_MAX_ATTEMPTS` / `MAIL_RETRY_DELAY` / `MAIL_OUTBOX_POLL_INTERVAL` | `10` / `30s` / `10s` | Email outbox retries (the delay doubles after each failure, up to 1 hour) |
 | `ADMIN_USERNAME` / `ADMIN_EMAIL` / `ADMIN_PASSWORD` | *(none; `setup` fills them in)* | Initial admin, created only when all three are set and no admin exists |
 | `TRACING_SAMPLING_PROBABILITY` | `1.0` (`0.1` in prod) | Share of requests traced |
 | `MANAGEMENT_OPENTELEMETRY_TRACING_EXPORT_OTLP_ENDPOINT` | *(none)* | OTLP collector, e.g. `http://otel-collector:4318/v1/traces` |
@@ -42,3 +47,7 @@ and the production overrides are in
 
 The schema is managed by Flyway (`src/main/resources/db/migration`), and Hibernate only validates that the entities
 match it. Databases created before Flyway was introduced are baselined at version 1 instead of failing.
+
+Migrations run with the same `statement_timeout` as the application. For a migration that needs longer (a large
+backfill or index), start that release once with `DB_STATEMENT_TIMEOUT=0`, or use `SET LOCAL statement_timeout` inside
+the migration.

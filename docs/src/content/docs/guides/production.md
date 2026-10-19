@@ -18,37 +18,87 @@ Each setting can still be overridden with its environment variable.
 
 ## Deploying
 
-The Docker image (multi-stage, layered jar, non-root JRE on Alpine) exposes `8080` for the API and `8081` for Actuator.
-Pushing a `v*` tag runs the release workflow:
+The Docker image (multi-stage, layered jar, JRE on Alpine) runs as the non-root user `10001`, has a `HEALTHCHECK`,
+and exposes `8080` for the API and `8081` for Actuator. Pushing a `v*` tag runs the release workflow:
 
 1. It runs the tests.
-2. It publishes the image to `ghcr.io/<owner>/<repo>`.
-3. It creates a GitHub release, and the documentation site is rebuilt.
+2. It publishes the image to `ghcr.io/<owner>/<repo>` for `linux/amd64` and `linux/arm64`, with an SBOM and build
+   provenance attached.
+3. It signs the image with [Sigstore cosign](https://docs.sigstore.dev/) (keyless, through GitHub's OIDC identity).
+4. It creates a GitHub release, and the documentation site is rebuilt.
 
 ```bash
 docker run -p 8080:8080 -e SPRING_PROFILES_ACTIVE=prod \
   -e DB_URL=... -e DB_USERNAME=... -e DB_PASSWORD=... \
-  -e REDIS_HOST=... -e JWT_SECRET=... -e MAIL_HOST=... \
+  -e REDIS_HOST=... -e REDIS_PASSWORD=... -e JWT_SECRET=... -e MAIL_HOST=... \
   ghcr.io/hikmethankolay/spring-boot-backend-template:latest
 ```
+
+### Verify the image
+
+Check that an image was built by this repository's release workflow before deploying it:
+
+```bash
+cosign verify ghcr.io/hikmethankolay/spring-boot-backend-template:2.6.0 \
+  --certificate-identity-regexp '^https://github.com/hikmethankolay/spring-boot-backend-template/\.github/workflows/release\.yml@refs/tags/v' \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com
+
+docker buildx imagetools inspect ghcr.io/hikmethankolay/spring-boot-backend-template:2.6.0 \
+  --format '{{ json .SBOM }}'   # the SBOM (SPDX) of the image
+```
+
+### Kubernetes
+
+[`deploy/kubernetes`](https://github.com/hikmethankolay/spring-boot-backend-template/tree/main/deploy/kubernetes) is a
+Kustomize base:
+
+- **Deployment:** two replicas, rolling updates without downtime, and startup, liveness and readiness probes on the
+  management port. A `preStop` pause plus graceful shutdown keeps in-flight requests from failing.
+- **Pod security:** passes the `restricted` Pod Security Standard (non-root, read-only root filesystem, no
+  capabilities, `RuntimeDefault` seccomp).
+- **Service:** for the API port only.
+- **Scaling and disruptions:** a HorizontalPodAutoscaler on CPU and a PodDisruptionBudget.
+- **NetworkPolicy:** the management port is reachable only from the `monitoring` namespace.
+
+```bash
+kubectl -n backend create secret generic app-secrets --from-literal=JWT_SECRET=... # see deploy/kubernetes/README.md
+kubectl apply -k deploy/kubernetes
+```
+
+PostgreSQL, Redis and SMTP are expected to be managed services or deployed separately.
+
+### Database connections
+
+Each instance opens up to `DB_POOL_SIZE` connections (10). Keep *maximum replicas × `DB_POOL_SIZE`* below the
+server's `max_connections`, or put PgBouncer in front of it. Every connection has `statement_timeout` (30 s) and
+`idle_in_transaction_session_timeout` (60 s), so a runaway query or a forgotten transaction cannot exhaust the pool.
 
 ## Checklist
 
 - [ ] Set real values for `CORS_ALLOWED_ORIGINS` and `MAIL_LINK_BASE_URL`.
 - [ ] Use an SMTP server (`MAIL_HOST`, `SPRING_MAIL_USERNAME`, `SPRING_MAIL_PASSWORD`).
+- [ ] Use a Redis with a password and TLS (`REDIS_PASSWORD`, `REDIS_SSL_ENABLED=true`).
 - [ ] Behind a proxy, set `FORWARD_HEADERS_STRATEGY=framework` and let the proxy overwrite `X-Forwarded-For`.
 - [ ] Keep port `8081` internal and scrape metrics there.
+- [ ] Load `ops/prometheus/alerts.yml` and route the alerts to someone.
+- [ ] Ship the `audit` logger to long-term storage.
 - [ ] Generate a long random `JWT_SECRET` and store it in your secret manager.
+- [ ] Back up PostgreSQL (point-in-time recovery) and test a restore.
+- [ ] Deploy only signed images (`cosign verify`, or an admission policy such as Kyverno or Sigstore policy-controller).
 
 ## Trade-offs to revisit
 
-- **Fail-open on Redis outages.** The cache, login lockout, rate limit and token denylist keep the API available
-  when Redis is down, at the cost of briefly disabling those protections. Run Redis with high availability, or change
-  the handlers to fail closed.
+- **Fail-open on Redis outages.** The cache, login lockout, rate limit and access-token revocation keep the API
+  available when Redis is down, at the cost of briefly disabling those protections. Refresh tokens live in PostgreSQL
+  and are unaffected. Run Redis with high availability, or change the handlers to fail closed.
 - **Redis memory.** Redis holds security state, so it runs with `noeviction`. Size it for your traffic; every key has
   a TTL.
-- **Revocation scope.** Logout and refresh revoke tokens, but changing or resetting a password does not revoke other
-  sessions' tokens. Keep `JWT_ACCESS_TOKEN_TTL` short, or add per-user revocation. For SSO or many services, consider
-  an external identity provider and keep only the resource-server part.
+- **Access tokens after logout of other sessions.** Revoking a session deletes its refresh token immediately; its
+  access token is rejected through Redis. If Redis was unavailable at that moment, the access token stays valid until
+  it expires, at most `JWT_ACCESS_TOKEN_TTL`. Keep that value short.
+- **Concurrent refreshes.** Two simultaneous refreshes with the same token count as reuse and end the session. Clients
+  must serialise refreshes (see [Security](../security/#rotation-and-reuse-detection)).
+- **Single sign-on.** For SSO or many services, consider an external identity provider and keep only the
+  resource-server part.
 - **Dependency overrides.** `pom.xml` pins a few patched dependency versions. Remove each override once a Spring Boot
   upgrade manages an equal or newer version.

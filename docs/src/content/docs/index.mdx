@@ -28,24 +28,27 @@ built from <code>{import.meta.env.PUBLIC_SITE_COMMIT ?? 'local'}</code> on {impo
 
 <CardGrid>
   <Card title="Authentication" icon="seti:lock">
-    Stateless JWT with Bearer header or HttpOnly cookie, remember-me, refresh, and real logout through a
-    Redis token denylist.
+    Short-lived JWTs with rotating refresh tokens and reuse detection, Bearer header or HttpOnly cookies,
+    remember-me, real logout, and every session ended on a password or role change.
   </Card>
   <Card title="Account flows" icon="email">
-    Email verification and password reset with single-use, hashed, expiring tokens. Mailpit catches mail in
-    development.
+    Email verification and password reset with single-use, hashed tokens, delivered through an outbox with
+    retries. Account deletion and data export for GDPR/KVKK.
   </Card>
   <Card title="Abuse protection" icon="warning">
-    Login lockout per IP and account, plus a per-IP API rate limit, shared across instances through Redis.
+    Login lockout per IP and account, a per-IP API rate limit shared through Redis, CSP and other security
+    headers, and an audit log of every security event.
   </Card>
   <Card title="Standard HTTP" icon="seti:json">
     Versioned `/api/v1` URLs, correct status codes and RFC 9457 problem details for every error.
   </Card>
   <Card title="Observability" icon="seti:graphql">
-    Prometheus metrics, OpenTelemetry tracing, trace ids in logs and the `X-Trace-Id` header, JSON logs in prod.
+    Prometheus metrics with ready alert rules and a Grafana dashboard, OpenTelemetry tracing, trace ids in logs
+    and the `X-Trace-Id` header, JSON logs in prod.
   </Card>
   <Card title="Quality gates" icon="approve-check">
-    Testcontainers, ArchUnit and k6 tests, Trivy image scan, Dependabot, strict Doxygen documentation.
+    Testcontainers, ArchUnit and k6 tests, Trivy scan, signed multi-arch images with SBOM, pinned dependencies,
+    Kubernetes manifests, strict Doxygen documentation.
   </Card>
 </CardGrid>
 

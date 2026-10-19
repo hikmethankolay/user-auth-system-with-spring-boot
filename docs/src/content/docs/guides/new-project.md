@@ -20,7 +20,13 @@ description: Turn the template into your own project.
 5. Throw domain errors with `ApiException.notFound(...)`, `.conflict(...)`, `.badRequest(...)`. They become
    RFC 9457 problem details automatically.
 6. Protect endpoints with `@PreAuthorize`. Everything outside the public paths in `SecurityConfig` needs a valid token.
-7. Delete the features you don't need (for example `account/`), along with their tests and migrations.
+7. If the feature stores data about a user, reference `users(id)` with `ON DELETE CASCADE` and implement
+   `PersonalDataProvider`, so account deletion and the data export (`GET /api/v1/users/me/export`) stay complete.
+8. Record sensitive actions with `AuditLog.record(AuditEvent.…, userId, ...)` and send emails with `EmailOutbox.enqueue`.
+9. Delete the features you don't need (for example `account/`), along with their tests and migrations.
+10. Replace the repository-specific values: the owner in `.github/CODEOWNERS`, the links in `SECURITY.md` and the
+    issue templates, and the image name in `deploy/kubernetes/kustomization.yaml` and `deployment.yaml`. Enable
+    *Private vulnerability reporting* in the repository's security settings.
 
 ## Rules the build enforces
 
@@ -36,16 +42,20 @@ description: Turn the template into your own project.
 
 ```
 src/main/java/com/hikmethankolay/template/
-├── auth/        AuthController, AuthService (register, login, refresh, logout)
+├── auth/        login, refresh-token rotation, logout, session revocation
 ├── account/     email verification and password reset: tokens, mailer, endpoints
-├── user/        User entity, repository, service, controller, initial-admin bootstrap, validation
-├── security/    filter chains, JWT, token revocation, login lockout, rate limiting
-├── common/      ApiException, RFC 9457 error handler, X-Trace-Id filter
+├── user/        User entity, service, controller, account deletion, data export, admin bootstrap
+├── security/    filter chains, headers, JWT, token revocation, login lockout, rate limiting
+├── audit/       AuditLog and AuditEvent: the security audit trail
+├── mail/        EmailOutbox: transactional outbox with retries
+├── common/      ApiException, RFC 9457 error handler, X-Trace-Id filter, SecureTokens
 └── config/      AppProperties (typed app.* config), Redis cache, OpenAPI
 src/main/resources/
 ├── application.yml        all configuration, overridable via env/.env
 ├── application-prod.yml   production overrides
 └── db/migration/          Flyway migrations
+deploy/kubernetes/   Kustomize manifests
+ops/                 Prometheus alert rules, Grafana dashboard
 docs/                Astro Starlight documentation site
 load-tests/          k6 scripts
 scripts/             *.sh and *.bat for every task

@@ -1,12 +1,47 @@
 ---
 title: Observability
-description: Metrics, tracing and logs.
+description: Metrics, alerts, dashboards, tracing, logs, the audit log and the email outbox.
 ---
 
 ## Metrics
 
 Prometheus metrics are served at `/actuator/prometheus`, tagged with `application`. In the prod profile Actuator runs
 on the internal port `8081`. Point Prometheus at that port and keep it off the public network.
+
+Besides the standard JVM, HTTP (with latency histograms), HikariCP and cache metrics, the application publishes:
+
+| Metric | Meaning |
+|--------|---------|
+| `security_audit_events_total{event}` | Security events, see [Audit log](../security/#audit-log) |
+| `mail_outbox_pending` | Emails waiting to be sent |
+| `mail_outbox_sent_total`, `mail_outbox_failures_total`, `mail_outbox_dropped_total` | Email delivery |
+
+## Alerts and dashboard
+
+[`ops/prometheus/alerts.yml`](https://github.com/hikmethankolay/spring-boot-backend-template/blob/main/ops/prometheus/alerts.yml)
+holds alerting rules for the things that need a human:
+
+| Group | Alerts |
+|-------|--------|
+| Availability | instance down, more than 5% 5xx responses, p95 latency above 1 s |
+| Security | more than 30 failed logins per minute, a reused refresh token, a role change |
+| Email | emails given up after all retries, more than 100 emails waiting |
+| Resources | requests waiting for database connections, heap above 90% |
+
+[`ops/grafana/dashboards/application.json`](https://github.com/hikmethankolay/spring-boot-backend-template/blob/main/ops/grafana/dashboards/application.json)
+is a Grafana dashboard with traffic, latency percentiles, errors, slowest endpoints, security events, rate limiting,
+the email outbox, database connections, heap and CPU.
+
+Try both locally while `scripts/dev.sh` runs:
+
+```bash
+docker compose --profile monitoring up -d   # Prometheus http://localhost:9090, Grafana http://localhost:3001
+docker compose --profile monitoring down
+```
+
+Grafana opens the dashboard without a login (anonymous viewer; the admin login is `admin` / `admin`). The rules are
+validated with `promtool check rules ops/prometheus/alerts.yml`. Thresholds are starting points: tune them to your
+traffic and route the alerts with Alertmanager.
 
 ## Tracing
 
@@ -29,6 +64,26 @@ for Elasticsearch, Loki or any log pipeline.
 {"@timestamp":"2026-10-19T21:50:30.821Z","log":{"level":"INFO","logger":"com.hikmethankolay.template.Application"},
  "service":{"name":"spring-boot-template"},"message":"Started Application in 4.1 seconds"}
 ```
+
+## Audit log
+
+Security events go to the `audit` logger as structured entries. See [Security](../security/#audit-log) for the event
+list and fields. Route that logger to storage with a longer retention than application logs.
+
+## Email outbox
+
+Emails are not sent from the request directly. They are stored in the `email_outbox` table in the same transaction as
+the change that triggers them, so an email is sent only if the change commits, and a restart or SMTP outage never
+loses it:
+
+1. Right after the commit, the email is sent once.
+2. If SMTP fails, it is retried every `MAIL_OUTBOX_POLL_INTERVAL` with exponential backoff from `MAIL_RETRY_DELAY`
+   (30 s, 1 min, 2 min, … up to 1 hour).
+3. After `MAIL_MAX_ATTEMPTS` attempts it is dropped, an error is logged and `mail_outbox_dropped_total` grows.
+
+Rows are deleted once sent or dropped, so links with tokens do not stay in the database. Several instances can send at
+the same time: rows are locked with `FOR UPDATE SKIP LOCKED`, so no email goes out twice. Use `EmailOutbox.enqueue`
+for your own emails.
 
 ## Health
 

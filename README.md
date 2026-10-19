@@ -12,13 +12,16 @@ secure login, user accounts, errors, caching, monitoring and deployment. All of 
 
 ## Why use it
 
-- **Authentication you don't have to write.** Login with JWTs (Bearer header or cookie), refresh, logout that really
-  revokes the token, email verification, password reset, brute-force lockout and rate limiting.
+- **Authentication you don't have to write.** Short-lived JWTs with rotating refresh tokens and reuse detection,
+  logout that really revokes, every session ended on a password change, email verification, password reset,
+  brute-force lockout, rate limiting, security headers and an audit log.
 - **Production defaults out of the box.** One `prod` profile switches on JSON logs, secure cookies, required email
-  verification and an internal metrics port. Database migrations, Redis caching, Prometheus metrics and tracing are
-  already wired in.
-- **Tested against the real thing.** 70+ tests run against real PostgreSQL and Redis containers, alongside architecture
+  verification and an internal metrics port. Migrations, Redis caching, an email outbox with retries, query timeouts,
+  metrics with alert rules and a Grafana dashboard, tracing, account deletion and data export are already wired in.
+- **Tested against the real thing.** 90+ tests run against real PostgreSQL and Redis containers, alongside architecture
   rules, a load test and a vulnerability scan of the Docker image in CI.
+- **Ready to ship.** Releases publish signed multi-arch images with an SBOM; Kubernetes manifests pass the
+  `restricted` Pod Security Standard.
 - **One command per task** on Linux, macOS and Windows: setup, dev, test, build, run, docker, docs and more.
 
 Built with Spring Boot 4.1, Java 25, PostgreSQL 18 and Redis 8.
@@ -83,11 +86,15 @@ and every public class is documented. See [Using the template](https://hikmethan
 | [Configuration](https://hikmethankolay.github.io/spring-boot-backend-template/guides/configuration/) | Every environment variable and its default |
 | [Security](https://hikmethankolay.github.io/spring-boot-backend-template/guides/security/) | Tokens, revocation, account flows, lockout, rate limiting |
 | [API overview](https://hikmethankolay.github.io/spring-boot-backend-template/guides/api/) and [REST API reference](https://hikmethankolay.github.io/spring-boot-backend-template/api/) | Endpoints, errors (RFC 9457), pagination, headers |
-| [Caching](https://hikmethankolay.github.io/spring-boot-backend-template/guides/caching/) and [Observability](https://hikmethankolay.github.io/spring-boot-backend-template/guides/observability/) | Redis cache, metrics, tracing, logs |
-| [Production](https://hikmethankolay.github.io/spring-boot-backend-template/guides/production/) | The `prod` profile, deployment and the trade-offs to review before going live |
+| [Caching](https://hikmethankolay.github.io/spring-boot-backend-template/guides/caching/) and [Observability](https://hikmethankolay.github.io/spring-boot-backend-template/guides/observability/) | Redis cache, metrics, alerts, dashboard, tracing, logs, email outbox |
+| [Production](https://hikmethankolay.github.io/spring-boot-backend-template/guides/production/) | The `prod` profile, Docker and Kubernetes, image verification, the go-live checklist and trade-offs |
 | [Java reference](https://hikmethankolay.github.io/spring-boot-backend-template/reference/) and [coverage](https://hikmethankolay.github.io/spring-boot-backend-template/coverage/) | Generated from the code on every release |
 
 The guides live in [`docs/`](docs/src/content/docs) and are published with every `v*` release.
+
+## Contributing
+
+See [CONTRIBUTING.md](https://github.com/hikmethankolay/spring-boot-backend-template/blob/main/CONTRIBUTING.md). Report vulnerabilities privately as described in [SECURITY.md](https://github.com/hikmethankolay/spring-boot-backend-template/blob/main/SECURITY.md).
 
 ## License
 
