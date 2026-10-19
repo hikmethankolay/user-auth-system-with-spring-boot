@@ -7,19 +7,31 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
-/** Starts throwaway PostgreSQL and Redis containers for tests and points the app at them. */
+/**
+ * Throwaway PostgreSQL and Redis for tests, pointed to by {@code @ServiceConnection}.
+ *
+ * <p>The containers are singletons shared by every test context (tests with different
+ * annotations get different Spring contexts). This keeps test runs fast and avoids starting
+ * several container sets at once, which some runtimes (e.g. rootless Podman) handle poorly.</p>
+ */
 @TestConfiguration(proxyBeanMethods = false)
 public class TestcontainersConfiguration {
+
+    private static final PostgreSQLContainer POSTGRES =
+            new PostgreSQLContainer(DockerImageName.parse("postgres:18-alpine"));
+
+    private static final GenericContainer<?> REDIS =
+            new GenericContainer<>(DockerImageName.parse("redis:8-alpine")).withExposedPorts(6379);
 
     @Bean
     @ServiceConnection
     PostgreSQLContainer postgresContainer() {
-        return new PostgreSQLContainer(DockerImageName.parse("postgres:18-alpine"));
+        return POSTGRES;
     }
 
     @Bean
     @ServiceConnection(name = "redis")
     GenericContainer<?> redisContainer() {
-        return new GenericContainer<>(DockerImageName.parse("redis:8-alpine")).withExposedPorts(6379);
+        return REDIS;
     }
 }
