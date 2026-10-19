@@ -1,11 +1,14 @@
 package com.hikmethankolay.template.user;
 
 import com.hikmethankolay.template.common.ApiException;
+import com.hikmethankolay.template.config.CacheConfig.CacheNames;
 import com.hikmethankolay.template.user.dto.AdminUpdateUserRequest;
 import com.hikmethankolay.template.user.dto.ChangePasswordRequest;
 import com.hikmethankolay.template.user.dto.UpdateProfileRequest;
 import com.hikmethankolay.template.user.dto.UserResponse;
 import java.util.Locale;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
  * <p>Methods return DTOs so entities never leave the transaction. Errors are reported with
  * {@link ApiException}: 404 for unknown users, 409 for duplicate usernames or emails,
  * 400 for invalid operations.</p>
+ *
+ * <p>Lookups by id are cached in {@link CacheNames#USERS}; every method that changes a user
+ * evicts its entry. Evictions take effect after the transaction commits (see {@code CacheConfig}).</p>
  */
 @Service
 @Transactional(readOnly = true)
@@ -65,8 +71,9 @@ public class UserService {
      *
      * @param id user id
      * @return the user
-     * @throws ApiException 404 if the user does not exist
+     * @throws ApiException 404 if the user does not exist (not cached)
      */
+    @Cacheable(cacheNames = CacheNames.USERS, key = "#id")
     public UserResponse getById(long id) {
         return UserResponse.from(findUser(id));
     }
@@ -99,6 +106,7 @@ public class UserService {
      * @throws ApiException 404 if the user does not exist, 409 if the new username or email is taken
      */
     @Transactional
+    @CacheEvict(cacheNames = CacheNames.USERS, key = "#id")
     public UserResponse updateProfile(long id, UpdateProfileRequest request) {
         User user = findUser(id);
         applyIdentityChanges(user, request.username(), request.email());
@@ -113,6 +121,7 @@ public class UserService {
      * @throws ApiException 404 if the user does not exist, 400 if the current password is wrong
      */
     @Transactional
+    @CacheEvict(cacheNames = CacheNames.USERS, key = "#id")
     public void changePassword(long id, ChangePasswordRequest request) {
         User user = findUser(id);
         if (!passwordEncoder.matches(request.currentPassword(), user.getPasswordHash())) {
@@ -130,6 +139,7 @@ public class UserService {
      * @throws ApiException 404 if the user does not exist, 409 if the new username or email is taken
      */
     @Transactional
+    @CacheEvict(cacheNames = CacheNames.USERS, key = "#id")
     public UserResponse update(long id, AdminUpdateUserRequest request) {
         User user = findUser(id);
         applyIdentityChanges(user, request.username(), request.email());
@@ -151,6 +161,7 @@ public class UserService {
      *                      404 if the user does not exist
      */
     @Transactional
+    @CacheEvict(cacheNames = CacheNames.USERS, key = "#id")
     public void delete(long id, long requesterId) {
         if (id == requesterId) {
             throw ApiException.badRequest("You cannot delete your own account.");

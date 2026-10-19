@@ -18,11 +18,24 @@ spring:
     init:
       mode: always
   data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      # Short timeouts: when Redis is down, requests fall back to the database quickly.
+      connect-timeout: 500ms
+      timeout: 500ms
     web:
       pageable:
         max-page-size: 100
         # Pages are serialized as {"content":[...],"page":{"size","number","totalElements","totalPages"}}.
         serialization-mode: via-dto
+  cache:
+    type: redis
+    redis:
+      time-to-live: ${CACHE_TTL:10m}
+      # Keys look like "spring-boot-template:users::42", so several apps can share one Redis.
+      key-prefix: "${spring.application.name}:"
+      cache-null-values: false
   threads:
     virtual:
       enabled: true
@@ -40,6 +53,10 @@ server:
   shutdown: graceful
 
 management:
+  health:
+    redis:
+      # Redis is only a cache and the app keeps working without it, so it must not mark the app DOWN.
+      enabled: false
   endpoints:
     web:
       exposure:
