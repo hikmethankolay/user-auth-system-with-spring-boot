@@ -6,6 +6,9 @@ real infrastructure, and one-command scripts for Linux, macOS and Windows.
 
 Clone it, run `scripts/rename-project.sh`, delete what you don't need and start adding features.
 
+**Documentation:** https://hikmethankolay.github.io/user-auth-system-with-spring-boot/ has the guides, the REST API
+reference, the Java reference and the test coverage report.
+
 ## What's included
 
 - **Spring Boot 4.1 on Java 25**, Maven wrapper, PostgreSQL 18 with **Flyway** migrations, Redis 8
@@ -57,6 +60,7 @@ On Windows use the same names with `.bat`: `scripts\setup.bat`, `scripts\dev.bat
 | `smoke` | End-to-end check against a running instance: `scripts/smoke.sh [base-url]`. |
 | `load-test` | k6 load test against a running instance (start it with `RATE_LIMIT_ENABLED=false`): `VUS=50 DURATION=1m scripts/load-test.sh [base-url]`. `THINK_TIME=0` measures maximum throughput (about 7,500 req/s on a 20-core dev machine). |
 | `docs` | Doxygen HTML in `target/doxygen/html`. `--strict` fails on any Doxygen warning, including undocumented code. |
+| `site` | Documentation website (Astro Starlight, `docs/`) in `target/pages`: guides, REST API reference, Java reference, coverage. Needs Node.js 22+. Published to GitHub Pages on every `v*` tag. |
 | `rename-project` | Renames Maven coordinates, app name and Java package: `scripts/rename-project.sh com.acme order-service com.acme.orders`. |
 
 On Linux, `test` uses rootless Podman automatically when Docker isn't available (it starts `podman.socket`).
