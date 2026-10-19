@@ -20,8 +20,9 @@ import org.springframework.validation.annotation.Validated;
  * @param jwt    token signing and lifetime settings
  * @param cookie settings of the HttpOnly authentication cookie
  * @param cors   cross-origin settings for browser clients
- * @param login  brute-force protection settings
- * @param admin  optional initial administrator account
+ * @param login     brute-force protection settings
+ * @param rateLimit per-IP request rate limit
+ * @param admin     optional initial administrator account
  */
 @Validated
 @ConfigurationProperties(prefix = "app")
@@ -30,6 +31,7 @@ public record AppProperties(
         @Valid @NotNull Cookie cookie,
         @Valid @NotNull Cors cors,
         @Valid @NotNull Login login,
+        @Valid @NotNull RateLimit rateLimit,
         @Valid @NotNull Admin admin) {
 
     /**
@@ -74,6 +76,15 @@ public record AppProperties(
      * @param lockDuration how long a block lasts after the last failure
      */
     public record Login(@Positive int maxAttempts, @NotNull Duration lockDuration) {
+    }
+
+    /**
+     * Per-client-IP rate limit for all API requests (Actuator is exempt).
+     *
+     * @param enabled           whether requests are limited
+     * @param requestsPerMinute requests allowed per IP in each one-minute window
+     */
+    public record RateLimit(boolean enabled, @Positive int requestsPerMinute) {
     }
 
     /**

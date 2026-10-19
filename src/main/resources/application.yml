@@ -99,6 +99,9 @@ app:
   login:
     max-attempts: ${LOGIN_MAX_ATTEMPTS:10}
     lock-duration: ${LOGIN_LOCK_DURATION:1h}
+  rate-limit:
+    enabled: ${RATE_LIMIT_ENABLED:true}
+    requests-per-minute: ${RATE_LIMIT_PER_MINUTE:120}
   admin:
     username: ${ADMIN_USERNAME:}
     email: ${ADMIN_EMAIL:}

@@ -19,6 +19,7 @@ public final class TestProperties {
                 new AppProperties.Cookie("auth_token", false, "Strict"),
                 new AppProperties.Cors(List.of("http://localhost:3000")),
                 new AppProperties.Login(3, Duration.ofHours(1)),
+                new AppProperties.RateLimit(true, 120),
                 new AppProperties.Admin(null, null, null));
     }
 }
