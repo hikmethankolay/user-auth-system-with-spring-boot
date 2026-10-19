@@ -1,0 +1,59 @@
+---
+title: Spring Boot Backend Template
+description: Production-ready starting point for Spring Boot REST backends.
+template: splash
+hero:
+  tagline: >-
+    A production-ready starting point for REST backends: JWT authentication with revocation, account flows,
+    caching, rate limiting, observability and migrations, tested against real PostgreSQL and Redis.
+  actions:
+    - text: Get started
+      link: guides/getting-started/
+      icon: right-arrow
+    - text: REST API reference
+      link: api/
+      variant: minimal
+    - text: View on GitHub
+      link: https://github.com/hikmethankolay/user-auth-system-with-spring-boot
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+Release **{import.meta.env.PUBLIC_SITE_VERSION ?? 'dev'}** · **{import.meta.env.PUBLIC_SITE_COVERAGE ?? 'n/a'}** line coverage ·
+built from <code>{import.meta.env.PUBLIC_SITE_COMMIT ?? 'local'}</code> on {import.meta.env.PUBLIC_SITE_DATE ?? 'this machine'} · Spring Boot 4.1 · Java 25 · MIT
+
+## What's included
+
+<CardGrid>
+  <Card title="Authentication" icon="seti:lock">
+    Stateless JWT with Bearer header or HttpOnly cookie, remember-me, refresh, and real logout through a
+    Redis token denylist.
+  </Card>
+  <Card title="Account flows" icon="email">
+    Email verification and password reset with single-use, hashed, expiring tokens. Mailpit catches mail in
+    development.
+  </Card>
+  <Card title="Abuse protection" icon="warning">
+    Login lockout per IP and account, plus a per-IP API rate limit, shared across instances through Redis.
+  </Card>
+  <Card title="Standard HTTP" icon="seti:json">
+    Versioned `/api/v1` URLs, correct status codes and RFC 9457 problem details for every error.
+  </Card>
+  <Card title="Observability" icon="seti:graphql">
+    Prometheus metrics, OpenTelemetry tracing, trace ids in logs and the `X-Trace-Id` header, JSON logs in prod.
+  </Card>
+  <Card title="Quality gates" icon="approve-check">
+    Testcontainers, ArchUnit and k6 tests, Trivy image scan, Dependabot, strict Doxygen documentation.
+  </Card>
+</CardGrid>
+
+## Reference
+
+<CardGrid>
+  <LinkCard title="REST API" href="api/" description="Every endpoint with schemas, status codes and examples (OpenAPI)." />
+  <LinkCard title="Java reference" href="reference/" description="Doxygen documentation of every package, class and method." />
+  <LinkCard title="Test coverage" href="coverage/" description="JaCoCo line and branch coverage of the test suite." />
+  <LinkCard title="API overview" href="guides/api/" description="Endpoints at a glance, error format, pagination and headers." />
+</CardGrid>

@@ -27,7 +27,8 @@ info "Renaming $old_group:$old_artifact ($old_package) -> $new_group:$new_artifa
 sed_inplace -e "s|<groupId>$old_group</groupId>|<groupId>$new_group</groupId>|" pom.xml
 
 # Application/artifact name everywhere it appears in tracked files.
-grep -rlI --exclude-dir=.git --exclude-dir=target --exclude=rename-project.sh "$old_artifact" . | while read -r file; do
+grep -rlI --exclude-dir=.git --exclude-dir=target --exclude-dir=node_modules --exclude-dir=dist --exclude-dir=.astro \
+  --exclude=rename-project.sh --exclude=package-lock.json "$old_artifact" . | while read -r file; do
   sed_inplace "s|$old_artifact|$new_artifact|g" "$file"
 done
 
@@ -44,7 +45,8 @@ for root in src/main/java src/test/java; do
   # Remove now-empty parent directories of the old package.
   find "$root" -type d -empty -delete
 done
-grep -rlI --exclude-dir=.git --exclude-dir=target --exclude=rename-project.sh "$old_package" . | while read -r file; do
+grep -rlI --exclude-dir=.git --exclude-dir=target --exclude-dir=node_modules --exclude-dir=dist --exclude-dir=.astro \
+  --exclude=rename-project.sh --exclude=package-lock.json "$old_package" . | while read -r file; do
   sed_inplace "s|$old_package|$new_package|g" "$file"
 done
 

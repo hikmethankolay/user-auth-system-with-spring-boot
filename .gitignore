@@ -2,6 +2,14 @@
 target/
 !.mvn/wrapper/maven-wrapper.jar
 
+# Documentation site (docs/): dependencies, build output and references copied in by scripts/site.sh
+docs/node_modules/
+docs/dist/
+docs/.astro/
+docs/public/reference/
+docs/public/coverage/
+docs/public/api/openapi.json
+
 # Local configuration and secrets
 .env
 *.local.yml

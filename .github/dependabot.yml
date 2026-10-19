@@ -21,3 +21,11 @@ updates:
     directory: /
     schedule:
       interval: weekly
+
+  - package-ecosystem: npm
+    directory: /docs
+    schedule:
+      interval: weekly
+    groups:
+      astro:
+        patterns: ["astro", "@astrojs/*"]
