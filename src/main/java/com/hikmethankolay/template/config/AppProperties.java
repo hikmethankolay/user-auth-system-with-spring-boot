@@ -108,12 +108,20 @@ public record AppProperties(
     /**
      * Outgoing email settings (the SMTP server itself is configured with {@code spring.mail.*}).
      *
-     * @param from        sender address
-     * @param linkBaseUrl base URL of the frontend that handles the links in emails, e.g.
-     *                    {@code https://app.example.com}; links go to {@code /verify-email?token=...}
-     *                    and {@code /reset-password?token=...}
+     * @param from               sender address
+     * @param linkBaseUrl        base URL of the frontend that handles the links in emails, e.g.
+     *                           {@code https://app.example.com}; links go to {@code /verify-email?token=...}
+     *                           and {@code /reset-password?token=...}
+     * @param maxAttempts        sending attempts before an email is given up
+     * @param retryDelay         wait after the first failed attempt; doubles after each further failure
+     * @param outboxPollInterval how often failed emails are retried
      */
-    public record Mail(@NotBlank String from, @NotBlank String linkBaseUrl) {
+    public record Mail(
+            @NotBlank String from,
+            @NotBlank String linkBaseUrl,
+            @Positive int maxAttempts,
+            @NotNull Duration retryDelay,
+            @NotNull Duration outboxPollInterval) {
     }
 
     /**

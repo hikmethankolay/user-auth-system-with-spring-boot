@@ -1,0 +1,138 @@
+package com.hikmethankolay.template.mail;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import java.time.Instant;
+
+/**
+ * An email waiting to be sent (table {@code email_outbox}). Rows are deleted once sent or given up.
+ */
+@Entity
+@Table(name = "email_outbox")
+public class OutboxEmail {
+
+    /** Longest error message kept, matching the column size. */
+    private static final int MAX_ERROR_LENGTH = 500;
+
+    /** Database-generated id. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    /** Recipient address. */
+    @Column(nullable = false, length = 254)
+    private String recipient;
+
+    /** Subject line. */
+    @Column(nullable = false, length = 200)
+    private String subject;
+
+    /** Plain-text body. */
+    @Column(nullable = false, columnDefinition = "text")
+    private String body;
+
+    /** Failed sending attempts so far. */
+    @Column(nullable = false)
+    private int attempts;
+
+    /** Earliest time of the next sending attempt. */
+    @Column(name = "next_attempt_at", nullable = false)
+    private Instant nextAttemptAt;
+
+    /** Error of the last failed attempt, if any. */
+    @Column(name = "last_error", length = MAX_ERROR_LENGTH)
+    private String lastError;
+
+    /** When the email was queued. */
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt;
+
+    /** Constructor required by JPA. */
+    protected OutboxEmail() {
+    }
+
+    /**
+     * Queues a new email for immediate sending.
+     *
+     * @param recipient recipient address
+     * @param subject   subject line
+     * @param body      plain-text body
+     */
+    public OutboxEmail(String recipient, String subject, String body) {
+        this.recipient = recipient;
+        this.subject = subject;
+        this.body = body;
+        this.createdAt = Instant.now();
+        this.nextAttemptAt = createdAt;
+    }
+
+    /**
+     * Returns the id.
+     *
+     * @return the database id, or {@code null} before the email is persisted
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * Returns the recipient.
+     *
+     * @return the recipient address
+     */
+    public String getRecipient() {
+        return recipient;
+    }
+
+    /**
+     * Returns the subject.
+     *
+     * @return the subject line
+     */
+    public String getSubject() {
+        return subject;
+    }
+
+    /**
+     * Returns the body.
+     *
+     * @return the plain-text body
+     */
+    public String getBody() {
+        return body;
+    }
+
+    /**
+     * Returns the number of failed attempts.
+     *
+     * @return failed attempts so far
+     */
+    public int getAttempts() {
+        return attempts;
+    }
+
+    /**
+     * Returns when the next attempt is due.
+     *
+     * @return the earliest time of the next attempt
+     */
+    public Instant getNextAttemptAt() {
+        return nextAttemptAt;
+    }
+
+    /**
+     * Records a failed attempt and schedules the next one.
+     *
+     * @param error         what went wrong
+     * @param nextAttemptAt earliest time of the next attempt
+     */
+    public void recordFailure(String error, Instant nextAttemptAt) {
+        this.attempts++;
+        this.lastError = error == null || error.length() <= MAX_ERROR_LENGTH ? error : error.substring(0, MAX_ERROR_LENGTH);
+        this.nextAttemptAt = nextAttemptAt;
+    }
+}

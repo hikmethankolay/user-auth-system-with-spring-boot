@@ -26,7 +26,7 @@ public final class TestProperties {
                 new AppProperties.Login(3, Duration.ofHours(1)),
                 new AppProperties.RateLimit(true, 120),
                 new AppProperties.Account(false, Duration.ofHours(24), Duration.ofHours(1)),
-                new AppProperties.Mail("no-reply@example.com", "http://localhost:3000"),
+                new AppProperties.Mail("no-reply@example.com", "http://localhost:3000", 10, Duration.ofSeconds(30), Duration.ofSeconds(10)),
                 new AppProperties.Admin(null, null, null));
     }
 }

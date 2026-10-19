@@ -127,6 +127,11 @@ app:
     from: ${MAIL_FROM:no-reply@example.com}
     # Frontend that handles /verify-email?token=... and /reset-password?token=... links.
     link-base-url: ${MAIL_LINK_BASE_URL:http://localhost:3000}
+    # Emails go through an outbox table and are retried with exponential backoff while SMTP fails
+    # (30s, 1m, 2m, ... capped at 1h); after max-attempts they are dropped and an error is logged.
+    max-attempts: 10
+    retry-delay: 30s
+    outbox-poll-interval: 10s
   admin:
     username: ${ADMIN_USERNAME:}
     email: ${ADMIN_EMAIL:}

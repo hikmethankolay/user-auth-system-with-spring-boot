@@ -1,0 +1,176 @@
+package com.hikmethankolay.template.mail;
+
+import com.hikmethankolay.template.config.AppProperties;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Gauge;
+import io.micrometer.core.instrument.MeterRegistry;
+import java.time.Duration;
+import java.time.Instant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.mail.MailException;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
+import org.springframework.transaction.support.TransactionTemplate;
+
+/**
+ * Queues and sends emails (transactional outbox).
+ *
+ * <ul>
+ *   <li>{@link #enqueue} stores the email in the caller's transaction: it is sent only if the change
+ *       that triggered it commits, and it is not lost if SMTP is down or the app stops.</li>
+ *   <li>Right after the commit, the email is sent once from the request thread, so it usually
+ *       arrives without delay.</li>
+ *   <li>Emails that failed are retried by {@link #sendDue()} every {@code app.mail.outbox-poll-interval},
+ *       with exponential backoff from {@code app.mail.retry-delay} (capped at one hour), until
+ *       {@code app.mail.max-attempts} is reached; then the email is dropped and an error is logged.</li>
+ * </ul>
+ *
+ * <p>Sent and dropped emails are deleted, so links with tokens are not kept in the database longer
+ * than needed. Metrics: {@code mail.outbox.sent}, {@code mail.outbox.failures},
+ * {@code mail.outbox.dropped} and the gauge {@code mail.outbox.pending}.</p>
+ */
+@Service
+public class EmailOutbox {
+
+    /** Logger for sending failures. */
+    private static final Logger log = LoggerFactory.getLogger(EmailOutbox.class);
+
+    /** Emails sent per {@link #sendDue()} run; the rest wait for the next run. */
+    private static final int BATCH_SIZE = 50;
+
+    /** Longest wait between two attempts. */
+    private static final Duration MAX_RETRY_DELAY = Duration.ofHours(1);
+
+    /** Outbox persistence. */
+    private final OutboxEmailRepository outbox;
+
+    /** Sends the messages (SMTP via {@code spring.mail.*}). */
+    private final MailSender mailSender;
+
+    /** Runs each send in its own transaction. */
+    private final TransactionTemplate newTransaction;
+
+    /** Sender address and retry policy. */
+    private final AppProperties.Mail properties;
+
+    /** Successfully sent emails. */
+    private final Counter sent;
+
+    /** Failed attempts, including those that are retried. */
+    private final Counter failures;
+
+    /** Emails given up after the last attempt. */
+    private final Counter dropped;
+
+    /**
+     * Creates the outbox and registers its metrics.
+     *
+     * @param outbox             outbox persistence
+     * @param mailSender         sends the messages
+     * @param transactionManager runs each send in its own transaction
+     * @param properties         application properties holding the mail settings
+     * @param meterRegistry      registry for the outbox metrics
+     */
+    public EmailOutbox(
+            OutboxEmailRepository outbox,
+            MailSender mailSender,
+            PlatformTransactionManager transactionManager,
+            AppProperties properties,
+            MeterRegistry meterRegistry) {
+        this.outbox = outbox;
+        this.mailSender = mailSender;
+        this.newTransaction = new TransactionTemplate(transactionManager);
+        this.newTransaction.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+        this.properties = properties.mail();
+        this.sent = Counter.builder("mail.outbox.sent").description("Emails sent").register(meterRegistry);
+        this.failures = Counter.builder("mail.outbox.failures").description("Failed sending attempts").register(meterRegistry);
+        this.dropped = Counter.builder("mail.outbox.dropped").description("Emails given up").register(meterRegistry);
+        Gauge.builder("mail.outbox.pending", outbox, OutboxEmailRepository::count)
+                .description("Emails waiting to be sent")
+                .register(meterRegistry);
+    }
+
+    /**
+     * Queues an email in the current transaction and sends it once the transaction commits.
+     *
+     * @param to      recipient address
+     * @param subject subject line
+     * @param text    plain-text body
+     */
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void enqueue(String to, String subject, String text) {
+        long id = outbox.save(new OutboxEmail(to, subject, text)).getId();
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCommit() {
+                newTransaction.executeWithoutResult(status -> outbox.lockById(id).ifPresent(email -> send(email, Instant.now())));
+            }
+        });
+    }
+
+    /** Sends the emails that are due. Runs on every instance; row locks keep them from sending the same email. */
+    @Scheduled(fixedDelayString = "${app.mail.outbox-poll-interval}")
+    public void sendDue() {
+        sendDue(Instant.now());
+    }
+
+    /**
+     * Sends the emails that are due at a given time.
+     *
+     * @param now the time to compare due dates with; tests pass a later time to skip the backoff
+     */
+    public void sendDue(Instant now) {
+        newTransaction.executeWithoutResult(status -> outbox.lockDue(now, BATCH_SIZE).forEach(email -> send(email, now)));
+    }
+
+    /**
+     * Sends one locked email: deletes it on success, otherwise schedules a retry or drops it.
+     *
+     * @param email the locked email
+     * @param now   the current time
+     */
+    private void send(OutboxEmail email, Instant now) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(properties.from());
+        message.setTo(email.getRecipient());
+        message.setSubject(email.getSubject());
+        message.setText(email.getBody());
+        try {
+            mailSender.send(message);
+            outbox.delete(email);
+            sent.increment();
+        } catch (MailException ex) {
+            failures.increment();
+            email.recordFailure(ex.getMessage(), now.plus(retryDelay(email.getAttempts())));
+            if (email.getAttempts() >= properties.maxAttempts()) {
+                outbox.delete(email);
+                dropped.increment();
+                log.error("Gave up sending email {} '{}' after {} attempts: {}",
+                        email.getId(), email.getSubject(), email.getAttempts(), ex.getMessage());
+            } else {
+                log.warn("Could not send email {} '{}' (attempt {}), retrying at {}: {}",
+                        email.getId(), email.getSubject(), email.getAttempts(), email.getNextAttemptAt(), ex.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Computes the wait before the next attempt: {@code retry-delay * 2^failedAttempts}, at most one hour.
+     *
+     * @param failedAttempts attempts made so far
+     * @return the delay before the next attempt
+     */
+    private Duration retryDelay(int failedAttempts) {
+        Duration delay = properties.retryDelay().multipliedBy(1L << Math.min(failedAttempts, 20));
+        return delay.compareTo(MAX_RETRY_DELAY) > 0 ? MAX_RETRY_DELAY : delay;
+    }
+}

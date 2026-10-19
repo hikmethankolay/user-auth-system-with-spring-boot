@@ -3,11 +3,13 @@ package com.hikmethankolay.template;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
@@ -28,9 +30,19 @@ public class TestMailConfiguration {
 
         private final List<SimpleMailMessage> messages = new CopyOnWriteArrayList<>();
 
+        private final AtomicInteger failuresLeft = new AtomicInteger();
+
         @Override
         public void send(SimpleMailMessage message) {
+            if (failuresLeft.getAndUpdate(left -> Math.max(0, left - 1)) > 0) {
+                throw new MailSendException("Simulated SMTP outage");
+            }
             messages.add(message);
+        }
+
+        /** Makes the next {@code count} sends fail, like an SMTP outage. */
+        public void failNext(int count) {
+            failuresLeft.set(count);
         }
 
         @Override
