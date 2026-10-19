@@ -172,4 +172,4 @@ These are deliberate simplifications. Revisit them for your project:
 ## Author
 
 - **Hikmethan Kolay** - [GitHub](https://github.com/hikmethankolay)
-- **Email**: hikmethan_kolay22@erdogan.edu.tr
+- **Email**: hikmethan.kolay@gmail.com
