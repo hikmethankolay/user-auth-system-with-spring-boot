@@ -25,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
  * {@link ApiException}: 404 for unknown users, 409 for duplicate usernames or emails,
  * 400 for invalid operations.</p>
  *
+ * <p>Changing a password or role ends all of the user's sessions (see {@link SessionsInvalidated}).</p>
+ *
  * <p>Lookups by id are cached in {@link CacheNames#USERS}; every method that changes a user
  * evicts its entry. Evictions take effect after the transaction commits (see {@code CacheConfig}).</p>
  */
@@ -38,7 +40,7 @@ public class UserService {
     /** Hashes and verifies passwords. */
     private final PasswordEncoder passwordEncoder;
 
-    /** Publishes {@link EmailVerificationRequired} events. */
+    /** Publishes {@link EmailVerificationRequired} and {@link SessionsInvalidated} events. */
     private final ApplicationEventPublisher events;
 
     /** Records security events. */
@@ -102,6 +104,7 @@ public class UserService {
 
     /**
      * Sets a new password without checking the old one, e.g. after a verified password reset.
+     * Ends all of the user's sessions.
      *
      * @param id          user id
      * @param rawPassword the new plain password, stored hashed
@@ -111,6 +114,7 @@ public class UserService {
     @CacheEvict(cacheNames = CacheNames.USERS, key = "#id")
     public void setPassword(long id, String rawPassword) {
         findUser(id).setPasswordHash(passwordEncoder.encode(rawPassword));
+        events.publishEvent(new SessionsInvalidated(id));
     }
 
     /**
@@ -161,7 +165,8 @@ public class UserService {
     }
 
     /**
-     * Changes a user's password after verifying the current one.
+     * Changes a user's password after verifying the current one. Ends all of the user's sessions,
+     * including the current one: the client must log in again.
      *
      * @param id      user id
      * @param request current and new password
@@ -176,10 +181,12 @@ public class UserService {
         }
         user.setPasswordHash(passwordEncoder.encode(request.newPassword()));
         audit.record(AuditEvent.PASSWORD_CHANGED, id);
+        events.publishEvent(new SessionsInvalidated(id));
     }
 
     /**
      * Updates any field of a user as an administrator; {@code null} fields are left unchanged.
+     * A new password or role ends all of the user's sessions, so it takes effect immediately.
      *
      * @param id      user id
      * @param request the changes
@@ -201,9 +208,13 @@ public class UserService {
             audit.record(AuditEvent.USER_UPDATED_BY_ADMIN, id,
                     "identityChanged", identityChanged, "passwordChanged", request.password() != null);
         }
-        if (request.role() != null && request.role() != user.getRole()) {
+        boolean roleChanged = request.role() != null && request.role() != user.getRole();
+        if (roleChanged) {
             audit.record(AuditEvent.ROLE_CHANGED, id, "from", user.getRole(), "to", request.role());
             user.setRole(request.role());
+        }
+        if (roleChanged || request.password() != null) {
+            events.publishEvent(new SessionsInvalidated(id));
         }
         return UserResponse.from(userRepository.saveAndFlush(user));
     }
@@ -224,6 +235,7 @@ public class UserService {
         }
         userRepository.delete(findUser(id));
         audit.record(AuditEvent.USER_DELETED_BY_ADMIN, id);
+        events.publishEvent(new SessionsInvalidated(id));
     }
 
     /**

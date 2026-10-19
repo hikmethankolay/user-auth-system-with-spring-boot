@@ -32,23 +32,31 @@ public class TokenService {
     /** Signs the tokens. */
     private final JwtEncoder jwtEncoder;
 
+    /** Tells whether a revocation cut-off is active for the user. */
+    private final TokenRevocationService revocations;
+
     /** Issuer and lifetime settings. */
     private final AppProperties.Jwt properties;
 
     /**
      * Creates the service.
      *
-     * @param jwtEncoder signs the tokens
-     * @param properties application properties holding issuer and lifetimes
+     * @param jwtEncoder  signs the tokens
+     * @param revocations tells whether a revocation cut-off is active for the user
+     * @param properties  application properties holding issuer and lifetimes
      */
-    public TokenService(JwtEncoder jwtEncoder, AppProperties properties) {
+    public TokenService(JwtEncoder jwtEncoder, TokenRevocationService revocations, AppProperties properties) {
         this.jwtEncoder = jwtEncoder;
+        this.revocations = revocations;
         this.properties = properties.jwt();
     }
 
     /**
      * Issues a short-lived access token for a user. Each token gets a unique id ({@code jti}) so
      * it can be revoked.
+     *
+     * <p>If the user's tokens were revoked in the current second, the issue time is moved to the
+     * cut-off (less than a second ahead), so the new token is not revoked with the old ones.</p>
      *
      * @param userId   database id, stored as the {@code sub} claim
      * @param username username, stored as the {@code username} claim
@@ -58,12 +66,13 @@ public class TokenService {
     public IssuedToken issue(long userId, String username, Role role) {
         Instant now = Instant.now();
         Duration ttl = properties.accessTokenTtl();
+        Instant issuedAt = revocations.issuedNotBefore(userId).filter(now::isBefore).orElse(now);
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .id(UUID.randomUUID().toString())
                 .issuer(properties.issuer())
                 .subject(Long.toString(userId))
-                .issuedAt(now)
+                .issuedAt(issuedAt)
                 .expiresAt(now.plus(ttl))
                 .claim(USERNAME_CLAIM, username)
                 .claim(ROLES_CLAIM, List.of(role.name()))

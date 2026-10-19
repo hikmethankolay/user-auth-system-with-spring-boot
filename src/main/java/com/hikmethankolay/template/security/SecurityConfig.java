@@ -223,7 +223,7 @@ public class SecurityConfig {
         NimbusJwtDecoder decoder = NimbusJwtDecoder.withSecretKey(signingKey(properties))
                 .macAlgorithm(MacAlgorithm.HS256)
                 .build();
-        OAuth2TokenValidator<Jwt> notRevoked = jwt -> revocations.isRevoked(jwt.getId())
+        OAuth2TokenValidator<Jwt> notRevoked = jwt -> revocations.isRevoked(jwt)
                 ? OAuth2TokenValidatorResult.failure(new OAuth2Error("invalid_token", "The token has been revoked.", null))
                 : OAuth2TokenValidatorResult.success();
         decoder.setJwtValidator(new DelegatingOAuth2TokenValidator<>(
