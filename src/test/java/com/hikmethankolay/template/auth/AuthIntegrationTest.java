@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.hikmethankolay.template.IntegrationTest;
+import com.jayway.jsonpath.JsonPath;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -180,6 +181,37 @@ class AuthIntegrationTest extends IntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accessToken").isNotEmpty())
                 .andExpect(header().exists(HttpHeaders.SET_COOKIE));
+    }
+
+    @Test
+    void refreshRevokesTheOldToken() throws Exception {
+        String oldToken = registerAndLogin(uniqueUsername());
+
+        String body = mockMvc.perform(post("/api/v1/auth/refresh").with(bearer(oldToken)))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        String newToken = JsonPath.read(body, "$.accessToken");
+
+        mockMvc.perform(get("/api/v1/users/me").with(bearer(oldToken))).andExpect(status().isUnauthorized());
+        mockMvc.perform(get("/api/v1/users/me").with(bearer(newToken))).andExpect(status().isOk());
+    }
+
+    @Test
+    void logoutRevokesTheToken() throws Exception {
+        String token = registerAndLogin(uniqueUsername());
+        mockMvc.perform(get("/api/v1/users/me").with(bearer(token))).andExpect(status().isOk());
+
+        mockMvc.perform(post("/api/v1/auth/logout").with(bearer(token))).andExpect(status().isNoContent());
+
+        mockMvc.perform(get("/api/v1/users/me").with(bearer(token))).andExpect(status().isUnauthorized());
+        mockMvc.perform(get("/api/v1/users/me").cookie(new Cookie("auth_token", token)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void logoutWithInvalidTokenStillSucceeds() throws Exception {
+        mockMvc.perform(post("/api/v1/auth/logout").header(HttpHeaders.AUTHORIZATION, "Bearer not-a-jwt"))
+                .andExpect(status().isNoContent());
     }
 
     @Test

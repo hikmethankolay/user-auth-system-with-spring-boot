@@ -5,6 +5,7 @@ import com.hikmethankolay.template.auth.dto.RegisterRequest;
 import com.hikmethankolay.template.common.ApiException;
 import com.hikmethankolay.template.security.AppUserDetails;
 import com.hikmethankolay.template.security.LoginAttemptService;
+import com.hikmethankolay.template.security.TokenRevocationService;
 import com.hikmethankolay.template.security.TokenService;
 import com.hikmethankolay.template.security.TokenService.IssuedToken;
 import com.hikmethankolay.template.user.Role;
@@ -17,6 +18,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -40,6 +44,12 @@ public class AuthService {
     /** Reloads users on token refresh. */
     private final UserRepository userRepository;
 
+    /** Revokes tokens on logout and refresh. */
+    private final TokenRevocationService revocations;
+
+    /** Validates the token presented at logout. */
+    private final JwtDecoder jwtDecoder;
+
     /**
      * Creates the service.
      *
@@ -48,18 +58,24 @@ public class AuthService {
      * @param tokenService          issues JWTs
      * @param userService           creates users
      * @param userRepository        reloads users on refresh
+     * @param revocations           denylist of revoked tokens
+     * @param jwtDecoder            validates the token presented at logout
      */
     public AuthService(
             AuthenticationManager authenticationManager,
             LoginAttemptService loginAttempts,
             TokenService tokenService,
             UserService userService,
-            UserRepository userRepository) {
+            UserRepository userRepository,
+            TokenRevocationService revocations,
+            JwtDecoder jwtDecoder) {
         this.authenticationManager = authenticationManager;
         this.loginAttempts = loginAttempts;
         this.tokenService = tokenService;
         this.userService = userService;
         this.userRepository = userRepository;
+        this.revocations = revocations;
+        this.jwtDecoder = jwtDecoder;
     }
 
     /**
@@ -111,16 +127,36 @@ public class AuthService {
     }
 
     /**
-     * Issues a fresh token for an authenticated user, picking up role changes since the last login.
+     * Exchanges a valid token for a fresh one, picking up role changes since the last login.
+     * The old token is revoked, so each token can be refreshed only once.
      *
-     * @param userId     id from the current token
-     * @param rememberMe remember-me flag from the current token, preserved in the new one
+     * @param current the caller's validated token; its remember-me flag is preserved
      * @return the new token
      * @throws BadCredentialsException if the user was deleted (mapped to 401)
      */
-    public IssuedToken refresh(long userId, boolean rememberMe) {
-        return userRepository.findById(userId)
-                .map(user -> tokenService.issue(user.getId(), user.getUsername(), user.getRole(), rememberMe))
+    public IssuedToken refresh(Jwt current) {
+        IssuedToken token = userRepository.findById(TokenService.userId(current))
+                .map(user -> tokenService.issue(
+                        user.getId(), user.getUsername(), user.getRole(), TokenService.isRememberMe(current)))
                 .orElseThrow(() -> new BadCredentialsException("User no longer exists."));
+        revocations.revoke(current);
+        return token;
+    }
+
+    /**
+     * Revokes the token presented at logout, if it is still valid. Invalid, expired or missing
+     * tokens are ignored: there is nothing left to revoke.
+     *
+     * @param token the raw token from the header or cookie, may be {@code null}
+     */
+    public void logout(String token) {
+        if (token == null) {
+            return;
+        }
+        try {
+            revocations.revoke(jwtDecoder.decode(token));
+        } catch (JwtException ex) {
+            // Already invalid, expired or revoked.
+        }
     }
 }

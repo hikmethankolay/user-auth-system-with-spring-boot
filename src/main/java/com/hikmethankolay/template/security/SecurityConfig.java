@@ -20,7 +20,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
+import org.springframework.security.oauth2.core.OAuth2Error;
+import org.springframework.security.oauth2.core.OAuth2TokenValidator;
+import org.springframework.security.oauth2.core.OAuth2TokenValidatorResult;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtValidators;
@@ -28,6 +33,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -78,20 +84,20 @@ public class SecurityConfig {
     /**
      * Filter chain for all other requests: a valid JWT is required (deny by default).
      *
-     * @param http           the builder provided by Spring Security
-     * @param problemHandler renders security errors as problem details
-     * @param properties     application properties, used for the cookie name
+     * @param http                the builder provided by Spring Security
+     * @param problemHandler      renders security errors as problem details
+     * @param bearerTokenResolver reads the token from the header or the auth cookie
      * @return the authenticated filter chain
      * @throws Exception if the chain cannot be built
      */
     @Bean
     @Order(2)
     SecurityFilterChain apiFilterChain(
-            HttpSecurity http, SecurityProblemHandler problemHandler, AppProperties properties) throws Exception {
+            HttpSecurity http, SecurityProblemHandler problemHandler, BearerTokenResolver bearerTokenResolver) throws Exception {
         return applyCommonSettings(http, problemHandler)
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .oauth2ResourceServer(resourceServer -> resourceServer
-                        .bearerTokenResolver(new CookieBearerTokenResolver(properties.cookie().name()))
+                        .bearerTokenResolver(bearerTokenResolver)
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
                         .authenticationEntryPoint(problemHandler)
                         .accessDeniedHandler(problemHandler))
@@ -171,17 +177,33 @@ public class SecurityConfig {
     }
 
     /**
-     * Verifies signature, expiry and issuer of incoming tokens.
+     * Reads the token from the {@code Authorization} header or the auth cookie.
      *
-     * @param properties application properties holding the secret and issuer
+     * @param properties application properties holding the cookie name
+     * @return the resolver used by the resource server and by logout
+     */
+    @Bean
+    BearerTokenResolver bearerTokenResolver(AppProperties properties) {
+        return new CookieBearerTokenResolver(properties.cookie().name());
+    }
+
+    /**
+     * Verifies signature, expiry, issuer and revocation of incoming tokens.
+     *
+     * @param properties  application properties holding the secret and issuer
+     * @param revocations denylist of revoked token ids
      * @return the JWT decoder used by the resource server
      */
     @Bean
-    JwtDecoder jwtDecoder(AppProperties properties) {
+    JwtDecoder jwtDecoder(AppProperties properties, TokenRevocationService revocations) {
         NimbusJwtDecoder decoder = NimbusJwtDecoder.withSecretKey(signingKey(properties))
                 .macAlgorithm(MacAlgorithm.HS256)
                 .build();
-        decoder.setJwtValidator(JwtValidators.createDefaultWithIssuer(properties.jwt().issuer()));
+        OAuth2TokenValidator<Jwt> notRevoked = jwt -> revocations.isRevoked(jwt.getId())
+                ? OAuth2TokenValidatorResult.failure(new OAuth2Error("invalid_token", "The token has been revoked.", null))
+                : OAuth2TokenValidatorResult.success();
+        decoder.setJwtValidator(new DelegatingOAuth2TokenValidator<>(
+                JwtValidators.createDefaultWithIssuer(properties.jwt().issuer()), notRevoked));
         return decoder;
     }
 

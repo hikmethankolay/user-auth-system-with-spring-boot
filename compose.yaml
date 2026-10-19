@@ -22,7 +22,9 @@ services:
 
   redis:
     image: redis:8-alpine
-    command: ["redis-server", "--maxmemory", "256mb", "--maxmemory-policy", "allkeys-lru"]
+    # Redis also holds security state (login lockouts, revoked tokens), which must never be evicted:
+    # with "noeviction" a full Redis rejects writes instead of silently dropping keys. Every key has a TTL.
+    command: ["redis-server", "--maxmemory", "256mb", "--maxmemory-policy", "noeviction"]
     ports:
       - "127.0.0.1:${REDIS_PORT:-6379}:6379"
     healthcheck:

@@ -4,7 +4,6 @@ import com.hikmethankolay.template.auth.dto.LoginRequest;
 import com.hikmethankolay.template.auth.dto.RegisterRequest;
 import com.hikmethankolay.template.auth.dto.TokenResponse;
 import com.hikmethankolay.template.config.AppProperties;
-import com.hikmethankolay.template.security.TokenService;
 import com.hikmethankolay.template.security.TokenService.IssuedToken;
 import com.hikmethankolay.template.user.dto.UserResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,8 +16,10 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,15 +52,20 @@ public class AuthController {
     /** Authentication cookie settings. */
     private final AppProperties.Cookie cookieProperties;
 
+    /** Reads the token presented at logout. */
+    private final BearerTokenResolver bearerTokenResolver;
+
     /**
      * Creates the controller.
      *
-     * @param authService authentication business logic
-     * @param properties  application properties holding the cookie settings
+     * @param authService         authentication business logic
+     * @param properties          application properties holding the cookie settings
+     * @param bearerTokenResolver reads the token from the header or the auth cookie
      */
-    public AuthController(AuthService authService, AppProperties properties) {
+    public AuthController(AuthService authService, AppProperties properties, BearerTokenResolver bearerTokenResolver) {
         this.authService = authService;
         this.cookieProperties = properties.cookie();
+        this.bearerTokenResolver = bearerTokenResolver;
     }
 
     /**
@@ -94,7 +100,7 @@ public class AuthController {
     }
 
     /**
-     * Exchanges a valid token for a new one with a fresh expiry.
+     * Exchanges a valid token for a new one with a fresh expiry. The old token is revoked.
      *
      * @param jwt the caller's current token
      * @return {@code 200 OK} with the new token in the body and in a cookie
@@ -102,18 +108,26 @@ public class AuthController {
     @PostMapping("/refresh")
     @Operation(summary = "Refresh the current token")
     public ResponseEntity<TokenResponse> refresh(@AuthenticationPrincipal Jwt jwt) {
-        return tokenResponse(authService.refresh(TokenService.userId(jwt), TokenService.isRememberMe(jwt)));
+        return tokenResponse(authService.refresh(jwt));
     }
 
     /**
-     * Logs out a browser client by expiring the auth cookie. API clients simply discard their token.
-     * The JWT itself is not revoked and stays valid until it expires.
+     * Logs out: revokes the presented token (header or cookie) and expires the auth cookie.
+     * Calling it without a token, or with an already invalid one, still succeeds.
      *
+     * @param request the servlet request carrying the token
      * @return {@code 204 No Content} with an expired cookie
      */
     @PostMapping("/logout")
-    @Operation(summary = "Log out (clear the auth cookie)")
-    public ResponseEntity<Void> logout() {
+    @Operation(summary = "Log out (revoke the token and clear the auth cookie)")
+    public ResponseEntity<Void> logout(HttpServletRequest request) {
+        String token;
+        try {
+            token = bearerTokenResolver.resolve(request);
+        } catch (AuthenticationException ex) {
+            token = null; // Malformed Authorization header: nothing to revoke.
+        }
+        authService.logout(token);
         return ResponseEntity.noContent()
                 .header(HttpHeaders.SET_COOKIE, authCookie("", Duration.ZERO).toString())
                 .build();

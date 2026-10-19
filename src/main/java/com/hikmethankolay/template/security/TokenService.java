@@ -5,6 +5,7 @@ import com.hikmethankolay.template.user.Role;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwsHeader;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
  * Issues signed JWTs and reads the application's custom claims.
  *
  * <p>Token validation is not done here but by Spring Security's resource server
- * (see {@link SecurityConfig#jwtDecoder(AppProperties)}).</p>
+ * (see {@link SecurityConfig#jwtDecoder(AppProperties, TokenRevocationService)}).</p>
  */
 @Service
 public class TokenService {
@@ -49,7 +50,7 @@ public class TokenService {
     }
 
     /**
-     * Issues a token for a user.
+     * Issues a token for a user. Each token gets a unique id ({@code jti}) so it can be revoked.
      *
      * @param userId     database id, stored as the {@code sub} claim
      * @param username   username, stored as the {@code username} claim
@@ -62,6 +63,7 @@ public class TokenService {
         Duration ttl = rememberMe ? properties.rememberMeTtl() : properties.accessTokenTtl();
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
+                .id(UUID.randomUUID().toString())
                 .issuer(properties.issuer())
                 .subject(Long.toString(userId))
                 .issuedAt(now)
