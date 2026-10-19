@@ -3,19 +3,14 @@ package com.hikmethankolay.template.account;
 import com.hikmethankolay.template.audit.AuditEvent;
 import com.hikmethankolay.template.audit.AuditLog;
 import com.hikmethankolay.template.common.ApiException;
+import com.hikmethankolay.template.common.SecureTokens;
 import com.hikmethankolay.template.config.AppProperties;
 import com.hikmethankolay.template.user.EmailVerificationRequired;
 import com.hikmethankolay.template.user.User;
 import com.hikmethankolay.template.user.UserRepository;
 import com.hikmethankolay.template.user.UserService;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Base64;
-import java.util.HexFormat;
 import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +23,9 @@ import org.springframework.transaction.event.TransactionalEventListener;
 /**
  * Email verification and password reset.
  *
- * <p>Tokens are 256-bit random values sent by email; only their SHA-256 hash is stored. Each token
- * is single-use, expires, and issuing a new one invalidates the previous one of the same type.
+ * <p>Tokens are 256-bit random values sent by email; only their SHA-256 hash is stored (see
+ * {@link SecureTokens}). Each token is single-use, expires, and issuing a new one invalidates the
+ * previous one of the same type.
  * Requests that take an email address behave the same whether or not the address exists, so they
  * cannot be used to find out which addresses have accounts.</p>
  */
@@ -41,9 +37,6 @@ public class AccountService {
 
     /** Error for unknown, used or expired tokens; deliberately the same for all three. */
     private static final String INVALID_TOKEN = "The link is invalid or has expired.";
-
-    /** Source of token randomness. */
-    private final SecureRandom random = new SecureRandom();
 
     /** Token persistence. */
     private final AccountTokenRepository tokens;
@@ -182,10 +175,8 @@ public class AccountService {
      */
     private String issue(long userId, AccountTokenType type, Duration ttl) {
         tokens.deleteAllByUserIdAndType(userId, type);
-        byte[] bytes = new byte[32];
-        random.nextBytes(bytes);
-        String token = Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
-        tokens.save(new AccountToken(userId, type, hash(token), Instant.now().plus(ttl)));
+        String token = SecureTokens.generate();
+        tokens.save(new AccountToken(userId, type, SecureTokens.hash(token), Instant.now().plus(ttl)));
         return token;
     }
 
@@ -198,26 +189,11 @@ public class AccountService {
      * @throws ApiException 400 if the token is unknown, already used or expired
      */
     private AccountToken consume(String token, AccountTokenType type) {
-        AccountToken stored = tokens.findByTokenHashAndType(hash(token), type)
+        AccountToken stored = tokens.findByTokenHashAndType(SecureTokens.hash(token), type)
                 .filter(candidate -> !candidate.isExpired(Instant.now()))
                 .orElseThrow(() -> ApiException.badRequest(INVALID_TOKEN));
         tokens.deleteAllByUserIdAndType(stored.getUserId(), type);
         return stored;
-    }
-
-    /**
-     * Hashes a raw token for storage and lookup.
-     *
-     * @param token the raw token
-     * @return the hex SHA-256 of the token
-     */
-    static String hash(String token) {
-        try {
-            byte[] digest = MessageDigest.getInstance("SHA-256").digest(token.getBytes(StandardCharsets.UTF_8));
-            return HexFormat.of().formatHex(digest);
-        } catch (NoSuchAlgorithmException ex) {
-            throw new IllegalStateException("SHA-256 is not available", ex);
-        }
     }
 
     /**
