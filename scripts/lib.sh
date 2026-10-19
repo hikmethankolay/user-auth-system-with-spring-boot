@@ -55,7 +55,8 @@ configure_testcontainers() {
   command -v podman >/dev/null 2>&1 || { warn "No container runtime found; integration tests will be skipped."; return; }
 
   local socket="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/podman/podman.sock"
-  if [[ ! -S "$socket" ]] && command -v systemctl >/dev/null 2>&1; then
+  # The socket file can outlive the service, so check the unit rather than the file.
+  if command -v systemctl >/dev/null 2>&1 && ! systemctl --user is-active --quiet podman.socket; then
     info "Starting the rootless Podman API socket (systemctl --user start podman.socket)"
     systemctl --user start podman.socket || true
   fi
