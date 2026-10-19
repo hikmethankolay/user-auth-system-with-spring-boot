@@ -24,5 +24,6 @@ COPY --from=build /workspace/target/extracted/spring-boot-loader/ ./
 COPY --from=build /workspace/target/extracted/snapshot-dependencies/ ./
 COPY --from=build /workspace/target/extracted/application/ ./
 
-EXPOSE 8080
+# 8080: API. 8081: Actuator with SPRING_PROFILES_ACTIVE=prod (keep it internal).
+EXPOSE 8080 8081
 ENTRYPOINT ["java", "-XX:MaxRAMPercentage=75", "org.springframework.boot.loader.launch.JarLauncher"]

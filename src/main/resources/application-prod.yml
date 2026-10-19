@@ -1,0 +1,26 @@
+# Production profile, enabled with SPRING_PROFILES_ACTIVE=prod. Overrides application.yml with
+# safe defaults; everything can still be changed through environment variables.
+
+logging:
+  structured:
+    format:
+      # One JSON object per line (Elastic Common Schema), including traceId/spanId.
+      console: ecs
+
+app:
+  cookie:
+    secure: ${COOKIE_SECURE:true}
+
+springdoc:
+  swagger-ui:
+    enabled: ${SWAGGER_ENABLED:false}
+  api-docs:
+    enabled: ${SWAGGER_ENABLED:false}
+
+management:
+  server:
+    # Actuator (health, metrics) on an internal port that must not be exposed publicly.
+    port: ${MANAGEMENT_PORT:8081}
+  tracing:
+    sampling:
+      probability: ${TRACING_SAMPLING_PROBABILITY:0.1}
