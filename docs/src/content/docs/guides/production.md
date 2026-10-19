@@ -29,7 +29,7 @@ Pushing a `v*` tag runs the release workflow:
 docker run -p 8080:8080 -e SPRING_PROFILES_ACTIVE=prod \
   -e DB_URL=... -e DB_USERNAME=... -e DB_PASSWORD=... \
   -e REDIS_HOST=... -e JWT_SECRET=... -e MAIL_HOST=... \
-  ghcr.io/hikmethankolay/user-auth-system-with-spring-boot:latest
+  ghcr.io/hikmethankolay/spring-boot-backend-template:latest
 ```
 
 ## Checklist

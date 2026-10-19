@@ -12,8 +12,8 @@ description: Run the template locally in three commands.
 ## Run it
 
 ```bash
-git clone https://github.com/hikmethankolay/user-auth-system-with-spring-boot.git
-cd user-auth-system-with-spring-boot
+git clone https://github.com/hikmethankolay/spring-boot-backend-template.git
+cd spring-boot-backend-template
 
 scripts/setup.sh    # checks prerequisites, creates .env with generated secrets, compiles
 scripts/dev.sh      # starts PostgreSQL, Redis and Mailpit, then the app on http://localhost:8080

@@ -1,14 +1,14 @@
 # Spring Boot Backend Template
 
-[![CI](https://github.com/hikmethankolay/user-auth-system-with-spring-boot/actions/workflows/ci.yml/badge.svg)](https://github.com/hikmethankolay/user-auth-system-with-spring-boot/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/hikmethankolay/user-auth-system-with-spring-boot)](https://github.com/hikmethankolay/user-auth-system-with-spring-boot/releases)
-[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-16a34a)](https://hikmethankolay.github.io/user-auth-system-with-spring-boot/)
+[![CI](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/ci.yml/badge.svg)](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/hikmethankolay/spring-boot-backend-template)](https://github.com/hikmethankolay/spring-boot-backend-template/releases)
+[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-16a34a)](https://hikmethankolay.github.io/spring-boot-backend-template/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 Start a new Spring Boot REST backend from a codebase that already handles the hard, repetitive parts:
 secure login, user accounts, errors, caching, monitoring and deployment. All of it is tested and documented.
 
-**[Read the documentation →](https://hikmethankolay.github.io/user-auth-system-with-spring-boot/)**
+**[Read the documentation →](https://hikmethankolay.github.io/spring-boot-backend-template/)**
 
 ## Why use it
 
@@ -28,8 +28,8 @@ Built with Spring Boot 4.1, Java 25, PostgreSQL 18 and Redis 8.
 You need **JDK 25** (a JRE is not enough) and **Docker or Podman**.
 
 ```bash
-git clone https://github.com/hikmethankolay/user-auth-system-with-spring-boot.git
-cd user-auth-system-with-spring-boot
+git clone https://github.com/hikmethankolay/spring-boot-backend-template.git
+cd spring-boot-backend-template
 scripts/setup.sh    # checks prerequisites, creates .env with generated secrets, compiles
 scripts/dev.sh      # starts PostgreSQL, Redis and Mailpit, then the app
 scripts/smoke.sh    # in a second terminal: register, log in, call the API, log out
@@ -61,7 +61,7 @@ Each script exists as `scripts/<name>.sh` and `scripts\<name>.bat`.
 | `build` / `run` | Build the jar (`--skip-tests` to skip tests) / run it with `.env` |
 | `docker` | Whole stack in containers: `up`, `down`, `logs`, `ps` |
 | `smoke` | End-to-end check against a running instance |
-| `load-test` | k6 load test (see [Testing](https://hikmethankolay.github.io/user-auth-system-with-spring-boot/guides/testing/#load-test)) |
+| `load-test` | k6 load test (see [Testing](https://hikmethankolay.github.io/spring-boot-backend-template/guides/testing/#load-test)) |
 | `docs` / `site` | Java reference (Doxygen) / the documentation website |
 | `rename-project` | Rename the Maven coordinates, app name and Java package for your project |
 
@@ -74,18 +74,18 @@ scripts/test.sh
 
 Then add your tables as Flyway migrations and your features as packages next to `user/`. Delete what you don't need,
 such as `account/`. The build checks the basics for you: controllers use services, entities stay out of the API,
-and every public class is documented. See [Using the template](https://hikmethankolay.github.io/user-auth-system-with-spring-boot/guides/new-project/).
+and every public class is documented. See [Using the template](https://hikmethankolay.github.io/spring-boot-backend-template/guides/new-project/).
 
 ## Documentation
 
 | Guide | Covers |
 |-------|--------|
-| [Configuration](https://hikmethankolay.github.io/user-auth-system-with-spring-boot/guides/configuration/) | Every environment variable and its default |
-| [Security](https://hikmethankolay.github.io/user-auth-system-with-spring-boot/guides/security/) | Tokens, revocation, account flows, lockout, rate limiting |
-| [API overview](https://hikmethankolay.github.io/user-auth-system-with-spring-boot/guides/api/) and [REST API reference](https://hikmethankolay.github.io/user-auth-system-with-spring-boot/api/) | Endpoints, errors (RFC 9457), pagination, headers |
-| [Caching](https://hikmethankolay.github.io/user-auth-system-with-spring-boot/guides/caching/) and [Observability](https://hikmethankolay.github.io/user-auth-system-with-spring-boot/guides/observability/) | Redis cache, metrics, tracing, logs |
-| [Production](https://hikmethankolay.github.io/user-auth-system-with-spring-boot/guides/production/) | The `prod` profile, deployment and the trade-offs to review before going live |
-| [Java reference](https://hikmethankolay.github.io/user-auth-system-with-spring-boot/reference/) and [coverage](https://hikmethankolay.github.io/user-auth-system-with-spring-boot/coverage/) | Generated from the code on every release |
+| [Configuration](https://hikmethankolay.github.io/spring-boot-backend-template/guides/configuration/) | Every environment variable and its default |
+| [Security](https://hikmethankolay.github.io/spring-boot-backend-template/guides/security/) | Tokens, revocation, account flows, lockout, rate limiting |
+| [API overview](https://hikmethankolay.github.io/spring-boot-backend-template/guides/api/) and [REST API reference](https://hikmethankolay.github.io/spring-boot-backend-template/api/) | Endpoints, errors (RFC 9457), pagination, headers |
+| [Caching](https://hikmethankolay.github.io/spring-boot-backend-template/guides/caching/) and [Observability](https://hikmethankolay.github.io/spring-boot-backend-template/guides/observability/) | Redis cache, metrics, tracing, logs |
+| [Production](https://hikmethankolay.github.io/spring-boot-backend-template/guides/production/) | The `prod` profile, deployment and the trade-offs to review before going live |
+| [Java reference](https://hikmethankolay.github.io/spring-boot-backend-template/reference/) and [coverage](https://hikmethankolay.github.io/spring-boot-backend-template/coverage/) | Generated from the code on every release |
 
 The guides live in [`docs/`](docs/src/content/docs) and are published with every `v*` release.
 

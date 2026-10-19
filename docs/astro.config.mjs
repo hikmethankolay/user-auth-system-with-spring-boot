@@ -2,12 +2,12 @@
 import starlight from '@astrojs/starlight';
 import { defineConfig } from 'astro/config';
 
-const repository = 'https://github.com/hikmethankolay/user-auth-system-with-spring-boot';
+const repository = 'https://github.com/hikmethankolay/spring-boot-backend-template';
 
 export default defineConfig({
   // GitHub Pages project site: https://<owner>.github.io/<repository>/. Override for a fork or custom domain.
   site: process.env.SITE_URL ?? 'https://hikmethankolay.github.io',
-  base: process.env.SITE_BASE ?? '/user-auth-system-with-spring-boot',
+  base: process.env.SITE_BASE ?? '/spring-boot-backend-template',
   integrations: [
     starlight({
       title: 'Spring Boot Backend Template',

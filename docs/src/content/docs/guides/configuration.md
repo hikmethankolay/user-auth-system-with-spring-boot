@@ -4,7 +4,7 @@ description: Environment variables and the .env file.
 ---
 
 Everything is set through environment variables, or a `.env` file in the working directory, which both the app and
-Docker Compose read. Tests never read `.env`. [`.env.example`](https://github.com/hikmethankolay/user-auth-system-with-spring-boot/blob/main/.env.example)
+Docker Compose read. Tests never read `.env`. [`.env.example`](https://github.com/hikmethankolay/spring-boot-backend-template/blob/main/.env.example)
 lists the common variables, and `scripts/setup.sh` creates `.env` from it with generated secrets.
 
 The `app.*` settings are bound to a validated record (`AppProperties`), so a missing or invalid value such as a short
@@ -34,9 +34,9 @@ The `app.*` settings are bound to a validated record (`AppProperties`), so a mis
 | `PORT` | `8080` | HTTP port |
 
 All properties are in
-[`application.yml`](https://github.com/hikmethankolay/user-auth-system-with-spring-boot/blob/main/src/main/resources/application.yml),
+[`application.yml`](https://github.com/hikmethankolay/spring-boot-backend-template/blob/main/src/main/resources/application.yml),
 and the production overrides are in
-[`application-prod.yml`](https://github.com/hikmethankolay/user-auth-system-with-spring-boot/blob/main/src/main/resources/application-prod.yml).
+[`application-prod.yml`](https://github.com/hikmethankolay/spring-boot-backend-template/blob/main/src/main/resources/application-prod.yml).
 
 ## Database migrations
 
