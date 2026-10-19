@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# Manages the local backing services: PostgreSQL and Redis.
+# Manages the local backing services: PostgreSQL, Redis and Mailpit (dev mail catcher).
 # Usage: scripts/db.sh up|down|reset|logs|psql|redis-cli|status
 source "$(dirname "$0")/lib.sh"
 detect_compose
 
-services=(db redis)
+services=(db redis mailpit)
 
 case "${1:-up}" in
   up)
-    info "Starting PostgreSQL and Redis"
+    info "Starting PostgreSQL, Redis and Mailpit (mail UI: http://localhost:8025)"
     "${COMPOSE[@]}" up -d --wait "${services[@]}"
     ;;
   down)

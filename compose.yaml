@@ -33,6 +33,13 @@ services:
       timeout: 3s
       retries: 10
 
+  mailpit:
+    # Catches every email sent in development. Web UI: http://localhost:8025
+    image: axllent/mailpit:v1.27
+    ports:
+      - "127.0.0.1:${MAIL_PORT:-1025}:1025"
+      - "127.0.0.1:8025:8025"
+
   app:
     profiles: ["app"]
     build: .
@@ -43,6 +50,8 @@ services:
       DB_URL: jdbc:postgresql://db:5432/${DB_NAME:-app}
       REDIS_HOST: redis
       REDIS_PORT: 6379
+      MAIL_HOST: mailpit
+      MAIL_PORT: 1025
     ports:
       - "${PORT:-8080}:8080"
     depends_on:

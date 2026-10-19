@@ -1,16 +1,16 @@
 @echo off
-rem Manages the local backing services: PostgreSQL and Redis.
+rem Manages the local backing services: PostgreSQL, Redis and Mailpit (dev mail catcher).
 rem Usage: scripts\db.bat up^|down^|reset^|logs^|psql^|redis-cli^|status
 setlocal
 cd /d "%~dp0.."
 call "%~dp0lib.bat" detect_compose || exit /b 1
 
-set "SERVICES=db redis"
+set "SERVICES=db redis mailpit"
 set "CMD=%~1"
 if "%CMD%"=="" set "CMD=up"
 
 if /i "%CMD%"=="up" (
-  echo ==^> Starting PostgreSQL and Redis
+  echo ==^> Starting PostgreSQL, Redis and Mailpit (mail UI: http://localhost:8025)
   %COMPOSE% up -d --wait %SERVICES%
 ) else if /i "%CMD%"=="down" (
   %COMPOSE% stop %SERVICES%
