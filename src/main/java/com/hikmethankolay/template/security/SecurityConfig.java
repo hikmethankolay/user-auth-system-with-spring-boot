@@ -54,7 +54,7 @@ public class SecurityConfig {
     /** Paths reachable without authentication. Add new public endpoints here. */
     private static final String[] PUBLIC_PATHS = {
             "/api/v1/auth/register", "/api/v1/auth/login", "/api/v1/auth/logout",
-            "/actuator/health", "/actuator/health/**", "/actuator/info",
+            "/actuator/health", "/actuator/health/**", "/actuator/info", "/actuator/prometheus",
             "/v3/api-docs", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**",
             "/error"
     };
@@ -207,7 +207,7 @@ public class SecurityConfig {
         cors.setAllowedOrigins(properties.cors().allowedOrigins());
         cors.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         cors.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-        cors.setExposedHeaders(List.of("Location", "Retry-After"));
+        cors.setExposedHeaders(List.of("Location", "Retry-After", "X-Trace-Id"));
         cors.setAllowCredentials(true);
         cors.setMaxAge(3600L);
 

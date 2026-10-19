@@ -62,7 +62,16 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  tracing:
+    # Share of requests that are traced and exported. Trace ids are in the logs and in the
+    # X-Trace-Id header either way. Export is off until an OTLP endpoint is set, e.g.
+    # MANAGEMENT_OPENTELEMETRY_TRACING_EXPORT_OTLP_ENDPOINT=http://otel-collector:4318/v1/traces
+    sampling:
+      probability: ${TRACING_SAMPLING_PROBABILITY:1.0}
   endpoint:
     health:
       probes:
