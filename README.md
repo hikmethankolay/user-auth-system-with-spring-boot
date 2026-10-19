@@ -1,262 +1,175 @@
-# User Authentication System with Spring Boot and JWT
+# Spring Boot Backend Template
 
-A comprehensive authentication and authorization system built with Spring Boot and JWT, providing secure user management, role-based access control, and protection against common security threats.
+A production-minded starting point for Spring Boot REST backends: JWT authentication, user management,
+standard error responses, tests against a real database, and one-command scripts for Linux, macOS and Windows.
 
-![Badge Combined](assets/badge_combined.svg) ![Badge Branch Coverage](assets/badge_branchcoverage.svg) ![Badge Line Coverage](assets/badge_linecoverage.svg) ![Badge Method Coverage](assets/badge_methodcoverage.svg)
+Clone it, run `scripts/rename-project.sh`, delete what you don't need and start adding features.
 
-## Features
+## What's included
 
-- **User Authentication**: Secure login with JWT tokens
-- **Registration System**: User sign-up with validation
-- **Remember Me Functionality**: Persistent authentication with HTTP-only cookies
-- **Role-Based Authorization**: Granular access control with USER, MODERATOR, and ADMIN roles
-- **Brute Force Protection**: Account locking after multiple failed attempts
-- **Token Management**: Token refresh, validation, and secure storage
-- **Comprehensive API**: User management endpoints with pagination
-- **Security Best Practices**: CORS protection, validation, and secure cookie handling
-- **Extensive Documentation**: Code documentation and API documentation via Swagger
+- **Spring Boot 4.1 on Java 25**, Maven wrapper, PostgreSQL 18
+- **Stateless JWT auth** using Spring Security's resource server: login with username or email,
+  tokens as `Authorization: Bearer` or an HttpOnly `SameSite=Strict` cookie, remember-me, refresh, logout
+- **Brute-force protection**: per-IP and per-account lockout with `429` + `Retry-After`
+- **Users**: registration, profile and password change, admin CRUD with pagination, role-based access via `@PreAuthorize`
+- **Standard HTTP semantics**: versioned URLs (`/api/v1`), correct status codes, `201` + `Location`,
+  [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457) `application/problem+json` errors for everything, including 401/403
+- **Typed, validated configuration** (`app.*`) from environment variables or a `.env` file, so a missing secret fails at startup
+- **Tests**: unit tests plus end-to-end tests against PostgreSQL with Testcontainers, with a JaCoCo coverage report
+- **OpenAPI / Swagger UI**, Actuator health probes, Docker image, Compose stack, GitHub Actions CI
+- **Doxygen docs** for every class and method, enforced in CI
+- **Scripts** for every task, as `scripts/*.sh` and `scripts\*.bat`
 
-## Technologies Used
+## Quick start
 
-- Java 21
-- Spring Boot 3.4.2
-- Spring Security
-- JWT Authentication (Auth0 JWT library)
-- PostgreSQL
-- JUnit 5 & Mockito
-- Swagger/OpenAPI
-- JaCoCo for test coverage
-- Doxygen for code documentation
-
-## System Requirements
-
-- Java 21 JDK
-- PostgreSQL database
-- Windows OS (for batch scripts)
-- Internet connection (for dependency download)
-
-## Project Structure
-
-```
-user-auth-system/
-├── src/
-│   ├── main/
-│   │   ├── java/com/hikmethankolay/user_auth_system/
-│   │   │   ├── aspect/           # AOP logging
-│   │   │   ├── config/           # Configuration classes
-│   │   │   ├── controller/       # API endpoints
-│   │   │   ├── dto/              # Data Transfer Objects
-│   │   │   ├── entity/           # JPA entities
-│   │   │   ├── enums/            # Enumerations
-│   │   │   ├── exception/        # Exception handlers
-│   │   │   ├── repository/       # Data access layer
-│   │   │   ├── security/         # Security config
-│   │   │   ├── service/          # Business logic
-│   │   │   ├── util/             # Utility classes
-│   │   │   ├── validator/        # Custom validators
-│   │   │   └── UserAuthSystemApplication.java
-│   │   └── resources/
-│   │       ├── application.properties  # App configuration
-│   │       └── example.env             # Environment variables template
-│   └── test/                      # Test classes
-├── target/                        # Compiled output
-├── 1-create-git-ignore.bat        # Git ignore setup
-├── 2-install-package-manager.bat  # Package manager setup
-├── 3-install-required-apps.bat    # Required apps installation
-├── 4-build-app.bat                # Application build script
-├── 5-run-app.bat                  # Application run script
-└── 6-run-documentation-webpage.bat # Documentation server
-```
-
-## Installation & Setup
-
-### Prerequisites
-
-1. Ensure Java 21 is installed and JAVA_HOME is properly configured
-2. Have PostgreSQL installed and running
-3. Clone this repository
-
-### Quick Start (Windows)
-
-Run the setup scripts in sequence:
+Prerequisites: **JDK 25** (a JRE is not enough) and **Docker or Podman**.
 
 ```bash
-# 1. Set up Git ignore
-.\1-create-git-ignore.bat
-
-# 2. Install package managers (Chocolatey and Scoop)
-.\2-install-package-manager.bat
-
-# 3. Install required applications
-.\3-install-required-apps.bat
-
-# 4. Build the application
-.\4-build-app.bat
+scripts/setup.sh    # checks prerequisites, creates .env with generated secrets, compiles
+scripts/dev.sh      # starts PostgreSQL and the app on http://localhost:8080
+scripts/smoke.sh    # in another terminal: register, login, /me, refresh, logout against the running app
 ```
 
-### Manual Setup
+On Windows use the same names with `.bat`: `scripts\setup.bat`, `scripts\dev.bat`, `scripts\smoke.bat`.
 
-1. Configure database
-   - Create a PostgreSQL database
-   - Create a `.env` file in the `user-auth-system` directory based on `example.env`
+Open http://localhost:8080/swagger-ui.html to try the API. `setup` prints the generated password of the
+initial admin user (`admin`), which is created on first start.
 
-2. Build the application
-   ```bash
-   cd user-auth-system
-   ./mvnw clean package
-   ```
+## Scripts
+
+| Script | What it does |
+|--------|--------------|
+| `setup` | Checks JDK 25 and a container runtime, creates `.env` from `.env.example` with a random `JWT_SECRET` and admin password, compiles. `--force` recreates `.env`. |
+| `dev` | Starts PostgreSQL, then runs the app from source with `spring-boot:run`. |
+| `db` | Local database: `up`, `down`, `reset` (deletes data), `logs`, `psql`, `status`. |
+| `test` | Unit and integration tests plus coverage report (`target/site/jacoco/index.html`). Extra args go to Maven, e.g. `-Dtest=UserServiceTest`. |
+| `build` | Builds `target/*.jar`; runs the tests unless `--skip-tests`. |
+| `run` | Runs the built jar with the settings from `.env`. |
+| `docker` | Whole stack in containers (PostgreSQL + app image): `up`, `down`, `logs`, `ps`. |
+| `smoke` | End-to-end check against a running instance: `scripts/smoke.sh [base-url]`. |
+| `docs` | Doxygen HTML in `target/doxygen/html`. `--strict` fails on any Doxygen warning, including undocumented code. |
+| `rename-project` | Renames Maven coordinates, app name and Java package: `scripts/rename-project.sh com.acme order-service com.acme.orders`. |
+
+On Linux, `test` uses rootless Podman automatically when Docker isn't available. It starts `podman.socket` and points Testcontainers at it.
+Windows `.bat` scripts need Docker Desktop, or Podman with its Docker API enabled. `rename-project.bat` runs the shell script through Git Bash.
 
 ## Configuration
 
-Create a `.env` file in the `user-auth-system` directory with the following variables:
+Everything is set through environment variables, or a `.env` file in the working directory, which
+both the app and Compose read. [`.env.example`](.env.example) lists all of them:
 
-```
-DB_NAME=yourdbname
-CURRENT_SCHEMA=public
-DB_USERNAME=yourusername
-DB_PASSWORD=yourpassword
-JWT_SECRET=your-secret-key-should-be-very-long-and-secure
-JWT_EXPIRATION_TIME=900000
-JWT_REMEMBER_ME_EXPIRATION_TIME=2592000000
-API_USERNAME=admin
-API_PASSWORD=password
-API_ROLES=ADMIN
-```
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `DB_URL`, `DB_USERNAME`, `DB_PASSWORD` | `jdbc:postgresql://localhost:5432/app`, `app`, `app` | Database connection |
+| `JWT_SECRET` | *(required)* | HMAC-SHA256 signing secret, at least 32 characters |
+| `JWT_ACCESS_TOKEN_TTL` / `JWT_REMEMBER_ME_TTL` | `15m` / `30d` | Token lifetimes |
+| `COOKIE_SECURE` | `false` | Set `true` behind HTTPS |
+| `CORS_ALLOWED_ORIGINS` | `http://localhost:3000` | Comma-separated browser origins |
+| `LOGIN_MAX_ATTEMPTS` / `LOGIN_LOCK_DURATION` | `10` / `1h` | Brute-force lockout |
+| `ADMIN_USERNAME` / `ADMIN_EMAIL` / `ADMIN_PASSWORD` | *(none; `setup` fills in `admin` / `admin@example.com` / a generated password)* | Initial admin, created only when all three are set and no admin exists |
+| `FORWARD_HEADERS_STRATEGY` | `none` | Set `framework` behind a trusted proxy, so the real client IP is used |
+| `SWAGGER_ENABLED` | `true` | Disable Swagger UI and API docs in production |
+| `PORT` | `8080` | HTTP port |
 
-## Running the Application
+The full list of properties is in [`application.yml`](src/main/resources/application.yml).
 
-### Using Batch File
+## API
 
-```bash
-.\5-run-app.bat
-```
-
-### Manual Run
-
-```bash
-cd user-auth-system
-java -jar target/user-auth-system-1.0.jar
-```
-
-The application will start on port 8080 by default.
-
-## API Documentation
-
-The API documentation is available through Swagger UI when the application is running:
-
-```
-http://localhost:8080/swagger-ui/index.html
-```
-
-### Main Endpoints
-
-- **Authentication**
-  - POST `/api/auth/register` - Register a new user
-  - POST `/api/auth/login` - Login with credentials
-  - POST `/api/auth/logout` - Logout current user
-  - POST `/api/auth/refresh-token` - Refresh authentication token
-
-- **User Management**
-  - GET `/api/users` - List all users (Admin only)
-  - GET `/api/users/me` - Get current user info
-  - PATCH `/api/users/me` - Update current user
-  - GET `/api/users/{id}` - Get specific user (Admin only)
-  - PATCH `/api/users/{id}` - Update specific user (Admin only)
-  - DELETE `/api/users/{id}` - Delete user (Admin only)
-
-- **Role Management**
-  - GET `/api/roles` - List all roles (Admin only)
-  - GET `/api/roles/{name}` - Get specific role (Admin only)
-
-## Security Features
-
-### Password Requirements
-
-Passwords must:
-- Be 8-32 characters in length
-- Include at least one uppercase letter
-- Include at least one lowercase letter
-- Include at least one digit
-- Include at least one special character
-
-### Brute Force Protection
-
-The system includes protection against brute force attacks:
-- Accounts are temporarily locked after 10 failed login attempts
-- IP addresses are temporarily blocked after 10 failed login attempts
-- Login attempt tracking for both username and IP address
-
-### Token Security
-
-- JWT tokens are signed with HMAC256
-- Short-lived tokens (15 minutes) by default
-- Optional long-lived tokens (30 days) with "Remember Me"
-- HTTP-only cookies for token storage
-- Automatic token refreshing
-
-### CORS Protection
-
-Configured CORS policy allowing only specific origins and methods:
-- Allowed origins: localhost:3000 and yourdomain.com
-- Allowed methods: GET, POST, PUT, PATCH, DELETE, OPTIONS
-- Allowed headers: Authorization, Content-Type
-
-## Testing
-
-The application includes extensive unit tests for all components:
-
-### Running Tests
+| Method | Path | Access | Success |
+|--------|------|--------|---------|
+| `POST` | `/api/v1/auth/register` | public | `201` + `Location` |
+| `POST` | `/api/v1/auth/login` | public | `200` token + cookie |
+| `POST` | `/api/v1/auth/refresh` | authenticated | `200` token + cookie |
+| `POST` | `/api/v1/auth/logout` | public | `204` (clears cookie) |
+| `GET` / `PATCH` | `/api/v1/users/me` | authenticated | `200` |
+| `PUT` | `/api/v1/users/me/password` | authenticated | `204` |
+| `GET` | `/api/v1/users?page=0&size=20&sort=createdAt,desc` | admin | `200` page |
+| `GET` | `/api/v1/users/{id}` | admin or that user | `200` |
+| `PATCH` / `DELETE` | `/api/v1/users/{id}` | admin | `200` / `204` |
+| `GET` | `/actuator/health`, `/v3/api-docs`, `/swagger-ui.html` | public | `200` (Swagger UI redirects to `/swagger-ui/index.html`) |
 
 ```bash
-cd user-auth-system
-./mvnw test
+curl -i -X POST localhost:8080/api/v1/auth/register -H 'Content-Type: application/json' \
+  -d '{"username":"alice","email":"alice@example.com","password":"Secret#123"}'
+
+TOKEN=$(curl -s -X POST localhost:8080/api/v1/auth/login -H 'Content-Type: application/json' \
+  -d '{"identifier":"alice","password":"Secret#123"}' | sed -E 's/.*"accessToken":"([^"]+)".*/\1/')
+
+curl -s localhost:8080/api/v1/users/me -H "Authorization: Bearer $TOKEN"
 ```
 
-### Test Coverage
+Login returns `{"accessToken":"…","tokenType":"Bearer","expiresIn":900}`, shaped like an OAuth 2.0 token response.
+Pages look like `{"content":[…],"page":{"size":20,"number":0,"totalElements":42,"totalPages":3}}`.
 
-The project aims for high test coverage, with JaCoCo reports available after testing:
-- View coverage reports: `user-auth-system/target/site/coveragereport/index.html`
+Every error is a problem detail:
 
-## Documentation
-
-### API Documentation
-
-Swagger UI provides interactive API documentation:
+```json
+{
+  "type": "about:blank",
+  "title": "Bad Request",
+  "status": 400,
+  "detail": "Request validation failed.",
+  "instance": "/api/v1/auth/register",
+  "errors": [{ "field": "email", "message": "must be a well-formed email address" }]
+}
 ```
-http://localhost:8080/docs
+
+## Project structure
+
+```
+src/main/java/com/hikmethankolay/template/
+├── auth/        AuthController, AuthService, request/response DTOs
+├── user/        User entity, repository, service, controller, initial-admin bootstrap, validation
+├── security/    filter chains, JWT encoder/decoder, TokenService, login lockout
+├── common/      ApiException, GlobalExceptionHandler (RFC 9457)
+└── config/      AppProperties (typed app.* config), OpenAPI
+src/main/resources/
+├── application.yml   all configuration, overridable via env/.env
+└── schema.sql        database schema, applied on startup
+scripts/              *.sh and *.bat for every task
+compose.yaml          PostgreSQL (+ app with --profile app)
+Dockerfile            multi-stage, layered jar, non-root JRE image
 ```
 
-### Code Documentation
+Code is organised by feature. A new feature gets its own package next to `user/`, with its own
+controller, service, repository and `dto/`.
 
-Doxygen-generated code documentation:
+## Starting a new project from this template
+
+1. Copy the repository, or use it as a GitHub template.
+2. `scripts/rename-project.sh <groupId> <artifactId> [basePackage]`, then `scripts/test.sh`.
+3. Add your tables to `schema.sql` and your feature packages under the base package.
+4. Throw domain errors with `ApiException.notFound(...)`, `.conflict(...)` and so on. They become problem details automatically.
+5. Protect endpoints with `@PreAuthorize`. Everything outside the public paths in `SecurityConfig` requires a valid token by default.
+6. Delete the user/auth features if you don't need them, along with their tests.
+
+## Testing and documentation
 
 ```bash
-# Run the documentation web server
-.\6-run-documentation-webpage.bat
+scripts/test.sh            # unit + integration tests, JaCoCo report in target/site/jacoco
+scripts/docs.sh --strict   # Doxygen HTML in target/doxygen/html; fails on any warning, including undocumented code
 ```
 
-The documentation website will be available at:
-```
-http://localhost:9000/
-```
+Integration tests start a throwaway `postgres:18-alpine` container through Testcontainers. Without a
+container runtime they are skipped, not failed. CI (`.github/workflows/ci.yml`) runs `./mvnw -B verify` and
+`scripts/docs.sh --strict` on pushes to `main` and on pull requests.
 
-## Project Output
+## Before going to production
 
-After building, the following artifacts are available in the `release` directory:
+These are deliberate simplifications. Revisit them for your project:
 
-- `application-binary.tar.gz` - Executable JAR files
-- `test-jacoco-report.tar.gz` - JaCoCo test coverage reports
-- `test-coverage-report.tar.gz` - ReportGenerator test coverage reports
-- `application-documentation.tar.gz` - Doxygen code documentation
-- `doc-coverage-report.tar.gz` - Documentation coverage reports
-- `application-site.tar.gz` - Maven site
+- **Schema**: `schema.sql` runs idempotently on every start. Switch to Flyway or Liquibase once the schema needs to evolve.
+- **Lockout state** is in memory and per instance. Use Redis or similar when running several instances.
+- **Tokens** are signed with a shared HS256 secret and can't be revoked before they expire. Keep TTLs short, or add a denylist,
+  or use an external identity provider (Keycloak, Auth0, ...) and keep only the resource-server part.
+- **Production settings**: `COOKIE_SECURE=true`, real `CORS_ALLOWED_ORIGINS`, `FORWARD_HEADERS_STRATEGY=framework` behind a proxy,
+  and `SWAGGER_ENABLED=false` if the API docs shouldn't be public.
 
 ## License
 
-This project is authored by Hikmethan Kolay (© 2025) and is available for educational purposes.
+[MIT](LICENSE) © 2025-2026 Hikmethan Kolay
 
 ## Author
 
 - **Hikmethan Kolay** - [GitHub](https://github.com/hikmethankolay)
 - **Email**: hikmethan_kolay22@erdogan.edu.tr
-- **Organization**: Recep Tayyip Erdogan University
