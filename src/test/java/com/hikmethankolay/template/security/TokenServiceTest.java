@@ -25,7 +25,7 @@ class TokenServiceTest {
 
     @Test
     void issuedTokenCarriesUserClaims() {
-        TokenService.IssuedToken token = tokenService.issue(42L, "alice", Role.ADMIN, false);
+        TokenService.IssuedToken token = tokenService.issue(42L, "alice", Role.ADMIN);
 
         Jwt jwt = decoder.decode(token.value());
         assertThat(jwt.getId()).isNotBlank();
@@ -33,33 +33,23 @@ class TokenServiceTest {
         assertThat(jwt.getClaimAsString(TokenService.USERNAME_CLAIM)).isEqualTo("alice");
         assertThat(jwt.getClaimAsStringList(TokenService.ROLES_CLAIM)).isEqualTo(List.of("ADMIN"));
         assertThat(jwt.getClaimAsString("iss")).isEqualTo(TestProperties.ISSUER);
-        assertThat(TokenService.isRememberMe(jwt)).isFalse();
         assertThat(token.ttl()).isEqualTo(Duration.ofMinutes(15));
-    }
-
-    @Test
-    void rememberMeUsesLongerTtl() {
-        TokenService.IssuedToken token = tokenService.issue(1L, "bob", Role.USER, true);
-
-        Jwt jwt = decoder.decode(token.value());
-        assertThat(TokenService.isRememberMe(jwt)).isTrue();
-        assertThat(token.ttl()).isEqualTo(Duration.ofDays(30));
-        assertThat(Duration.between(jwt.getIssuedAt(), jwt.getExpiresAt())).isEqualTo(Duration.ofDays(30));
+        assertThat(Duration.between(jwt.getIssuedAt(), jwt.getExpiresAt())).isEqualTo(Duration.ofMinutes(15));
     }
 
     @Test
     void tokenSignedWithAnotherSecretIsRejected() {
         AppProperties other = TestProperties.withJwt(new AppProperties.Jwt(
-                "another-secret-that-is-also-32-chars-long", TestProperties.ISSUER, Duration.ofMinutes(15), Duration.ofDays(30)));
+                "another-secret-that-is-also-32-chars-long", TestProperties.ISSUER, Duration.ofMinutes(15), Duration.ofDays(1), Duration.ofDays(30)));
         String foreignToken = new TokenService(securityConfig.jwtEncoder(other), other)
-                .issue(1L, "mallory", Role.ADMIN, false).value();
+                .issue(1L, "mallory", Role.ADMIN).value();
 
         assertThatThrownBy(() -> decoder.decode(foreignToken)).isInstanceOf(JwtException.class);
     }
 
     @Test
     void revokedTokenIsRejected() {
-        String value = tokenService.issue(1L, "bob", Role.USER, false).value();
+        String value = tokenService.issue(1L, "bob", Role.USER).value();
         String tokenId = decoder.decode(value).getId();
         when(revocations.isRevoked(tokenId)).thenReturn(true);
 
@@ -70,8 +60,8 @@ class TokenServiceTest {
 
     @Test
     void everyTokenGetsItsOwnId() {
-        String first = decoder.decode(tokenService.issue(1L, "bob", Role.USER, false).value()).getId();
-        String second = decoder.decode(tokenService.issue(1L, "bob", Role.USER, false).value()).getId();
+        String first = decoder.decode(tokenService.issue(1L, "bob", Role.USER).value()).getId();
+        String second = decoder.decode(tokenService.issue(1L, "bob", Role.USER).value()).getId();
 
         assertThat(first).isNotEqualTo(second);
     }
@@ -79,9 +69,9 @@ class TokenServiceTest {
     @Test
     void tokenFromAnotherIssuerIsRejected() {
         AppProperties other = TestProperties.withJwt(new AppProperties.Jwt(
-                TestProperties.JWT_SECRET, "someone-else", Duration.ofMinutes(15), Duration.ofDays(30)));
+                TestProperties.JWT_SECRET, "someone-else", Duration.ofMinutes(15), Duration.ofDays(1), Duration.ofDays(30)));
         String foreignToken = new TokenService(securityConfig.jwtEncoder(other), other)
-                .issue(1L, "mallory", Role.ADMIN, false).value();
+                .issue(1L, "mallory", Role.ADMIN).value();
 
         assertThatThrownBy(() -> decoder.decode(foreignToken)).isInstanceOf(JwtException.class);
     }

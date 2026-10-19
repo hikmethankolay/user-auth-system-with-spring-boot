@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
  *
  * @param identifier username or email address
  * @param password   plain password
- * @param rememberMe optional; {@code true} issues a long-lived token and a persistent cookie
+ * @param rememberMe optional; {@code true} keeps the session for {@code app.jwt.remember-me-ttl} and uses persistent cookies
  */
 public record LoginRequest(@NotBlank String identifier, @NotBlank String password, Boolean rememberMe) {
 

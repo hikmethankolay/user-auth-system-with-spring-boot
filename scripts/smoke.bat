@@ -17,11 +17,13 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command ^
   "  Write-Host \"==> $method $path -> $status\"; return $content };" ^
   "Check GET '/actuator/health' 200 | Out-Null;" ^
   "Check POST '/api/v1/auth/register' 201 (@{ username = $user; email = \"$user@example.com\"; password = $pw } | ConvertTo-Json) | Out-Null;" ^
-  "$token = (Check POST '/api/v1/auth/login' 200 (@{ identifier = $user; password = $pw } | ConvertTo-Json) | ConvertFrom-Json).accessToken;" ^
-  "Check GET '/api/v1/users/me' 200 $null $token | Out-Null;" ^
-  "Check POST '/api/v1/auth/refresh' 200 $null $token | Out-Null;" ^
-  "Check GET '/api/v1/users' 403 $null $token | Out-Null;" ^
+  "$login = Check POST '/api/v1/auth/login' 200 (@{ identifier = $user; password = $pw } | ConvertTo-Json) | ConvertFrom-Json;" ^
+  "Check GET '/api/v1/users/me' 200 $null $login.accessToken | Out-Null;" ^
+  "$tokens = Check POST '/api/v1/auth/refresh' 200 (@{ refreshToken = $login.refreshToken } | ConvertTo-Json) | ConvertFrom-Json;" ^
+  "Check GET '/api/v1/users' 403 $null $tokens.accessToken | Out-Null;" ^
   "Check GET '/api/v1/users/me' 401 | Out-Null;" ^
-  "Check POST '/api/v1/auth/logout' 204 | Out-Null;" ^
+  "Check POST '/api/v1/auth/logout' 204 (@{ refreshToken = $tokens.refreshToken } | ConvertTo-Json) $tokens.accessToken | Out-Null;" ^
+  "Check GET '/api/v1/users/me' 401 $null $tokens.accessToken | Out-Null;" ^
+  "Check POST '/api/v1/auth/refresh' 401 (@{ refreshToken = $tokens.refreshToken } | ConvertTo-Json) | Out-Null;" ^
   "Write-Host \"==> Smoke test passed against $base\""
 exit /b %errorlevel%

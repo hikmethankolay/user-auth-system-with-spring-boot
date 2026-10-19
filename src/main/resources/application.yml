@@ -100,10 +100,14 @@ app:
   jwt:
     secret: ${JWT_SECRET:}
     issuer: ${spring.application.name}
+    # Access tokens (JWTs) cannot be revoked cheaply, so keep them short; clients renew them with the refresh token.
     access-token-ttl: ${JWT_ACCESS_TOKEN_TTL:15m}
+    # A session ends after this much inactivity (no refresh); "remember me" sessions use the longer value.
+    refresh-token-ttl: ${JWT_REFRESH_TOKEN_TTL:1d}
     remember-me-ttl: ${JWT_REMEMBER_ME_TTL:30d}
   cookie:
     name: auth_token
+    refresh-name: refresh_token
     secure: ${COOKIE_SECURE:false}
     same-site: Strict
   cors:

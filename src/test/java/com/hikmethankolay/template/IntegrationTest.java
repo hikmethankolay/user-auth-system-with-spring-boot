@@ -54,13 +54,22 @@ public abstract class IntegrationTest {
     }
 
     protected String login(String identifier, String password) throws Exception {
+        return loginTokens(identifier, password).accessToken();
+    }
+
+    /** Logs in and returns both tokens. */
+    protected Tokens loginTokens(String identifier, String password) throws Exception {
         String body = mockMvc.perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
                                 {"identifier":"%s","password":"%s"}""", identifier, password)))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
-        return JsonPath.read(body, "$.accessToken");
+        return new Tokens(JsonPath.read(body, "$.accessToken"), JsonPath.read(body, "$.refreshToken"));
+    }
+
+    /** Access and refresh token from a login or refresh response. */
+    public record Tokens(String accessToken, String refreshToken) {
     }
 
     protected String registerAndLogin(String username) throws Exception {

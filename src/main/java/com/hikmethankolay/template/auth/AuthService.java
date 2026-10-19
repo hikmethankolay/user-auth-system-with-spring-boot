@@ -10,7 +10,6 @@ import com.hikmethankolay.template.security.AppUserDetails;
 import com.hikmethankolay.template.security.LoginAttemptService;
 import com.hikmethankolay.template.security.TokenRevocationService;
 import com.hikmethankolay.template.security.TokenService;
-import com.hikmethankolay.template.security.TokenService.IssuedToken;
 import com.hikmethankolay.template.user.Role;
 import com.hikmethankolay.template.user.UserRepository;
 import com.hikmethankolay.template.user.UserService;
@@ -28,7 +27,10 @@ import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Service;
 
 /**
- * Registration, login and token refresh.
+ * Registration, login, token refresh and logout.
+ *
+ * <p>Login returns a short-lived access token (JWT) and a refresh token; refresh exchanges the
+ * refresh token for a new pair (see {@link RefreshTokenService} for rotation and reuse detection).</p>
  */
 @Service
 public class AuthService {
@@ -48,7 +50,10 @@ public class AuthService {
     /** Reloads users on token refresh. */
     private final UserRepository userRepository;
 
-    /** Revokes tokens on logout and refresh. */
+    /** Issues and rotates refresh tokens. */
+    private final RefreshTokenService refreshTokens;
+
+    /** Revokes access tokens on logout. */
     private final TokenRevocationService revocations;
 
     /** Validates the token presented at logout. */
@@ -68,7 +73,8 @@ public class AuthService {
      * @param tokenService          issues JWTs
      * @param userService           creates users
      * @param userRepository        reloads users on refresh
-     * @param revocations           denylist of revoked tokens
+     * @param refreshTokens         issues and rotates refresh tokens
+     * @param revocations           denylist of revoked access tokens
      * @param jwtDecoder            validates the token presented at logout
      * @param properties            application properties (email verification policy)
      * @param audit                 records security events
@@ -79,6 +85,7 @@ public class AuthService {
             TokenService tokenService,
             UserService userService,
             UserRepository userRepository,
+            RefreshTokenService refreshTokens,
             TokenRevocationService revocations,
             JwtDecoder jwtDecoder,
             AppProperties properties,
@@ -88,6 +95,7 @@ public class AuthService {
         this.tokenService = tokenService;
         this.userService = userService;
         this.userRepository = userRepository;
+        this.refreshTokens = refreshTokens;
         this.revocations = revocations;
         this.jwtDecoder = jwtDecoder;
         this.requireVerifiedEmail = properties.account().requireVerifiedEmail();
@@ -106,18 +114,18 @@ public class AuthService {
     }
 
     /**
-     * Verifies credentials and issues a token.
+     * Verifies credentials and starts a session.
      *
      * <p>Failures are counted per client IP and per account. Once either is blocked, logins are
      * rejected with 429 until the lock expires, even with the correct password.</p>
      *
      * @param request  username or email, password and remember-me flag
      * @param clientIp address of the client, used for rate limiting
-     * @return the issued token
+     * @return the access and refresh tokens
      * @throws ApiException            429 if the IP or account is blocked
      * @throws BadCredentialsException if the credentials are wrong (mapped to 401)
      */
-    public IssuedToken login(LoginRequest request, String clientIp) {
+    public AuthTokens login(LoginRequest request, String clientIp) {
         String identifier = request.identifier().trim();
         String accountKey = "account:" + identifier.toLowerCase(Locale.ROOT);
         String ipKey = "ip:" + clientIp;
@@ -147,38 +155,47 @@ public class AuthService {
             throw new ApiException(HttpStatus.FORBIDDEN, "Email address is not verified.");
         }
         audit.record(AuditEvent.LOGIN_SUCCEEDED, user.id(), "rememberMe", request.isRememberMe());
-        return tokenService.issue(user.id(), user.username(), user.role(), request.isRememberMe());
+        return new AuthTokens(
+                tokenService.issue(user.id(), user.username(), user.role()),
+                refreshTokens.issue(user.id(), request.isRememberMe()));
     }
 
     /**
-     * Exchanges a valid token for a fresh one, picking up role changes since the last login.
-     * The old token is revoked, so each token can be refreshed only once.
+     * Exchanges a refresh token for a new access token and refresh token. The access token picks
+     * up role and username changes since the last login.
      *
-     * @param current the caller's validated token; its remember-me flag is preserved
-     * @return the new token
-     * @throws BadCredentialsException if the user was deleted (mapped to 401)
+     * @param refreshToken the refresh token presented by the client, may be {@code null}
+     * @return the new tokens
+     * @throws BadCredentialsException if the refresh token is missing, invalid, expired or reused (mapped to 401)
      */
-    public IssuedToken refresh(Jwt current) {
-        IssuedToken token = userRepository.findById(TokenService.userId(current))
-                .map(user -> tokenService.issue(
-                        user.getId(), user.getUsername(), user.getRole(), TokenService.isRememberMe(current)))
-                .orElseThrow(() -> new BadCredentialsException("User no longer exists."));
-        revocations.revoke(current);
-        return token;
+    public AuthTokens refresh(String refreshToken) {
+        if (refreshToken == null || refreshToken.isBlank()) {
+            throw new BadCredentialsException(RefreshTokenService.INVALID_REFRESH_TOKEN);
+        }
+        RefreshTokenService.Rotation rotation = refreshTokens.rotate(refreshToken);
+        // The user cannot be missing: deleting a user deletes its refresh tokens.
+        return userRepository.findById(rotation.userId())
+                .map(user -> new AuthTokens(
+                        tokenService.issue(user.getId(), user.getUsername(), user.getRole()), rotation.successor()))
+                .orElseThrow(() -> new BadCredentialsException(RefreshTokenService.INVALID_REFRESH_TOKEN));
     }
 
     /**
-     * Revokes the token presented at logout, if it is still valid. Invalid, expired or missing
-     * tokens are ignored: there is nothing left to revoke.
+     * Ends a session: revokes the access token and the refresh token's session. Invalid, expired
+     * or missing tokens are ignored: there is nothing left to revoke.
      *
-     * @param token the raw token from the header or cookie, may be {@code null}
+     * @param accessToken  the raw access token from the header or cookie, may be {@code null}
+     * @param refreshToken the refresh token from the body or cookie, may be {@code null}
      */
-    public void logout(String token) {
-        if (token == null) {
+    public void logout(String accessToken, String refreshToken) {
+        if (refreshToken != null && !refreshToken.isBlank()) {
+            refreshTokens.revokeSession(refreshToken);
+        }
+        if (accessToken == null) {
             return;
         }
         try {
-            Jwt jwt = jwtDecoder.decode(token);
+            Jwt jwt = jwtDecoder.decode(accessToken);
             revocations.revoke(jwt);
             audit.record(AuditEvent.LOGOUT, TokenService.userId(jwt));
         } catch (JwtException ex) {

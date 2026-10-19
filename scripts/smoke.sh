@@ -30,11 +30,16 @@ request GET  /actuator/health 200
 request POST /api/v1/auth/register 201 "{\"username\":\"$username\",\"email\":\"$username@example.com\",\"password\":\"$password\"}"
 request POST /api/v1/auth/login 200 "{\"identifier\":\"$username\",\"password\":\"$password\"}"
 token="$(json_field accessToken)"
-[[ -n "$token" ]] || die "No access token in login response."
+refresh_token="$(json_field refreshToken)"
+[[ -n "$token" && -n "$refresh_token" ]] || die "No tokens in login response."
 request GET  /api/v1/users/me 200 "" "$token"
-request POST /api/v1/auth/refresh 200 "" "$token"
+request POST /api/v1/auth/refresh 200 "{\"refreshToken\":\"$refresh_token\"}"
+token="$(json_field accessToken)"
+refresh_token="$(json_field refreshToken)"
 request GET  /api/v1/users 403 "" "$token"
 request GET  /api/v1/users/me 401
-request POST /api/v1/auth/logout 204
+request POST /api/v1/auth/logout 204 "{\"refreshToken\":\"$refresh_token\"}" "$token"
+request GET  /api/v1/users/me 401 "" "$token"
+request POST /api/v1/auth/refresh 401 "{\"refreshToken\":\"$refresh_token\"}"
 
 info "Smoke test passed against $base_url"

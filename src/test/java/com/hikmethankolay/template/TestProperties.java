@@ -14,14 +14,14 @@ public final class TestProperties {
     }
 
     public static AppProperties create() {
-        return withJwt(new AppProperties.Jwt(JWT_SECRET, ISSUER, Duration.ofMinutes(15), Duration.ofDays(30)));
+        return withJwt(new AppProperties.Jwt(JWT_SECRET, ISSUER, Duration.ofMinutes(15), Duration.ofDays(1), Duration.ofDays(30)));
     }
 
     /** Default test properties with different JWT settings. */
     public static AppProperties withJwt(AppProperties.Jwt jwt) {
         return new AppProperties(
                 jwt,
-                new AppProperties.Cookie("auth_token", false, "Strict"),
+                new AppProperties.Cookie("auth_token", "refresh_token", false, "Strict"),
                 new AppProperties.Cors(List.of("http://localhost:3000")),
                 new AppProperties.Login(3, Duration.ofHours(1)),
                 new AppProperties.RateLimit(true, 120),

@@ -1,7 +1,9 @@
 package com.hikmethankolay.template.auth;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.hamcrest.Matchers.not;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -77,13 +79,16 @@ class AuthIntegrationTest extends IntegrationTest {
                 .andExpect(jsonPath("$.accessToken").isNotEmpty())
                 .andExpect(jsonPath("$.tokenType").value("Bearer"))
                 .andExpect(jsonPath("$.expiresIn").value(900))
-                .andExpect(header().string(HttpHeaders.SET_COOKIE, allOf(
-                        containsString("auth_token="), containsString("HttpOnly"),
-                        containsString("SameSite=Strict"), not(containsString("Max-Age")))));
+                .andExpect(jsonPath("$.refreshToken").isNotEmpty())
+                .andExpect(header().stringValues(HttpHeaders.SET_COOKIE, hasItems(
+                        allOf(containsString("auth_token="), containsString("Path=/;"), containsString("HttpOnly"),
+                                containsString("SameSite=Strict"), not(containsString("Max-Age"))),
+                        allOf(containsString("refresh_token="), containsString("Path=/api/v1/auth"),
+                                containsString("HttpOnly"), not(containsString("Max-Age"))))));
     }
 
     @Test
-    void rememberMeLoginReturnsPersistentCookie() throws Exception {
+    void rememberMeLoginReturnsPersistentCookies() throws Exception {
         String username = uniqueUsername();
         register(username);
 
@@ -92,8 +97,10 @@ class AuthIntegrationTest extends IntegrationTest {
                         .content(json("""
                                 {"identifier":"%s","password":"%s","rememberMe":true}""", username, PASSWORD)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.expiresIn").value(2_592_000))
-                .andExpect(header().string(HttpHeaders.SET_COOKIE, containsString("Max-Age=2592000")));
+                .andExpect(jsonPath("$.expiresIn").value(900))
+                .andExpect(header().stringValues(HttpHeaders.SET_COOKIE, hasItems(
+                        allOf(containsString("auth_token="), containsString("Max-Age=900")),
+                        allOf(containsString("refresh_token="), containsString("Max-Age=2592000")))));
     }
 
     @Test
@@ -173,27 +180,99 @@ class AuthIntegrationTest extends IntegrationTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    void refreshIssuesNewToken() throws Exception {
-        String token = registerAndLogin(uniqueUsername());
-
-        mockMvc.perform(post("/api/v1/auth/refresh").with(bearer(token)))
+    private Tokens refresh(String refreshToken) throws Exception {
+        String body = mockMvc.perform(post("/api/v1/auth/refresh")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"refreshToken":"%s"}""", refreshToken)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.accessToken").isNotEmpty())
-                .andExpect(header().exists(HttpHeaders.SET_COOKIE));
+                .andExpect(header().string(HttpHeaders.CACHE_CONTROL, "no-store"))
+                .andReturn().getResponse().getContentAsString();
+        return new Tokens(JsonPath.read(body, "$.accessToken"), JsonPath.read(body, "$.refreshToken"));
     }
 
     @Test
-    void refreshRevokesTheOldToken() throws Exception {
-        String oldToken = registerAndLogin(uniqueUsername());
+    void refreshIssuesNewTokens() throws Exception {
+        String username = uniqueUsername();
+        register(username);
+        Tokens login = loginTokens(username, PASSWORD);
 
-        String body = mockMvc.perform(post("/api/v1/auth/refresh").with(bearer(oldToken)))
+        Tokens refreshed = refresh(login.refreshToken());
+
+        assertThat(refreshed.refreshToken()).isNotEqualTo(login.refreshToken());
+        mockMvc.perform(get("/api/v1/users/me").with(bearer(refreshed.accessToken())))
                 .andExpect(status().isOk())
-                .andReturn().getResponse().getContentAsString();
-        String newToken = JsonPath.read(body, "$.accessToken");
+                .andExpect(jsonPath("$.username").value(username));
+    }
 
-        mockMvc.perform(get("/api/v1/users/me").with(bearer(oldToken))).andExpect(status().isUnauthorized());
-        mockMvc.perform(get("/api/v1/users/me").with(bearer(newToken))).andExpect(status().isOk());
+    @Test
+    void refreshTokenCookieWorksWithoutBody() throws Exception {
+        String username = uniqueUsername();
+        register(username);
+        Tokens login = loginTokens(username, PASSWORD);
+
+        mockMvc.perform(post("/api/v1/auth/refresh").cookie(new Cookie("refresh_token", login.refreshToken())))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.accessToken").isNotEmpty())
+                .andExpect(header().stringValues(HttpHeaders.SET_COOKIE, hasItems(
+                        containsString("auth_token="), containsString("refresh_token="))));
+    }
+
+    @Test
+    void refreshWorksWithAnExpiredAccessToken() throws Exception {
+        String username = uniqueUsername();
+        register(username);
+        Tokens login = loginTokens(username, PASSWORD);
+
+        // /refresh is public: the (possibly expired) access token is not even read.
+        mockMvc.perform(post("/api/v1/auth/refresh")
+                        .with(bearer("expired-or-garbage"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"refreshToken":"%s"}""", login.refreshToken())))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void reusedRefreshTokenRevokesTheSession() throws Exception {
+        String username = uniqueUsername();
+        register(username);
+        Tokens login = loginTokens(username, PASSWORD);
+        Tokens refreshed = refresh(login.refreshToken());
+
+        // The first token is replayed (e.g. stolen): rejected, and the whole session ends.
+        mockMvc.perform(post("/api/v1/auth/refresh")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"refreshToken":"%s"}""", login.refreshToken())))
+                .andExpect(status().isUnauthorized());
+        mockMvc.perform(post("/api/v1/auth/refresh")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"refreshToken":"%s"}""", refreshed.refreshToken())))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void sessionsAreIndependent() throws Exception {
+        String username = uniqueUsername();
+        register(username);
+        Tokens laptop = loginTokens(username, PASSWORD);
+        Tokens phone = loginTokens(username, PASSWORD);
+
+        mockMvc.perform(post("/api/v1/auth/logout")
+                        .with(bearer(laptop.accessToken()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"refreshToken":"%s"}""", laptop.refreshToken())))
+                .andExpect(status().isNoContent());
+
+        mockMvc.perform(post("/api/v1/auth/refresh")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"refreshToken":"%s"}""", laptop.refreshToken())))
+                .andExpect(status().isUnauthorized());
+        refresh(phone.refreshToken());
     }
 
     @Test
@@ -217,14 +296,22 @@ class AuthIntegrationTest extends IntegrationTest {
     @Test
     void refreshWithoutTokenIsUnauthorized() throws Exception {
         mockMvc.perform(post("/api/v1/auth/refresh"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.detail").value("The refresh token is missing, invalid or expired."));
+        mockMvc.perform(post("/api/v1/auth/refresh")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"refreshToken":"not-a-real-token"}"""))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
-    void logoutClearsCookie() throws Exception {
+    void logoutClearsCookies() throws Exception {
         mockMvc.perform(post("/api/v1/auth/logout"))
                 .andExpect(status().isNoContent())
-                .andExpect(header().string(HttpHeaders.SET_COOKIE, containsString("Max-Age=0")));
+                .andExpect(header().stringValues(HttpHeaders.SET_COOKIE, hasItems(
+                        allOf(containsString("auth_token="), containsString("Max-Age=0")),
+                        allOf(containsString("refresh_token="), containsString("Max-Age=0")))));
     }
 
     @Test

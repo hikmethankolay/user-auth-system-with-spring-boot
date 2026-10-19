@@ -1,13 +1,14 @@
 package com.hikmethankolay.template.auth;
 
 import com.hikmethankolay.template.auth.dto.LoginRequest;
+import com.hikmethankolay.template.auth.dto.RefreshRequest;
 import com.hikmethankolay.template.auth.dto.RegisterRequest;
 import com.hikmethankolay.template.auth.dto.TokenResponse;
 import com.hikmethankolay.template.config.AppProperties;
-import com.hikmethankolay.template.security.TokenService.IssuedToken;
 import com.hikmethankolay.template.user.dto.UserResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.net.URI;
@@ -17,27 +18,28 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.WebUtils;
 
 /**
  * Authentication endpoints under {@code /api/v1/auth}.
  *
- * <p>Tokens are returned in the body (for API clients, as in an OAuth 2.0 token response) and as an
- * HttpOnly cookie (for browsers). Remember-me tokens get a persistent cookie, others a session cookie.</p>
+ * <p>Login and refresh return a short-lived access token and a single-use refresh token, both in the
+ * body (for API clients, as in an OAuth 2.0 token response) and as HttpOnly cookies (for browsers).
+ * The refresh cookie is only sent to {@code /api/v1/auth}. Remember-me sessions get persistent
+ * cookies, others session cookies.</p>
  *
  * <table>
  *   <caption>Endpoints</caption>
  *   <tr><th>Method</th><th>Path</th><th>Access</th><th>Success</th></tr>
  *   <tr><td>POST</td><td>/register</td><td>public</td><td>201 + Location</td></tr>
  *   <tr><td>POST</td><td>/login</td><td>public</td><td>200</td></tr>
- *   <tr><td>POST</td><td>/refresh</td><td>authenticated</td><td>200</td></tr>
+ *   <tr><td>POST</td><td>/refresh</td><td>refresh token</td><td>200</td></tr>
  *   <tr><td>POST</td><td>/logout</td><td>public</td><td>204</td></tr>
  * </table>
  */
@@ -90,7 +92,7 @@ public class AuthController {
      *
      * @param request     credentials and remember-me flag
      * @param httpRequest the servlet request, used for the client IP
-     * @return {@code 200 OK} with the token in the body and in a cookie
+     * @return {@code 200 OK} with the tokens in the body and in cookies
      */
     @PostMapping("/login")
     @Operation(summary = "Log in and obtain a token")
@@ -100,66 +102,115 @@ public class AuthController {
     }
 
     /**
-     * Exchanges a valid token for a new one with a fresh expiry. The old token is revoked.
+     * Exchanges a refresh token for new tokens. The presented refresh token can no longer be used;
+     * presenting it again ends the session.
      *
-     * @param jwt the caller's current token
-     * @return {@code 200 OK} with the new token in the body and in a cookie
+     * @param request     optional body carrying the refresh token; without it the refresh cookie is used
+     * @param httpRequest the servlet request carrying the refresh cookie
+     * @return {@code 200 OK} with the new tokens in the body and in cookies
      */
     @PostMapping("/refresh")
-    @Operation(summary = "Refresh the current token")
-    public ResponseEntity<TokenResponse> refresh(@AuthenticationPrincipal Jwt jwt) {
-        return tokenResponse(authService.refresh(jwt));
+    @Operation(summary = "Exchange a refresh token for new tokens")
+    public ResponseEntity<TokenResponse> refresh(
+            @RequestBody(required = false) RefreshRequest request, HttpServletRequest httpRequest) {
+        return tokenResponse(authService.refresh(refreshToken(request, httpRequest)));
     }
 
     /**
-     * Logs out: revokes the presented token (header or cookie) and expires the auth cookie.
-     * Calling it without a token, or with an already invalid one, still succeeds.
+     * Logs out: revokes the access token (header or cookie) and the refresh token's session (body or
+     * cookie), and expires both cookies. Calling it without tokens, or with invalid ones, still succeeds.
      *
-     * @param request the servlet request carrying the token
-     * @return {@code 204 No Content} with an expired cookie
+     * @param request     optional body carrying the refresh token
+     * @param httpRequest the servlet request carrying the tokens
+     * @return {@code 204 No Content} with expired cookies
      */
     @PostMapping("/logout")
-    @Operation(summary = "Log out (revoke the token and clear the auth cookie)")
-    public ResponseEntity<Void> logout(HttpServletRequest request) {
-        String token;
+    @Operation(summary = "Log out (revoke the tokens and clear the auth cookies)")
+    public ResponseEntity<Void> logout(@RequestBody(required = false) RefreshRequest request, HttpServletRequest httpRequest) {
+        String accessToken;
         try {
-            token = bearerTokenResolver.resolve(request);
+            accessToken = bearerTokenResolver.resolve(httpRequest);
         } catch (AuthenticationException ex) {
-            token = null; // Malformed Authorization header: nothing to revoke.
+            accessToken = null; // Malformed Authorization header: nothing to revoke.
         }
-        authService.logout(token);
+        authService.logout(accessToken, refreshToken(request, httpRequest));
         return ResponseEntity.noContent()
-                .header(HttpHeaders.SET_COOKIE, authCookie("", Duration.ZERO).toString())
+                .header(HttpHeaders.SET_COOKIE, accessCookie("", Duration.ZERO).toString())
+                .header(HttpHeaders.SET_COOKIE, refreshCookie("", Duration.ZERO).toString())
                 .build();
+    }
+
+    /**
+     * Reads the refresh token from the body, falling back to the refresh cookie.
+     *
+     * @param request     the optional body
+     * @param httpRequest the servlet request
+     * @return the refresh token, or {@code null} if neither carries one
+     */
+    private String refreshToken(RefreshRequest request, HttpServletRequest httpRequest) {
+        if (request != null && request.refreshToken() != null) {
+            return request.refreshToken();
+        }
+        Cookie cookie = WebUtils.getCookie(httpRequest, cookieProperties.refreshName());
+        return cookie != null ? cookie.getValue() : null;
     }
 
     /**
      * Builds a token response; {@code Cache-Control: no-store} as required for token responses by RFC 6749.
      *
-     * @param token the issued token
-     * @return {@code 200 OK} with body and cookie
+     * @param tokens the issued tokens
+     * @return {@code 200 OK} with body and cookies
      */
-    private ResponseEntity<TokenResponse> tokenResponse(IssuedToken token) {
-        Duration cookieMaxAge = token.rememberMe() ? token.ttl() : Duration.ofSeconds(-1);
+    private ResponseEntity<TokenResponse> tokenResponse(AuthTokens tokens) {
+        boolean persistent = tokens.refreshToken().rememberMe();
+        Duration session = Duration.ofSeconds(-1);
         return ResponseEntity.ok()
                 .cacheControl(CacheControl.noStore())
-                .header(HttpHeaders.SET_COOKIE, authCookie(token.value(), cookieMaxAge).toString())
-                .body(TokenResponse.bearer(token.value(), token.ttl()));
+                .header(HttpHeaders.SET_COOKIE, accessCookie(
+                        tokens.accessToken().value(), persistent ? tokens.accessToken().ttl() : session).toString())
+                .header(HttpHeaders.SET_COOKIE, refreshCookie(
+                        tokens.refreshToken().value(), persistent ? tokens.refreshToken().ttl() : session).toString())
+                .body(TokenResponse.bearer(
+                        tokens.accessToken().value(), tokens.accessToken().ttl(), tokens.refreshToken().value()));
     }
 
     /**
-     * Builds the HttpOnly authentication cookie.
+     * Builds the HttpOnly access token cookie, sent with every request.
      *
      * @param value  the token, or an empty string to clear the cookie
      * @param maxAge cookie lifetime; negative for a session cookie, zero to delete it
      * @return the cookie
      */
-    private ResponseCookie authCookie(String value, Duration maxAge) {
-        return ResponseCookie.from(cookieProperties.name(), value)
+    private ResponseCookie accessCookie(String value, Duration maxAge) {
+        return cookie(cookieProperties.name(), value, "/", maxAge);
+    }
+
+    /**
+     * Builds the HttpOnly refresh token cookie, sent only to the authentication endpoints.
+     *
+     * @param value  the token, or an empty string to clear the cookie
+     * @param maxAge cookie lifetime; negative for a session cookie, zero to delete it
+     * @return the cookie
+     */
+    private ResponseCookie refreshCookie(String value, Duration maxAge) {
+        return cookie(cookieProperties.refreshName(), value, "/api/v1/auth", maxAge);
+    }
+
+    /**
+     * Builds an HttpOnly cookie with the configured {@code Secure} and {@code SameSite} attributes.
+     *
+     * @param name   cookie name
+     * @param value  cookie value
+     * @param path   paths the browser sends the cookie to
+     * @param maxAge cookie lifetime; negative for a session cookie, zero to delete it
+     * @return the cookie
+     */
+    private ResponseCookie cookie(String name, String value, String path, Duration maxAge) {
+        return ResponseCookie.from(name, value)
                 .httpOnly(true)
                 .secure(cookieProperties.secure())
                 .sameSite(cookieProperties.sameSite())
-                .path("/")
+                .path(path)
                 .maxAge(maxAge)
                 .build();
     }

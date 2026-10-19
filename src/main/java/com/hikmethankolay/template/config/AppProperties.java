@@ -18,7 +18,7 @@ import org.springframework.validation.annotation.Validated;
  * (for example a missing {@code JWT_SECRET}) fails fast with a clear message.</p>
  *
  * @param jwt    token signing and lifetime settings
- * @param cookie settings of the HttpOnly authentication cookie
+ * @param cookie settings of the HttpOnly authentication cookies
  * @param cors   cross-origin settings for browser clients
  * @param login     brute-force protection settings
  * @param rateLimit per-IP request rate limit
@@ -41,10 +41,11 @@ public record AppProperties(
     /**
      * JWT settings.
      *
-     * @param secret         HMAC-SHA256 signing secret, at least 32 characters
-     * @param issuer         value of the {@code iss} claim; tokens from other issuers are rejected
-     * @param accessTokenTtl lifetime of a regular token
-     * @param rememberMeTtl  lifetime of a token issued with "remember me"
+     * @param secret          HMAC-SHA256 signing secret, at least 32 characters
+     * @param issuer          value of the {@code iss} claim; tokens from other issuers are rejected
+     * @param accessTokenTtl  lifetime of an access token (JWT); keep it short
+     * @param refreshTokenTtl inactivity after which a session ends
+     * @param rememberMeTtl   inactivity after which a session started with "remember me" ends
      */
     public record Jwt(
             @NotBlank(message = "must be set (JWT_SECRET)")
@@ -52,17 +53,19 @@ public record AppProperties(
             String secret,
             @NotBlank String issuer,
             @NotNull Duration accessTokenTtl,
+            @NotNull Duration refreshTokenTtl,
             @NotNull Duration rememberMeTtl) {
     }
 
     /**
      * Authentication cookie settings.
      *
-     * @param name     cookie name
-     * @param secure   whether the cookie is sent over HTTPS only; enable in production
-     * @param sameSite {@code SameSite} attribute; {@code Strict} protects against CSRF
+     * @param name        name of the access token cookie, sent to every path
+     * @param refreshName name of the refresh token cookie, sent only to {@code /api/v1/auth}
+     * @param secure      whether the cookies are sent over HTTPS only; enable in production
+     * @param sameSite    {@code SameSite} attribute; {@code Strict} protects against CSRF
      */
-    public record Cookie(@NotBlank String name, boolean secure, @NotBlank String sameSite) {
+    public record Cookie(@NotBlank String name, @NotBlank String refreshName, boolean secure, @NotBlank String sameSite) {
     }
 
     /**

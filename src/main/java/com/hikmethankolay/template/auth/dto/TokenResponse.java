@@ -5,20 +5,22 @@ import java.time.Duration;
 /**
  * Token response, shaped like an OAuth 2.0 access token response (RFC 6749, section 5.1).
  *
- * @param accessToken the signed JWT
- * @param tokenType   always {@code Bearer}
- * @param expiresIn   token lifetime in seconds
+ * @param accessToken  the signed JWT
+ * @param tokenType    always {@code Bearer}
+ * @param expiresIn    access token lifetime in seconds
+ * @param refreshToken single-use token for {@code POST /api/v1/auth/refresh}
  */
-public record TokenResponse(String accessToken, String tokenType, long expiresIn) {
+public record TokenResponse(String accessToken, String tokenType, long expiresIn, String refreshToken) {
 
     /**
      * Creates a bearer token response.
      *
-     * @param accessToken the signed JWT
-     * @param ttl         token lifetime
+     * @param accessToken  the signed JWT
+     * @param ttl          access token lifetime
+     * @param refreshToken the refresh token
      * @return the response body
      */
-    public static TokenResponse bearer(String accessToken, Duration ttl) {
-        return new TokenResponse(accessToken, "Bearer", ttl.toSeconds());
+    public static TokenResponse bearer(String accessToken, Duration ttl, String refreshToken) {
+        return new TokenResponse(accessToken, "Bearer", ttl.toSeconds(), refreshToken);
     }
 }

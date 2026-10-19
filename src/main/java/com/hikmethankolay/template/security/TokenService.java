@@ -29,9 +29,6 @@ public class TokenService {
     /** Claim holding the username, for clients that want to display it without an extra request. */
     public static final String USERNAME_CLAIM = "username";
 
-    /** Claim telling whether the token was issued with "remember me"; preserved on refresh. */
-    public static final String REMEMBER_ME_CLAIM = "remember_me";
-
     /** Signs the tokens. */
     private final JwtEncoder jwtEncoder;
 
@@ -50,17 +47,17 @@ public class TokenService {
     }
 
     /**
-     * Issues a token for a user. Each token gets a unique id ({@code jti}) so it can be revoked.
+     * Issues a short-lived access token for a user. Each token gets a unique id ({@code jti}) so
+     * it can be revoked.
      *
-     * @param userId     database id, stored as the {@code sub} claim
-     * @param username   username, stored as the {@code username} claim
-     * @param role       role, stored in the {@code roles} claim
-     * @param rememberMe whether to use the longer remember-me lifetime
+     * @param userId   database id, stored as the {@code sub} claim
+     * @param username username, stored as the {@code username} claim
+     * @param role     role, stored in the {@code roles} claim
      * @return the signed token with its lifetime
      */
-    public IssuedToken issue(long userId, String username, Role role, boolean rememberMe) {
+    public IssuedToken issue(long userId, String username, Role role) {
         Instant now = Instant.now();
-        Duration ttl = rememberMe ? properties.rememberMeTtl() : properties.accessTokenTtl();
+        Duration ttl = properties.accessTokenTtl();
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .id(UUID.randomUUID().toString())
@@ -70,12 +67,11 @@ public class TokenService {
                 .expiresAt(now.plus(ttl))
                 .claim(USERNAME_CLAIM, username)
                 .claim(ROLES_CLAIM, List.of(role.name()))
-                .claim(REMEMBER_ME_CLAIM, rememberMe)
                 .build();
         JwsHeader header = JwsHeader.with(MacAlgorithm.HS256).build();
 
         String value = jwtEncoder.encode(JwtEncoderParameters.from(header, claims)).getTokenValue();
-        return new IssuedToken(value, ttl, rememberMe);
+        return new IssuedToken(value, ttl);
     }
 
     /**
@@ -89,22 +85,11 @@ public class TokenService {
     }
 
     /**
-     * Tells whether a validated token was issued with "remember me".
-     *
-     * @param jwt the authenticated principal
-     * @return {@code true} if the remember-me claim is set
-     */
-    public static boolean isRememberMe(Jwt jwt) {
-        return Boolean.TRUE.equals(jwt.getClaimAsBoolean(REMEMBER_ME_CLAIM));
-    }
-
-    /**
      * A freshly issued token.
      *
-     * @param value      the compact, signed JWT
-     * @param ttl        how long the token is valid
-     * @param rememberMe whether it was issued with "remember me"
+     * @param value the compact, signed JWT
+     * @param ttl   how long the token is valid
      */
-    public record IssuedToken(String value, Duration ttl, boolean rememberMe) {
+    public record IssuedToken(String value, Duration ttl) {
     }
 }
