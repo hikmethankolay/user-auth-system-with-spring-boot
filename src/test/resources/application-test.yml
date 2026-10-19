@@ -1,0 +1,9 @@
+app:
+  jwt:
+    secret: test-secret-that-is-at-least-32-characters-long
+  login:
+    max-attempts: 3
+  admin:
+    username: admin
+    email: admin@example.com
+    password: Admin#12345
