@@ -1,6 +1,6 @@
 # Local stack. Values come from .env (see .env.example).
-#   scripts/db.sh up       -> PostgreSQL only (run the app with scripts/dev.sh)
-#   scripts/docker.sh up   -> PostgreSQL + app image ("app" profile)
+#   scripts/db.sh up       -> PostgreSQL + Redis only (run the app with scripts/dev.sh)
+#   scripts/docker.sh up   -> PostgreSQL + Redis + app image ("app" profile)
 name: spring-boot-template
 
 services:
@@ -20,6 +20,17 @@ services:
       timeout: 3s
       retries: 10
 
+  redis:
+    image: redis:8-alpine
+    command: ["redis-server", "--maxmemory", "256mb", "--maxmemory-policy", "allkeys-lru"]
+    ports:
+      - "127.0.0.1:${REDIS_PORT:-6379}:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
   app:
     profiles: ["app"]
     build: .
@@ -28,10 +39,14 @@ services:
         required: false
     environment:
       DB_URL: jdbc:postgresql://db:5432/${DB_NAME:-app}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     ports:
       - "${PORT:-8080}:8080"
     depends_on:
       db:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health/readiness | grep -q UP"]
