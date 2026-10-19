@@ -48,7 +48,8 @@ class AdminBootstrap implements ApplicationRunner {
         if (!admin.isConfigured() || userService.adminExists()) {
             return;
         }
-        userService.register(admin.username(), admin.email(), admin.password(), Role.ADMIN);
+        // The configured admin address is trusted, so no verification email is sent.
+        userService.register(admin.username(), admin.email(), admin.password(), Role.ADMIN, true);
         log.info("Created initial admin user '{}'", admin.username());
     }
 }

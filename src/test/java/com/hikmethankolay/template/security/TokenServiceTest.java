@@ -49,10 +49,8 @@ class TokenServiceTest {
 
     @Test
     void tokenSignedWithAnotherSecretIsRejected() {
-        AppProperties other = new AppProperties(
-                new AppProperties.Jwt("another-secret-that-is-also-32-chars-long", TestProperties.ISSUER,
-                        Duration.ofMinutes(15), Duration.ofDays(30)),
-                properties.cookie(), properties.cors(), properties.login(), properties.rateLimit(), properties.admin());
+        AppProperties other = TestProperties.withJwt(new AppProperties.Jwt(
+                "another-secret-that-is-also-32-chars-long", TestProperties.ISSUER, Duration.ofMinutes(15), Duration.ofDays(30)));
         String foreignToken = new TokenService(securityConfig.jwtEncoder(other), other)
                 .issue(1L, "mallory", Role.ADMIN, false).value();
 
@@ -80,9 +78,8 @@ class TokenServiceTest {
 
     @Test
     void tokenFromAnotherIssuerIsRejected() {
-        AppProperties other = new AppProperties(
-                new AppProperties.Jwt(TestProperties.JWT_SECRET, "someone-else", Duration.ofMinutes(15), Duration.ofDays(30)),
-                properties.cookie(), properties.cors(), properties.login(), properties.rateLimit(), properties.admin());
+        AppProperties other = TestProperties.withJwt(new AppProperties.Jwt(
+                TestProperties.JWT_SECRET, "someone-else", Duration.ofMinutes(15), Duration.ofDays(30)));
         String foreignToken = new TokenService(securityConfig.jwtEncoder(other), other)
                 .issue(1L, "mallory", Role.ADMIN, false).value();
 

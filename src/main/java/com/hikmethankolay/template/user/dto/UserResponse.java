@@ -10,11 +10,13 @@ import java.time.Instant;
  * @param id        user id
  * @param username  username
  * @param email     lower-case email address
- * @param role      role of the user
- * @param createdAt creation time (ISO-8601, UTC)
- * @param updatedAt time of the last update (ISO-8601, UTC)
+ * @param role          role of the user
+ * @param emailVerified whether the email address has been confirmed
+ * @param createdAt     creation time (ISO-8601, UTC)
+ * @param updatedAt     time of the last update (ISO-8601, UTC)
  */
-public record UserResponse(long id, String username, String email, Role role, Instant createdAt, Instant updatedAt) {
+public record UserResponse(
+        long id, String username, String email, Role role, boolean emailVerified, Instant createdAt, Instant updatedAt) {
 
     /**
      * Maps an entity to its public representation.
@@ -23,7 +25,7 @@ public record UserResponse(long id, String username, String email, Role role, In
      * @return the response body
      */
     public static UserResponse from(User user) {
-        return new UserResponse(
-                user.getId(), user.getUsername(), user.getEmail(), user.getRole(), user.getCreatedAt(), user.getUpdatedAt());
+        return new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getRole(),
+                user.isEmailVerified(), user.getCreatedAt(), user.getUpdatedAt());
     }
 }

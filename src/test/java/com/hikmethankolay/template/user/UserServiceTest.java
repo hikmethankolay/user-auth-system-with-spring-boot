@@ -18,6 +18,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -31,11 +32,14 @@ class UserServiceTest {
     @Mock
     private PasswordEncoder passwordEncoder;
 
+    @Mock
+    private ApplicationEventPublisher events;
+
     private UserService userService;
 
     @BeforeEach
     void setUp() {
-        userService = new UserService(userRepository, passwordEncoder);
+        userService = new UserService(userRepository, passwordEncoder, events);
     }
 
     @Test
@@ -43,7 +47,7 @@ class UserServiceTest {
         when(passwordEncoder.encode("Secret#123")).thenReturn("hashed");
         when(userRepository.save(any(User.class))).thenAnswer(invocation -> withId(invocation.getArgument(0), 1L));
 
-        UserResponse response = userService.register("alice", "  Alice@Example.COM ", "Secret#123", Role.USER);
+        UserResponse response = userService.register("alice", "  Alice@Example.COM ", "Secret#123", Role.USER, false);
 
         ArgumentCaptor<User> saved = ArgumentCaptor.forClass(User.class);
         verify(userRepository).save(saved.capture());
@@ -51,13 +55,26 @@ class UserServiceTest {
         assertThat(saved.getValue().getPasswordHash()).isEqualTo("hashed");
         assertThat(response.id()).isEqualTo(1L);
         assertThat(response.role()).isEqualTo(Role.USER);
+        assertThat(response.emailVerified()).isFalse();
+        verify(events).publishEvent(new EmailVerificationRequired(1L));
+    }
+
+    @Test
+    void registerVerifiedUserSendsNoVerification() {
+        when(passwordEncoder.encode(any())).thenReturn("hashed");
+        when(userRepository.save(any(User.class))).thenAnswer(invocation -> withId(invocation.getArgument(0), 2L));
+
+        UserResponse response = userService.register("root", "root@example.com", "Secret#123", Role.ADMIN, true);
+
+        assertThat(response.emailVerified()).isTrue();
+        verify(events, never()).publishEvent(any());
     }
 
     @Test
     void registerRejectsTakenEmail() {
         when(userRepository.existsByEmail("alice@example.com")).thenReturn(true);
 
-        assertThatThrownBy(() -> userService.register("alice", "alice@example.com", "Secret#123", Role.USER))
+        assertThatThrownBy(() -> userService.register("alice", "alice@example.com", "Secret#123", Role.USER, false))
                 .isInstanceOfSatisfying(ApiException.class,
                         ex -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.CONFLICT));
         verify(userRepository, never()).save(any());

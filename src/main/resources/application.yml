@@ -32,6 +32,15 @@ spring:
         max-page-size: 100
         # Pages are serialized as {"content":[...],"page":{"size","number","totalElements","totalPages"}}.
         serialization-mode: via-dto
+  mail:
+    # Defaults point to Mailpit from compose.yaml (web UI: http://localhost:8025).
+    # Set SPRING_MAIL_USERNAME / SPRING_MAIL_PASSWORD for a real SMTP server.
+    host: ${MAIL_HOST:localhost}
+    port: ${MAIL_PORT:1025}
+    properties:
+      "[mail.smtp.connectiontimeout]": 5000
+      "[mail.smtp.timeout]": 5000
+      "[mail.smtp.writetimeout]": 5000
   cache:
     type: redis
     redis:
@@ -58,7 +67,10 @@ server:
 management:
   health:
     redis:
-      # Redis is only a cache and the app keeps working without it, so it must not mark the app DOWN.
+      # The app keeps working without Redis (cache, lockout and rate limit fail open), so it must not mark the app DOWN.
+      enabled: false
+    mail:
+      # Mail failures are logged and retried by the user; an SMTP outage must not mark the app DOWN.
       enabled: false
   endpoints:
     web:
@@ -102,6 +114,15 @@ app:
   rate-limit:
     enabled: ${RATE_LIMIT_ENABLED:true}
     requests-per-minute: ${RATE_LIMIT_PER_MINUTE:120}
+  account:
+    # true in the prod profile: unverified users cannot log in.
+    require-verified-email: ${REQUIRE_VERIFIED_EMAIL:false}
+    verification-token-ttl: 24h
+    password-reset-token-ttl: 1h
+  mail:
+    from: ${MAIL_FROM:no-reply@example.com}
+    # Frontend that handles /verify-email?token=... and /reset-password?token=... links.
+    link-base-url: ${MAIL_LINK_BASE_URL:http://localhost:3000}
   admin:
     username: ${ADMIN_USERNAME:}
     email: ${ADMIN_EMAIL:}

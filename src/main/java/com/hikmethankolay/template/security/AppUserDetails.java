@@ -14,9 +14,11 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @param id           database id of the user
  * @param username     username
  * @param passwordHash encoded password, never exposed through {@code toString()}
- * @param role         role of the user
+ * @param role          role of the user
+ * @param emailVerified whether the email address has been confirmed
  */
-public record AppUserDetails(long id, String username, String passwordHash, Role role) implements UserDetails {
+public record AppUserDetails(long id, String username, String passwordHash, Role role, boolean emailVerified)
+        implements UserDetails {
 
     /**
      * Copies the fields needed for authentication from an entity.
@@ -25,7 +27,8 @@ public record AppUserDetails(long id, String username, String passwordHash, Role
      * @return the security view of the user
      */
     static AppUserDetails from(User user) {
-        return new AppUserDetails(user.getId(), user.getUsername(), user.getPasswordHash(), user.getRole());
+        return new AppUserDetails(
+                user.getId(), user.getUsername(), user.getPasswordHash(), user.getRole(), user.isEmailVerified());
     }
 
     /**

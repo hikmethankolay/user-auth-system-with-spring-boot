@@ -3,6 +3,7 @@ package com.hikmethankolay.template.auth;
 import com.hikmethankolay.template.auth.dto.LoginRequest;
 import com.hikmethankolay.template.auth.dto.RegisterRequest;
 import com.hikmethankolay.template.common.ApiException;
+import com.hikmethankolay.template.config.AppProperties;
 import com.hikmethankolay.template.security.AppUserDetails;
 import com.hikmethankolay.template.security.LoginAttemptService;
 import com.hikmethankolay.template.security.TokenRevocationService;
@@ -13,6 +14,7 @@ import com.hikmethankolay.template.user.UserRepository;
 import com.hikmethankolay.template.user.UserService;
 import com.hikmethankolay.template.user.dto.UserResponse;
 import java.util.Locale;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -50,6 +52,9 @@ public class AuthService {
     /** Validates the token presented at logout. */
     private final JwtDecoder jwtDecoder;
 
+    /** Whether login requires a verified email address. */
+    private final boolean requireVerifiedEmail;
+
     /**
      * Creates the service.
      *
@@ -60,6 +65,7 @@ public class AuthService {
      * @param userRepository        reloads users on refresh
      * @param revocations           denylist of revoked tokens
      * @param jwtDecoder            validates the token presented at logout
+     * @param properties            application properties (email verification policy)
      */
     public AuthService(
             AuthenticationManager authenticationManager,
@@ -68,7 +74,8 @@ public class AuthService {
             UserService userService,
             UserRepository userRepository,
             TokenRevocationService revocations,
-            JwtDecoder jwtDecoder) {
+            JwtDecoder jwtDecoder,
+            AppProperties properties) {
         this.authenticationManager = authenticationManager;
         this.loginAttempts = loginAttempts;
         this.tokenService = tokenService;
@@ -76,17 +83,18 @@ public class AuthService {
         this.userRepository = userRepository;
         this.revocations = revocations;
         this.jwtDecoder = jwtDecoder;
+        this.requireVerifiedEmail = properties.account().requireVerifiedEmail();
     }
 
     /**
-     * Registers a new user with the {@link Role#USER} role.
+     * Registers a new user with the {@link Role#USER} role and sends a verification email.
      *
      * @param request registration data
      * @return the created user
      * @throws ApiException 409 if the username or email is already taken
      */
     public UserResponse register(RegisterRequest request) {
-        return userService.register(request.username(), request.email(), request.password(), Role.USER);
+        return userService.register(request.username(), request.email(), request.password(), Role.USER, false);
     }
 
     /**
@@ -123,6 +131,10 @@ public class AuthService {
         // Only the account counter is reset: one valid login must not clear the IP's failures.
         loginAttempts.reset(accountKey);
         AppUserDetails user = (AppUserDetails) authentication.getPrincipal();
+        // Checked only after the password, so the response does not reveal whether an account exists.
+        if (requireVerifiedEmail && !user.emailVerified()) {
+            throw new ApiException(HttpStatus.FORBIDDEN, "Email address is not verified.");
+        }
         return tokenService.issue(user.id(), user.username(), user.role(), request.isRememberMe());
     }
 

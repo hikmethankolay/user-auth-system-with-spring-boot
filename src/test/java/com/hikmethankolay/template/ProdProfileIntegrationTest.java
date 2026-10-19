@@ -11,7 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 
-/** The prod profile turns off the API docs and makes the auth cookie Secure. */
+/** The prod profile turns off the API docs, makes the auth cookie Secure and requires verified emails. */
 @ActiveProfiles({"test", "prod"})
 class ProdProfileIntegrationTest extends IntegrationTest {
 
@@ -23,6 +23,17 @@ class ProdProfileIntegrationTest extends IntegrationTest {
 
     @Test
     void authCookieIsSecure() throws Exception {
+        // The configured admin is verified; new users must confirm their email first in prod.
+        mockMvc.perform(post("/api/v1/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"identifier":"%s","password":"%s"}""", ADMIN_USERNAME, ADMIN_PASSWORD)))
+                .andExpect(status().isOk())
+                .andExpect(header().string(HttpHeaders.SET_COOKIE, containsString("Secure")));
+    }
+
+    @Test
+    void unverifiedUsersCannotLogIn() throws Exception {
         String username = uniqueUsername();
         register(username);
 
@@ -30,7 +41,6 @@ class ProdProfileIntegrationTest extends IntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
                                 {"identifier":"%s","password":"%s"}""", username, PASSWORD)))
-                .andExpect(status().isOk())
-                .andExpect(header().string(HttpHeaders.SET_COOKIE, containsString("Secure")));
+                .andExpect(status().isForbidden());
     }
 }

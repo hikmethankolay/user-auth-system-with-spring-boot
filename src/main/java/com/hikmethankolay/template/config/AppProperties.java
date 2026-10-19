@@ -22,6 +22,8 @@ import org.springframework.validation.annotation.Validated;
  * @param cors   cross-origin settings for browser clients
  * @param login     brute-force protection settings
  * @param rateLimit per-IP request rate limit
+ * @param account   email verification and password reset settings
+ * @param mail      outgoing email settings
  * @param admin     optional initial administrator account
  */
 @Validated
@@ -32,6 +34,8 @@ public record AppProperties(
         @Valid @NotNull Cors cors,
         @Valid @NotNull Login login,
         @Valid @NotNull RateLimit rateLimit,
+        @Valid @NotNull Account account,
+        @Valid @NotNull Mail mail,
         @Valid @NotNull Admin admin) {
 
     /**
@@ -85,6 +89,28 @@ public record AppProperties(
      * @param requestsPerMinute requests allowed per IP in each one-minute window
      */
     public record RateLimit(boolean enabled, @Positive int requestsPerMinute) {
+    }
+
+    /**
+     * Email verification and password reset settings.
+     *
+     * @param requireVerifiedEmail      whether users must verify their email before they can log in
+     * @param verificationTokenTtl      how long an email verification link is valid
+     * @param passwordResetTokenTtl     how long a password reset link is valid
+     */
+    public record Account(
+            boolean requireVerifiedEmail, @NotNull Duration verificationTokenTtl, @NotNull Duration passwordResetTokenTtl) {
+    }
+
+    /**
+     * Outgoing email settings (the SMTP server itself is configured with {@code spring.mail.*}).
+     *
+     * @param from        sender address
+     * @param linkBaseUrl base URL of the frontend that handles the links in emails, e.g.
+     *                    {@code https://app.example.com}; links go to {@code /verify-email?token=...}
+     *                    and {@code /reset-password?token=...}
+     */
+    public record Mail(@NotBlank String from, @NotBlank String linkBaseUrl) {
     }
 
     /**

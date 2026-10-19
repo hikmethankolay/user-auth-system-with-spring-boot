@@ -8,6 +8,7 @@ import com.hikmethankolay.template.user.dto.UpdateProfileRequest;
 import com.hikmethankolay.template.user.dto.UserResponse;
 import java.util.Locale;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,35 +36,71 @@ public class UserService {
     /** Hashes and verifies passwords. */
     private final PasswordEncoder passwordEncoder;
 
+    /** Publishes {@link EmailVerificationRequired} events. */
+    private final ApplicationEventPublisher events;
+
     /**
      * Creates the service.
      *
      * @param userRepository  user persistence
      * @param passwordEncoder hashes and verifies passwords
+     * @param events          publishes user events
      */
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, ApplicationEventPublisher events) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.events = events;
     }
 
     /**
-     * Creates a user.
+     * Creates a user. Unverified users get a verification email after the transaction commits.
      *
-     * @param username    unique username
-     * @param email       unique email; stored trimmed and in lower case
-     * @param rawPassword plain password, stored hashed
-     * @param role        role of the new user
+     * @param username      unique username
+     * @param email         unique email; stored trimmed and in lower case
+     * @param rawPassword   plain password, stored hashed
+     * @param role          role of the new user
+     * @param emailVerified whether the address is already trusted (e.g. the configured admin)
      * @return the created user
      * @throws ApiException 409 if the username or email is already taken
      */
     @Transactional
-    public UserResponse register(String username, String email, String rawPassword, Role role) {
+    public UserResponse register(String username, String email, String rawPassword, Role role, boolean emailVerified) {
         String normalizedEmail = normalizeEmail(email);
         ensureUsernameAvailable(username);
         ensureEmailAvailable(normalizedEmail);
 
         User user = new User(username, normalizedEmail, passwordEncoder.encode(rawPassword), role);
-        return UserResponse.from(userRepository.save(user));
+        user.setEmailVerified(emailVerified);
+        User saved = userRepository.save(user);
+        if (!emailVerified) {
+            events.publishEvent(new EmailVerificationRequired(saved.getId()));
+        }
+        return UserResponse.from(saved);
+    }
+
+    /**
+     * Marks a user's email address as verified.
+     *
+     * @param id user id
+     * @throws ApiException 404 if the user does not exist
+     */
+    @Transactional
+    @CacheEvict(cacheNames = CacheNames.USERS, key = "#id")
+    public void markEmailVerified(long id) {
+        findUser(id).setEmailVerified(true);
+    }
+
+    /**
+     * Sets a new password without checking the old one, e.g. after a verified password reset.
+     *
+     * @param id          user id
+     * @param rawPassword the new plain password, stored hashed
+     * @throws ApiException 404 if the user does not exist
+     */
+    @Transactional
+    @CacheEvict(cacheNames = CacheNames.USERS, key = "#id")
+    public void setPassword(long id, String rawPassword) {
+        findUser(id).setPasswordHash(passwordEncoder.encode(rawPassword));
     }
 
     /**
@@ -182,7 +219,8 @@ public class UserService {
     }
 
     /**
-     * Applies username and email changes after checking that they are free.
+     * Applies username and email changes after checking that they are free. A changed email is
+     * marked unverified and triggers a new verification email.
      *
      * @param user     the entity to change
      * @param username new username, or {@code null} to keep the current one
@@ -198,6 +236,9 @@ public class UserService {
             if (!normalizedEmail.equals(user.getEmail())) {
                 ensureEmailAvailable(normalizedEmail);
                 user.setEmail(normalizedEmail);
+                // A new address must be confirmed again.
+                user.setEmailVerified(false);
+                events.publishEvent(new EmailVerificationRequired(user.getId()));
             }
         }
     }

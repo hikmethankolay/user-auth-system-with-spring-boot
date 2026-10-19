@@ -10,6 +10,8 @@ logging:
 app:
   cookie:
     secure: ${COOKIE_SECURE:true}
+  account:
+    require-verified-email: ${REQUIRE_VERIFIED_EMAIL:true}
 
 springdoc:
   swagger-ui:
