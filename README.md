@@ -7,7 +7,8 @@ Clone it, run `scripts/rename-project.sh`, delete what you don't need and start 
 
 ## What's included
 
-- **Spring Boot 4.1 on Java 25**, Maven wrapper, PostgreSQL 18
+- **Spring Boot 4.1 on Java 25**, Maven wrapper, PostgreSQL 18, Redis 8
+- **Redis caching** with Spring Cache: typed JSON values, TTL, eviction after commit, and a database fallback when Redis is down
 - **Stateless JWT auth** using Spring Security's resource server: login with username or email,
   tokens as `Authorization: Bearer` or an HttpOnly `SameSite=Strict` cookie, remember-me, refresh, logout
 - **Brute-force protection**: per-IP and per-account lockout with `429` + `Retry-After`
@@ -26,7 +27,7 @@ Prerequisites: **JDK 25** (a JRE is not enough) and **Docker or Podman**.
 
 ```bash
 scripts/setup.sh    # checks prerequisites, creates .env with generated secrets, compiles
-scripts/dev.sh      # starts PostgreSQL and the app on http://localhost:8080
+scripts/dev.sh      # starts PostgreSQL + Redis and the app on http://localhost:8080
 scripts/smoke.sh    # in another terminal: register, login, /me, refresh, logout against the running app
 ```
 
@@ -40,12 +41,12 @@ initial admin user (`admin`), which is created on first start.
 | Script | What it does |
 |--------|--------------|
 | `setup` | Checks JDK 25 and a container runtime, creates `.env` from `.env.example` with a random `JWT_SECRET` and admin password, compiles. `--force` recreates `.env`. |
-| `dev` | Starts PostgreSQL, then runs the app from source with `spring-boot:run`. |
-| `db` | Local database: `up`, `down`, `reset` (deletes data), `logs`, `psql`, `status`. |
+| `dev` | Starts PostgreSQL and Redis, then runs the app from source with `spring-boot:run`. |
+| `db` | Local PostgreSQL and Redis: `up`, `down`, `reset` (deletes data), `logs`, `psql`, `redis-cli`, `status`. |
 | `test` | Unit and integration tests plus coverage report (`target/site/jacoco/index.html`). Extra args go to Maven, e.g. `-Dtest=UserServiceTest`. |
 | `build` | Builds `target/*.jar`; runs the tests unless `--skip-tests`. |
 | `run` | Runs the built jar with the settings from `.env`. |
-| `docker` | Whole stack in containers (PostgreSQL + app image): `up`, `down`, `logs`, `ps`. |
+| `docker` | Whole stack in containers (PostgreSQL + Redis + app image): `up`, `down`, `logs`, `ps`. |
 | `smoke` | End-to-end check against a running instance: `scripts/smoke.sh [base-url]`. |
 | `docs` | Doxygen HTML in `target/doxygen/html`. `--strict` fails on any Doxygen warning, including undocumented code. |
 | `rename-project` | Renames Maven coordinates, app name and Java package: `scripts/rename-project.sh com.acme order-service com.acme.orders`. |
@@ -61,6 +62,8 @@ both the app and Compose read. [`.env.example`](.env.example) lists all of them:
 | Variable | Default | Purpose |
 |----------|---------|---------|
 | `DB_URL`, `DB_USERNAME`, `DB_PASSWORD` | `jdbc:postgresql://localhost:5432/app`, `app`, `app` | Database connection |
+| `REDIS_HOST`, `REDIS_PORT` | `localhost`, `6379` | Redis connection (cache) |
+| `CACHE_TTL` | `10m` | How long cached entries live |
 | `JWT_SECRET` | *(required)* | HMAC-SHA256 signing secret, at least 32 characters |
 | `JWT_ACCESS_TOKEN_TTL` / `JWT_REMEMBER_ME_TTL` | `15m` / `30d` | Token lifetimes |
 | `COOKIE_SECURE` | `false` | Set `true` behind HTTPS |
@@ -122,12 +125,12 @@ src/main/java/com/hikmethankolay/template/
 ├── user/        User entity, repository, service, controller, initial-admin bootstrap, validation
 ├── security/    filter chains, JWT encoder/decoder, TokenService, login lockout
 ├── common/      ApiException, GlobalExceptionHandler (RFC 9457)
-└── config/      AppProperties (typed app.* config), OpenAPI
+└── config/      AppProperties (typed app.* config), Redis cache, OpenAPI
 src/main/resources/
 ├── application.yml   all configuration, overridable via env/.env
 └── schema.sql        database schema, applied on startup
 scripts/              *.sh and *.bat for every task
-compose.yaml          PostgreSQL (+ app with --profile app)
+compose.yaml          PostgreSQL + Redis (+ app with --profile app)
 Dockerfile            multi-stage, layered jar, non-root JRE image
 ```
 
@@ -143,6 +146,19 @@ controller, service, repository and `dto/`.
 5. Protect endpoints with `@PreAuthorize`. Everything outside the public paths in `SecurityConfig` requires a valid token by default.
 6. Delete the user/auth features if you don't need them, along with their tests.
 
+## Caching
+
+User lookups by id are cached in Redis (`config/CacheConfig.java`). To cache something new:
+
+1. Add a name to `CacheConfig.CacheNames` and register its value type in `redisCacheCustomizer`. Values are stored
+   as JSON of that exact type, never with Java serialization.
+2. Put `@Cacheable(cacheNames = ..., key = "#id")` on the read method, and `@CacheEvict` on every method that changes the data.
+3. Cache DTOs, not JPA entities.
+
+Evictions inside a transaction are applied only after the commit. If Redis is unreachable, the error is logged
+and requests go straight to the database. Redis is left out of `/actuator/health` for the same reason.
+Inspect the cache with `scripts/db.sh redis-cli`, e.g. `KEYS spring-boot-template:*`.
+
 ## Testing and documentation
 
 ```bash
@@ -150,7 +166,7 @@ scripts/test.sh            # unit + integration tests, JaCoCo report in target/s
 scripts/docs.sh --strict   # Doxygen HTML in target/doxygen/html; fails on any warning, including undocumented code
 ```
 
-Integration tests start a throwaway `postgres:18-alpine` container through Testcontainers. Without a
+Integration tests start throwaway `postgres:18-alpine` and `redis:8-alpine` containers through Testcontainers. Without a
 container runtime they are skipped, not failed. CI (`.github/workflows/ci.yml`) runs `./mvnw -B verify` and
 `scripts/docs.sh --strict` on pushes to `main` and on pull requests.
 
