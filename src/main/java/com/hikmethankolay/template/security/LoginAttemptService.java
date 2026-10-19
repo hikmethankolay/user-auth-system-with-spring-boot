@@ -1,23 +1,43 @@
 package com.hikmethankolay.template.security;
 
-import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
 import com.hikmethankolay.template.config.AppProperties;
 import java.time.Duration;
+import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Service;
 
 /**
  * Brute-force protection for the login endpoint.
  *
- * <p>Failed logins are counted per key (client IP and account identifier). A key is blocked once
- * it reaches {@code app.login.max-attempts} and unblocked after {@code app.login.lock-duration}
- * without new failures.</p>
+ * <p>Failed logins are counted per key (client IP and account identifier) in Redis, so the limits
+ * hold across all application instances. A key is blocked once it reaches
+ * {@code app.login.max-attempts} and unblocked after {@code app.login.lock-duration} without new
+ * failures.</p>
  *
- * <p>State is kept in memory, so limits apply per application instance. Use a shared store
- * such as Redis when running several instances.</p>
+ * <p>If Redis is unavailable, logins are allowed (fail open) and a warning is logged, so an outage
+ * does not lock every user out.</p>
  */
 @Service
 public class LoginAttemptService {
+
+    /** Logger for Redis failures. */
+    private static final Logger log = LoggerFactory.getLogger(LoginAttemptService.class);
+
+    /** Atomically increments a counter and (re)sets its expiry, returning the new count. */
+    private static final RedisScript<Long> RECORD_FAILURE = RedisScript.of(
+            "local count = redis.call('INCR', KEYS[1]) redis.call('PEXPIRE', KEYS[1], ARGV[1]) return count",
+            Long.class);
+
+    /** Redis access with string keys and values. */
+    private final StringRedisTemplate redis;
+
+    /** Key prefix, namespaced by application name. */
+    private final String keyPrefix;
 
     /** Failures after which a key is blocked. */
     private final int maxAttempts;
@@ -25,21 +45,19 @@ public class LoginAttemptService {
     /** How long a block lasts after the last failure. */
     private final Duration lockDuration;
 
-    /** Failure counters by key; entries expire {@link #lockDuration} after the last failure. */
-    private final Cache<String, Integer> failures;
-
     /**
      * Creates the service.
      *
-     * @param properties application properties holding the limits
+     * @param redis           Redis access
+     * @param properties      application properties holding the limits
+     * @param applicationName value of {@code spring.application.name}, used to namespace keys
      */
-    public LoginAttemptService(AppProperties properties) {
+    public LoginAttemptService(
+            StringRedisTemplate redis, AppProperties properties, @Value("${spring.application.name}") String applicationName) {
+        this.redis = redis;
+        this.keyPrefix = applicationName + ":login-failures:";
         this.maxAttempts = properties.login().maxAttempts();
         this.lockDuration = properties.login().lockDuration();
-        this.failures = Caffeine.newBuilder()
-                .expireAfterWrite(lockDuration)
-                .maximumSize(100_000)
-                .build();
     }
 
     /**
@@ -49,8 +67,13 @@ public class LoginAttemptService {
      * @return {@code true} if the key reached the maximum number of failures
      */
     public boolean isBlocked(String key) {
-        Integer count = failures.getIfPresent(key);
-        return count != null && count >= maxAttempts;
+        try {
+            String count = redis.opsForValue().get(keyPrefix + key);
+            return count != null && Long.parseLong(count) >= maxAttempts;
+        } catch (DataAccessException ex) {
+            log.warn("Could not read login failures for {}: {}", key, ex.getMessage());
+            return false;
+        }
     }
 
     /**
@@ -60,7 +83,11 @@ public class LoginAttemptService {
      */
     public void recordFailure(String... keys) {
         for (String key : keys) {
-            failures.asMap().merge(key, 1, Integer::sum);
+            try {
+                redis.execute(RECORD_FAILURE, List.of(keyPrefix + key), Long.toString(lockDuration.toMillis()));
+            } catch (DataAccessException ex) {
+                log.warn("Could not record login failure for {}: {}", key, ex.getMessage());
+            }
         }
     }
 
@@ -70,7 +97,11 @@ public class LoginAttemptService {
      * @param key the key to reset
      */
     public void reset(String key) {
-        failures.invalidate(key);
+        try {
+            redis.delete(keyPrefix + key);
+        } catch (DataAccessException ex) {
+            log.warn("Could not reset login failures for {}: {}", key, ex.getMessage());
+        }
     }
 
     /**
