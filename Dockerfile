@@ -1,7 +1,9 @@
 # syntax=docker/dockerfile:1
 
 # --- Build stage: compile and extract the layered jar ---
-FROM eclipse-temurin:25-jdk AS build
+# Runs on the build machine's platform: the jar is the same for every target architecture.
+# Base images are pinned by digest for reproducible builds; Dependabot proposes updates.
+FROM --platform=$BUILDPLATFORM eclipse-temurin:25-jdk@sha256:2d5d5e9b533342a565907c84f47a2ec298c40cde7b13a3ca85d4950fa456a641 AS build
 WORKDIR /workspace
 
 COPY .mvn .mvn
@@ -13,7 +15,7 @@ RUN --mount=type=cache,target=/root/.m2 ./mvnw -B -q package -DskipTests \
  && java -Djarmode=tools -jar target/*.jar extract --layers --launcher --destination target/extracted
 
 # --- Runtime stage: JRE only, non-root user ---
-FROM eclipse-temurin:25-jre-alpine
+FROM eclipse-temurin:25-jre-alpine@sha256:3c0a9084927a221ccd1d007fcaf614465672c0af37aaa834c5184483afe56d61
 # Pick up OS security fixes released after the base image was built.
 # A numeric user lets Kubernetes verify runAsNonRoot (see deploy/kubernetes).
 RUN apk upgrade --no-cache && addgroup -S -g 10001 app && adduser -S -u 10001 -G app app

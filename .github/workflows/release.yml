@@ -1,7 +1,9 @@
 name: Release
 
 # Pushing a tag like v2.1.0 tests the code, publishes the Docker image to GitHub Container Registry
-# (ghcr.io/<owner>/<repo>:2.1.0 and :latest) and creates a GitHub release.
+# (ghcr.io/<owner>/<repo>:2.1.0 and :latest) for linux/amd64 and linux/arm64 with an SBOM and
+# build provenance, signs it with Sigstore cosign (keyless) and creates a GitHub release.
+# Actions are pinned to commit SHAs; Dependabot keeps them up to date.
 on:
   push:
     tags: ['v*']
@@ -9,14 +11,16 @@ on:
 permissions:
   contents: write
   packages: write
+  # OIDC token for keyless cosign signing.
+  id-token: write
 
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
 
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
         with:
           distribution: temurin
           java-version: '25'
@@ -25,16 +29,18 @@ jobs:
       - name: Test
         run: ./mvnw -B verify
 
-      - uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
 
-      - uses: docker/login-action@v3
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+
+      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5.10.0
         with:
           images: ghcr.io/${{ github.repository }}
           tags: |
@@ -42,14 +48,26 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=raw,value=latest
 
-      - uses: docker/build-push-action@v6
+      - id: build
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
         with:
           context: .
+          platforms: linux/amd64,linux/arm64
           push: true
+          sbom: true
+          provenance: mode=max
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - uses: sigstore/cosign-installer@398d4b0eeef1380460a10c8013a76f728fb906ac # v3.9.1
+
+      # Signs the image digest (all tags point to it); verify with the command in the Production guide.
+      - name: Sign image
+        env:
+          DIGEST: ${{ steps.build.outputs.digest }}
+        run: cosign sign --yes "ghcr.io/${GITHUB_REPOSITORY,,}@${DIGEST}"
 
       - name: Create GitHub release
         env:
