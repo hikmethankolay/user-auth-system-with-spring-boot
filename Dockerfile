@@ -14,7 +14,8 @@ RUN --mount=type=cache,target=/root/.m2 ./mvnw -B -q package -DskipTests \
 
 # --- Runtime stage: JRE only, non-root user ---
 FROM eclipse-temurin:25-jre-alpine
-RUN addgroup -S app && adduser -S -G app app
+# Pick up OS security fixes released after the base image was built.
+RUN apk upgrade --no-cache && addgroup -S app && adduser -S -G app app
 USER app
 WORKDIR /app
 
