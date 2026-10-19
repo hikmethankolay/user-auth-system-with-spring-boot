@@ -11,6 +11,7 @@ import com.hikmethankolay.template.audit.AuditLog;
 import com.hikmethankolay.template.common.ApiException;
 import com.hikmethankolay.template.user.dto.AdminUpdateUserRequest;
 import com.hikmethankolay.template.user.dto.ChangePasswordRequest;
+import com.hikmethankolay.template.user.dto.DeleteAccountRequest;
 import com.hikmethankolay.template.user.dto.UserResponse;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import java.util.Optional;
@@ -123,6 +124,31 @@ class UserServiceTest {
         assertThatThrownBy(() -> userService.getById(9L))
                 .isInstanceOfSatisfying(ApiException.class,
                         ex -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND));
+    }
+
+    @Test
+    void lastAdministratorCannotDeleteTheirAccount() {
+        User admin = withId(new User("root", "root@example.com", "hashed", Role.ADMIN), 1L);
+        when(userRepository.findById(1L)).thenReturn(Optional.of(admin));
+        when(passwordEncoder.matches("Secret#123", "hashed")).thenReturn(true);
+        when(userRepository.countByRole(Role.ADMIN)).thenReturn(1L);
+
+        assertThatThrownBy(() -> userService.deleteOwnAccount(1L, new DeleteAccountRequest("Secret#123")))
+                .isInstanceOfSatisfying(ApiException.class,
+                        ex -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.CONFLICT));
+        verify(userRepository, never()).delete(any());
+    }
+
+    @Test
+    void deletingOwnAccountEndsItsSessions() {
+        User user = withId(new User("alice", "alice@example.com", "hashed", Role.USER), 5L);
+        when(userRepository.findById(5L)).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches("Secret#123", "hashed")).thenReturn(true);
+
+        userService.deleteOwnAccount(5L, new DeleteAccountRequest("Secret#123"));
+
+        verify(userRepository).delete(user);
+        verify(events).publishEvent(new SessionsInvalidated(5L));
     }
 
     private static User withId(User user, long id) {

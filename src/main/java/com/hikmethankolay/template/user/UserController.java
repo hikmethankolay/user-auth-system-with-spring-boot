@@ -3,6 +3,8 @@ package com.hikmethankolay.template.user;
 import com.hikmethankolay.template.security.TokenService;
 import com.hikmethankolay.template.user.dto.AdminUpdateUserRequest;
 import com.hikmethankolay.template.user.dto.ChangePasswordRequest;
+import com.hikmethankolay.template.user.dto.DeleteAccountRequest;
+import com.hikmethankolay.template.user.dto.PersonalDataExport;
 import com.hikmethankolay.template.user.dto.UpdateProfileRequest;
 import com.hikmethankolay.template.user.dto.UserResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,7 +13,10 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -34,6 +39,8 @@ import org.springframework.web.bind.annotation.RestController;
  *   <tr><td>GET</td><td>/me</td><td>authenticated</td><td>200</td></tr>
  *   <tr><td>PATCH</td><td>/me</td><td>authenticated</td><td>200</td></tr>
  *   <tr><td>PUT</td><td>/me/password</td><td>authenticated</td><td>204</td></tr>
+ *   <tr><td>DELETE</td><td>/me</td><td>authenticated + password</td><td>204</td></tr>
+ *   <tr><td>GET</td><td>/me/export</td><td>authenticated</td><td>200 (attachment)</td></tr>
  *   <tr><td>GET</td><td>/</td><td>ADMIN</td><td>200 (paginated)</td></tr>
  *   <tr><td>GET</td><td>/{id}</td><td>ADMIN or the user</td><td>200</td></tr>
  *   <tr><td>PATCH</td><td>/{id}</td><td>ADMIN</td><td>200</td></tr>
@@ -48,13 +55,18 @@ public class UserController {
     /** User business logic. */
     private final UserService userService;
 
+    /** Builds the personal data export. */
+    private final PersonalDataService personalData;
+
     /**
      * Creates the controller.
      *
-     * @param userService user business logic
+     * @param userService  user business logic
+     * @param personalData builds the personal data export
      */
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PersonalDataService personalData) {
         this.userService = userService;
+        this.personalData = personalData;
     }
 
     /**
@@ -93,6 +105,36 @@ public class UserController {
     @Operation(summary = "Change the current user's password")
     public void changeMyPassword(@AuthenticationPrincipal Jwt jwt, @Valid @RequestBody ChangePasswordRequest request) {
         userService.changePassword(TokenService.userId(jwt), request);
+    }
+
+    /**
+     * Deletes the authenticated user's account and ends its sessions (right to erasure). The current
+     * password is required.
+     *
+     * @param jwt     the caller's token
+     * @param request the current password
+     */
+    @DeleteMapping("/me")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Delete the current user's account")
+    public void deleteMe(@AuthenticationPrincipal Jwt jwt, @Valid @RequestBody DeleteAccountRequest request) {
+        userService.deleteOwnAccount(TokenService.userId(jwt), request);
+    }
+
+    /**
+     * Downloads everything stored about the authenticated user as a JSON file (right of access and
+     * data portability).
+     *
+     * @param jwt the caller's token
+     * @return {@code 200 OK} with the export as an attachment
+     */
+    @GetMapping("/me/export")
+    @Operation(summary = "Export the current user's personal data")
+    public ResponseEntity<PersonalDataExport> exportMe(@AuthenticationPrincipal Jwt jwt) {
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        ContentDisposition.attachment().filename("personal-data.json").build().toString())
+                .body(personalData.export(TokenService.userId(jwt)));
     }
 
     /**

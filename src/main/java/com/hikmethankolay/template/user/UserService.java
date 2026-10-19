@@ -6,6 +6,7 @@ import com.hikmethankolay.template.common.ApiException;
 import com.hikmethankolay.template.config.CacheConfig.CacheNames;
 import com.hikmethankolay.template.user.dto.AdminUpdateUserRequest;
 import com.hikmethankolay.template.user.dto.ChangePasswordRequest;
+import com.hikmethankolay.template.user.dto.DeleteAccountRequest;
 import com.hikmethankolay.template.user.dto.UpdateProfileRequest;
 import com.hikmethankolay.template.user.dto.UserResponse;
 import java.util.Locale;
@@ -235,6 +236,30 @@ public class UserService {
         }
         userRepository.delete(findUser(id));
         audit.record(AuditEvent.USER_DELETED_BY_ADMIN, id);
+        events.publishEvent(new SessionsInvalidated(id));
+    }
+
+    /**
+     * Deletes the caller's own account after checking the password. Data of other features goes
+     * with it through {@code ON DELETE CASCADE}; the sessions end.
+     *
+     * @param id      the caller's user id
+     * @param request the current password
+     * @throws ApiException 400 if the password is wrong, 404 if the user does not exist,
+     *                      409 if the user is the last administrator
+     */
+    @Transactional
+    @CacheEvict(cacheNames = CacheNames.USERS, key = "#id")
+    public void deleteOwnAccount(long id, DeleteAccountRequest request) {
+        User user = findUser(id);
+        if (!passwordEncoder.matches(request.password(), user.getPasswordHash())) {
+            throw ApiException.badRequest("Password is incorrect.");
+        }
+        if (user.getRole() == Role.ADMIN && userRepository.countByRole(Role.ADMIN) == 1) {
+            throw ApiException.conflict("The last administrator cannot delete their account.");
+        }
+        userRepository.delete(user);
+        audit.record(AuditEvent.ACCOUNT_DELETED, id);
         events.publishEvent(new SessionsInvalidated(id));
     }
 

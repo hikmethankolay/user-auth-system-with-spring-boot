@@ -5,12 +5,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.hikmethankolay.template.IntegrationTest;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
 class UserIntegrationTest extends IntegrationTest {
@@ -148,5 +150,48 @@ class UserIntegrationTest extends IntegrationTest {
 
         mockMvc.perform(get("/api/v1/users").with(bearer(adminToken)).param("sort", "passwordHashX"))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void deletingOwnAccountRequiresThePasswordAndEndsTheSession() throws Exception {
+        String username = uniqueUsername();
+        String token = registerAndLogin(username);
+
+        mockMvc.perform(delete("/api/v1/users/me").with(bearer(token))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"password":"Wrong#123"}"""))
+                .andExpect(status().isBadRequest());
+
+        mockMvc.perform(delete("/api/v1/users/me").with(bearer(token))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"password":"%s"}""", PASSWORD)))
+                .andExpect(status().isNoContent());
+
+        mockMvc.perform(get("/api/v1/users/me").with(bearer(token))).andExpect(status().isUnauthorized());
+        mockMvc.perform(post("/api/v1/auth/login").with(fromIp("10.0.3.1"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"identifier":"%s","password":"%s"}""", username, PASSWORD)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void exportContainsProfileAndSessions() throws Exception {
+        String username = uniqueUsername();
+        register(username);
+        loginTokens(username, PASSWORD);
+        String token = login(username, PASSWORD);
+
+        mockMvc.perform(get("/api/v1/users/me/export").with(bearer(token)))
+                .andExpect(status().isOk())
+                .andExpect(header().string(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"personal-data.json\""))
+                .andExpect(jsonPath("$.exportedAt").exists())
+                .andExpect(jsonPath("$.profile.username").value(username))
+                .andExpect(jsonPath("$.profile.passwordHash").doesNotExist())
+                .andExpect(jsonPath("$.related.sessions.length()").value(2))
+                .andExpect(jsonPath("$.related.sessions[0].id").exists())
+                .andExpect(jsonPath("$.related.sessions[0].expiresAt").exists());
     }
 }
