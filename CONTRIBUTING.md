@@ -23,6 +23,8 @@ explain the details.
 - `scripts/docs.sh --strict` passes: every class, method and field has a Doxygen comment.
 - The architecture rules in `ArchitectureTest` still hold (controllers use services, no entities in the API).
 - Configuration changes are reflected in `.env.example` and the Configuration guide (`docs/`).
+- API changes are reflected in the committed `api/openapi.json`: regenerate it with
+  `scripts/test.sh -Dtest=OpenApiSpecExportTest -Dopenapi.update=true` and review the diff.
 - Database changes are new Flyway migrations (`V<n>__description.sql`); never edit a released one.
 
 ## Commits and pull requests

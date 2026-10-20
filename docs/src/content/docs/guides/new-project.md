@@ -17,14 +17,17 @@ description: Turn the template into your own project.
 3. Add your tables as new Flyway migrations (`V3__create_orders.sql`, ...) in `src/main/resources/db/migration`.
    Never edit a migration that has already been applied.
 4. Add each feature as its own package next to `user/`, with its own controller, service, repository and `dto/`.
-5. Throw domain errors with `ApiException.notFound(...)`, `.conflict(...)`, `.badRequest(...)`. They become
+5. After changing an endpoint, regenerate the committed OpenAPI document with
+   `scripts/test.sh -Dtest=OpenApiSpecExportTest -Dopenapi.update=true`, give new operations an `operationId`, and
+   declare responses the shared customizers cannot know about (for example a 409 on a uniqueness conflict).
+6. Throw domain errors with `ApiException.notFound(...)`, `.conflict(...)`, `.badRequest(...)`. They become
    RFC 9457 problem details automatically.
-6. Protect endpoints with `@PreAuthorize`. Everything outside the public paths in `SecurityConfig` needs a valid token.
-7. If the feature stores data about a user, reference `users(id)` with `ON DELETE CASCADE` and implement
+7. Protect endpoints with `@PreAuthorize`. Everything outside the public paths in `SecurityConfig` needs a valid token.
+8. If the feature stores data about a user, reference `users(id)` with `ON DELETE CASCADE` and implement
    `PersonalDataProvider`, so account deletion and the data export (`GET /api/v1/users/me/export`) stay complete.
-8. Record sensitive actions with `AuditLog.record(AuditEvent.…, userId, ...)` and send emails with `EmailOutbox.enqueue`.
-9. Delete the features you don't need (for example `account/`), along with their tests and migrations.
-10. Replace the repository-specific values: the owner in `.github/CODEOWNERS`, the links in `SECURITY.md` and the
+9. Record sensitive actions with `AuditLog.record(AuditEvent.…, userId, ...)` and send emails with `EmailOutbox.enqueue`.
+10. Delete the features you don't need (for example `account/`), along with their tests and migrations.
+11. Replace the repository-specific values: the owner in `.github/CODEOWNERS`, the links in `SECURITY.md` and the
     issue templates, and the image name in `deploy/kubernetes/kustomization.yaml` and `deployment.yaml`. Enable
     *Private vulnerability reporting* in the repository's security settings.
 

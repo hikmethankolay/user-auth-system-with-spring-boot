@@ -31,6 +31,13 @@ class OrderIntegrationTest extends IntegrationTest {
 }
 ```
 
+## API contract tests
+
+`OpenApiContractTest` reads `/v3/api-docs` and checks that the document matches the API's behaviour: status codes,
+problem-detail errors, public and protected operations, pagination parameters, response headers, operationIds and
+required fields. `OpenApiSpecExportTest` compares the document with the committed `api/openapi.json` and fails on any
+difference; regenerate the file with `-Dopenapi.update=true`, see [API overview](../api/#openapi-document).
+
 ## Architecture tests
 
 `ArchitectureTest` enforces the layering rules on every build. See [Using the template](../new-project/#rules-the-build-enforces).

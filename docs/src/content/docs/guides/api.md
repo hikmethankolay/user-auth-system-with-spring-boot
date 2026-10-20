@@ -6,6 +6,35 @@ description: Endpoints at a glance, error format, pagination and response header
 The full, generated reference with request and response schemas is the [REST API reference](../../api/). This page
 is the short version.
 
+## OpenAPI document
+
+The application generates its OpenAPI 3.1 document from the controllers (springdoc) and serves it at `/v3/api-docs`
+(Swagger UI at `/swagger-ui.html`, both off in the prod profile). The same document is committed as
+[`api/openapi.json`](https://github.com/hikmethankolay/spring-boot-backend-template/blob/main/api/openapi.json), so
+API changes show up as diffs in pull requests and client generators can use it without running the app.
+
+The document describes the behaviour, not just the shapes:
+
+- every operation has a specific `operationId` (`registerUser`, `listUsers`, `getCurrentUser`, …), so generated
+  clients get usable method names;
+- error responses are `application/problem+json` with the `Problem` schema: 400 on operations with input, 401 on
+  protected ones, 403 where a role is required, 404 on `/{id}`, 409 where a username or email can conflict, and 429
+  everywhere;
+- public operations have an empty `security` list; protected ones accept the `bearerAuth` header **or** the
+  `cookieAuth` cookie (`auth_token`); refresh and logout also document the `refresh_token` cookie;
+- responses declare `X-Trace-Id` and `RateLimit-*` (plus `Retry-After` on 429, `Location` on 201 and `Set-Cookie`
+  on token responses);
+- pagination is three query parameters, `page`, `size` (at most 100) and `sort`.
+
+Two tests keep it honest. `OpenApiContractTest` checks these rules on the generated document, and
+`OpenApiSpecExportTest` fails when `api/openapi.json` differs from it. After an intended API change, regenerate the
+file and commit it with the code:
+
+```bash
+scripts/test.sh -Dtest=OpenApiSpecExportTest -Dopenapi.update=true
+git diff api/openapi.json
+```
+
 ## Endpoints
 
 | Method | Path | Access | Success |
@@ -25,6 +54,9 @@ is the short version.
 | `GET` | `/api/v1/users?page=0&size=20&sort=createdAt,desc` | admin | `200` page |
 | `GET` | `/api/v1/users/{id}` | admin or that user | `200` |
 | `PATCH` / `DELETE` | `/api/v1/users/{id}` | admin | `200` / `204` |
+
+Every email field (`register`, `PATCH /users/me`, the admin update and the email endpoints) uses the same rule,
+`@ValidEmail`: a well-formed address of 3 to 254 characters. Tokens must not be empty.
 
 ## Errors
 
