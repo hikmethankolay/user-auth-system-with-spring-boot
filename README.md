@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/ci.yml/badge.svg)](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/codeql.yml/badge.svg)](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/codeql.yml)
+[![SpotBugs](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/static-analysis.yml/badge.svg)](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/static-analysis.yml)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/hikmethankolay/spring-boot-backend-template/badge)](https://scorecard.dev/viewer/?uri=github.com/hikmethankolay/spring-boot-backend-template)
 [![Mutation testing](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/mutation.yml/badge.svg)](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/mutation.yml)
 [![Release](https://img.shields.io/github/v/release/hikmethankolay/spring-boot-backend-template)](https://github.com/hikmethankolay/spring-boot-backend-template/releases)
