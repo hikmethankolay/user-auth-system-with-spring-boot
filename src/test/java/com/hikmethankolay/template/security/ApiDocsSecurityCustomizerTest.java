@@ -108,8 +108,8 @@ class ApiDocsSecurityCustomizerTest {
 
     /** Controller methods to build handler methods from. */
     static class Endpoints {
-        @PreAuthorize("hasRole('ADMIN')")
         /** An endpoint restricted to administrators. */
+        @PreAuthorize("hasRole('ADMIN')")
         void restricted() {}
 
         /** An endpoint without a role check. */

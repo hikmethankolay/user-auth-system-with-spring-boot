@@ -47,11 +47,6 @@ class RefreshTokenServiceTest {
     @Test
     void rotationKeepsTheSessionVersionAndRememberMe() {
         RefreshToken current = stored(true, 3);
-        /**
-         * Makes user 1 exist with the given session version.
-         *
-         * @param version the user's current session version
-         */
         userWithSessionVersion(3);
 
         RefreshTokenService.Rotation rotation = service.rotate(RAW);
@@ -69,13 +64,6 @@ class RefreshTokenServiceTest {
     /** A rotated normal token keeps the short refresh lifetime. */
     @Test
     void rotationOfANormalSessionKeepsTheShortLifetime() {
-        /**
-         * Stores a refresh token for {@link #RAW} owned by user 1.
-         *
-         * @param rememberMe     whether the session uses "remember me"
-         * @param sessionVersion the session version the token was issued under
-         * @return the stored token
-         */
         stored(false, 0);
         userWithSessionVersion(0);
 
@@ -134,6 +122,13 @@ class RefreshTokenServiceTest {
         assertThat(output).contains("Deleted 1 expired refresh tokens");
     }
 
+    /**
+     * Stores a refresh token for {@link #RAW} owned by user 1.
+     *
+     * @param rememberMe     whether the session uses "remember me"
+     * @param sessionVersion the session version the token was issued under
+     * @return the stored token
+     */
     private RefreshToken stored(boolean rememberMe, int sessionVersion) {
         RefreshToken token = new RefreshToken(
                 1L,
@@ -146,6 +141,11 @@ class RefreshTokenServiceTest {
         return token;
     }
 
+    /**
+     * Makes user 1 exist with the given session version.
+     *
+     * @param version the user's current session version
+     */
     private void userWithSessionVersion(int version) {
         User user = mock(User.class);
         when(user.getSessionVersion()).thenReturn(version);
