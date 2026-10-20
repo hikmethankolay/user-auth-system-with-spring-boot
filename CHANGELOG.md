@@ -6,6 +6,23 @@ releases use [semantic versioning](https://semver.org/). Each release's full lis
 
 ## [Unreleased]
 
+## [2.9.1] - 2026-10-21
+
+### Added
+
+- Releases attach a Sigstore signature bundle and SLSA level 3 provenance for the SBOM.
+- CodeQL, OpenSSF Scorecard and mutation testing badges.
+
+### Changed
+
+- The documentation site deploys with GitHub Pages actions; no workflow except the release needs write access to
+  the repository.
+
+### Fixed
+
+- Documentation site build with Starlight 0.39+ (failed for 2.9.0).
+- `postcss-selector-parser` in the documentation site (GHSA-rj75-hqrm-r3gf).
+
 ## [2.9.0] - 2026-10-21
 
 ### Added
@@ -33,6 +50,7 @@ releases use [semantic versioning](https://semver.org/). Each release's full lis
 - Lockout, startup, rate limit, release and logging follow-ups from the same audit. Rate-limit counters reset once
   on deploy because their Redis keys changed format.
 
-[Unreleased]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v2.9.0...HEAD
+[Unreleased]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v2.9.1...HEAD
+[2.9.1]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v2.9.0...v2.9.1
 [2.9.0]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v2.8.2...v2.9.0
 [2.8.2]: https://github.com/hikmethankolay/spring-boot-backend-template/releases/tag/v2.8.2
