@@ -26,7 +26,8 @@ and exposes `8080` for the API and `8081` for Actuator. Pushing a `v*` tag runs 
    provenance attached.
 3. It signs the image with [Sigstore cosign](https://docs.sigstore.dev/) (keyless, through GitHub's OIDC identity),
    then runs the verification below against what it just published.
-4. It creates a GitHub release with the SBOM (`sbom.spdx.json`) attached, and the documentation site is rebuilt.
+4. It creates a GitHub release with the SBOM (`sbom.spdx.json`), its signature and its SLSA provenance attached, and
+   the documentation site is rebuilt.
 
 ```bash
 docker run -p 8080:8080 -e SPRING_PROFILES_ACTIVE=prod \
@@ -51,6 +52,20 @@ docker buildx imagetools inspect ghcr.io/hikmethankolay/spring-boot-backend-temp
   --format '{{ json (index .Provenance "linux/amd64").SLSA }}'
 docker buildx imagetools inspect ghcr.io/hikmethankolay/spring-boot-backend-template:2.9.0 \
   --format '{{ json (index .SBOM "linux/amd64").SPDX }}'
+```
+
+From the release after 2.9.0, the attached SBOM comes with a Sigstore signature bundle and SLSA level 3 provenance.
+Verify both before trusting the file
+([slsa-verifier](https://github.com/slsa-framework/slsa-verifier) checks the provenance):
+
+```bash
+tag=v2.9.1
+gh release download "$tag" -R hikmethankolay/spring-boot-backend-template -p 'sbom.spdx.json*'
+cosign verify-blob sbom.spdx.json --bundle sbom.spdx.json.sigstore.json \
+  --certificate-identity-regexp '^https://github.com/hikmethankolay/spring-boot-backend-template/\.github/workflows/release\.yml@refs/tags/v' \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com
+slsa-verifier verify-artifact sbom.spdx.json --provenance-path sbom.spdx.json.intoto.jsonl \
+  --source-uri github.com/hikmethankolay/spring-boot-backend-template --source-tag "$tag"
 ```
 
 `cosign` and `docker buildx` work against the registry, so the image does not have to be pulled first. Both

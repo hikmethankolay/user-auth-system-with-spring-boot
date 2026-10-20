@@ -2,8 +2,9 @@ name: Release
 
 # Pushing a tag like v2.1.0 tests the code, publishes the Docker image to GitHub Container Registry
 # (ghcr.io/<owner>/<repo>:2.1.0 and :latest) for linux/amd64 and linux/arm64 with an SBOM and
-# build provenance, signs it with Sigstore cosign (keyless) and creates a GitHub release.
-# Actions are pinned to commit SHAs; Dependabot keeps them up to date.
+# build provenance, signs it with Sigstore cosign (keyless) and creates a GitHub release with the
+# signed SBOM and its SLSA provenance.
+# Actions are pinned to commit SHAs (the SLSA generator to a tag, see below); Dependabot keeps them up to date.
 on:
   push:
     tags: ['v*']
@@ -40,6 +41,9 @@ jobs:
       packages: write
       # OIDC token for keyless cosign signing.
       id-token: write
+    outputs:
+      # Release assets the provenance job attests, as base64 "sha256  name" lines.
+      hashes: ${{ steps.assets.outputs.hashes }}
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
 
@@ -96,7 +100,30 @@ jobs:
             | jq -e '.buildType // .buildDefinition.buildType' > /dev/null
           docker buildx imagetools inspect "$image" --format '{{ json (index .SBOM "linux/amd64").SPDX }}' > sbom.spdx.json
 
+      # Keyless signature of the SBOM, verifiable with cosign verify-blob (see the Production guide).
+      - name: Sign SBOM
+        id: assets
+        run: |
+          cosign sign-blob --yes --bundle sbom.spdx.json.sigstore.json sbom.spdx.json
+          echo "hashes=$(sha256sum sbom.spdx.json | base64 -w0)" >> "$GITHUB_OUTPUT"
+
       - name: Create GitHub release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release create "$GITHUB_REF_NAME" --generate-notes --verify-tag sbom.spdx.json
+        run: |
+          gh release create "$GITHUB_REF_NAME" --generate-notes --verify-tag \
+            sbom.spdx.json sbom.spdx.json.sigstore.json
+
+  # SLSA level 3 provenance for the release assets, attached as sbom.spdx.json.intoto.jsonl.
+  # The generator must be referenced by tag (not SHA) so slsa-verifier can check the builder.
+  provenance:
+    needs: release
+    permissions:
+      actions: read
+      contents: write
+      id-token: write
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.1.0
+    with:
+      base64-subjects: ${{ needs.release.outputs.hashes }}
+      provenance-name: sbom.spdx.json.intoto.jsonl
+      upload-assets: true
