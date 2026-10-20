@@ -6,7 +6,7 @@ description: Unit, integration, architecture and load tests.
 ```bash
 scripts/test.sh            # unit, integration and ArchUnit tests; JaCoCo report in target/site/jacoco
 scripts/docs.sh --strict   # fails on any Doxygen warning, including undocumented code
-scripts/load-test.sh       # k6: fails if p95 > 300 ms or more than 1% of requests fail
+scripts/load-test.sh       # k6: realistic user journeys; fails on slow requests, errors or 429s
 ```
 
 ## Integration tests
@@ -44,15 +44,39 @@ difference; regenerate the file with `-Dopenapi.update=true`, see [API overview]
 
 ## Load test
 
-`load-tests/api.js` has an authenticated user read `/api/v1/users/me`. All requests come from one IP, so start the
-target with `RATE_LIMIT_ENABLED=false`:
+`load-tests/api.js` runs the journeys real clients take, at the same time:
+
+| Journey | Users | What it does |
+|---|---|---|
+| `browse` | `VUS` | Returning users log in (by username or email), read their profile, sometimes export their data, refresh the token and usually log out |
+| `signup` | `VUS / 10` | New users register, log in, edit their profile, change their password, log in again and delete their account |
+| `admin` | 1 | The owner pages through the user list with random sizes and sort orders and opens accounts (needs `ADMIN_USERNAME` and `ADMIN_PASSWORD`, read from `.env`) |
+| `anonymous` | `VUS / 10` | Password reset requests, calls without a token and, with `FAILED_LOGINS=true`, wrong passwords |
+
+All requests come from one IP, so start the target with `RATE_LIMIT_ENABLED=false`. With `FAILED_LOGINS=true`, also
+raise the login lockout, or the run locks the IP out:
 
 ```bash
-RATE_LIMIT_ENABLED=false scripts/dev.sh                          # terminal 1
-VUS=100 DURATION=20s THINK_TIME=0 scripts/load-test.sh           # terminal 2
+RATE_LIMIT_ENABLED=false LOGIN_MAX_ATTEMPTS=1000000 LOGIN_LOCK_DURATION=1m scripts/dev.sh   # terminal 1
+PROFILE=smoke scripts/load-test.sh                                                           # terminal 2
 ```
 
-`THINK_TIME` (default `0.1` s) is the pause between a virtual user's requests; `0` measures maximum throughput.
+`PROFILE` picks the load shape: `smoke` (30 s, one user per journey), `load` (default: 1 min ramp, 3 min at the
+peak), `stress` (the peak, then twice and three times it), `spike` (a sudden jump to five times the peak) and `soak`
+(1 h at the peak). `DURATION` changes the time at the peak and `THINK_TIME` (default `1` s, randomised) the pause
+between a user's requests. The test users are created in setup and deleted at the end.
+
+Each kind of request has its own threshold, so one slow kind cannot hide behind fast ones: p95 under 300 ms for
+reads, 500 ms for writes and 1.5 s for requests that check a password with BCrypt, with fewer than 1% failed
+requests or journeys and no 429. With the default `load` profile (25 users), one instance on a developer machine
+answered reads at a p95 of 4 ms, writes at 16 ms and password requests at 136 ms.
+
+`PROFILE=throughput` measures raw capacity instead: every user reads `/api/v1/users/me` without pausing.
+
+```bash
+PROFILE=throughput VUS=100 DURATION=20s scripts/load-test.sh
+```
+
 On a 20-core developer machine, one instance served about **7,500 req/s at a p95 of 19 ms**, with k6 running on the
 same machine.
 
