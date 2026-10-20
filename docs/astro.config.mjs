@@ -34,7 +34,7 @@ export default defineConfig({
         },
         {
           label: 'Decisions',
-          autogenerate: { directory: 'adr' },
+          items: [{ autogenerate: { directory: 'adr' } }],
         },
         {
           label: 'Reference',
