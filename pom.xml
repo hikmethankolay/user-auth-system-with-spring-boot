@@ -409,8 +409,8 @@
                         <param>HTML</param>
                         <param>XML</param>
                     </outputFormats>
-                    <!-- Measured 71%; raise it as tests improve. -->
-                    <mutationThreshold>68</mutationThreshold>
+                    <!-- Measured 97%; the rest are filter-chain builders and equivalent mutants. -->
+                    <mutationThreshold>95</mutationThreshold>
                 </configuration>
             </plugin>
         </plugins>
