@@ -44,6 +44,23 @@ class ObservabilityIntegrationTest extends IntegrationTest {
                 .andExpect(content().string(containsString("application=\"spring-boot-template\"")));
     }
 
+    /**
+     * Every metric the alert rules in {@code ops/prometheus/alerts.yml} rely on is exposed.
+     *
+     * @throws Exception if a request fails
+     */
+    @Test
+    void metricsUsedByTheAlertRulesAreExposed() throws Exception {
+        mockMvc.perform(get("/api/v1/users/me")).andExpect(status().isUnauthorized());
+
+        // See ops/prometheus/alerts.yml: latency SLO bucket, log-based alerts, scheduled jobs (the outbox runs at
+        // startup).
+        mockMvc.perform(get("/actuator/prometheus"))
+                .andExpect(content().string(containsString("le=\"0.3\"")))
+                .andExpect(content().string(containsString("logback_events_total{")))
+                .andExpect(content().string(containsString("tasks_scheduled_execution_seconds_count{")));
+    }
+
     @Test
     void auditEventsAreCountedInPrometheus() throws Exception {
         mockMvc.perform(post("/api/v1/auth/login")

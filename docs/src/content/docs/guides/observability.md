@@ -25,10 +25,15 @@ holds alerting rules for the things that need a human:
 
 | Group | Alerts |
 |-------|--------|
+| SLO | error and latency budgets burning too fast ([objectives](../runbooks/#service-level-objectives)) |
 | Availability | instance down, more than 5% 5xx responses, p95 latency above 1 s |
 | Security | more than 30 failed logins per minute, a reused refresh token, a role change |
+| Logs | any `ERROR` line, more than 10 warnings per minute (usually Redis unreachable) |
 | Email | emails given up after all retries, more than 100 emails waiting |
+| Background | a `@Scheduled` job (email dispatcher, cleanup) throwing |
 | Resources | requests waiting for database connections, heap above 90% |
+
+Each alert has a [runbook](../runbooks/).
 
 [`ops/grafana/dashboards/application.json`](https://github.com/hikmethankolay/spring-boot-backend-template/blob/main/ops/grafana/dashboards/application.json)
 is a Grafana dashboard with traffic, latency percentiles, errors, slowest endpoints, security events, rate limiting,

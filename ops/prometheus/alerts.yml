@@ -1,6 +1,67 @@
 # Prometheus alerting rules for the application. Load them with `rule_files` (see prometheus.yml)
 # and route the alerts with Alertmanager. Thresholds are starting points: tune them to your traffic.
+# Each alert has a runbook in the Runbooks guide (docs/src/content/docs/guides/runbooks.md).
 groups:
+  # Service level objectives for /api/v1/** over 30 days:
+  #   availability: 99.5% of requests do not fail with 5xx (error budget 0.5%)
+  #   latency:      95% of requests complete within 300ms (budget 5%)
+  # Multi-window, multi-burn-rate alerts (Google SRE workbook): a fast burn pages, a slow burn opens a ticket.
+  - name: slo
+    rules:
+      - record: slo:api_errors:ratio_rate5m
+        expr: |
+          sum by (application) (rate(http_server_requests_seconds_count{uri=~"/api/v1/.*", outcome="SERVER_ERROR"}[5m]))
+            / sum by (application) (rate(http_server_requests_seconds_count{uri=~"/api/v1/.*"}[5m]))
+      - record: slo:api_errors:ratio_rate30m
+        expr: |
+          sum by (application) (rate(http_server_requests_seconds_count{uri=~"/api/v1/.*", outcome="SERVER_ERROR"}[30m]))
+            / sum by (application) (rate(http_server_requests_seconds_count{uri=~"/api/v1/.*"}[30m]))
+      - record: slo:api_errors:ratio_rate1h
+        expr: |
+          sum by (application) (rate(http_server_requests_seconds_count{uri=~"/api/v1/.*", outcome="SERVER_ERROR"}[1h]))
+            / sum by (application) (rate(http_server_requests_seconds_count{uri=~"/api/v1/.*"}[1h]))
+      - record: slo:api_errors:ratio_rate6h
+        expr: |
+          sum by (application) (rate(http_server_requests_seconds_count{uri=~"/api/v1/.*", outcome="SERVER_ERROR"}[6h]))
+            / sum by (application) (rate(http_server_requests_seconds_count{uri=~"/api/v1/.*"}[6h]))
+      - record: slo:api_slow:ratio_rate1h
+        expr: |
+          1 - sum by (application) (rate(http_server_requests_seconds_bucket{uri=~"/api/v1/.*", le="0.3"}[1h]))
+            / sum by (application) (rate(http_server_requests_seconds_count{uri=~"/api/v1/.*"}[1h]))
+      - record: slo:api_slow:ratio_rate6h
+        expr: |
+          1 - sum by (application) (rate(http_server_requests_seconds_bucket{uri=~"/api/v1/.*", le="0.3"}[6h]))
+            / sum by (application) (rate(http_server_requests_seconds_count{uri=~"/api/v1/.*"}[6h]))
+
+      # 14.4x burn: 2% of the 30-day budget in one hour.
+      - alert: ErrorBudgetFastBurn
+        expr: slo:api_errors:ratio_rate1h > (14.4 * 0.005) and slo:api_errors:ratio_rate5m > (14.4 * 0.005)
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Availability SLO: error budget burning 14x too fast"
+          description: "{{ $labels.application }} fails {{ $value | humanizePercentage }} of /api/v1 requests; at this rate the 30-day budget is gone in about two days."
+
+      # 6x burn: 5% of the budget in six hours.
+      - alert: ErrorBudgetSlowBurn
+        expr: slo:api_errors:ratio_rate6h > (6 * 0.005) and slo:api_errors:ratio_rate30m > (6 * 0.005)
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Availability SLO: error budget burning 6x too fast"
+          description: "{{ $labels.application }} fails {{ $value | humanizePercentage }} of /api/v1 requests over 6 hours."
+
+      - alert: LatencyBudgetBurn
+        expr: slo:api_slow:ratio_rate6h > (6 * 0.05) and slo:api_slow:ratio_rate1h > (6 * 0.05)
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Latency SLO: too many requests slower than 300ms"
+          description: "{{ $value | humanizePercentage }} of {{ $labels.application }} /api/v1 requests take longer than 300ms (objective: 5%)."
+
   - name: availability
     rules:
       - alert: AppInstanceDown
@@ -61,6 +122,27 @@ groups:
           summary: "A user's role was changed"
           description: "An administrator changed a role. Confirm it was intended (see the 'audit' log)."
 
+  - name: logs
+    rules:
+      # Log-based alerts from the logback_events_total counter (every log line, by level).
+      - alert: ErrorLogs
+        expr: sum by (application, instance) (increase(logback_events_total{level="error"}[10m])) > 0
+        labels:
+          severity: warning
+        annotations:
+          summary: "Errors logged"
+          description: "{{ $labels.instance }} logged {{ $value }} errors in 10 minutes. Search the logs for level ERROR."
+
+      # The Redis-backed protections fail open with a warning, so a burst of warnings usually means Redis is down.
+      - alert: WarningLogSpike
+        expr: sum by (application, instance) (rate(logback_events_total{level="warn"}[5m])) * 60 > 10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "More than 10 warnings per minute"
+          description: "{{ $labels.instance }} logs {{ $value }} warnings per minute; check for 'Could not' and 'Rate limit check failed' (Redis unreachable)."
+
   - name: email
     rules:
       - alert: EmailsDropped
@@ -79,6 +161,17 @@ groups:
         annotations:
           summary: "More than 100 emails waiting"
           description: "The email outbox of {{ $labels.application }} is not draining; SMTP may be down or slow."
+
+  - name: background
+    rules:
+      # @Scheduled methods are timed as tasks_scheduled_execution_seconds (outbox, token and account cleanup).
+      - alert: ScheduledTaskFailing
+        expr: sum by (application, code_function) (increase(tasks_scheduled_execution_seconds_count{outcome="ERROR"}[30m])) > 0
+        labels:
+          severity: warning
+        annotations:
+          summary: "Scheduled task {{ $labels.code_function }} fails"
+          description: "A background job of {{ $labels.application }} threw an exception in the last 30 minutes. Check the logs."
 
   - name: resources
     rules:

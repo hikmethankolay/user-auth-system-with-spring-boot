@@ -27,6 +27,7 @@ export default defineConfig({
             'guides/security',
             'guides/caching',
             'guides/observability',
+            'guides/runbooks',
             'guides/production',
             'guides/testing',
           ],

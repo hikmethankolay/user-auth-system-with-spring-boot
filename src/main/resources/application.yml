@@ -99,6 +99,9 @@ management:
         # Publishes latency buckets, so Prometheus can compute p95/p99 across instances
         # (used by ops/prometheus/alerts.yml and the Grafana dashboard).
         "[http.server.requests]": true
+      slo:
+        # An exact 300ms bucket for the latency SLO (ops/prometheus/alerts.yml).
+        "[http.server.requests]": 300ms
   otlp:
     metrics:
       export:
