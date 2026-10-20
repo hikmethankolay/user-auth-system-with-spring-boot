@@ -19,6 +19,16 @@ public interface AccountTokenRepository extends JpaRepository<AccountToken, Long
     Optional<AccountToken> findByTokenHashAndType(String tokenHash, AccountTokenType type);
 
     /**
+     * Tells whether a token of a user for one purpose was created after the given time.
+     *
+     * @param userId owner of the tokens
+     * @param type   purpose of the tokens
+     * @param time   cut-off time
+     * @return {@code true} if such a token exists
+     */
+    boolean existsByUserIdAndTypeAndCreatedAtAfter(long userId, AccountTokenType type, Instant time);
+
+    /**
      * Deletes all tokens of a user for one purpose, so only the newest link works.
      *
      * @param userId owner of the tokens

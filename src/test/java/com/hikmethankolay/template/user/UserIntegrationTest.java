@@ -37,7 +37,7 @@ class UserIntegrationTest extends IntegrationTest {
         mockMvc.perform(patch("/api/v1/users/me").with(bearer(token))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
-                                {"email":"new-%s@example.com"}""", username)))
+                                {"email":"new-%s@example.com","currentPassword":"%s"}""", username, PASSWORD)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.username").value(username))
                 .andExpect(jsonPath("$.email").value("new-" + username + "@example.com"));

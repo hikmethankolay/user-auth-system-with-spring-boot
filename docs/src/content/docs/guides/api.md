@@ -51,7 +51,7 @@ git diff api/openapi.json
 | `POST` | `/api/v1/auth/verify-email/resend` | public | `202` |
 | `POST` | `/api/v1/auth/password-reset` | public | `202` |
 | `POST` | `/api/v1/auth/password-reset/confirm` | public | `204` |
-| `GET` / `PATCH` | `/api/v1/users/me` | authenticated | `200` |
+| `GET` / `PATCH` | `/api/v1/users/me` | authenticated (+ password to change the email) | `200` |
 | `PUT` | `/api/v1/users/me/password` | authenticated | `204`; ends every session |
 | `DELETE` | `/api/v1/users/me` | authenticated + password | `204` |
 | `GET` | `/api/v1/users/me/export` | authenticated | `200` JSON attachment |

@@ -1,6 +1,7 @@
 package com.hikmethankolay.template.account;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.endsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -60,20 +61,31 @@ class AccountIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    void resendReplacesThePreviousVerificationToken() throws Exception {
+    void resendWithinTheCooldownSendsNothingAndKeepsTheLink() throws Exception {
         String username = uniqueUsername();
         register(username);
-        String first = CapturingMailSender.token(latestMail(username, "Confirm your email"));
+        SimpleMailMessage first = latestMail(username, "Confirm your email");
 
         postJson("/api/v1/auth/verify-email/resend", json("""
                 {"email":"%s@example.com"}""", username), 202);
-        String second = CapturingMailSender.token(latestMail(username, "Confirm your email"));
 
-        assertThat(second).isNotEqualTo(first);
+        assertThat(latestMail(username, "Confirm your email")).isSameAs(first);
         postJson("/api/v1/auth/verify-email", json("""
-                {"token":"%s"}""", first), 400);
-        postJson("/api/v1/auth/verify-email", json("""
-                {"token":"%s"}""", second), 204);
+                {"token":"%s"}""", CapturingMailSender.token(first)), 204);
+    }
+
+    @Test
+    void repeatedResetRequestsSendOneEmail() throws Exception {
+        String username = uniqueUsername();
+        register(username);
+
+        postJson("/api/v1/auth/password-reset", json("""
+                {"email":"%s@example.com"}""", username), 202);
+        SimpleMailMessage first = latestMail(username, "Reset your password");
+        postJson("/api/v1/auth/password-reset", json("""
+                {"email":"%s@example.com"}""", username), 202);
+
+        assertThat(latestMail(username, "Reset your password")).isSameAs(first);
     }
 
     @Test
@@ -132,11 +144,51 @@ class AccountIntegrationTest extends IntegrationTest {
         mockMvc.perform(patch("/api/v1/users/me").with(bearer(token))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
-                                {"email":"%s"}""", newAddress)))
+                                {"email":"%s","currentPassword":"%s"}""", newAddress, PASSWORD)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.emailVerified").value(false));
 
         assertThat(mail.latest(newAddress, "Confirm your email")).isPresent();
+    }
+
+    @Test
+    void changingEmailNeedsTheCurrentPassword() throws Exception {
+        String username = uniqueUsername();
+        String token = registerAndLogin(username);
+
+        for (String body : new String[] {
+                json("""
+                        {"email":"stolen-%s@example.com"}""", username),
+                json("""
+                        {"email":"stolen-%s@example.com","currentPassword":"Wrong#123"}""", username)}) {
+            mockMvc.perform(patch("/api/v1/users/me").with(bearer(token))
+                            .contentType(MediaType.APPLICATION_JSON).content(body))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(jsonPath("$.type").value(endsWith("wrong-password")));
+        }
+        mockMvc.perform(get("/api/v1/users/me").with(bearer(token)))
+                .andExpect(jsonPath("$.email").value(username + "@example.com"));
+    }
+
+    @Test
+    void changingEmailRevokesLinksSentToTheOldAddress() throws Exception {
+        String username = uniqueUsername();
+        String token = registerAndLogin(username);
+        postJson("/api/v1/auth/password-reset", json("""
+                {"email":"%s@example.com"}""", username), 202);
+        String resetToken = CapturingMailSender.token(latestMail(username, "Reset your password"));
+        String verificationToken = CapturingMailSender.token(latestMail(username, "Confirm your email"));
+
+        mockMvc.perform(patch("/api/v1/users/me").with(bearer(token))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"email":"moved-%s@example.com","currentPassword":"%s"}""", username, PASSWORD)))
+                .andExpect(status().isOk());
+
+        postJson("/api/v1/auth/password-reset/confirm", json("""
+                {"token":"%s","newPassword":"Reset#4567"}""", resetToken), 400);
+        postJson("/api/v1/auth/verify-email", json("""
+                {"token":"%s"}""", verificationToken), 400);
     }
 
     @Test

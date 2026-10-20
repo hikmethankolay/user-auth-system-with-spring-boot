@@ -3,7 +3,9 @@ package com.hikmethankolay.template.common;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.data.core.PropertyReferenceException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -69,14 +71,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
-     * Maps database constraint violations (e.g. a unique key race) to {@code 409 Conflict}.
+     * Maps database constraint violations (e.g. a unique key race) and writes based on a stale read
+     * (optimistic locking) to {@code 409 Conflict}.
      *
      * @param ex the violation; its details are logged, never sent to the client
      * @return a 409 problem
      */
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    ProblemDetail handleDataIntegrity(DataIntegrityViolationException ex) {
-        log.warn("Data integrity violation: {}", ex.getMostSpecificCause().getMessage());
+    @ExceptionHandler({DataIntegrityViolationException.class, OptimisticLockingFailureException.class})
+    ProblemDetail handleDataIntegrity(DataAccessException ex) {
+        log.warn("Conflicting write: {}", ex.getMostSpecificCause().getMessage());
         return ProblemType.CONFLICT.problem(HttpStatus.CONFLICT, "The request conflicts with existing data.");
     }
 

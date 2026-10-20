@@ -73,8 +73,9 @@ spring:
 
 server:
   port: ${PORT:8080}
-  # Set to "framework" or "native" when running behind a trusted reverse proxy,
-  # otherwise X-Forwarded-For is ignored (it can be spoofed by clients).
+  # Set to "native" when running behind a trusted reverse proxy: Tomcat then uses the rightmost
+  # X-Forwarded-For entry that is not an internal proxy. Otherwise X-Forwarded-For is ignored
+  # (clients can spoof it). Avoid "framework", which trusts the leftmost, client-supplied entry.
   forward-headers-strategy: ${FORWARD_HEADERS_STRATEGY:none}
   shutdown: graceful
 

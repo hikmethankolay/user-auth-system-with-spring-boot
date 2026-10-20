@@ -127,8 +127,9 @@ public class UserService {
     @Transactional
     @CacheEvict(cacheNames = CacheNames.USERS, key = "#id")
     public void setPassword(long id, String rawPassword) {
-        findUser(id).setPasswordHash(passwordEncoder.encode(rawPassword));
-        events.publishEvent(new SessionsInvalidated(id));
+        User user = findUser(id);
+        user.setPasswordHash(passwordEncoder.encode(rawPassword));
+        endSessions(user);
     }
 
     /**
@@ -164,17 +165,23 @@ public class UserService {
     }
 
     /**
-     * Updates the username and/or email of a user; {@code null} fields are left unchanged.
+     * Updates the username and/or email of a user; {@code null} fields are left unchanged. The
+     * email is where password resets go, so changing it needs the current password, like a
+     * password change does.
      *
      * @param id      user id
      * @param request the changes
      * @return the updated user
-     * @throws ApiException 404 if the user does not exist, 409 if the new username or email is taken
+     * @throws ApiException 400 if the email changes without the correct current password,
+     *                      404 if the user does not exist, 409 if the new username or email is taken
      */
     @Transactional
     @CacheEvict(cacheNames = CacheNames.USERS, key = "#id")
     public UserResponse updateProfile(long id, UpdateProfileRequest request) {
         User user = findUser(id);
+        if (request.email() != null && !normalizeEmail(request.email()).equals(user.getEmail())) {
+            confirmPassword(user, request.currentPassword());
+        }
         applyIdentityChanges(user, request.username(), request.email());
         return UserResponse.from(userRepository.saveAndFlush(user));
     }
@@ -196,7 +203,7 @@ public class UserService {
         }
         user.setPasswordHash(passwordEncoder.encode(request.newPassword()));
         audit.record(AuditEvent.PASSWORD_CHANGED, id);
-        events.publishEvent(new SessionsInvalidated(id));
+        endSessions(user);
     }
 
     /**
@@ -245,7 +252,7 @@ public class UserService {
             user.setRole(request.role());
         }
         if (roleChanged || request.password() != null) {
-            events.publishEvent(new SessionsInvalidated(id));
+            endSessions(user);
         }
         return UserResponse.from(userRepository.saveAndFlush(user));
     }
@@ -302,6 +309,17 @@ public class UserService {
         userRepository.delete(user);
         audit.record(AuditEvent.ACCOUNT_DELETED, id);
         events.publishEvent(new SessionsInvalidated(id));
+    }
+
+    /**
+     * Ends every session of a user: refresh tokens issued under the old session version, even by a
+     * login or refresh running right now, are rejected, and the {@code auth} package revokes the rest.
+     *
+     * @param user the user whose sessions end
+     */
+    private void endSessions(User user) {
+        user.endSessions();
+        events.publishEvent(new SessionsInvalidated(user.getId()));
     }
 
     /**

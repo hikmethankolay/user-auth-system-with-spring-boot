@@ -1,5 +1,7 @@
 package com.hikmethankolay.template.auth;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -9,15 +11,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.hikmethankolay.template.IntegrationTest;
 import com.hikmethankolay.template.TestMailConfiguration.CapturingMailSender;
+import com.hikmethankolay.template.user.Role;
+import com.hikmethankolay.template.user.User;
+import com.hikmethankolay.template.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.support.TransactionTemplate;
 
 /** Changing a password or role must end every existing session immediately. */
 class SessionRevocationIntegrationTest extends IntegrationTest {
 
     @Autowired
     private CapturingMailSender mail;
+
+    @Autowired
+    private UserRepository users;
+
+    @Autowired
+    private TransactionTemplate transaction;
 
     private void expectSessionEnded(Tokens tokens) throws Exception {
         mockMvc.perform(get("/api/v1/users/me").with(bearer(tokens.accessToken())))
@@ -106,5 +119,32 @@ class SessionRevocationIntegrationTest extends IntegrationTest {
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/v1/users/me").with(bearer(session.accessToken()))).andExpect(status().isOk());
+    }
+
+    @Test
+    void refreshTokenIssuedBeforeTheSessionsEndedIsRejected() throws Exception {
+        String username = uniqueUsername();
+        long id = register(username);
+        Tokens session = loginTokens(username, PASSWORD);
+
+        // Like a token minted by a login that raced a password change: it escaped the bulk delete.
+        transaction.executeWithoutResult(status -> users.findById(id).orElseThrow().endSessions());
+
+        mockMvc.perform(post("/api/v1/auth/refresh").contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"refreshToken":"%s"}""", session.refreshToken())))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void staleWriteCannotRevertANewerRoleChange() throws Exception {
+        long id = register(uniqueUsername());
+        User stale = users.findById(id).orElseThrow();
+
+        transaction.executeWithoutResult(status -> users.findById(id).orElseThrow().setRole(Role.ADMIN));
+        stale.setUsername(uniqueUsername());
+
+        assertThatThrownBy(() -> users.save(stale)).isInstanceOf(OptimisticLockingFailureException.class);
+        assertThat(users.findById(id).orElseThrow().getRole()).isEqualTo(Role.ADMIN);
     }
 }

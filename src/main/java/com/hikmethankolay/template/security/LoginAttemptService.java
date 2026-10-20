@@ -2,6 +2,7 @@ package com.hikmethankolay.template.security;
 
 import com.hikmethankolay.template.config.AppProperties;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +15,11 @@ import org.springframework.stereotype.Service;
 /**
  * Brute-force protection for the login endpoint.
  *
- * <p>Failed logins are counted per key (client IP and account identifier) in Redis, so the limits
- * hold across all application instances. A key is blocked once it reaches
- * {@code app.login.max-attempts} and unblocked after {@code app.login.lock-duration} without new
- * failures.</p>
+ * <p>Login attempts are counted per key (client IP and account identifier) in Redis, so the limits
+ * hold across all application instances. Each attempt is counted before its password is checked,
+ * and a successful one is taken back, so concurrent requests cannot exceed the limit. A key is
+ * blocked once it reaches {@code app.login.max-attempts} and unblocked after
+ * {@code app.login.lock-duration} without new failures.</p>
  *
  * <p>If Redis is unavailable, logins are allowed (fail open) and a warning is logged, so an outage
  * does not lock every user out.</p>
@@ -28,9 +30,24 @@ public class LoginAttemptService {
     /** Logger for Redis failures. */
     private static final Logger log = LoggerFactory.getLogger(LoginAttemptService.class);
 
-    /** Atomically increments a counter and (re)sets its expiry, returning the new count. */
-    private static final RedisScript<Long> RECORD_FAILURE = RedisScript.of(
-            "local count = redis.call('INCR', KEYS[1]) redis.call('PEXPIRE', KEYS[1], ARGV[1]) return count",
+    /**
+     * Atomically checks every key and, if none is blocked, counts one attempt on each and (re)sets its
+     * expiry. Returns 1 if the attempt may go ahead, 0 if a key is blocked (nothing is counted then).
+     * Counting before the password check means concurrent requests cannot all pass a stale check.
+     */
+    private static final RedisScript<Long> ACQUIRE = RedisScript.of("""
+            for _, key in ipairs(KEYS) do
+              if tonumber(redis.call('GET', key) or '0') >= tonumber(ARGV[2]) then return 0 end
+            end
+            for _, key in ipairs(KEYS) do
+              redis.call('INCR', key)
+              redis.call('PEXPIRE', key, ARGV[1])
+            end
+            return 1""", Long.class);
+
+    /** Takes back one counted attempt, never going below zero. */
+    private static final RedisScript<Long> RELEASE = RedisScript.of(
+            "if tonumber(redis.call('GET', KEYS[1]) or '0') > 0 then return redis.call('DECR', KEYS[1]) end return 0",
             Long.class);
 
     /** Redis access with string keys and values. */
@@ -61,33 +78,33 @@ public class LoginAttemptService {
     }
 
     /**
-     * Tells whether a key is currently blocked.
+     * Counts a login attempt against every key, unless one of them is already blocked. Call it
+     * before checking the password; a failed check leaves the attempt counted.
      *
-     * @param key an IP or account key
-     * @return {@code true} if the key reached the maximum number of failures
+     * @param keys the IP and account keys of the attempt
+     * @return {@code true} if the attempt may go ahead, {@code false} if a key is blocked
      */
-    public boolean isBlocked(String key) {
+    public boolean tryAcquire(String... keys) {
+        List<String> prefixed = Arrays.stream(keys).map(key -> keyPrefix + key).toList();
         try {
-            String count = redis.opsForValue().get(keyPrefix + key);
-            return count != null && Long.parseLong(count) >= maxAttempts;
+            Long allowed = redis.execute(ACQUIRE, prefixed, Long.toString(lockDuration.toMillis()), Integer.toString(maxAttempts));
+            return allowed == null || allowed == 1;
         } catch (DataAccessException ex) {
-            log.warn("Could not read login failures for {}: {}", key, ex.getMessage());
-            return false;
+            log.warn("Could not check login failures for {}: {}", List.of(keys), ex.getMessage());
+            return true;
         }
     }
 
     /**
-     * Records one failed login for each key.
+     * Takes back an attempt counted by {@link #tryAcquire}, e.g. because the password was right.
      *
-     * @param keys the IP and account keys of the attempt
+     * @param key the key to release
      */
-    public void recordFailure(String... keys) {
-        for (String key : keys) {
-            try {
-                redis.execute(RECORD_FAILURE, List.of(keyPrefix + key), Long.toString(lockDuration.toMillis()));
-            } catch (DataAccessException ex) {
-                log.warn("Could not record login failure for {}: {}", key, ex.getMessage());
-            }
+    public void release(String key) {
+        try {
+            redis.execute(RELEASE, List.of(keyPrefix + key));
+        } catch (DataAccessException ex) {
+            log.warn("Could not release login attempt for {}: {}", key, ex.getMessage());
         }
     }
 

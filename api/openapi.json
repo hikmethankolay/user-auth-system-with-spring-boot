@@ -1888,6 +1888,13 @@
       "UpdateProfileRequest" : {
         "type" : "object",
         "properties" : {
+          "currentPassword" : {
+            "type" : "string",
+            "format" : "password",
+            "maxLength" : 72,
+            "minLength" : 0,
+            "writeOnly" : true
+          },
           "email" : {
             "type" : "string",
             "format" : "email",

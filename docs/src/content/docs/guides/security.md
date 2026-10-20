@@ -87,8 +87,12 @@ instance. After a password change the client must log in again.
 - Tokens are 256-bit random values. Only their SHA-256 hash is stored.
 - Tokens are single-use and expire after 24 hours (verification) or 1 hour (reset). Requesting a new one invalidates
   the previous one.
-- The `202` endpoints answer the same way for unknown addresses, so they cannot be used to find accounts.
-- Changing an email marks it unverified and sends a new verification email.
+- The `202` endpoints answer the same way for unknown addresses, so they cannot be used to find accounts. They send at
+  most one email per account per minute, so nobody can flood an inbox.
+- Changing an email (`PATCH /api/v1/users/me`) needs `currentPassword`, marks the new address unverified, sends a new
+  verification email and revokes every reset and verification link sent to the old address.
+- Changing a password, or an administrator changing the password or role, ends every session and revokes outstanding
+  reset links. A login or refresh running at the same moment cannot keep a session alive.
 - With `REQUIRE_VERIFIED_EMAIL=true` (the prod default), unverified users get `403` at login.
 - Emails go through an outbox with retries, see [Observability](../observability/#email-outbox).
 
@@ -118,8 +122,9 @@ Every client IP gets `RATE_LIMIT_PER_MINUTE` requests per minute across all inst
 `Retry-After`. Actuator is exempt.
 
 :::caution[Behind a proxy]
-Set `FORWARD_HEADERS_STRATEGY=framework` and make sure the proxy overwrites `X-Forwarded-For`. Otherwise every client
-appears to have the proxy's IP, and one client can lock out everyone.
+Set `FORWARD_HEADERS_STRATEGY=native` and let only the proxy reach the API port. Tomcat then takes the client IP from
+the rightmost `X-Forwarded-For` entry that is not an internal proxy, so clients cannot pick their own IP. Without it,
+every client appears to have the proxy's IP, and one client can lock out everyone.
 :::
 
 ## Security headers

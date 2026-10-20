@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import java.time.Instant;
 
 /**
@@ -52,6 +53,15 @@ public class User {
     /** Time of the last update. */
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
+
+    /** Optimistic-lock version: a write based on a stale read fails instead of reverting newer changes. */
+    @Version
+    @Column(nullable = false)
+    private long version;
+
+    /** Bumped when every session must end; refresh tokens issued under an older value are rejected. */
+    @Column(name = "session_version", nullable = false)
+    private int sessionVersion;
 
     /** Constructor required by JPA. */
     protected User() {
@@ -182,6 +192,20 @@ public class User {
      */
     public void setEmailVerified(boolean emailVerified) {
         this.emailVerified = emailVerified;
+    }
+
+    /**
+     * Returns the session version.
+     *
+     * @return the current session version
+     */
+    public int getSessionVersion() {
+        return sessionVersion;
+    }
+
+    /** Ends every session of the user: refresh tokens issued under the current version stop working. */
+    public void endSessions() {
+        sessionVersion++;
     }
 
     /**

@@ -6,6 +6,7 @@ import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.concurrent.Semaphore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.MailException;
@@ -49,6 +50,13 @@ public class EmailOutbox {
 
     /** Longest wait between two attempts. */
     private static final Duration MAX_RETRY_DELAY = Duration.ofHours(1);
+
+    /**
+     * Allows one immediate send at a time. A request that sends holds database connections while
+     * SMTP answers, so with a slow mail server parallel requests could drain the pool; the others
+     * leave their email to {@link #sendDue()}.
+     */
+    private final Semaphore immediateSend = new Semaphore(1);
 
     /** Outbox persistence. */
     private final OutboxEmailRepository outbox;
@@ -100,7 +108,8 @@ public class EmailOutbox {
     }
 
     /**
-     * Queues an email in the current transaction and sends it once the transaction commits.
+     * Queues an email in the current transaction and sends it once the transaction commits, unless
+     * another immediate send is in progress; then the next {@link #sendDue()} run sends it.
      *
      * @param to      recipient address
      * @param subject subject line
@@ -112,7 +121,14 @@ public class EmailOutbox {
         TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
             @Override
             public void afterCommit() {
-                newTransaction.executeWithoutResult(status -> outbox.lockById(id).ifPresent(email -> send(email, Instant.now())));
+                if (!immediateSend.tryAcquire()) {
+                    return;
+                }
+                try {
+                    newTransaction.executeWithoutResult(status -> outbox.lockById(id).ifPresent(email -> send(email, Instant.now())));
+                } finally {
+                    immediateSend.release();
+                }
             }
         });
     }

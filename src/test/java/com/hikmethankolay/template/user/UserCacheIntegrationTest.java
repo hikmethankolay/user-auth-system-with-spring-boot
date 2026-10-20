@@ -59,7 +59,7 @@ class UserCacheIntegrationTest extends IntegrationTest {
         mockMvc.perform(patch("/api/v1/users/me").with(bearer(token))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
-                                {"email":"updated-%s@example.com"}""", username)))
+                                {"email":"updated-%s@example.com","currentPassword":"%s"}""", username, PASSWORD)))
                 .andExpect(status().isOk());
 
         assertThat(usersCache().get(id)).isNull();

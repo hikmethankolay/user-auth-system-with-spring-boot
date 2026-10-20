@@ -15,9 +15,11 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @param username     username
  * @param passwordHash encoded password, never exposed through {@code toString()}
  * @param role          role of the user
- * @param emailVerified whether the email address has been confirmed
+ * @param emailVerified  whether the email address has been confirmed
+ * @param sessionVersion the user's session version when the password was checked
  */
-public record AppUserDetails(long id, String username, String passwordHash, Role role, boolean emailVerified)
+public record AppUserDetails(
+        long id, String username, String passwordHash, Role role, boolean emailVerified, int sessionVersion)
         implements UserDetails {
 
     /**
@@ -28,7 +30,8 @@ public record AppUserDetails(long id, String username, String passwordHash, Role
      */
     static AppUserDetails from(User user) {
         return new AppUserDetails(
-                user.getId(), user.getUsername(), user.getPasswordHash(), user.getRole(), user.isEmailVerified());
+                user.getId(), user.getUsername(), user.getPasswordHash(), user.getRole(), user.isEmailVerified(),
+                user.getSessionVersion());
     }
 
     /**

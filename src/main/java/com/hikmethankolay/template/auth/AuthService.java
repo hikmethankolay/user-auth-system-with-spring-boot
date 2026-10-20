@@ -131,7 +131,7 @@ public class AuthService {
         String accountKey = "account:" + identifier.toLowerCase(Locale.ROOT);
         String ipKey = "ip:" + clientIp;
 
-        if (loginAttempts.isBlocked(ipKey) || loginAttempts.isBlocked(accountKey)) {
+        if (!loginAttempts.tryAcquire(ipKey, accountKey)) {
             audit.record(AuditEvent.LOGIN_BLOCKED, null, "identifier", identifier);
             throw ApiException.tooManyRequests(ProblemType.LOGIN_LOCKED,
                     "Too many failed login attempts. Please try again later.", loginAttempts.lockDuration());
@@ -142,23 +142,26 @@ public class AuthService {
             authentication = authenticationManager.authenticate(
                     UsernamePasswordAuthenticationToken.unauthenticated(identifier, request.password()));
         } catch (AuthenticationException ex) {
-            loginAttempts.recordFailure(ipKey, accountKey);
+            // The attempt was already counted by tryAcquire.
             audit.record(AuditEvent.LOGIN_FAILED, null, "identifier", identifier);
             throw new BadCredentialsException("Invalid username or password.");
         }
 
-        // Only the account counter is reset: one valid login must not clear the IP's failures.
+        // Only the account counter is reset: one valid login must not clear the IP's failures, it
+        // only takes back its own attempt.
         loginAttempts.reset(accountKey);
+        loginAttempts.release(ipKey);
         AppUserDetails user = (AppUserDetails) authentication.getPrincipal();
         // Checked only after the password, so the response does not reveal whether an account exists.
         if (requireVerifiedEmail && !user.emailVerified()) {
             audit.record(AuditEvent.LOGIN_UNVERIFIED, user.id());
             throw new ApiException(HttpStatus.FORBIDDEN, ProblemType.EMAIL_NOT_VERIFIED, "Email address is not verified.");
         }
+        // Issued first: it fails if the password or role changed since it was checked.
+        RefreshTokenService.IssuedRefreshToken refreshToken =
+                refreshTokens.issue(user.id(), user.sessionVersion(), request.isRememberMe());
         audit.record(AuditEvent.LOGIN_SUCCEEDED, user.id(), "rememberMe", request.isRememberMe());
-        return new AuthTokens(
-                tokenService.issue(user.id(), user.username(), user.role()),
-                refreshTokens.issue(user.id(), request.isRememberMe()));
+        return new AuthTokens(tokenService.issue(user.id(), user.username(), user.role()), refreshToken);
     }
 
     /**

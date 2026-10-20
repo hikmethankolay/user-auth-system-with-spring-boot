@@ -7,6 +7,7 @@ import com.hikmethankolay.template.common.ProblemType;
 import com.hikmethankolay.template.common.SecureTokens;
 import com.hikmethankolay.template.config.AppProperties;
 import com.hikmethankolay.template.user.EmailVerificationRequired;
+import com.hikmethankolay.template.user.SessionsInvalidated;
 import com.hikmethankolay.template.user.User;
 import com.hikmethankolay.template.user.UserRepository;
 import com.hikmethankolay.template.user.UserService;
@@ -15,6 +16,7 @@ import java.time.Instant;
 import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -38,6 +40,9 @@ public class AccountService {
 
     /** Error for unknown, used or expired tokens; deliberately the same for all three. */
     private static final String INVALID_TOKEN = "The link is invalid or has expired.";
+
+    /** Minimum time between two reset or verification emails requested anonymously for one account. */
+    private static final Duration RESEND_COOLDOWN = Duration.ofMinutes(1);
 
     /** Token persistence. */
     private final AccountTokenRepository tokens;
@@ -83,6 +88,29 @@ public class AccountService {
     }
 
     /**
+     * Revokes the user's outstanding tokens inside the transaction that changes the email, so a
+     * link sent to the old address can neither reset the password nor verify the new address.
+     *
+     * @param event identifies the user whose address changed
+     */
+    @EventListener
+    public void revokeTokensOnAddressChange(EmailVerificationRequired event) {
+        tokens.deleteAllByUserIdAndType(event.userId(), AccountTokenType.PASSWORD_RESET);
+        tokens.deleteAllByUserIdAndType(event.userId(), AccountTokenType.EMAIL_VERIFICATION);
+    }
+
+    /**
+     * Revokes outstanding password reset links when the user's sessions end (e.g. a password change),
+     * in the same transaction.
+     *
+     * @param event identifies the user
+     */
+    @EventListener
+    public void revokeResetTokensOnSessionsEnd(SessionsInvalidated event) {
+        tokens.deleteAllByUserIdAndType(event.userId(), AccountTokenType.PASSWORD_RESET);
+    }
+
+    /**
      * Sends a verification email once the transaction that registered or changed the user has committed.
      *
      * @param event identifies the user to verify
@@ -102,6 +130,7 @@ public class AccountService {
     public void resendVerification(String email) {
         users.findByEmail(normalize(email))
                 .filter(user -> !user.isEmailVerified())
+                .filter(user -> !recentlyIssued(user.getId(), AccountTokenType.EMAIL_VERIFICATION))
                 .ifPresent(this::sendVerification);
     }
 
@@ -123,13 +152,15 @@ public class AccountService {
      */
     @Transactional
     public void requestPasswordReset(String email) {
-        users.findByEmail(normalize(email)).ifPresent(user -> {
-            mailer.sendPasswordReset(
-                    user.getEmail(),
-                    issue(user.getId(), AccountTokenType.PASSWORD_RESET, properties.passwordResetTokenTtl()),
-                    properties.passwordResetTokenTtl());
-            audit.record(AuditEvent.PASSWORD_RESET_REQUESTED, user.getId());
-        });
+        users.findByEmail(normalize(email))
+                .filter(user -> !recentlyIssued(user.getId(), AccountTokenType.PASSWORD_RESET))
+                .ifPresent(user -> {
+                    mailer.sendPasswordReset(
+                            user.getEmail(),
+                            issue(user.getId(), AccountTokenType.PASSWORD_RESET, properties.passwordResetTokenTtl()),
+                            properties.passwordResetTokenTtl());
+                    audit.record(AuditEvent.PASSWORD_RESET_REQUESTED, user.getId());
+                });
     }
 
     /**
@@ -164,6 +195,18 @@ public class AccountService {
     private void sendVerification(User user) {
         Duration ttl = properties.verificationTokenTtl();
         mailer.sendEmailVerification(user.getEmail(), issue(user.getId(), AccountTokenType.EMAIL_VERIFICATION, ttl), ttl);
+    }
+
+    /**
+     * Tells whether a token was emailed to the user within the last {@link #RESEND_COOLDOWN}, so
+     * anonymous requests cannot flood an inbox.
+     *
+     * @param userId owner of the token
+     * @param type   purpose of the token
+     * @return {@code true} if another email must not be sent yet
+     */
+    private boolean recentlyIssued(long userId, AccountTokenType type) {
+        return tokens.existsByUserIdAndTypeAndCreatedAtAfter(userId, type, Instant.now().minus(RESEND_COOLDOWN));
     }
 
     /**

@@ -4,6 +4,8 @@ import com.hikmethankolay.template.audit.AuditEvent;
 import com.hikmethankolay.template.audit.AuditLog;
 import com.hikmethankolay.template.common.SecureTokens;
 import com.hikmethankolay.template.config.AppProperties;
+import com.hikmethankolay.template.user.User;
+import com.hikmethankolay.template.user.UserRepository;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
@@ -25,6 +27,9 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * <p>Expiry is sliding: each exchange starts a new {@code app.jwt.refresh-token-ttl} (or
  * {@code app.jwt.remember-me-ttl}) period, so a session ends after that much inactivity.</p>
+ *
+ * <p>Each token also carries the user's session version. Ending a user's sessions bumps it, so a
+ * token issued under the old version, even by a login or exchange that raced the change, is rejected.</p>
  */
 @Service
 public class RefreshTokenService {
@@ -44,29 +49,39 @@ public class RefreshTokenService {
     /** Records token reuse. */
     private final AuditLog audit;
 
+    /** Reads the users' current session version. */
+    private final UserRepository users;
+
     /**
      * Creates the service.
      *
      * @param tokens     token persistence
      * @param properties application properties holding the lifetimes
      * @param audit      records token reuse
+     * @param users      reads the users' session version
      */
-    public RefreshTokenService(RefreshTokenRepository tokens, AppProperties properties, AuditLog audit) {
+    public RefreshTokenService(RefreshTokenRepository tokens, AppProperties properties, AuditLog audit, UserRepository users) {
         this.tokens = tokens;
         this.properties = properties.jwt();
         this.audit = audit;
+        this.users = users;
     }
 
     /**
      * Starts a new session.
      *
-     * @param userId     owner of the session
-     * @param rememberMe whether to use the longer remember-me lifetime
+     * @param userId         owner of the session
+     * @param sessionVersion the user's session version when the password was checked
+     * @param rememberMe     whether to use the longer remember-me lifetime
      * @return the new refresh token
+     * @throws BadCredentialsException if the user's sessions ended since the password was checked (mapped to 401)
      */
     @Transactional
-    public IssuedRefreshToken issue(long userId, boolean rememberMe) {
-        return issue(userId, UUID.randomUUID(), rememberMe);
+    public IssuedRefreshToken issue(long userId, int sessionVersion, boolean rememberMe) {
+        if (!isCurrent(userId, sessionVersion)) {
+            throw new BadCredentialsException(INVALID_REFRESH_TOKEN);
+        }
+        return issue(userId, UUID.randomUUID(), sessionVersion, rememberMe);
     }
 
     /**
@@ -77,7 +92,8 @@ public class RefreshTokenService {
      *
      * @param rawToken the token presented by the client
      * @return the user the session belongs to and the successor token
-     * @throws BadCredentialsException if the token is unknown, expired or already used (mapped to 401)
+     * @throws BadCredentialsException if the token is unknown, expired, already used or from ended
+     *                                 sessions (mapped to 401)
      */
     @Transactional(noRollbackFor = BadCredentialsException.class)
     public Rotation rotate(String rawToken) {
@@ -92,8 +108,13 @@ public class RefreshTokenService {
         if (current.isExpired(now)) {
             throw new BadCredentialsException(INVALID_REFRESH_TOKEN);
         }
+        if (!isCurrent(current.getUserId(), current.getSessionVersion())) {
+            tokens.deleteAllByFamilyId(current.getFamilyId());
+            throw new BadCredentialsException(INVALID_REFRESH_TOKEN);
+        }
         current.markUsed(now);
-        return new Rotation(current.getUserId(), issue(current.getUserId(), current.getFamilyId(), current.isRememberMe()));
+        return new Rotation(current.getUserId(),
+                issue(current.getUserId(), current.getFamilyId(), current.getSessionVersion(), current.isRememberMe()));
     }
 
     /**
@@ -142,17 +163,29 @@ public class RefreshTokenService {
     }
 
     /**
+     * Tells whether sessions issued under a session version are still valid.
+     *
+     * @param userId         owner of the sessions
+     * @param sessionVersion the version they were issued under
+     * @return {@code false} if the user is gone or their sessions ended since
+     */
+    private boolean isCurrent(long userId, int sessionVersion) {
+        return users.findById(userId).map(User::getSessionVersion).filter(version -> version == sessionVersion).isPresent();
+    }
+
+    /**
      * Creates and stores a token.
      *
-     * @param userId     owner of the token
-     * @param familyId   session the token belongs to
-     * @param rememberMe whether the session was started with "remember me"
+     * @param userId         owner of the token
+     * @param familyId       session the token belongs to
+     * @param sessionVersion the user's session version when the session started
+     * @param rememberMe     whether the session was started with "remember me"
      * @return the raw token with its lifetime
      */
-    private IssuedRefreshToken issue(long userId, UUID familyId, boolean rememberMe) {
+    private IssuedRefreshToken issue(long userId, UUID familyId, int sessionVersion, boolean rememberMe) {
         Duration ttl = rememberMe ? properties.rememberMeTtl() : properties.refreshTokenTtl();
         String token = SecureTokens.generate();
-        tokens.save(new RefreshToken(userId, familyId, SecureTokens.hash(token), rememberMe, Instant.now().plus(ttl)));
+        tokens.save(new RefreshToken(userId, familyId, sessionVersion, SecureTokens.hash(token), rememberMe, Instant.now().plus(ttl)));
         return new IssuedRefreshToken(token, ttl, rememberMe);
     }
 

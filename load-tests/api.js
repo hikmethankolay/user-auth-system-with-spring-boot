@@ -228,9 +228,12 @@ export function signup(data) {
     const renamed = `${username}r`;
     const profile = { username: renamed };
     if (Math.random() < 0.3) {
+      // Changing the email needs the current password, so it costs a password check.
       profile.email = `${renamed}@example.com`;
+      profile.currentPassword = PASSWORD;
     }
-    const updated = call('PATCH', '/api/v1/users/me', { body: profile, token: tokens.accessToken, kind: 'write' });
+    const updated = call('PATCH', '/api/v1/users/me',
+      { body: profile, token: tokens.accessToken, kind: profile.email ? 'password' : 'write' });
     if (!expect(updated, 200, 'update profile')) return false;
     think();
     if (!expect(call('GET', '/api/v1/users/me/export', { token: tokens.accessToken }), 200, 'export data')) return false;

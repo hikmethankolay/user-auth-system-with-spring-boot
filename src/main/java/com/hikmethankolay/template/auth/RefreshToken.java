@@ -52,6 +52,10 @@ public class RefreshToken {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
+    /** The user's session version when the session started; a newer one on the user ends the session. */
+    @Column(name = "session_version", nullable = false, updatable = false)
+    private int sessionVersion;
+
     /** Constructor required by JPA. */
     protected RefreshToken() {
     }
@@ -59,14 +63,16 @@ public class RefreshToken {
     /**
      * Creates a new, unused token record.
      *
-     * @param userId     owner of the token
-     * @param familyId   session the token belongs to
-     * @param tokenHash  hex SHA-256 of the token
-     * @param rememberMe whether the session was started with "remember me"
-     * @param expiresAt  when the token expires
+     * @param userId         owner of the token
+     * @param familyId       session the token belongs to
+     * @param sessionVersion the user's session version when the session started
+     * @param tokenHash      hex SHA-256 of the token
+     * @param rememberMe     whether the session was started with "remember me"
+     * @param expiresAt      when the token expires
      */
-    public RefreshToken(long userId, UUID familyId, String tokenHash, boolean rememberMe, Instant expiresAt) {
+    public RefreshToken(long userId, UUID familyId, int sessionVersion, String tokenHash, boolean rememberMe, Instant expiresAt) {
         this.userId = userId;
+        this.sessionVersion = sessionVersion;
         this.familyId = familyId;
         this.tokenHash = tokenHash;
         this.rememberMe = rememberMe;
@@ -81,6 +87,15 @@ public class RefreshToken {
      */
     public long getUserId() {
         return userId;
+    }
+
+    /**
+     * Returns the user's session version when the session started.
+     *
+     * @return the session version
+     */
+    public int getSessionVersion() {
+        return sessionVersion;
     }
 
     /**

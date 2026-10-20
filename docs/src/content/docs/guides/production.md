@@ -64,7 +64,7 @@ Kustomize base:
   capabilities, `RuntimeDefault` seccomp).
 - **Service:** for the API port only.
 - **Scaling and disruptions:** a HorizontalPodAutoscaler on CPU and a PodDisruptionBudget.
-- **NetworkPolicy:** the management port is reachable only from the `monitoring` namespace.
+- **NetworkPolicy:** the API port is reachable only from the ingress controller's namespace (`ingress-nginx`; adjust it) and the management port only from the `monitoring` namespace.
 
 ```bash
 kubectl -n backend create secret generic app-secrets --from-literal=JWT_SECRET=... # see deploy/kubernetes/README.md
@@ -84,7 +84,7 @@ server's `max_connections`, or put PgBouncer in front of it. Every connection ha
 - [ ] Set real values for `CORS_ALLOWED_ORIGINS` and `MAIL_LINK_BASE_URL`.
 - [ ] Use an SMTP server (`MAIL_HOST`, `SPRING_MAIL_USERNAME`, `SPRING_MAIL_PASSWORD`).
 - [ ] Use a Redis with a password and TLS (`REDIS_PASSWORD`, `REDIS_SSL_ENABLED=true`).
-- [ ] Behind a proxy, set `FORWARD_HEADERS_STRATEGY=framework` and let the proxy overwrite `X-Forwarded-For`.
+- [ ] Behind a proxy, set `FORWARD_HEADERS_STRATEGY=native` and allow only the proxy to reach the API port.
 - [ ] Keep port `8081` internal and scrape metrics there.
 - [ ] Load `ops/prometheus/alerts.yml` and route the alerts to someone.
 - [ ] Ship the `audit` logger to long-term storage.

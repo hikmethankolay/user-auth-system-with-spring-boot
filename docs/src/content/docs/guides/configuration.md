@@ -37,7 +37,7 @@ The `app.*` settings are bound to a validated record (`AppProperties`), so a mis
 | `MANAGEMENT_OPENTELEMETRY_TRACING_EXPORT_OTLP_ENDPOINT` | *(none)* | OTLP collector, e.g. `http://otel-collector:4318/v1/traces` |
 | `OTLP_METRICS_EXPORT_ENABLED` / `MANAGEMENT_OTLP_METRICS_EXPORT_URL` | `false` / `http://localhost:4318/v1/metrics` | Also push metrics to an OTLP collector (Prometheus scraping works either way) |
 | `MANAGEMENT_PORT` | *(same port; `8081` in prod)* | Actuator port in the prod profile |
-| `FORWARD_HEADERS_STRATEGY` | `none` | `framework` behind a trusted proxy, so the real client IP is used |
+| `FORWARD_HEADERS_STRATEGY` | `none` | `native` behind a trusted proxy, so the real client IP is used (`framework` trusts the client-supplied leftmost entry) |
 | `SWAGGER_ENABLED` | `true` (`false` in prod) | Swagger UI and API docs |
 | `PORT` | `8080` | HTTP port |
 
