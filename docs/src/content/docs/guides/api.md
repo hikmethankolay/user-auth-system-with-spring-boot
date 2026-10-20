@@ -28,14 +28,14 @@ The document describes the behaviour, not just the shapes:
 - page responses mark every field as required, and password fields are `writeOnly` with `format: password`;
 - pagination is three query parameters, `page`, `size` (at most 100) and `sort`.
 
-Three checks keep it honest. `OpenApiContractTest` checks these rules on the generated document,
-`OpenApiSpecExportTest` fails when `api/openapi.json` differs from it, and every response of the integration tests is
+Three checks keep it honest. `OpenApiContractIntegrationTest` checks these rules on the generated document,
+`OpenApiSpecExportIntegrationTest` fails when `api/openapi.json` differs from it, and every response of the integration tests is
 validated against `api/openapi.json` (`OpenApiConformance`): an undocumented status, an undocumented content type or a
 body that does not match its schema fails the test that produced it. After an intended API change, regenerate the
 file and commit it with the code:
 
 ```bash
-scripts/test.sh -Dtest=OpenApiSpecExportTest -Dopenapi.update=true
+scripts/test.sh -Dit.test=OpenApiSpecExportIntegrationTest -Dopenapi.update=true
 git diff api/openapi.json
 ```
 

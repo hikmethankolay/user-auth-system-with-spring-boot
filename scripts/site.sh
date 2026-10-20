@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Builds the documentation website into target/pages with Astro Starlight (docs/):
 #   guides       Markdown pages in docs/src/content/docs
-#   api/         REST API reference (Redoc) from the OpenAPI document exported by OpenApiSpecExportTest
+#   api/         REST API reference (Redoc) from the OpenAPI document exported by OpenApiSpecExportIntegrationTest
 #   reference/   Java reference (Doxygen)
 #   coverage/    test coverage (JaCoCo)
 # .github/workflows/pages.yml publishes it to the gh-pages branch on every v* tag.

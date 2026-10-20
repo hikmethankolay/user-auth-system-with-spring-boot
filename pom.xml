@@ -273,16 +273,43 @@
                 </executions>
             </plugin>
 
+            <!-- Unit tests (*Test): no Spring context, no containers; `./mvnw test` runs only these. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <argLine>@{argLine} -javaagent:${org.mockito:mockito-core:jar} -Xshare:off</argLine>
+                    <excludes>
+                        <exclude>**/*IntegrationTest.java</exclude>
+                    </excludes>
                     <systemPropertyVariables>
                         <!-- Tests must not depend on a developer's local .env: point to a file that does not exist. -->
                         <DOTENV_PATH>${project.build.directory}/no-dotenv-in-tests</DOTENV_PATH>
                     </systemPropertyVariables>
                 </configuration>
+            </plugin>
+
+            <!-- Integration tests (*IntegrationTest): full context with Testcontainers, run by `./mvnw verify`. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <argLine>@{argLine} -javaagent:${org.mockito:mockito-core:jar} -Xshare:off</argLine>
+                    <includes>
+                        <include>**/*IntegrationTest.java</include>
+                    </includes>
+                    <systemPropertyVariables>
+                        <DOTENV_PATH>${project.build.directory}/no-dotenv-in-tests</DOTENV_PATH>
+                    </systemPropertyVariables>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>

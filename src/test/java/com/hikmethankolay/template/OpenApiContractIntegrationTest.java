@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.ResultActions;
  * The generated OpenAPI document must describe the API as it behaves and as the API guide documents it.
  * A failure here means a controller change was not reflected in the document (or vice versa).
  */
-class OpenApiContractTest extends IntegrationTest {
+class OpenApiContractIntegrationTest extends IntegrationTest {
 
     private static final String AUTH = "$.paths['/api/v1/auth/";
     private static final String USERS = "$.paths['/api/v1/users";

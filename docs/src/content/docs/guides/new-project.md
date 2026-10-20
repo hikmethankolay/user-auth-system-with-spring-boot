@@ -18,7 +18,7 @@ description: Turn the template into your own project.
    Never edit a migration that has already been applied.
 4. Add each feature as its own package next to `user/`, with its own controller, service, repository and `dto/`.
 5. After changing an endpoint, regenerate the committed OpenAPI document with
-   `scripts/test.sh -Dtest=OpenApiSpecExportTest -Dopenapi.update=true`, give new operations an `operationId`, and
+   `scripts/test.sh -Dit.test=OpenApiSpecExportIntegrationTest -Dopenapi.update=true`, give new operations an `operationId`, and
    declare responses the shared customizers cannot know about (for example a 409 on a uniqueness conflict).
 6. For every list endpoint, allow sorting only by fields the response already shows: check the `Pageable` with a
    `SortAllowList` in the service (see `UserService.SORTABLE_PROPERTIES`) and name the properties in the `sort`

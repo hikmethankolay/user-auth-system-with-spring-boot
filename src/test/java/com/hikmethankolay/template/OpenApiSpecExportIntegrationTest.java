@@ -17,11 +17,11 @@ import tools.jackson.databind.json.JsonMapper;
  * generates, so every API change shows up as a reviewable diff of that file.
  *
  * <p>When the documents differ, the test fails. After an intended API change, update the committed file
- * with {@code scripts/test.sh -Dtest=OpenApiSpecExportTest -Dopenapi.update=true} and commit it with the
+ * with {@code scripts/test.sh -Dtest=OpenApiSpecExportIntegrationTest -Dopenapi.update=true} and commit it with the
  * code. The generated document is also written to {@code target/openapi.json}, which
  * {@code scripts/site.sh} publishes as the REST API reference.</p>
  */
-class OpenApiSpecExportTest extends IntegrationTest {
+class OpenApiSpecExportIntegrationTest extends IntegrationTest {
 
     private static final Path COMMITTED = Path.of("api", "openapi.json");
     private static final Path GENERATED = Path.of("target", "openapi.json");
@@ -48,7 +48,7 @@ class OpenApiSpecExportTest extends IntegrationTest {
         }
         assertThat(JSON.readTree(Files.readString(COMMITTED, StandardCharsets.UTF_8)))
                 .as("api/openapi.json is out of date. If the API change is intended, run "
-                        + "scripts/test.sh -Dtest=OpenApiSpecExportTest -Dopenapi.update=true and commit the file. "
+                        + "scripts/test.sh -Dtest=OpenApiSpecExportIntegrationTest -Dopenapi.update=true and commit the file. "
                         + "Compare with: diff api/openapi.json target/openapi.json")
                 .isEqualTo(generated);
     }

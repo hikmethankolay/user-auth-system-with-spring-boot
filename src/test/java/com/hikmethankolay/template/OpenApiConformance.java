@@ -37,7 +37,7 @@ import org.springframework.web.servlet.HandlerMapping;
  * its schema (or be empty when none is documented). Requests the document does not describe (actuator,
  * Swagger UI, methods a path does not support) are not checked.
  *
- * <p>{@code OpenApiSpecExportTest} keeps the file equal to the generated document, so together they prove
+ * <p>{@code OpenApiSpecExportIntegrationTest} keeps the file equal to the generated document, so together they prove
  * that the document describes what the API really returns.</p>
  */
 final class OpenApiConformance implements ResultMatcher {
