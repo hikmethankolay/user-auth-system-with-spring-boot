@@ -2,6 +2,7 @@ package com.hikmethankolay.template.user.dto;
 
 import com.hikmethankolay.template.user.Role;
 import com.hikmethankolay.template.user.User;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.Instant;
 
 /**
@@ -15,6 +16,7 @@ import java.time.Instant;
  * @param createdAt     creation time (ISO-8601, UTC)
  * @param updatedAt     time of the last update (ISO-8601, UTC)
  */
+@Schema(requiredProperties = {"id", "username", "email", "role", "emailVerified", "createdAt", "updatedAt"})
 public record UserResponse(
         long id, String username, String email, Role role, boolean emailVerified, Instant createdAt, Instant updatedAt) {
 

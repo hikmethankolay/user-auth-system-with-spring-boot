@@ -1,5 +1,6 @@
 package com.hikmethankolay.template.user;
 
+import com.hikmethankolay.template.common.ApiDocs;
 import com.hikmethankolay.template.security.TokenService;
 import com.hikmethankolay.template.user.dto.AdminUpdateUserRequest;
 import com.hikmethankolay.template.user.dto.ChangePasswordRequest;
@@ -8,8 +9,13 @@ import com.hikmethankolay.template.user.dto.PersonalDataExport;
 import com.hikmethankolay.template.user.dto.UpdateProfileRequest;
 import com.hikmethankolay.template.user.dto.UserResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.headers.Header;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -76,7 +82,7 @@ public class UserController {
      * @return the current user
      */
     @GetMapping("/me")
-    @Operation(summary = "Get the current user")
+    @Operation(operationId = "getCurrentUser", summary = "Get the current user")
     public UserResponse me(@AuthenticationPrincipal Jwt jwt) {
         return userService.getById(TokenService.userId(jwt));
     }
@@ -89,7 +95,12 @@ public class UserController {
      * @return the updated user
      */
     @PatchMapping("/me")
-    @Operation(summary = "Update the current user's profile")
+    @Operation(operationId = "updateCurrentUser", summary = "Update the current user's profile",
+            description = "Changes the username and/or email; omitted fields stay unchanged. A new email address is "
+                    + "marked unverified and a verification email is sent to it.")
+    @ApiResponse(responseCode = "200", description = "The updated user",
+            content = @Content(schema = @Schema(implementation = UserResponse.class)))
+    @ApiResponse(responseCode = "409", description = "Username or email already taken", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     public UserResponse updateMe(@AuthenticationPrincipal Jwt jwt, @Valid @RequestBody UpdateProfileRequest request) {
         return userService.updateProfile(TokenService.userId(jwt), request);
     }
@@ -102,7 +113,8 @@ public class UserController {
      */
     @PutMapping("/me/password")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Change the current user's password")
+    @Operation(operationId = "changeCurrentUserPassword", summary = "Change the current user's password",
+            description = "Ends every session of the user, including the current one: log in again afterwards.")
     public void changeMyPassword(@AuthenticationPrincipal Jwt jwt, @Valid @RequestBody ChangePasswordRequest request) {
         userService.changePassword(TokenService.userId(jwt), request);
     }
@@ -116,7 +128,9 @@ public class UserController {
      */
     @DeleteMapping("/me")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Delete the current user's account")
+    @Operation(operationId = "deleteCurrentUser", summary = "Delete the current user's account",
+            description = "Needs the current password. Deletes the user's data and ends every session.")
+    @ApiResponse(responseCode = "409", description = "The last administrator cannot delete their account", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     public void deleteMe(@AuthenticationPrincipal Jwt jwt, @Valid @RequestBody DeleteAccountRequest request) {
         userService.deleteOwnAccount(TokenService.userId(jwt), request);
     }
@@ -129,7 +143,11 @@ public class UserController {
      * @return {@code 200 OK} with the export as an attachment
      */
     @GetMapping("/me/export")
-    @Operation(summary = "Export the current user's personal data")
+    @Operation(operationId = "exportCurrentUserData", summary = "Export the current user's personal data")
+    @ApiResponse(responseCode = "200", description = "Everything stored about the user",
+            headers = @Header(name = HttpHeaders.CONTENT_DISPOSITION, description = "attachment; filename=\"personal-data.json\"",
+                    schema = @Schema(type = "string")),
+            content = @Content(schema = @Schema(implementation = PersonalDataExport.class)))
     public ResponseEntity<PersonalDataExport> exportMe(@AuthenticationPrincipal Jwt jwt) {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
@@ -146,8 +164,8 @@ public class UserController {
      */
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "List users (admin)")
-    public Page<UserResponse> list(@PageableDefault(size = 20, sort = "id") Pageable pageable) {
+    @Operation(operationId = "listUsers", summary = "List users (admin)")
+    public Page<UserResponse> list(@ParameterObject @PageableDefault(size = 20, sort = "id") Pageable pageable) {
         return userService.list(pageable);
     }
 
@@ -159,7 +177,7 @@ public class UserController {
      */
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or #id.toString() == authentication.name")
-    @Operation(summary = "Get a user (admin or self)")
+    @Operation(operationId = "getUser", summary = "Get a user (admin or self)")
     public UserResponse get(@PathVariable Long id) {
         return userService.getById(id);
     }
@@ -173,7 +191,12 @@ public class UserController {
      */
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Update a user (admin)")
+    @Operation(operationId = "updateUser", summary = "Update a user (admin)",
+            description = "A new password or role ends every session of that user, so it applies immediately. "
+                    + "A new email address is marked unverified.")
+    @ApiResponse(responseCode = "200", description = "The updated user",
+            content = @Content(schema = @Schema(implementation = UserResponse.class)))
+    @ApiResponse(responseCode = "409", description = "Username or email already taken", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     public UserResponse update(@PathVariable long id, @Valid @RequestBody AdminUpdateUserRequest request) {
         return userService.update(id, request);
     }
@@ -187,7 +210,8 @@ public class UserController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(summary = "Delete a user (admin)")
+    @Operation(operationId = "deleteUser", summary = "Delete a user (admin)")
+    @ApiResponse(responseCode = "400", description = "Administrators cannot delete their own account this way", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     public void delete(@PathVariable long id, @AuthenticationPrincipal Jwt jwt) {
         userService.delete(id, TokenService.userId(jwt));
     }

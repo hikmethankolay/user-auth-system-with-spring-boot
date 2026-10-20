@@ -110,6 +110,10 @@ management:
         enabled: true
 
 springdoc:
+  # Responses are JSON (errors are application/problem+json); without this, springdoc documents "*/*".
+  default-produces-media-type: application/json
+  # Stable key order, so the committed api/openapi.json only changes when the API does.
+  writer-with-order-by-keys: true
   swagger-ui:
     enabled: ${SWAGGER_ENABLED:true}
   api-docs:

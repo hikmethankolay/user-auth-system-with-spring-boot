@@ -1,5 +1,6 @@
 package com.hikmethankolay.template.user.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.Instant;
 import java.util.Map;
 
@@ -12,5 +13,6 @@ import java.util.Map;
  * @param related    data kept by other features, one entry per
  *                   {@link com.hikmethankolay.template.user.PersonalDataProvider}, e.g. {@code sessions}
  */
+@Schema(requiredProperties = {"exportedAt", "profile", "related"})
 public record PersonalDataExport(Instant exportedAt, UserResponse profile, Map<String, Object> related) {
 }

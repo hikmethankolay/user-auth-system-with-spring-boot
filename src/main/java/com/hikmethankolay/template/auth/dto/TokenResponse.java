@@ -1,5 +1,6 @@
 package com.hikmethankolay.template.auth.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.Duration;
 
 /**
@@ -10,6 +11,7 @@ import java.time.Duration;
  * @param expiresIn    access token lifetime in seconds
  * @param refreshToken single-use token for {@code POST /api/v1/auth/refresh}
  */
+@Schema(requiredProperties = {"accessToken", "tokenType", "expiresIn", "refreshToken"})
 public record TokenResponse(String accessToken, String tokenType, long expiresIn, String refreshToken) {
 
     /**
