@@ -7,8 +7,8 @@ from the template's releases and keep their dependencies current (Dependabot is 
 
 | Version | Supported |
 |---------|-----------|
-| Latest release | Yes |
-| Older releases | No |
+| 2.8.x (latest) | Yes |
+| < 2.8 | No |
 
 ## Reporting a vulnerability
 
@@ -18,8 +18,12 @@ Report it privately through GitHub instead: on the repository's **Security** tab
 **Report a vulnerability** ([direct link](https://github.com/hikmethankolay/spring-boot-backend-template/security/advisories/new)).
 Include the affected version, the steps to reproduce and the impact you expect.
 
-You can expect an acknowledgement within 7 days. Once the issue is confirmed, a fix is released as
-soon as possible and the advisory is published with credit to you, unless you prefer otherwise.
+| Step | Expected time |
+|------|---------------|
+| Acknowledgement | within 7 days |
+| Assessment (confirmed or declined, with severity) | within 14 days |
+| Fix released, for critical and high severity | within 30 days of confirmation |
+| Advisory published | with the fix, crediting you unless you prefer otherwise |
 
 ## Scope
 
