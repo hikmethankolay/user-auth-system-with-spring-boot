@@ -15,6 +15,7 @@ import com.hikmethankolay.template.user.dto.DeleteAccountRequest;
 import com.hikmethankolay.template.user.dto.UserResponse;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import java.util.Optional;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -99,9 +100,11 @@ class UserServiceTest {
     void adminUpdateLeavesNullFieldsUnchanged() {
         User user = withId(new User("alice", "alice@example.com", "hashed", Role.USER), 1L);
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        when(userRepository.findById(9L)).thenReturn(Optional.of(owner()));
+        when(passwordEncoder.matches("Owner#123", "owner-hash")).thenReturn(true);
         when(userRepository.saveAndFlush(user)).thenReturn(user);
 
-        UserResponse response = userService.update(1L, new AdminUpdateUserRequest(null, null, null, Role.ADMIN));
+        UserResponse response = userService.update(1L, 9L, new AdminUpdateUserRequest(null, null, null, Role.ADMIN, "Owner#123"));
 
         assertThat(response.username()).isEqualTo("alice");
         assertThat(response.email()).isEqualTo("alice@example.com");
@@ -110,36 +113,91 @@ class UserServiceTest {
     }
 
     @Test
-    void lastAdministratorCannotBeDemoted() {
-        User admin = withId(new User("root", "root@example.com", "hashed", Role.ADMIN), 1L);
-        when(userRepository.findById(1L)).thenReturn(Optional.of(admin));
-        when(userRepository.countByRole(Role.ADMIN)).thenReturn(1L);
+    void ownerRoleCannotBeAssigned() {
+        User user = withId(new User("alice", "alice@example.com", "hashed", Role.USER), 1L);
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
-        assertThatThrownBy(() -> userService.update(1L, new AdminUpdateUserRequest(null, null, null, Role.USER)))
-                .isInstanceOfSatisfying(ApiException.class, ex -> {
-                    assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
-                    assertThat(ex.getBody().getType()).hasToString("urn:problem:last-administrator");
-                });
-        assertThat(admin.getRole()).isEqualTo(Role.ADMIN);
+        assertProblem(() -> userService.update(1L, 9L, new AdminUpdateUserRequest(null, null, null, Role.OWNER, "Owner#123")),
+                HttpStatus.CONFLICT, "urn:problem:owner-protected");
+        assertThat(user.getRole()).isEqualTo(Role.USER);
+    }
+
+    @Test
+    void ownerCannotBeDemotedEvenByThemselves() {
+        User owner = owner();
+        when(userRepository.findById(9L)).thenReturn(Optional.of(owner));
+
+        assertProblem(() -> userService.update(9L, 9L, new AdminUpdateUserRequest(null, null, null, Role.USER, "Owner#123")),
+                HttpStatus.CONFLICT, "urn:problem:owner-protected");
+        assertThat(owner.getRole()).isEqualTo(Role.OWNER);
+    }
+
+    @Test
+    void onlyTheOwnerCanChangeRoles() {
+        User user = withId(new User("alice", "alice@example.com", "hashed", Role.USER), 1L);
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        when(userRepository.findById(5L)).thenReturn(Optional.of(admin(5L)));
+
+        assertProblem(() -> userService.update(1L, 5L, new AdminUpdateUserRequest(null, null, null, Role.ADMIN, "Admin#123")),
+                HttpStatus.FORBIDDEN, "urn:problem:owner-required");
+        assertThat(user.getRole()).isEqualTo(Role.USER);
+    }
+
+    @Test
+    void administratorsCannotChangeOtherAdministrators() {
+        User other = admin(6L);
+        when(userRepository.findById(6L)).thenReturn(Optional.of(other));
+        when(userRepository.findById(5L)).thenReturn(Optional.of(admin(5L)));
+
+        assertProblem(() -> userService.update(6L, 5L, new AdminUpdateUserRequest(null, null, "Taken#over1", null, null)),
+                HttpStatus.FORBIDDEN, "urn:problem:owner-required");
+        assertThat(other.getPasswordHash()).isEqualTo("hashed");
+    }
+
+    @Test
+    void roleChangeNeedsTheOwnersPassword() {
+        User user = withId(new User("alice", "alice@example.com", "hashed", Role.USER), 1L);
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        when(userRepository.findById(9L)).thenReturn(Optional.of(owner()));
+        when(passwordEncoder.matches("Wrong#123", "owner-hash")).thenReturn(false);
+
+        assertProblem(() -> userService.update(1L, 9L, new AdminUpdateUserRequest(null, null, null, Role.ADMIN, "Wrong#123")),
+                HttpStatus.BAD_REQUEST, "urn:problem:wrong-password");
+        assertProblem(() -> userService.update(1L, 9L, new AdminUpdateUserRequest(null, null, null, Role.ADMIN, null)),
+                HttpStatus.BAD_REQUEST, "urn:problem:wrong-password");
+        assertThat(user.getRole()).isEqualTo(Role.USER);
         verify(userRepository, never()).saveAndFlush(any());
     }
 
     @Test
-    void administratorCanBeDemotedWhileAnotherRemains() {
-        User admin = withId(new User("root", "root@example.com", "hashed", Role.ADMIN), 1L);
-        when(userRepository.findById(1L)).thenReturn(Optional.of(admin));
-        when(userRepository.countByRole(Role.ADMIN)).thenReturn(2L);
-        when(userRepository.saveAndFlush(admin)).thenReturn(admin);
+    void ownerDemotesAnAdministratorAndEndsTheirSessions() {
+        User other = admin(6L);
+        when(userRepository.findById(6L)).thenReturn(Optional.of(other));
+        when(userRepository.findById(9L)).thenReturn(Optional.of(owner()));
+        when(passwordEncoder.matches("Owner#123", "owner-hash")).thenReturn(true);
+        when(userRepository.saveAndFlush(other)).thenReturn(other);
 
-        UserResponse response = userService.update(1L, new AdminUpdateUserRequest(null, null, null, Role.USER));
+        UserResponse response = userService.update(6L, 9L, new AdminUpdateUserRequest(null, null, null, Role.USER, "Owner#123"));
 
         assertThat(response.role()).isEqualTo(Role.USER);
-        verify(events).publishEvent(new SessionsInvalidated(1L));
+        verify(events).publishEvent(new SessionsInvalidated(6L));
+    }
+
+    @Test
+    void administratorsCanManageRegularUsersWithoutTheOwner() {
+        User user = withId(new User("alice", "alice@example.com", "hashed", Role.USER), 1L);
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        when(passwordEncoder.encode("Reset#1234")).thenReturn("new-hash");
+        when(userRepository.saveAndFlush(user)).thenReturn(user);
+
+        userService.update(1L, 5L, new AdminUpdateUserRequest(null, null, "Reset#1234", null, null));
+
+        assertThat(user.getPasswordHash()).isEqualTo("new-hash");
     }
 
     @Test
     void deleteRejectsOwnAccount() {
-        assertThatThrownBy(() -> userService.delete(5L, 5L))
+        assertThatThrownBy(() -> userService.delete(5L, 5L, null))
                 .isInstanceOfSatisfying(ApiException.class,
                         ex -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST));
         verify(userRepository, never()).delete(any());
@@ -155,16 +213,55 @@ class UserServiceTest {
     }
 
     @Test
-    void lastAdministratorCannotDeleteTheirAccount() {
-        User admin = withId(new User("root", "root@example.com", "hashed", Role.ADMIN), 1L);
-        when(userRepository.findById(1L)).thenReturn(Optional.of(admin));
-        when(passwordEncoder.matches("Secret#123", "hashed")).thenReturn(true);
-        when(userRepository.countByRole(Role.ADMIN)).thenReturn(1L);
+    void ownerCannotDeleteTheirAccount() {
+        when(userRepository.findById(9L)).thenReturn(Optional.of(owner()));
+        when(passwordEncoder.matches("Owner#123", "owner-hash")).thenReturn(true);
 
-        assertThatThrownBy(() -> userService.deleteOwnAccount(1L, new DeleteAccountRequest("Secret#123")))
-                .isInstanceOfSatisfying(ApiException.class,
-                        ex -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.CONFLICT));
+        assertProblem(() -> userService.deleteOwnAccount(9L, new DeleteAccountRequest("Owner#123")),
+                HttpStatus.CONFLICT, "urn:problem:owner-protected");
         verify(userRepository, never()).delete(any());
+    }
+
+    @Test
+    void nobodyCanDeleteTheOwner() {
+        when(userRepository.findById(9L)).thenReturn(Optional.of(owner()));
+
+        assertProblem(() -> userService.delete(9L, 5L, new DeleteAccountRequest("Admin#123")),
+                HttpStatus.CONFLICT, "urn:problem:owner-protected");
+        verify(userRepository, never()).delete(any());
+    }
+
+    @Test
+    void deletingAnAdministratorNeedsTheOwnerAndTheirPassword() {
+        User other = admin(6L);
+        when(userRepository.findById(6L)).thenReturn(Optional.of(other));
+        when(userRepository.findById(5L)).thenReturn(Optional.of(admin(5L)));
+        when(userRepository.findById(9L)).thenReturn(Optional.of(owner()));
+        when(passwordEncoder.matches("Wrong#123", "owner-hash")).thenReturn(false);
+        when(passwordEncoder.matches("Owner#123", "owner-hash")).thenReturn(true);
+
+        assertProblem(() -> userService.delete(6L, 5L, new DeleteAccountRequest("Admin#123")),
+                HttpStatus.FORBIDDEN, "urn:problem:owner-required");
+        assertProblem(() -> userService.delete(6L, 9L, null),
+                HttpStatus.BAD_REQUEST, "urn:problem:wrong-password");
+        assertProblem(() -> userService.delete(6L, 9L, new DeleteAccountRequest("Wrong#123")),
+                HttpStatus.BAD_REQUEST, "urn:problem:wrong-password");
+        verify(userRepository, never()).delete(any());
+
+        userService.delete(6L, 9L, new DeleteAccountRequest("Owner#123"));
+
+        verify(userRepository).delete(other);
+        verify(events).publishEvent(new SessionsInvalidated(6L));
+    }
+
+    @Test
+    void administratorsDeleteRegularUsersWithoutConfirmation() {
+        User user = withId(new User("alice", "alice@example.com", "hashed", Role.USER), 1L);
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        userService.delete(1L, 5L, null);
+
+        verify(userRepository).delete(user);
     }
 
     @Test
@@ -177,6 +274,21 @@ class UserServiceTest {
 
         verify(userRepository).delete(user);
         verify(events).publishEvent(new SessionsInvalidated(5L));
+    }
+
+    private static User owner() {
+        return withId(new User("owner", "owner@example.com", "owner-hash", Role.OWNER), 9L);
+    }
+
+    private static User admin(long id) {
+        return withId(new User("admin" + id, "admin" + id + "@example.com", "hashed", Role.ADMIN), id);
+    }
+
+    private static void assertProblem(ThrowingCallable call, HttpStatus status, String type) {
+        assertThatThrownBy(call).isInstanceOfSatisfying(ApiException.class, ex -> {
+            assertThat(ex.getStatusCode()).isEqualTo(status);
+            assertThat(ex.getBody().getType()).hasToString(type);
+        });
     }
 
     private static User withId(User user, long id) {

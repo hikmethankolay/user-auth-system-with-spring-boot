@@ -10,6 +10,12 @@ package com.hikmethankolay.template.user;
 public enum Role {
     /** Regular user; can only manage their own account. */
     USER,
-    /** Administrator; can manage all users. */
-    ADMIN
+    /** Administrator; can manage regular users. */
+    ADMIN,
+    /**
+     * The account created by {@code AdminBootstrap}; has every administrator right and is the only one
+     * who can change roles and manage administrators. There is at most one, and the API can neither
+     * assign this role nor delete or demote its holder.
+     */
+    OWNER
 }

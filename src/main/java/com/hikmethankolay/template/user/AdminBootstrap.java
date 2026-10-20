@@ -8,9 +8,10 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 /**
- * Creates the administrator configured in {@code app.admin.*} on startup, if username, email and
- * password are all set and no admin exists yet. This solves the "who creates the first admin"
- * problem without manual SQL.
+ * Creates the owner account configured in {@code app.admin.*} on startup, if username, email and
+ * password are all set and no owner exists yet. This solves the "who creates the first admin"
+ * problem without manual SQL. The owner has every administrator right and is the only one who can
+ * change roles and manage administrators (see {@link Role#OWNER}).
  *
  * <p>If the configured username or email already belongs to a regular user, registration fails
  * with a conflict and the application does not start.</p>
@@ -45,11 +46,11 @@ class AdminBootstrap implements ApplicationRunner {
      */
     @Override
     public void run(ApplicationArguments args) {
-        if (!admin.isConfigured() || userService.adminExists()) {
+        if (!admin.isConfigured() || userService.ownerExists()) {
             return;
         }
         // The configured admin address is trusted, so no verification email is sent.
-        userService.register(admin.username(), admin.email(), admin.password(), Role.ADMIN, true);
-        log.info("Created initial admin user '{}'", admin.username());
+        userService.register(admin.username(), admin.email(), admin.password(), Role.OWNER, true);
+        log.info("Created the owner account '{}'", admin.username());
     }
 }

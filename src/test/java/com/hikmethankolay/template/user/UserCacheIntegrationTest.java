@@ -85,8 +85,8 @@ class UserCacheIntegrationTest extends IntegrationTest {
         mockMvc.perform(get("/api/v1/users/{id}", id).with(bearer(adminToken))).andExpect(status().isOk());
         mockMvc.perform(patch("/api/v1/users/{id}", id).with(bearer(adminToken))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {"role":"ADMIN"}"""))
+                        .content(json("""
+                                {"role":"ADMIN","currentPassword":"%s"}""", ADMIN_PASSWORD)))
                 .andExpect(status().isOk());
         assertThat(usersCache().get(id)).isNull();
         mockMvc.perform(get("/api/v1/users/{id}", id).with(bearer(adminToken)))

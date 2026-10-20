@@ -48,12 +48,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return {@code true} if at least one user has this role
      */
     boolean existsByRole(Role role);
-
-    /**
-     * Counts the users with a role.
-     *
-     * @param role the role to count
-     * @return the number of users with that role
-     */
-    long countByRole(Role role);
 }

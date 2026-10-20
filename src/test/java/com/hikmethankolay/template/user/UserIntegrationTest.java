@@ -123,16 +123,101 @@ class UserIntegrationTest extends IntegrationTest {
 
         mockMvc.perform(patch("/api/v1/users/{id}", userId).with(bearer(adminToken))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {"role":"ADMIN"}"""))
+                        .content(json("""
+                                {"role":"ADMIN","currentPassword":"%s"}""", ADMIN_PASSWORD)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.role").value("ADMIN"));
 
-        mockMvc.perform(delete("/api/v1/users/{id}", userId).with(bearer(adminToken)))
+        // Deleting an administrator needs the owner's password.
+        mockMvc.perform(delete("/api/v1/users/{id}", userId).with(bearer(adminToken))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"password":"%s"}""", ADMIN_PASSWORD)))
                 .andExpect(status().isNoContent());
 
         mockMvc.perform(get("/api/v1/users/{id}", userId).with(bearer(adminToken)))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void onlyTheOwnerManagesAdministratorsAndNobodyRemovesTheOwner() throws Exception {
+        String ownerToken = login(ADMIN_USERNAME, ADMIN_PASSWORD);
+        long ownerId = ((Number) JsonPath.read(mockMvc.perform(get("/api/v1/users/me").with(bearer(ownerToken)))
+                .andReturn().getResponse().getContentAsString(), "$.id")).longValue();
+        String adminName = uniqueUsername();
+        long adminId = register(adminName);
+        long otherAdminId = register(uniqueUsername());
+        long userId = register(uniqueUsername());
+
+        // Promoting needs the owner's password.
+        mockMvc.perform(patch("/api/v1/users/{id}", adminId).with(bearer(ownerToken))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"role":"ADMIN"}"""))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.type").value("urn:problem:wrong-password"));
+        for (long id : new long[] {adminId, otherAdminId}) {
+            mockMvc.perform(patch("/api/v1/users/{id}", id).with(bearer(ownerToken))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(json("""
+                                    {"role":"ADMIN","currentPassword":"%s"}""", ADMIN_PASSWORD)))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.role").value("ADMIN"));
+        }
+        String adminToken = login(adminName, PASSWORD);
+
+        // An administrator manages regular users, but not roles, other administrators or the owner.
+        mockMvc.perform(patch("/api/v1/users/{id}", userId).with(bearer(adminToken))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"password":"Reset#1234"}"""))
+                .andExpect(status().isOk());
+        mockMvc.perform(patch("/api/v1/users/{id}", userId).with(bearer(adminToken))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"role":"ADMIN","currentPassword":"%s"}""", PASSWORD)))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.type").value("urn:problem:owner-required"));
+        mockMvc.perform(patch("/api/v1/users/{id}", ownerId).with(bearer(adminToken))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"password":"Taken#over1"}"""))
+                .andExpect(status().isForbidden());
+        mockMvc.perform(delete("/api/v1/users/{id}", otherAdminId).with(bearer(adminToken))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"password":"%s"}""", PASSWORD)))
+                .andExpect(status().isForbidden());
+
+        // Nobody deletes or demotes the owner, not even the owner.
+        mockMvc.perform(delete("/api/v1/users/{id}", ownerId).with(bearer(adminToken))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"password":"%s"}""", PASSWORD)))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.type").value("urn:problem:owner-protected"));
+        mockMvc.perform(patch("/api/v1/users/{id}", ownerId).with(bearer(ownerToken))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"role":"USER","currentPassword":"%s"}""", ADMIN_PASSWORD)))
+                .andExpect(status().isConflict());
+        mockMvc.perform(delete("/api/v1/users/me").with(bearer(ownerToken))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"password":"%s"}""", ADMIN_PASSWORD)))
+                .andExpect(status().isConflict());
+
+        // The owner deletes an administrator after confirming the password.
+        mockMvc.perform(delete("/api/v1/users/{id}", otherAdminId).with(bearer(ownerToken)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.type").value("urn:problem:wrong-password"));
+        mockMvc.perform(delete("/api/v1/users/{id}", otherAdminId).with(bearer(ownerToken))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"password":"%s"}""", ADMIN_PASSWORD)))
+                .andExpect(status().isNoContent());
+        mockMvc.perform(get("/api/v1/users/me").with(bearer(ownerToken)))
+                .andExpect(jsonPath("$.role").value("OWNER"));
     }
 
     @Test

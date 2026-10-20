@@ -31,7 +31,7 @@ On Windows use the same names with `.bat`: `scripts\setup.bat`, `scripts\dev.bat
 | Emails sent in development | http://localhost:8025 (Mailpit) |
 | Health | http://localhost:8080/actuator/health |
 
-`setup` prints the generated password of the initial admin user `admin`, which is created on first start and stored
+`setup` prints the generated password of the owner account `admin`, which is created on first start and stored
 in `.env`.
 
 ## Try the API

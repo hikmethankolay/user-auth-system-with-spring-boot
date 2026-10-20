@@ -137,7 +137,7 @@ public class UserController {
             description = "Needs the current password. Deletes the user's data and ends every session.")
     @ApiResponse(responseCode = "204", description = "Account and data deleted; every session has ended")
     @ApiResponse(responseCode = "400", description = "Invalid input (see `errors`), or the password is wrong", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
-    @ApiResponse(responseCode = "409", description = "The last administrator cannot delete their account", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    @ApiResponse(responseCode = "409", description = "The owner account cannot be deleted", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     public void deleteMe(@AuthenticationPrincipal Jwt jwt, @Valid @RequestBody DeleteAccountRequest request) {
         userService.deleteOwnAccount(TokenService.userId(jwt), request);
     }
@@ -198,35 +198,51 @@ public class UserController {
      * Partially updates any field of a user.
      *
      * @param id      user id
+     * @param jwt     the caller's token
      * @param request fields to change
      * @return the updated user
      */
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(operationId = "updateUser", summary = "Update a user (admin)",
-            description = "A new password or role ends every session of that user, so it applies immediately. "
-                    + "A new email address is marked unverified.")
+            description = "Administrators update regular users. Changing a role, or changing an administrator or "
+                    + "the owner, needs the owner; a role change also needs the owner's `currentPassword`. The owner "
+                    + "cannot be demoted and the OWNER role cannot be assigned. A new password or role ends every "
+                    + "session of that user, so it applies immediately. A new email address is marked unverified.")
+    @ApiResponse(responseCode = "400", description = "Invalid input (see `errors`), or `currentPassword` is missing "
+            + "or wrong for a role change", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    @ApiResponse(responseCode = "403", description = "Not an administrator, or the change needs the owner", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     @ApiResponse(responseCode = "200", description = "The updated user",
             content = @Content(schema = @Schema(implementation = UserResponse.class)))
-    @ApiResponse(responseCode = "409", description = "Username or email already taken, or the change would demote the "
-            + "last administrator", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
-    public UserResponse update(@PathVariable long id, @Valid @RequestBody AdminUpdateUserRequest request) {
-        return userService.update(id, request);
+    @ApiResponse(responseCode = "409", description = "Username or email already taken, or the change would assign or "
+            + "remove the OWNER role", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    public UserResponse update(@PathVariable long id, @AuthenticationPrincipal Jwt jwt,
+            @Valid @RequestBody AdminUpdateUserRequest request) {
+        return userService.update(id, TokenService.userId(jwt), request);
     }
 
     /**
-     * Deletes a user. Administrators cannot delete themselves.
+     * Deletes a user. Administrators cannot delete themselves, only the owner deletes administrators
+     * (confirmed with the owner's password), and nobody deletes the owner.
      *
-     * @param id  user id
-     * @param jwt the caller's token
+     * @param id           user id
+     * @param jwt          the caller's token
+     * @param confirmation the caller's current password; required to delete an administrator
      */
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(operationId = "deleteUser", summary = "Delete a user (admin)")
+    @Operation(operationId = "deleteUser", summary = "Delete a user (admin)",
+            description = "Administrators delete regular users. Deleting an administrator needs the owner and a body "
+                    + "with the owner's current `password`. The owner cannot be deleted.")
     @ApiResponse(responseCode = "204", description = "User and data deleted; every session of the user has ended")
-    @ApiResponse(responseCode = "400", description = "Administrators cannot delete their own account this way", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
-    public void delete(@PathVariable long id, @AuthenticationPrincipal Jwt jwt) {
-        userService.delete(id, TokenService.userId(jwt));
+    @ApiResponse(responseCode = "400", description = "Invalid input, an administrator deleting their own account this way, "
+            + "or the password is missing or wrong when deleting an administrator", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    @ApiResponse(responseCode = "403", description = "Not an administrator, or deleting an administrator without being "
+            + "the owner", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    @ApiResponse(responseCode = "409", description = "The owner account cannot be deleted", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    public void delete(@PathVariable long id, @AuthenticationPrincipal Jwt jwt,
+            @Valid @RequestBody(required = false) DeleteAccountRequest confirmation) {
+        userService.delete(id, TokenService.userId(jwt), confirmation);
     }
 }

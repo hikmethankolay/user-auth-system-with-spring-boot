@@ -57,12 +57,12 @@ git diff api/openapi.json
 | `GET` | `/api/v1/users/me/export` | authenticated | `200` JSON attachment |
 | `GET` | `/api/v1/users?page=0&size=20&sort=createdAt,desc` | admin | `200` page |
 | `GET` | `/api/v1/users/{id}` | admin or that user | `200` |
-| `PATCH` / `DELETE` | `/api/v1/users/{id}` | admin | `200` / `204` |
+| `PATCH` / `DELETE` | `/api/v1/users/{id}` | admin; role changes and administrators: owner + password | `200` / `204` |
 
 Every email field (`register`, `PATCH /users/me`, the admin update and the email endpoints) uses the same rule,
 `@ValidEmail`: a well-formed address of 3 to 254 characters. Tokens must not be empty. New passwords
 (`@ValidPassword`) have 8 to 72 characters, at most 72 bytes in UTF-8 (BCrypt's limit), and an uppercase letter, a
-lowercase letter, a digit and a symbol.
+lowercase letter, a digit and a symbol. See [Security](../security/#roles) for what admins and the owner may do.
 
 ## Errors
 
@@ -88,16 +88,17 @@ media type, ...) use `about:blank`; everything else uses one of these (the list 
 |--------|--------|------|
 | `urn:problem:validation-failed` | 400 | The body is invalid; the fields are listed in `errors` |
 | `urn:problem:invalid-sort` | 400 | `sort` names a property that cannot be sorted by |
-| `urn:problem:wrong-password` | 400 | The current password sent to confirm the change is wrong |
+| `urn:problem:wrong-password` | 400 | The caller's current password, required to confirm a change, is missing or wrong |
 | `urn:problem:invalid-token` | 400 | An email verification or password reset token is unknown, used or expired |
 | `urn:problem:own-account` | 400 | An administrator tried to delete themselves through `/users/{id}` |
 | `urn:problem:invalid-credentials` | 401 | Wrong login, or a refresh token that is missing, invalid, expired or used |
 | `urn:problem:unauthenticated` | 401 | The access token is missing, invalid, expired or revoked |
 | `urn:problem:forbidden` | 403 | The caller lacks the required role |
+| `urn:problem:owner-required` | 403 | Only the owner can change roles and manage administrators |
 | `urn:problem:email-not-verified` | 403 | Login before the email address is verified (when required) |
 | `urn:problem:user-not-found` | 404 | No user has this id |
 | `urn:problem:username-taken` / `email-taken` | 409 | The username or email belongs to another account |
-| `urn:problem:last-administrator` | 409 | The change would leave the application without an administrator |
+| `urn:problem:owner-protected` | 409 | The owner cannot be deleted or demoted, and `OWNER` cannot be assigned |
 | `urn:problem:conflict` | 409 | A concurrent change got there first; retry |
 | `urn:problem:login-locked` / `rate-limited` | 429 | Too many failed logins / requests; wait `Retry-After` seconds |
 | `urn:problem:internal-error` | 500 | Unexpected error; quote `X-Trace-Id` when reporting it |

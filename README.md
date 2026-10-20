@@ -48,7 +48,7 @@ Then open:
 | Interactive API docs | http://localhost:8080/swagger-ui.html |
 | Emails the app sent (verification, password reset) | http://localhost:8025 |
 
-`setup` prints the password of the initial admin user `admin` and stores it in `.env`.
+`setup` prints the password of the owner account `admin` and stores it in `.env`.
 To stop the app, press Ctrl+C and run `scripts/db.sh down`.
 
 ## Scripts

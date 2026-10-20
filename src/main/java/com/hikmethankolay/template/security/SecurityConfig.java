@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -48,7 +50,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
  *   <li>Public endpoints get their own filter chain without token processing, so a stale
  *       cookie can never block login or registration.</li>
  *   <li>Every other request needs a valid JWT, sent as a Bearer header or as the auth cookie.</li>
- *   <li>Role checks are declared on controller methods with {@code @PreAuthorize}.</li>
+ *   <li>Role checks are declared on controller methods with {@code @PreAuthorize}; {@code OWNER} implies
+ *       {@code ADMIN}, which implies {@code USER} ({@link #roleHierarchy()}).</li>
  * </ul>
  *
  * <p>Every response carries a strict {@code Content-Security-Policy}, {@code Referrer-Policy: no-referrer}
@@ -163,6 +166,20 @@ public class SecurityConfig {
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
         converter.setJwtGrantedAuthoritiesConverter(authorities);
         return converter;
+    }
+
+    /**
+     * Role hierarchy for {@code @PreAuthorize}: the owner has every administrator right, and an
+     * administrator every user right. Owner-only rules are checked in {@code UserService}.
+     *
+     * @return the hierarchy picked up by method security
+     */
+    @Bean
+    static RoleHierarchy roleHierarchy() {
+        return RoleHierarchyImpl.withDefaultRolePrefix()
+                .role("OWNER").implies("ADMIN")
+                .role("ADMIN").implies("USER")
+                .build();
     }
 
     /**

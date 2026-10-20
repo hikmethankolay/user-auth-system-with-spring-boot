@@ -80,8 +80,8 @@ class SessionRevocationIntegrationTest extends IntegrationTest {
 
         mockMvc.perform(patch("/api/v1/users/{id}", userId).with(bearer(adminToken))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {"role":"ADMIN"}"""))
+                        .content(json("""
+                                {"role":"ADMIN","currentPassword":"%s"}""", ADMIN_PASSWORD)))
                 .andExpect(status().isOk());
 
         expectSessionEnded(session);

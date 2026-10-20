@@ -26,6 +26,31 @@ Authentication is stateless, using JWTs and Spring Security's OAuth2 resource se
 
 A client keeps calling the API with the access token, and when it gets `401`, calls `/refresh` once and retries.
 
+## Roles
+
+| Role | Can |
+|------|-----|
+| `USER` | Manage their own account (`/api/v1/users/me`) |
+| `ADMIN` | Everything a user can, plus list, read, update and delete **regular users** |
+| `OWNER` | Everything an admin can, plus change roles and update or delete administrators |
+
+The owner is the account `AdminBootstrap` creates from `ADMIN_USERNAME` / `ADMIN_EMAIL` / `ADMIN_PASSWORD`; there is at
+most one (a partial unique index enforces it). `OWNER` implies `ADMIN`, which implies `USER` (a `RoleHierarchy` bean),
+so `hasRole('ADMIN')` lets the owner through. The owner-only rules live in `UserService`, which reads the caller's
+role from the database, so they apply even while an older access token still carries a previous role.
+
+- **Only the owner** changes roles (`PATCH /api/v1/users/{id}` with `role`) and updates or deletes administrators.
+  Anyone else gets `403` with `urn:problem:owner-required`.
+- **Sensitive changes are confirmed with a password**: a role change needs the owner's `currentPassword` in the
+  same body, and deleting an administrator needs a `{"password": "…"}` body, like `DELETE /api/v1/users/me`. A missing
+  or wrong password is `400` with `urn:problem:wrong-password`, so a stolen access token alone cannot hand out
+  admin rights or remove administrators.
+- **Nobody removes the owner through the API**: the owner cannot be demoted or deleted, not even by themselves, and
+  `OWNER` cannot be assigned (`409`, `urn:problem:owner-protected`). Transferring ownership is a database operation.
+
+Migration `V5__owner_role.sql` turns the oldest administrator of an existing installation, the one `AdminBootstrap`
+created, into the owner.
+
 ### Rotation and reuse detection
 
 Each refresh token can be exchanged **once**. Every token issued from one login belongs to the same family (the
@@ -41,8 +66,8 @@ one tab refresh and share the result, for example with a `BroadcastChannel` or a
 |-------|--------|
 | Logout | The presented access token's `jti` is denylisted and the refresh token's session is deleted |
 | Password change, password reset | Every session of the user ends: refresh tokens are deleted and all access tokens issued so far are rejected |
-| Admin changes a user's password or role | Same, so a demoted administrator loses access immediately |
-| User deleted (by an admin or themselves) | Same; the refresh tokens are deleted with the user |
+| Admin changes a user's password, or the owner changes a role | Same, so a demoted administrator loses access immediately |
+| User deleted (by an admin, the owner or themselves) | Same; the refresh tokens are deleted with the user |
 
 Access-token revocation lives in Redis: denylisted token ids and per-user cut-off times are kept only until the
 affected tokens would have expired, and the JWT decoder checks both in one round trip on every request, on every

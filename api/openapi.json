@@ -760,7 +760,7 @@
                 }
               }
             },
-            "description" : "The last administrator cannot delete their account",
+            "description" : "The owner account cannot be deleted",
             "headers" : {
               "RateLimit-Limit" : {
                 "$ref" : "#/components/headers/RateLimit-Limit"
@@ -1051,6 +1051,7 @@
     },
     "/api/v1/users/{id}" : {
       "delete" : {
+        "description" : "Administrators delete regular users. Deleting an administrator needs the owner and a body with the owner's current `password`. The owner cannot be deleted.",
         "operationId" : "deleteUser",
         "parameters" : [ {
           "in" : "path",
@@ -1061,6 +1062,15 @@
             "format" : "int64"
           }
         } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DeleteAccountRequest"
+              }
+            }
+          }
+        },
         "responses" : {
           "204" : {
             "description" : "User and data deleted; every session of the user has ended",
@@ -1087,7 +1097,7 @@
                 }
               }
             },
-            "description" : "Administrators cannot delete their own account this way",
+            "description" : "Invalid input, an administrator deleting their own account this way, or the password is missing or wrong when deleting an administrator",
             "headers" : {
               "RateLimit-Limit" : {
                 "$ref" : "#/components/headers/RateLimit-Limit"
@@ -1107,10 +1117,55 @@
             "$ref" : "#/components/responses/Unauthorized"
           },
           "403" : {
-            "$ref" : "#/components/responses/Forbidden"
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not an administrator, or deleting an administrator without being the owner",
+            "headers" : {
+              "RateLimit-Limit" : {
+                "$ref" : "#/components/headers/RateLimit-Limit"
+              },
+              "RateLimit-Remaining" : {
+                "$ref" : "#/components/headers/RateLimit-Remaining"
+              },
+              "RateLimit-Reset" : {
+                "$ref" : "#/components/headers/RateLimit-Reset"
+              },
+              "X-Trace-Id" : {
+                "$ref" : "#/components/headers/X-Trace-Id"
+              }
+            }
           },
           "404" : {
             "$ref" : "#/components/responses/UserNotFound"
+          },
+          "409" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The owner account cannot be deleted",
+            "headers" : {
+              "RateLimit-Limit" : {
+                "$ref" : "#/components/headers/RateLimit-Limit"
+              },
+              "RateLimit-Remaining" : {
+                "$ref" : "#/components/headers/RateLimit-Remaining"
+              },
+              "RateLimit-Reset" : {
+                "$ref" : "#/components/headers/RateLimit-Reset"
+              },
+              "X-Trace-Id" : {
+                "$ref" : "#/components/headers/X-Trace-Id"
+              }
+            }
           },
           "429" : {
             "$ref" : "#/components/responses/TooManyRequests"
@@ -1191,7 +1246,7 @@
         "tags" : [ "Users" ]
       },
       "patch" : {
-        "description" : "A new password or role ends every session of that user, so it applies immediately. A new email address is marked unverified.",
+        "description" : "Administrators update regular users. Changing a role, or changing an administrator or the owner, needs the owner; a role change also needs the owner's `currentPassword`. The owner cannot be demoted and the OWNER role cannot be assigned. A new password or role ends every session of that user, so it applies immediately. A new email address is marked unverified.",
         "operationId" : "updateUser",
         "parameters" : [ {
           "in" : "path",
@@ -1238,13 +1293,55 @@
             }
           },
           "400" : {
-            "$ref" : "#/components/responses/BadRequest"
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid input (see `errors`), or `currentPassword` is missing or wrong for a role change",
+            "headers" : {
+              "RateLimit-Limit" : {
+                "$ref" : "#/components/headers/RateLimit-Limit"
+              },
+              "RateLimit-Remaining" : {
+                "$ref" : "#/components/headers/RateLimit-Remaining"
+              },
+              "RateLimit-Reset" : {
+                "$ref" : "#/components/headers/RateLimit-Reset"
+              },
+              "X-Trace-Id" : {
+                "$ref" : "#/components/headers/X-Trace-Id"
+              }
+            }
           },
           "401" : {
             "$ref" : "#/components/responses/Unauthorized"
           },
           "403" : {
-            "$ref" : "#/components/responses/Forbidden"
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not an administrator, or the change needs the owner",
+            "headers" : {
+              "RateLimit-Limit" : {
+                "$ref" : "#/components/headers/RateLimit-Limit"
+              },
+              "RateLimit-Remaining" : {
+                "$ref" : "#/components/headers/RateLimit-Remaining"
+              },
+              "RateLimit-Reset" : {
+                "$ref" : "#/components/headers/RateLimit-Reset"
+              },
+              "X-Trace-Id" : {
+                "$ref" : "#/components/headers/X-Trace-Id"
+              }
+            }
           },
           "404" : {
             "$ref" : "#/components/responses/UserNotFound"
@@ -1257,7 +1354,7 @@
                 }
               }
             },
-            "description" : "Username or email already taken, or the change would demote the last administrator",
+            "description" : "Username or email already taken, or the change would assign or remove the OWNER role",
             "headers" : {
               "RateLimit-Limit" : {
                 "$ref" : "#/components/headers/RateLimit-Limit"
@@ -1489,6 +1586,14 @@
       "AdminUpdateUserRequest" : {
         "type" : "object",
         "properties" : {
+          "currentPassword" : {
+            "type" : "string",
+            "format" : "password",
+            "description" : "The caller's own current password; required when `role` changes",
+            "maxLength" : 72,
+            "minLength" : 0,
+            "writeOnly" : true
+          },
           "email" : {
             "type" : "string",
             "format" : "email",
@@ -1506,6 +1611,7 @@
           },
           "role" : {
             "type" : "string",
+            "description" : "New role. Only the owner can change roles, confirmed with `currentPassword`",
             "enum" : [ "USER", "ADMIN" ]
           },
           "username" : {
@@ -1705,7 +1811,7 @@
           "type" : {
             "type" : "string",
             "format" : "uri",
-            "description" : "Identifies the kind of error. `about:blank` for generic HTTP errors (malformed JSON, unsupported media type, ...), otherwise one of:\n\n- `urn:problem:validation-failed`: The request body is invalid; the fields are listed in `errors`\n- `urn:problem:invalid-sort`: The `sort` parameter names a property that cannot be sorted by\n- `urn:problem:invalid-credentials`: Wrong username, email or password, or a refresh token that is missing, invalid, expired or already used\n- `urn:problem:unauthenticated`: The access token is missing, invalid, expired or revoked\n- `urn:problem:forbidden`: The caller is authenticated but lacks the required role\n- `urn:problem:email-not-verified`: The email address must be verified before logging in\n- `urn:problem:wrong-password`: The current password sent to confirm the change is wrong\n- `urn:problem:invalid-token`: The email verification or password reset token is unknown, used or expired\n- `urn:problem:username-taken`: The username belongs to another account\n- `urn:problem:email-taken`: The email address belongs to another account\n- `urn:problem:last-administrator`: The change would leave the application without an administrator\n- `urn:problem:own-account`: Administrators cannot delete their own account through the admin endpoint\n- `urn:problem:user-not-found`: No user has this id\n- `urn:problem:conflict`: The change conflicts with data written at the same time; retry it\n- `urn:problem:login-locked`: Too many failed logins for this IP or account; wait for `Retry-After` seconds\n- `urn:problem:rate-limited`: Too many requests from this IP; wait for `Retry-After` seconds\n- `urn:problem:internal-error`: Unexpected server error; quote `X-Trace-Id` when reporting it",
+            "description" : "Identifies the kind of error. `about:blank` for generic HTTP errors (malformed JSON, unsupported media type, ...), otherwise one of:\n\n- `urn:problem:validation-failed`: The request body is invalid; the fields are listed in `errors`\n- `urn:problem:invalid-sort`: The `sort` parameter names a property that cannot be sorted by\n- `urn:problem:invalid-credentials`: Wrong username, email or password, or a refresh token that is missing, invalid, expired or already used\n- `urn:problem:unauthenticated`: The access token is missing, invalid, expired or revoked\n- `urn:problem:forbidden`: The caller is authenticated but lacks the required role\n- `urn:problem:email-not-verified`: The email address must be verified before logging in\n- `urn:problem:wrong-password`: The caller's current password, required to confirm the change, is missing or wrong\n- `urn:problem:invalid-token`: The email verification or password reset token is unknown, used or expired\n- `urn:problem:username-taken`: The username belongs to another account\n- `urn:problem:email-taken`: The email address belongs to another account\n- `urn:problem:owner-required`: Only the owner can change roles and manage administrators\n- `urn:problem:owner-protected`: The owner account cannot be deleted or demoted, and the OWNER role cannot be assigned, through the API\n- `urn:problem:own-account`: Administrators cannot delete their own account through the admin endpoint\n- `urn:problem:user-not-found`: No user has this id\n- `urn:problem:conflict`: The change conflicts with data written at the same time; retry it\n- `urn:problem:login-locked`: Too many failed logins for this IP or account; wait for `Retry-After` seconds\n- `urn:problem:rate-limited`: Too many requests from this IP; wait for `Retry-After` seconds\n- `urn:problem:internal-error`: Unexpected server error; quote `X-Trace-Id` when reporting it",
             "example" : "urn:problem:validation-failed"
           }
         },
@@ -1816,7 +1922,7 @@
           },
           "role" : {
             "type" : "string",
-            "enum" : [ "USER", "ADMIN" ]
+            "enum" : [ "USER", "ADMIN", "OWNER" ]
           },
           "updatedAt" : {
             "type" : "string",

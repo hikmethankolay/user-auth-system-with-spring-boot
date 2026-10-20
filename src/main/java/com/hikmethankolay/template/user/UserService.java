@@ -18,6 +18,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -154,12 +155,12 @@ public class UserService {
     }
 
     /**
-     * Tells whether at least one administrator exists.
+     * Tells whether the owner account exists.
      *
-     * @return {@code true} if an admin exists
+     * @return {@code true} if a user has the {@link Role#OWNER} role
      */
-    public boolean adminExists() {
-        return userRepository.existsByRole(Role.ADMIN);
+    public boolean ownerExists() {
+        return userRepository.existsByRole(Role.OWNER);
     }
 
     /**
@@ -202,20 +203,31 @@ public class UserService {
      * Updates any field of a user as an administrator; {@code null} fields are left unchanged.
      * A new password or role ends all of the user's sessions, so it takes effect immediately.
      *
-     * @param id      user id
-     * @param request the changes
+     * <p>Administrators manage regular users. Changing a role, or changing an administrator or the
+     * owner, needs the owner, and a role change must be confirmed with the owner's current password.
+     * Nobody can demote the owner or make someone owner.</p>
+     *
+     * @param id          user id
+     * @param requesterId id of the administrator making the request
+     * @param request     the changes
      * @return the updated user
-     * @throws ApiException 404 if the user does not exist, 409 if the new username or email is taken or
-     *                      the change would demote the last administrator
+     * @throws ApiException 400 if a role change is not confirmed with the requester's current password,
+     *                      403 if the change needs the owner, 404 if the user does not exist, 409 if the
+     *                      new username or email is taken or the change would assign or remove the OWNER role
      */
     @Transactional
     @CacheEvict(cacheNames = CacheNames.USERS, key = "#id")
-    public UserResponse update(long id, AdminUpdateUserRequest request) {
+    public UserResponse update(long id, long requesterId, AdminUpdateUserRequest request) {
         User user = findUser(id);
         boolean roleChanged = request.role() != null && request.role() != user.getRole();
-        if (roleChanged && user.getRole() == Role.ADMIN && userRepository.countByRole(Role.ADMIN) == 1) {
-            throw ApiException.conflict(ProblemType.LAST_ADMINISTRATOR,
-                    "The last administrator cannot lose the ADMIN role.");
+        if (roleChanged && (request.role() == Role.OWNER || user.getRole() == Role.OWNER)) {
+            throw ApiException.conflict(ProblemType.OWNER_PROTECTED, "The OWNER role cannot be assigned or removed.");
+        }
+        if (roleChanged || user.getRole() != Role.USER) {
+            User owner = requireOwner(requesterId, "Only the owner can change roles or administrators.");
+            if (roleChanged) {
+                confirmPassword(owner, request.currentPassword());
+            }
         }
         String oldUsername = user.getUsername();
         String oldEmail = user.getEmail();
@@ -239,20 +251,31 @@ public class UserService {
     }
 
     /**
-     * Deletes a user.
+     * Deletes a user. Administrators delete regular users; deleting an administrator needs the owner,
+     * confirmed with the owner's current password. Nobody can delete the owner.
      *
-     * @param id          id of the user to delete
-     * @param requesterId id of the administrator making the request
-     * @throws ApiException 400 if an administrator tries to delete their own account,
-     *                      404 if the user does not exist
+     * @param id           id of the user to delete
+     * @param requesterId  id of the administrator making the request
+     * @param confirmation the requester's current password; needed only to delete an administrator
+     * @throws ApiException 400 if an administrator tries to delete their own account or the password is
+     *                      missing or wrong, 403 if the user is an administrator and the requester is not
+     *                      the owner, 404 if the user does not exist, 409 if the user is the owner
      */
     @Transactional
     @CacheEvict(cacheNames = CacheNames.USERS, key = "#id")
-    public void delete(long id, long requesterId) {
+    public void delete(long id, long requesterId, DeleteAccountRequest confirmation) {
         if (id == requesterId) {
             throw ApiException.badRequest(ProblemType.OWN_ACCOUNT, "You cannot delete your own account.");
         }
-        userRepository.delete(findUser(id));
+        User user = findUser(id);
+        if (user.getRole() == Role.OWNER) {
+            throw ApiException.conflict(ProblemType.OWNER_PROTECTED, "The owner account cannot be deleted.");
+        }
+        if (user.getRole() == Role.ADMIN) {
+            User owner = requireOwner(requesterId, "Only the owner can delete administrators.");
+            confirmPassword(owner, confirmation != null ? confirmation.password() : null);
+        }
+        userRepository.delete(user);
         audit.record(AuditEvent.USER_DELETED_BY_ADMIN, id);
         events.publishEvent(new SessionsInvalidated(id));
     }
@@ -264,7 +287,7 @@ public class UserService {
      * @param id      the caller's user id
      * @param request the current password
      * @throws ApiException 400 if the password is wrong, 404 if the user does not exist,
-     *                      409 if the user is the last administrator
+     *                      409 if the user is the owner
      */
     @Transactional
     @CacheEvict(cacheNames = CacheNames.USERS, key = "#id")
@@ -273,12 +296,43 @@ public class UserService {
         if (!passwordEncoder.matches(request.password(), user.getPasswordHash())) {
             throw ApiException.badRequest(ProblemType.WRONG_PASSWORD, "Password is incorrect.");
         }
-        if (user.getRole() == Role.ADMIN && userRepository.countByRole(Role.ADMIN) == 1) {
-            throw ApiException.conflict(ProblemType.LAST_ADMINISTRATOR, "The last administrator cannot delete their account.");
+        if (user.getRole() == Role.OWNER) {
+            throw ApiException.conflict(ProblemType.OWNER_PROTECTED, "The owner account cannot be deleted.");
         }
         userRepository.delete(user);
         audit.record(AuditEvent.ACCOUNT_DELETED, id);
         events.publishEvent(new SessionsInvalidated(id));
+    }
+
+    /**
+     * Loads the requester and checks that they are the owner. The role is read from the database, not
+     * from the access token, so a demotion applies even before the token expires.
+     *
+     * @param requesterId id of the user making the request
+     * @param detail      explanation sent to the client when the requester is not the owner
+     * @return the owner
+     * @throws ApiException 403 if the requester is not the owner
+     */
+    private User requireOwner(long requesterId, String detail) {
+        User requester = findUser(requesterId);
+        if (requester.getRole() != Role.OWNER) {
+            throw new ApiException(HttpStatus.FORBIDDEN, ProblemType.OWNER_REQUIRED, detail);
+        }
+        return requester;
+    }
+
+    /**
+     * Checks the current password a user sent to confirm a sensitive change.
+     *
+     * @param user     the user confirming the change
+     * @param password the password they sent, may be {@code null}
+     * @throws ApiException 400 if the password is missing or wrong
+     */
+    private void confirmPassword(User user, String password) {
+        if (password == null || !passwordEncoder.matches(password, user.getPasswordHash())) {
+            throw ApiException.badRequest(ProblemType.WRONG_PASSWORD,
+                    "Confirm this change with your current password; it is missing or incorrect.");
+        }
     }
 
     /**

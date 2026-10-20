@@ -32,8 +32,8 @@ public enum ProblemType {
     /** Login refused because the email address is not verified yet. */
     EMAIL_NOT_VERIFIED("email-not-verified", "The email address must be verified before logging in"),
 
-    /** The current password sent to confirm a change is wrong. */
-    WRONG_PASSWORD("wrong-password", "The current password sent to confirm the change is wrong"),
+    /** The caller's current password, required to confirm a change, is missing or wrong. */
+    WRONG_PASSWORD("wrong-password", "The caller's current password, required to confirm the change, is missing or wrong"),
 
     /** An email verification or password reset token is unknown, used or expired. */
     INVALID_TOKEN("invalid-token", "The email verification or password reset token is unknown, used or expired"),
@@ -44,8 +44,12 @@ public enum ProblemType {
     /** The email address belongs to another account. */
     EMAIL_TAKEN("email-taken", "The email address belongs to another account"),
 
-    /** The change would leave the application without an administrator. */
-    LAST_ADMINISTRATOR("last-administrator", "The change would leave the application without an administrator"),
+    /** Only the owner can change roles and manage administrators. */
+    OWNER_REQUIRED("owner-required", "Only the owner can change roles and manage administrators"),
+
+    /** The owner account cannot be deleted or demoted, and the OWNER role cannot be assigned, through the API. */
+    OWNER_PROTECTED("owner-protected",
+            "The owner account cannot be deleted or demoted, and the OWNER role cannot be assigned, through the API"),
 
     /** An administrator tried to delete their own account through the admin endpoint. */
     OWN_ACCOUNT("own-account", "Administrators cannot delete their own account through the admin endpoint"),
