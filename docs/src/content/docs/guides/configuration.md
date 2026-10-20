@@ -35,6 +35,7 @@ The `app.*` settings are bound to a validated record (`AppProperties`), so a mis
 | `ADMIN_USERNAME` / `ADMIN_EMAIL` / `ADMIN_PASSWORD` | *(none; `setup` fills them in)* | The owner account (role `OWNER`, see [Security](../security/#roles)), created only when all three are set and no owner exists |
 | `TRACING_SAMPLING_PROBABILITY` | `1.0` (`0.1` in prod) | Share of requests traced |
 | `MANAGEMENT_OPENTELEMETRY_TRACING_EXPORT_OTLP_ENDPOINT` | *(none)* | OTLP collector, e.g. `http://otel-collector:4318/v1/traces` |
+| `OTLP_METRICS_EXPORT_ENABLED` / `MANAGEMENT_OTLP_METRICS_EXPORT_URL` | `false` / `http://localhost:4318/v1/metrics` | Also push metrics to an OTLP collector (Prometheus scraping works either way) |
 | `MANAGEMENT_PORT` | *(same port; `8081` in prod)* | Actuator port in the prod profile |
 | `FORWARD_HEADERS_STRATEGY` | `none` | `framework` behind a trusted proxy, so the real client IP is used |
 | `SWAGGER_ENABLED` | `true` (`false` in prod) | Swagger UI and API docs |

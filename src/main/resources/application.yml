@@ -98,6 +98,13 @@ management:
         # Publishes latency buckets, so Prometheus can compute p95/p99 across instances
         # (used by ops/prometheus/alerts.yml and the Grafana dashboard).
         "[http.server.requests]": true
+  otlp:
+    metrics:
+      export:
+        # Metrics are scraped from /actuator/prometheus. The OpenTelemetry starter would also push them to
+        # localhost:4318 every minute, which fails without a collector. To push instead, set
+        # OTLP_METRICS_EXPORT_ENABLED=true and MANAGEMENT_OTLP_METRICS_EXPORT_URL=http://otel-collector:4318/v1/metrics
+        enabled: ${OTLP_METRICS_EXPORT_ENABLED:false}
   tracing:
     # Share of requests that are traced and exported. Trace ids are in the logs and in the
     # X-Trace-Id header either way. Export is off until an OTLP endpoint is set, e.g.

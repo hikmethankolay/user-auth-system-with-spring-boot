@@ -7,6 +7,8 @@ description: Metrics, alerts, dashboards, tracing, logs, the audit log and the e
 
 Prometheus metrics are served at `/actuator/prometheus`, tagged with `application`. In the prod profile Actuator runs
 on the internal port `8081`. Point Prometheus at that port and keep it off the public network.
+Metrics are not pushed over OTLP unless `OTLP_METRICS_EXPORT_ENABLED=true`; set
+`MANAGEMENT_OTLP_METRICS_EXPORT_URL` to the collector's `/v1/metrics` endpoint along with it.
 
 Besides the standard JVM, HTTP (with latency histograms), HikariCP and cache metrics, the application publishes:
 
