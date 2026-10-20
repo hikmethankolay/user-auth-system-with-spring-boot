@@ -1,4 +1,4 @@
-name: Static analysis
+name: SpotBugs
 
 # Error Prone (at compile time) and SpotBugs with FindSecBugs at maximum effort and the low threshold,
 # with the exclusions in spotbugs-exclude.xml. The full build in ci.yml runs the same checks; this
