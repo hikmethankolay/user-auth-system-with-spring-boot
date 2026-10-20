@@ -5,7 +5,7 @@ import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.StringJoiner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.spi.LoggingEventBuilder;
@@ -103,12 +103,14 @@ public class AuditLog {
      */
     private void write(AuditEvent event, Map<String, Object> fields) {
         LoggingEventBuilder entry = log.atLevel(event.level());
-        fields.forEach(entry::addKeyValue);
-        entry.log(fields.entrySet().stream()
-                // Line breaks in a value (e.g. a login identifier) would forge extra lines in text logs.
-                .map(field ->
-                        field.getKey() + "=" + String.valueOf(field.getValue()).replaceAll("[\\r\\n]", "_"))
-                .collect(Collectors.joining(" ")));
+        StringJoiner message = new StringJoiner(" ");
+        for (Map.Entry<String, Object> field : fields.entrySet()) {
+            // Line breaks in a value (e.g. a login identifier) would forge extra lines in text logs.
+            String text = String.valueOf(field.getValue()).replaceAll("[\\r\\n]", "_");
+            entry = entry.addKeyValue(field.getKey(), field.getValue() instanceof String ? text : field.getValue());
+            message.add(field.getKey() + "=" + text);
+        }
+        entry.log(message.toString());
         Counter.builder(METRIC_NAME)
                 .description("Security audit events")
                 .tag("event", event.action())
