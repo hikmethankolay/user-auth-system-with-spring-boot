@@ -1,6 +1,9 @@
 # Spring Boot Backend Template
 
 [![CI](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/ci.yml/badge.svg)](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/codeql.yml/badge.svg)](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/codeql.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/hikmethankolay/spring-boot-backend-template/badge)](https://scorecard.dev/viewer/?uri=github.com/hikmethankolay/spring-boot-backend-template)
+[![Mutation testing](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/mutation.yml/badge.svg)](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/mutation.yml)
 [![Release](https://img.shields.io/github/v/release/hikmethankolay/spring-boot-backend-template)](https://github.com/hikmethankolay/spring-boot-backend-template/releases)
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-16a34a)](https://hikmethankolay.github.io/spring-boot-backend-template/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
