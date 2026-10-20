@@ -17,7 +17,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     permissions:
       contents: read
     steps:
@@ -48,6 +48,34 @@ jobs:
           SITE_URL: https://${{ github.repository_owner }}.github.io
           SITE_BASE: /${{ github.event.repository.name }}
         run: scripts/site.sh
+
+      # Same run as mutation.yml, so the badge shows the score of the released code.
+      - name: Mutation testing
+        run: ./mvnw -B test-compile org.pitest:pitest-maven:mutationCoverage -Dthreads=2
+
+      # shields.io endpoint files for the README's coverage and mutation score badges.
+      - name: Badge data
+        run: |
+          badge() {
+            local color=red
+            if awk -v p="$2" 'BEGIN { exit !(p >= 90) }'; then
+              color=brightgreen
+            elif awk -v p="$2" 'BEGIN { exit !(p >= 75) }'; then
+              color=yellow
+            fi
+            printf '{"schemaVersion":1,"label":"%s","message":"%s%%","color":"%s"}\n' "$1" "$2" "$color"
+          }
+          mkdir -p target/pages/badges
+          # The last LINE counter in jacoco.xml is the total, as on the site's home page.
+          coverage=$(grep -o '<counter type="LINE" missed="[0-9]*" covered="[0-9]*"/>' target/site/jacoco/jacoco.xml \
+            | tail -n 1 | sed -E 's/.*missed="([0-9]+)" covered="([0-9]+)".*/\1 \2/' \
+            | awk '{ printf "%.1f", 100 * $2 / ($1 + $2) }')
+          killed=$(grep -o "detected='true'" target/pit-reports/mutations.xml | wc -l)
+          total=$(grep -o "<mutation " target/pit-reports/mutations.xml | wc -l)
+          mutation=$(awk -v k="$killed" -v t="$total" 'BEGIN { printf "%.0f", 100 * k / t }')
+          badge coverage "$coverage" > target/pages/badges/coverage.json
+          badge "mutation score" "$mutation" > target/pages/badges/mutation.json
+          cat target/pages/badges/*.json
 
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
