@@ -25,13 +25,16 @@ class OpenApiSpecExportTest extends IntegrationTest {
 
     private static final Path COMMITTED = Path.of("api", "openapi.json");
     private static final Path GENERATED = Path.of("target", "openapi.json");
-    private static final JsonMapper JSON = JsonMapper.builder().enable(SerializationFeature.INDENT_OUTPUT).build();
+    private static final JsonMapper JSON =
+            JsonMapper.builder().enable(SerializationFeature.INDENT_OUTPUT).build();
 
     @Test
     void committedSpecMatchesTheGeneratedOne() throws Exception {
         String spec = mockMvc.perform(get("/v3/api-docs"))
                 .andExpect(status().isOk())
-                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+                .andReturn()
+                .getResponse()
+                .getContentAsString(StandardCharsets.UTF_8);
         JsonNode generated = JSON.readTree(spec);
         String pretty = JSON.writeValueAsString(generated) + "\n";
 

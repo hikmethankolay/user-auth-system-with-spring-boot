@@ -79,7 +79,8 @@ class LoginAttemptServiceIntegrationTest extends IntegrationTest {
     void concurrentAttemptsCannotExceedTheLimit() throws Exception {
         String key = uniqueKey("account");
         try (ExecutorService pool = Executors.newFixedThreadPool(20)) {
-            List<Future<Boolean>> results = pool.invokeAll(Collections.nCopies(20, (Callable<Boolean>) () -> service.tryAcquire(key)));
+            List<Future<Boolean>> results =
+                    pool.invokeAll(Collections.nCopies(20, (Callable<Boolean>) () -> service.tryAcquire(key)));
             long allowed = 0;
             for (Future<Boolean> result : results) {
                 allowed += result.get() ? 1 : 0;
@@ -94,6 +95,8 @@ class LoginAttemptServiceIntegrationTest extends IntegrationTest {
         service.tryAcquire(key);
 
         Long ttlSeconds = redis.getExpire("spring-boot-template:login-failures:" + key);
-        assertThat(ttlSeconds).isPositive().isLessThanOrEqualTo(service.lockDuration().toSeconds());
+        assertThat(ttlSeconds)
+                .isPositive()
+                .isLessThanOrEqualTo(service.lockDuration().toSeconds());
     }
 }

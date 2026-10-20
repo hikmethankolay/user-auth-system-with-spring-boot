@@ -23,20 +23,29 @@ class ArchitectureTest {
 
     @ArchTest
     static final ArchRule controllersDoNotUseRepositories = noClasses()
-            .that().areAnnotatedWith(RestController.class)
-            .should().dependOnClassesThat().areAssignableTo(Repository.class)
+            .that()
+            .areAnnotatedWith(RestController.class)
+            .should()
+            .dependOnClassesThat()
+            .areAssignableTo(Repository.class)
             .because("controllers call services; services own data access and transactions");
 
     @ArchTest
     static final ArchRule controllersDoNotExposeEntities = noClasses()
-            .that().areAnnotatedWith(RestController.class)
-            .should().dependOnClassesThat().areAnnotatedWith(Entity.class)
+            .that()
+            .areAnnotatedWith(RestController.class)
+            .should()
+            .dependOnClassesThat()
+            .areAnnotatedWith(Entity.class)
             .because("the API speaks DTOs, so entities can change without breaking clients");
 
     @ArchTest
     static final ArchRule nothingDependsOnControllers = noClasses()
-            .that().areNotAnnotatedWith(RestController.class)
-            .should().dependOnClassesThat().areAnnotatedWith(RestController.class)
+            .that()
+            .areNotAnnotatedWith(RestController.class)
+            .should()
+            .dependOnClassesThat()
+            .areAnnotatedWith(RestController.class)
             .because("controllers are entry points, not reusable components");
 
     @ArchTest

@@ -20,7 +20,8 @@ public enum ProblemType {
     INVALID_SORT("invalid-sort", "The `sort` parameter names a property that cannot be sorted by"),
 
     /** Wrong login credentials, or a refresh token that is missing, invalid, expired or already used. */
-    INVALID_CREDENTIALS("invalid-credentials",
+    INVALID_CREDENTIALS(
+            "invalid-credentials",
             "Wrong username, email or password, or a refresh token that is missing, invalid, expired or already used"),
 
     /** The access token is missing, invalid, expired or revoked. */
@@ -33,7 +34,8 @@ public enum ProblemType {
     EMAIL_NOT_VERIFIED("email-not-verified", "The email address must be verified before logging in"),
 
     /** The caller's current password, required to confirm a change, is missing or wrong. */
-    WRONG_PASSWORD("wrong-password", "The caller's current password, required to confirm the change, is missing or wrong"),
+    WRONG_PASSWORD(
+            "wrong-password", "The caller's current password, required to confirm the change, is missing or wrong"),
 
     /** An email verification or password reset token is unknown, used or expired. */
     INVALID_TOKEN("invalid-token", "The email verification or password reset token is unknown, used or expired"),
@@ -48,7 +50,8 @@ public enum ProblemType {
     OWNER_REQUIRED("owner-required", "Only the owner can change roles and manage administrators"),
 
     /** The owner account cannot be deleted or demoted, and the OWNER role cannot be assigned, through the API. */
-    OWNER_PROTECTED("owner-protected",
+    OWNER_PROTECTED(
+            "owner-protected",
             "The owner account cannot be deleted or demoted, and the OWNER role cannot be assigned, through the API"),
 
     /** An administrator tried to delete their own account through the admin endpoint. */

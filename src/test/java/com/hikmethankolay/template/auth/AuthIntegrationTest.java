@@ -80,11 +80,20 @@ class AuthIntegrationTest extends IntegrationTest {
                 .andExpect(jsonPath("$.tokenType").value("Bearer"))
                 .andExpect(jsonPath("$.expiresIn").value(900))
                 .andExpect(jsonPath("$.refreshToken").isNotEmpty())
-                .andExpect(header().stringValues(HttpHeaders.SET_COOKIE, hasItems(
-                        allOf(containsString("auth_token="), containsString("Path=/;"), containsString("HttpOnly"),
-                                containsString("SameSite=Strict"), not(containsString("Max-Age"))),
-                        allOf(containsString("refresh_token="), containsString("Path=/api/v1/auth"),
-                                containsString("HttpOnly"), not(containsString("Max-Age"))))));
+                .andExpect(header().stringValues(
+                                HttpHeaders.SET_COOKIE,
+                                hasItems(
+                                        allOf(
+                                                containsString("auth_token="),
+                                                containsString("Path=/;"),
+                                                containsString("HttpOnly"),
+                                                containsString("SameSite=Strict"),
+                                                not(containsString("Max-Age"))),
+                                        allOf(
+                                                containsString("refresh_token="),
+                                                containsString("Path=/api/v1/auth"),
+                                                containsString("HttpOnly"),
+                                                not(containsString("Max-Age"))))));
     }
 
     @Test
@@ -98,9 +107,11 @@ class AuthIntegrationTest extends IntegrationTest {
                                 {"identifier":"%s","password":"%s","rememberMe":true}""", username, PASSWORD)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.expiresIn").value(900))
-                .andExpect(header().stringValues(HttpHeaders.SET_COOKIE, hasItems(
-                        allOf(containsString("auth_token="), containsString("Max-Age=900")),
-                        allOf(containsString("refresh_token="), containsString("Max-Age=2592000")))));
+                .andExpect(header().stringValues(
+                                HttpHeaders.SET_COOKIE,
+                                hasItems(
+                                        allOf(containsString("auth_token="), containsString("Max-Age=900")),
+                                        allOf(containsString("refresh_token="), containsString("Max-Age=2592000")))));
     }
 
     @Test
@@ -145,10 +156,15 @@ class AuthIntegrationTest extends IntegrationTest {
     @Test
     void corsExposesTheDocumentedResponseHeaders() throws Exception {
         mockMvc.perform(get("/api/v1/users/me").header(HttpHeaders.ORIGIN, "http://localhost:3000"))
-                .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, allOf(
-                        containsString("X-Trace-Id"), containsString("Retry-After"), containsString("Content-Disposition"),
-                        containsString("RateLimit-Limit"), containsString("RateLimit-Remaining"),
-                        containsString("RateLimit-Reset"))));
+                .andExpect(header().string(
+                                HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS,
+                                allOf(
+                                        containsString("X-Trace-Id"),
+                                        containsString("Retry-After"),
+                                        containsString("Content-Disposition"),
+                                        containsString("RateLimit-Limit"),
+                                        containsString("RateLimit-Remaining"),
+                                        containsString("RateLimit-Reset"))));
     }
 
     @Test
@@ -159,13 +175,16 @@ class AuthIntegrationTest extends IntegrationTest {
                 {"identifier":"%s","password":"Wrong#123"}""", username);
 
         for (int attempt = 0; attempt < 3; attempt++) {
-            mockMvc.perform(post("/api/v1/auth/login").with(fromIp("10.0.0.2"))
-                            .contentType(MediaType.APPLICATION_JSON).content(wrongLogin))
+            mockMvc.perform(post("/api/v1/auth/login")
+                            .with(fromIp("10.0.0.2"))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(wrongLogin))
                     .andExpect(status().isUnauthorized());
         }
 
         // Even the correct password is rejected while the account is locked, from any IP.
-        mockMvc.perform(post("/api/v1/auth/login").with(fromIp("10.0.0.3"))
+        mockMvc.perform(post("/api/v1/auth/login")
+                        .with(fromIp("10.0.0.3"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
                                 {"identifier":"%s","password":"%s"}""", username, PASSWORD)))
@@ -180,14 +199,16 @@ class AuthIntegrationTest extends IntegrationTest {
         register(username);
 
         for (String identifier : new String[] {username, username, username + "@example.com"}) {
-            mockMvc.perform(post("/api/v1/auth/login").with(fromIp("10.0.9." + identifier.length()))
+            mockMvc.perform(post("/api/v1/auth/login")
+                            .with(fromIp("10.0.9." + identifier.length()))
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(json("""
                                     {"identifier":"%s","password":"Wrong#123"}""", identifier)))
                     .andExpect(status().isUnauthorized());
         }
 
-        mockMvc.perform(post("/api/v1/auth/login").with(fromIp("10.0.9.200"))
+        mockMvc.perform(post("/api/v1/auth/login")
+                        .with(fromIp("10.0.9.200"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
                                 {"identifier":"%s@example.com","password":"%s"}""", username, PASSWORD)))
@@ -207,8 +228,7 @@ class AuthIntegrationTest extends IntegrationTest {
     void tamperedTokenIsUnauthorized() throws Exception {
         String token = registerAndLogin(uniqueUsername());
 
-        mockMvc.perform(get("/api/v1/users/me").with(bearer(token + "x")))
-                .andExpect(status().isUnauthorized());
+        mockMvc.perform(get("/api/v1/users/me").with(bearer(token + "x"))).andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -241,7 +261,9 @@ class AuthIntegrationTest extends IntegrationTest {
                                 {"refreshToken":"%s"}""", refreshToken)))
                 .andExpect(status().isOk())
                 .andExpect(header().string(HttpHeaders.CACHE_CONTROL, "no-store"))
-                .andReturn().getResponse().getContentAsString();
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
         return new Tokens(JsonPath.read(body, "$.accessToken"), JsonPath.read(body, "$.refreshToken"));
     }
 
@@ -268,8 +290,9 @@ class AuthIntegrationTest extends IntegrationTest {
         mockMvc.perform(post("/api/v1/auth/refresh").cookie(new Cookie("refresh_token", login.refreshToken())))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accessToken").isNotEmpty())
-                .andExpect(header().stringValues(HttpHeaders.SET_COOKIE, hasItems(
-                        containsString("auth_token="), containsString("refresh_token="))));
+                .andExpect(header().stringValues(
+                                HttpHeaders.SET_COOKIE,
+                                hasItems(containsString("auth_token="), containsString("refresh_token="))));
     }
 
     @Test
@@ -316,18 +339,21 @@ class AuthIntegrationTest extends IntegrationTest {
         Tokens second = refresh(first.refreshToken());
 
         // The login token was cleaned up: replaying it is rejected but does not end the session.
-        mockMvc.perform(post("/api/v1/auth/refresh").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/api/v1/auth/refresh")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
                                 {"refreshToken":"%s"}""", login.refreshToken())))
                 .andExpect(status().isUnauthorized());
         Tokens third = refresh(second.refreshToken());
 
         // Replaying the newest used token is still detected and ends the session.
-        mockMvc.perform(post("/api/v1/auth/refresh").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/api/v1/auth/refresh")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
                                 {"refreshToken":"%s"}""", second.refreshToken())))
                 .andExpect(status().isUnauthorized());
-        mockMvc.perform(post("/api/v1/auth/refresh").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/api/v1/auth/refresh")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
                                 {"refreshToken":"%s"}""", third.refreshToken())))
                 .andExpect(status().isUnauthorized());
@@ -389,9 +415,11 @@ class AuthIntegrationTest extends IntegrationTest {
     void logoutClearsCookies() throws Exception {
         mockMvc.perform(post("/api/v1/auth/logout"))
                 .andExpect(status().isNoContent())
-                .andExpect(header().stringValues(HttpHeaders.SET_COOKIE, hasItems(
-                        allOf(containsString("auth_token="), containsString("Max-Age=0")),
-                        allOf(containsString("refresh_token="), containsString("Max-Age=0")))));
+                .andExpect(header().stringValues(
+                                HttpHeaders.SET_COOKIE,
+                                hasItems(
+                                        allOf(containsString("auth_token="), containsString("Max-Age=0")),
+                                        allOf(containsString("refresh_token="), containsString("Max-Age=0")))));
     }
 
     @Test

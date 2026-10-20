@@ -93,10 +93,14 @@ public class OpenApiConfig {
 
     /** Response headers present on every API response, keyed by name, in document order. */
     private static final Map<String, String> COMMON_HEADERS = orderedMap(
-            TraceIdResponseFilter.HEADER, "Trace id of the request; quote it when reporting an error",
-            "RateLimit-Limit", "Requests allowed per minute for the client IP",
-            "RateLimit-Remaining", "Requests left in the current window",
-            "RateLimit-Reset", "Seconds until the window resets");
+            TraceIdResponseFilter.HEADER,
+            "Trace id of the request; quote it when reporting an error",
+            "RateLimit-Limit",
+            "Requests allowed per minute for the client IP",
+            "RateLimit-Remaining",
+            "Requests left in the current window",
+            "RateLimit-Reset",
+            "Seconds until the window resets");
 
     /** Description of the password fields checked by {@code @ValidPassword}. */
     private static final String PASSWORD_RULE = "8-72 characters and at most 72 bytes in UTF-8, with an uppercase "
@@ -119,10 +123,13 @@ public class OpenApiConfig {
                 .servers(List.of(new Server().url("/").description("The host serving this document")))
                 .tags(List.of(
                         new Tag().name("Authentication").description("Registration, login, token refresh and logout"),
-                        new Tag().name("Account").description("Email verification and password reset, "
-                                + "confirmed with a token sent by email"),
-                        new Tag().name("Users").description("The current user's profile and data, and user "
-                                + "administration")))
+                        new Tag()
+                                .name("Account")
+                                .description("Email verification and password reset, "
+                                        + "confirmed with a token sent by email"),
+                        new Tag()
+                                .name("Users")
+                                .description("The current user's profile and data, and user " + "administration")))
                 .components(components());
     }
 
@@ -135,21 +142,25 @@ public class OpenApiConfig {
         Components components = new Components()
                 .addSchemas(PROBLEM, problemSchema())
                 .addSchemas(FIELD_VIOLATION, fieldViolationSchema());
-        COMMON_HEADERS.forEach((name, description) -> components.addHeaders(name,
-                header(description, name.startsWith("RateLimit") ? new IntegerSchema() : new StringSchema())));
+        COMMON_HEADERS.forEach((name, description) -> components.addHeaders(
+                name, header(description, name.startsWith("RateLimit") ? new IntegerSchema() : new StringSchema())));
         components.addHeaders(HttpHeaders.RETRY_AFTER, header("Seconds to wait before retrying", new IntegerSchema()));
-        components.addHeaders(HttpHeaders.WWW_AUTHENTICATE,
-                header("Authentication scheme to use: `Bearer`", new StringSchema()));
+        components.addHeaders(
+                HttpHeaders.WWW_AUTHENTICATE, header("Authentication scheme to use: `Bearer`", new StringSchema()));
 
         components.addResponses(BAD_REQUEST, problem("Invalid input; validation errors are listed in `errors`"));
-        components.addResponses(UNAUTHORIZED, problem("Missing, invalid, expired or revoked access token")
-                .addHeaderObject(HttpHeaders.WWW_AUTHENTICATE, headerRef(HttpHeaders.WWW_AUTHENTICATE)));
+        components.addResponses(
+                UNAUTHORIZED,
+                problem("Missing, invalid, expired or revoked access token")
+                        .addHeaderObject(HttpHeaders.WWW_AUTHENTICATE, headerRef(HttpHeaders.WWW_AUTHENTICATE)));
         components.addResponses(FORBIDDEN, problem("Authenticated, but not allowed"));
         components.addResponses(USER_NOT_FOUND, problem("No user with this id"));
-        components.addResponses(TOO_MANY_REQUESTS, problem("Too many requests or login attempts; wait for "
-                + "`Retry-After` seconds").addHeaderObject(HttpHeaders.RETRY_AFTER, headerRef(HttpHeaders.RETRY_AFTER)));
-        components.addResponses(INTERNAL_SERVER_ERROR, problem("Unexpected server error; quote `X-Trace-Id` when "
-                + "reporting it"));
+        components.addResponses(
+                TOO_MANY_REQUESTS,
+                problem("Too many requests or login attempts; wait for " + "`Retry-After` seconds")
+                        .addHeaderObject(HttpHeaders.RETRY_AFTER, headerRef(HttpHeaders.RETRY_AFTER)));
+        components.addResponses(
+                INTERNAL_SERVER_ERROR, problem("Unexpected server error; quote `X-Trace-Id` when " + "reporting it"));
         components.getResponses().values().forEach(response -> addCommonHeaders(null, response));
         return components;
     }
@@ -164,25 +175,29 @@ public class OpenApiConfig {
      */
     @Bean
     @Order(Ordered.LOWEST_PRECEDENCE)
-    OpenApiCustomizer errorResponsesAndHeaders(@Value("${spring.data.web.pageable.max-page-size:2000}") int maxPageSize) {
+    OpenApiCustomizer errorResponsesAndHeaders(
+            @Value("${spring.data.web.pageable.max-page-size:2000}") int maxPageSize) {
         return openApi -> {
-            openApi.getPaths().forEach((path, item) -> item.readOperations().forEach(operation -> {
-                ApiResponses responses = operation.getResponses();
-                if (hasInput(operation)) {
-                    responses.putIfAbsent("400", responseRef(BAD_REQUEST));
-                }
-                if (path.contains("{id}")) {
-                    responses.putIfAbsent("404", responseRef(USER_NOT_FOUND));
-                }
-                responses.putIfAbsent("429", responseRef(TOO_MANY_REQUESTS));
-                responses.putIfAbsent("500", responseRef(INTERNAL_SERVER_ERROR));
-                responses.forEach(OpenApiConfig::addCommonHeaders);
-                if (operation.getParameters() != null) {
-                    operation.getParameters().stream()
-                            .filter(parameter -> "size".equals(parameter.getName()) && parameter.getSchema() != null)
-                            .forEach(parameter -> parameter.getSchema().setMaximum(BigDecimal.valueOf(maxPageSize)));
-                }
-            }));
+            openApi.getPaths()
+                    .forEach((path, item) -> item.readOperations().forEach(operation -> {
+                        ApiResponses responses = operation.getResponses();
+                        if (hasInput(operation)) {
+                            responses.putIfAbsent("400", responseRef(BAD_REQUEST));
+                        }
+                        if (path.contains("{id}")) {
+                            responses.putIfAbsent("404", responseRef(USER_NOT_FOUND));
+                        }
+                        responses.putIfAbsent("429", responseRef(TOO_MANY_REQUESTS));
+                        responses.putIfAbsent("500", responseRef(INTERNAL_SERVER_ERROR));
+                        responses.forEach(OpenApiConfig::addCommonHeaders);
+                        if (operation.getParameters() != null) {
+                            operation.getParameters().stream()
+                                    .filter(parameter ->
+                                            "size".equals(parameter.getName()) && parameter.getSchema() != null)
+                                    .forEach(parameter ->
+                                            parameter.getSchema().setMaximum(BigDecimal.valueOf(maxPageSize)));
+                        }
+                    }));
             completeSchemas(openApi.getComponents().getSchemas());
         };
     }
@@ -235,8 +250,11 @@ public class OpenApiConfig {
                             parameter.setDescription("Sort order as `property,asc` or `property,desc`; repeat the "
                                     + "parameter to sort by several properties. Allowed properties: " + properties
                                     + ". Any other property is rejected with 400.");
-                            if (parameter.getSchema() != null && parameter.getSchema().getItems() != null) {
-                                parameter.getSchema().getItems()
+                            if (parameter.getSchema() != null
+                                    && parameter.getSchema().getItems() != null) {
+                                parameter
+                                        .getSchema()
+                                        .getItems()
                                         .setPattern("^(" + alternatives + ")(,(asc|desc|ASC|DESC))?$");
                             }
                         });
@@ -262,8 +280,12 @@ public class OpenApiConfig {
      * @return the response object
      */
     private static ApiResponse problem(String description) {
-        return new ApiResponse().description(description).content(new Content()
-                .addMediaType(ApiDocs.PROBLEM_JSON, new MediaType().schema(new Schema<>().$ref(ApiDocs.PROBLEM_SCHEMA))));
+        return new ApiResponse()
+                .description(description)
+                .content(new Content()
+                        .addMediaType(
+                                ApiDocs.PROBLEM_JSON,
+                                new MediaType().schema(new Schema<>().$ref(ApiDocs.PROBLEM_SCHEMA))));
     }
 
     /**
@@ -274,7 +296,8 @@ public class OpenApiConfig {
      */
     private static boolean hasInput(Operation operation) {
         return operation.getRequestBody() != null
-                || (operation.getParameters() != null && !operation.getParameters().isEmpty());
+                || (operation.getParameters() != null
+                        && !operation.getParameters().isEmpty());
     }
 
     /**
@@ -343,15 +366,22 @@ public class OpenApiConfig {
     private static Schema<?> problemSchema() {
         return new ObjectSchema()
                 .description("RFC 9457 problem detail")
-                .addProperty("type", new StringSchema().format("uri").example(ProblemType.VALIDATION_FAILED.uri().toString())
-                        .description(problemTypes()))
+                .addProperty(
+                        "type",
+                        new StringSchema()
+                                .format("uri")
+                                .example(ProblemType.VALIDATION_FAILED.uri().toString())
+                                .description(problemTypes()))
                 .addProperty("title", new StringSchema().example("Bad Request"))
                 .addProperty("status", new IntegerSchema().example(400))
                 .addProperty("detail", new StringSchema().example("Request validation failed."))
-                .addProperty("instance", new StringSchema().format("uri-reference").example("/api/v1/auth/register"))
-                .addProperty("errors", new ArraySchema()
-                        .items(new Schema<>().$ref("#/components/schemas/" + FIELD_VIOLATION))
-                        .description("Field errors; only on validation failures"))
+                .addProperty(
+                        "instance", new StringSchema().format("uri-reference").example("/api/v1/auth/register"))
+                .addProperty(
+                        "errors",
+                        new ArraySchema()
+                                .items(new Schema<>().$ref("#/components/schemas/" + FIELD_VIOLATION))
+                                .description("Field errors; only on validation failures"))
                 .required(List.of("type", "title", "status"));
     }
 
@@ -363,9 +393,11 @@ public class OpenApiConfig {
     private static String problemTypes() {
         return Arrays.stream(ProblemType.values())
                 .map(type -> "- `" + type.uri() + "`: " + type.description())
-                .collect(Collectors.joining("\n",
+                .collect(Collectors.joining(
+                        "\n",
                         "Identifies the kind of error. `about:blank` for generic HTTP errors (malformed JSON, "
-                                + "unsupported media type, ...), otherwise one of:\n\n", ""));
+                                + "unsupported media type, ...), otherwise one of:\n\n",
+                        ""));
     }
 
     /**

@@ -49,7 +49,8 @@ class SessionRevocationIntegrationTest extends IntegrationTest {
         Tokens laptop = loginTokens(username, PASSWORD);
         Tokens phone = loginTokens(username, PASSWORD);
 
-        mockMvc.perform(put("/api/v1/users/me/password").with(bearer(laptop.accessToken()))
+        mockMvc.perform(put("/api/v1/users/me/password")
+                        .with(bearer(laptop.accessToken()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
                                 {"currentPassword":"%s","newPassword":"Changed#456"}""", PASSWORD)))
@@ -73,8 +74,8 @@ class SessionRevocationIntegrationTest extends IntegrationTest {
                         .content(json("""
                                 {"email":"%s@example.com"}""", username)))
                 .andExpect(status().isAccepted());
-        String resetToken = CapturingMailSender.token(mail.latest(username + "@example.com", "Reset your password")
-                .orElseThrow());
+        String resetToken = CapturingMailSender.token(
+                mail.latest(username + "@example.com", "Reset your password").orElseThrow());
         mockMvc.perform(post("/api/v1/auth/password-reset/confirm")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
@@ -91,7 +92,8 @@ class SessionRevocationIntegrationTest extends IntegrationTest {
         Tokens session = loginTokens(username, PASSWORD);
         String adminToken = login(ADMIN_USERNAME, ADMIN_PASSWORD);
 
-        mockMvc.perform(patch("/api/v1/users/{id}", userId).with(bearer(adminToken))
+        mockMvc.perform(patch("/api/v1/users/{id}", userId)
+                        .with(bearer(adminToken))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
                                 {"role":"ADMIN","currentPassword":"%s"}""", ADMIN_PASSWORD)))
@@ -112,13 +114,15 @@ class SessionRevocationIntegrationTest extends IntegrationTest {
         register(username);
         Tokens session = loginTokens(username, PASSWORD);
 
-        mockMvc.perform(patch("/api/v1/users/me").with(bearer(session.accessToken()))
+        mockMvc.perform(patch("/api/v1/users/me")
+                        .with(bearer(session.accessToken()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
                                 {"username":"%s"}""", uniqueUsername())))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/v1/users/me").with(bearer(session.accessToken()))).andExpect(status().isOk());
+        mockMvc.perform(get("/api/v1/users/me").with(bearer(session.accessToken())))
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -128,9 +132,11 @@ class SessionRevocationIntegrationTest extends IntegrationTest {
         Tokens session = loginTokens(username, PASSWORD);
 
         // Like a token minted by a login that raced a password change: it escaped the bulk delete.
-        transaction.executeWithoutResult(status -> users.findById(id).orElseThrow().endSessions());
+        transaction.executeWithoutResult(
+                status -> users.findById(id).orElseThrow().endSessions());
 
-        mockMvc.perform(post("/api/v1/auth/refresh").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/api/v1/auth/refresh")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
                                 {"refreshToken":"%s"}""", session.refreshToken())))
                 .andExpect(status().isUnauthorized());
@@ -141,7 +147,8 @@ class SessionRevocationIntegrationTest extends IntegrationTest {
         long id = register(uniqueUsername());
         User stale = users.findById(id).orElseThrow();
 
-        transaction.executeWithoutResult(status -> users.findById(id).orElseThrow().setRole(Role.ADMIN));
+        transaction.executeWithoutResult(
+                status -> users.findById(id).orElseThrow().setRole(Role.ADMIN));
         stale.setUsername(uniqueUsername());
 
         assertThatThrownBy(() -> users.save(stale)).isInstanceOf(OptimisticLockingFailureException.class);

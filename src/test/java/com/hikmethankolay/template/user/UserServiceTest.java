@@ -79,8 +79,8 @@ class UserServiceTest {
         when(userRepository.existsByEmail("alice@example.com")).thenReturn(true);
 
         assertThatThrownBy(() -> userService.register("alice", "alice@example.com", "Secret#123", Role.USER, false))
-                .isInstanceOfSatisfying(ApiException.class,
-                        ex -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.CONFLICT));
+                .isInstanceOfSatisfying(
+                        ApiException.class, ex -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.CONFLICT));
         verify(userRepository, never()).save(any());
     }
 
@@ -91,8 +91,8 @@ class UserServiceTest {
         when(passwordEncoder.matches("wrong", "hashed")).thenReturn(false);
 
         assertThatThrownBy(() -> userService.changePassword(1L, new ChangePasswordRequest("wrong", "New#12345")))
-                .isInstanceOfSatisfying(ApiException.class,
-                        ex -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST));
+                .isInstanceOfSatisfying(
+                        ApiException.class, ex -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST));
         assertThat(user.getPasswordHash()).isEqualTo("hashed");
     }
 
@@ -104,7 +104,8 @@ class UserServiceTest {
         when(passwordEncoder.matches("Owner#123", "owner-hash")).thenReturn(true);
         when(userRepository.saveAndFlush(user)).thenReturn(user);
 
-        UserResponse response = userService.update(1L, 9L, new AdminUpdateUserRequest(null, null, null, Role.ADMIN, "Owner#123"));
+        UserResponse response =
+                userService.update(1L, 9L, new AdminUpdateUserRequest(null, null, null, Role.ADMIN, "Owner#123"));
 
         assertThat(response.username()).isEqualTo("alice");
         assertThat(response.email()).isEqualTo("alice@example.com");
@@ -117,8 +118,10 @@ class UserServiceTest {
         User user = withId(new User("alice", "alice@example.com", "hashed", Role.USER), 1L);
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
-        assertProblem(() -> userService.update(1L, 9L, new AdminUpdateUserRequest(null, null, null, Role.OWNER, "Owner#123")),
-                HttpStatus.CONFLICT, "urn:problem:owner-protected");
+        assertProblem(
+                () -> userService.update(1L, 9L, new AdminUpdateUserRequest(null, null, null, Role.OWNER, "Owner#123")),
+                HttpStatus.CONFLICT,
+                "urn:problem:owner-protected");
         assertThat(user.getRole()).isEqualTo(Role.USER);
     }
 
@@ -127,8 +130,10 @@ class UserServiceTest {
         User owner = owner();
         when(userRepository.findById(9L)).thenReturn(Optional.of(owner));
 
-        assertProblem(() -> userService.update(9L, 9L, new AdminUpdateUserRequest(null, null, null, Role.USER, "Owner#123")),
-                HttpStatus.CONFLICT, "urn:problem:owner-protected");
+        assertProblem(
+                () -> userService.update(9L, 9L, new AdminUpdateUserRequest(null, null, null, Role.USER, "Owner#123")),
+                HttpStatus.CONFLICT,
+                "urn:problem:owner-protected");
         assertThat(owner.getRole()).isEqualTo(Role.OWNER);
     }
 
@@ -138,8 +143,10 @@ class UserServiceTest {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(userRepository.findById(5L)).thenReturn(Optional.of(admin(5L)));
 
-        assertProblem(() -> userService.update(1L, 5L, new AdminUpdateUserRequest(null, null, null, Role.ADMIN, "Admin#123")),
-                HttpStatus.FORBIDDEN, "urn:problem:owner-required");
+        assertProblem(
+                () -> userService.update(1L, 5L, new AdminUpdateUserRequest(null, null, null, Role.ADMIN, "Admin#123")),
+                HttpStatus.FORBIDDEN,
+                "urn:problem:owner-required");
         assertThat(user.getRole()).isEqualTo(Role.USER);
     }
 
@@ -149,8 +156,10 @@ class UserServiceTest {
         when(userRepository.findById(6L)).thenReturn(Optional.of(other));
         when(userRepository.findById(5L)).thenReturn(Optional.of(admin(5L)));
 
-        assertProblem(() -> userService.update(6L, 5L, new AdminUpdateUserRequest(null, null, "Taken#over1", null, null)),
-                HttpStatus.FORBIDDEN, "urn:problem:owner-required");
+        assertProblem(
+                () -> userService.update(6L, 5L, new AdminUpdateUserRequest(null, null, "Taken#over1", null, null)),
+                HttpStatus.FORBIDDEN,
+                "urn:problem:owner-required");
         assertThat(other.getPasswordHash()).isEqualTo("hashed");
     }
 
@@ -161,10 +170,14 @@ class UserServiceTest {
         when(userRepository.findById(9L)).thenReturn(Optional.of(owner()));
         when(passwordEncoder.matches("Wrong#123", "owner-hash")).thenReturn(false);
 
-        assertProblem(() -> userService.update(1L, 9L, new AdminUpdateUserRequest(null, null, null, Role.ADMIN, "Wrong#123")),
-                HttpStatus.BAD_REQUEST, "urn:problem:wrong-password");
-        assertProblem(() -> userService.update(1L, 9L, new AdminUpdateUserRequest(null, null, null, Role.ADMIN, null)),
-                HttpStatus.BAD_REQUEST, "urn:problem:wrong-password");
+        assertProblem(
+                () -> userService.update(1L, 9L, new AdminUpdateUserRequest(null, null, null, Role.ADMIN, "Wrong#123")),
+                HttpStatus.BAD_REQUEST,
+                "urn:problem:wrong-password");
+        assertProblem(
+                () -> userService.update(1L, 9L, new AdminUpdateUserRequest(null, null, null, Role.ADMIN, null)),
+                HttpStatus.BAD_REQUEST,
+                "urn:problem:wrong-password");
         assertThat(user.getRole()).isEqualTo(Role.USER);
         verify(userRepository, never()).saveAndFlush(any());
     }
@@ -177,7 +190,8 @@ class UserServiceTest {
         when(passwordEncoder.matches("Owner#123", "owner-hash")).thenReturn(true);
         when(userRepository.saveAndFlush(other)).thenReturn(other);
 
-        UserResponse response = userService.update(6L, 9L, new AdminUpdateUserRequest(null, null, null, Role.USER, "Owner#123"));
+        UserResponse response =
+                userService.update(6L, 9L, new AdminUpdateUserRequest(null, null, null, Role.USER, "Owner#123"));
 
         assertThat(response.role()).isEqualTo(Role.USER);
         verify(events).publishEvent(new SessionsInvalidated(6L));
@@ -198,8 +212,8 @@ class UserServiceTest {
     @Test
     void deleteRejectsOwnAccount() {
         assertThatThrownBy(() -> userService.delete(5L, 5L, null))
-                .isInstanceOfSatisfying(ApiException.class,
-                        ex -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST));
+                .isInstanceOfSatisfying(
+                        ApiException.class, ex -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST));
         verify(userRepository, never()).delete(any());
     }
 
@@ -208,8 +222,8 @@ class UserServiceTest {
         when(userRepository.findById(9L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> userService.getById(9L))
-                .isInstanceOfSatisfying(ApiException.class,
-                        ex -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND));
+                .isInstanceOfSatisfying(
+                        ApiException.class, ex -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND));
     }
 
     @Test
@@ -217,8 +231,10 @@ class UserServiceTest {
         when(userRepository.findById(9L)).thenReturn(Optional.of(owner()));
         when(passwordEncoder.matches("Owner#123", "owner-hash")).thenReturn(true);
 
-        assertProblem(() -> userService.deleteOwnAccount(9L, new DeleteAccountRequest("Owner#123")),
-                HttpStatus.CONFLICT, "urn:problem:owner-protected");
+        assertProblem(
+                () -> userService.deleteOwnAccount(9L, new DeleteAccountRequest("Owner#123")),
+                HttpStatus.CONFLICT,
+                "urn:problem:owner-protected");
         verify(userRepository, never()).delete(any());
     }
 
@@ -226,8 +242,10 @@ class UserServiceTest {
     void nobodyCanDeleteTheOwner() {
         when(userRepository.findById(9L)).thenReturn(Optional.of(owner()));
 
-        assertProblem(() -> userService.delete(9L, 5L, new DeleteAccountRequest("Admin#123")),
-                HttpStatus.CONFLICT, "urn:problem:owner-protected");
+        assertProblem(
+                () -> userService.delete(9L, 5L, new DeleteAccountRequest("Admin#123")),
+                HttpStatus.CONFLICT,
+                "urn:problem:owner-protected");
         verify(userRepository, never()).delete(any());
     }
 
@@ -240,12 +258,15 @@ class UserServiceTest {
         when(passwordEncoder.matches("Wrong#123", "owner-hash")).thenReturn(false);
         when(passwordEncoder.matches("Owner#123", "owner-hash")).thenReturn(true);
 
-        assertProblem(() -> userService.delete(6L, 5L, new DeleteAccountRequest("Admin#123")),
-                HttpStatus.FORBIDDEN, "urn:problem:owner-required");
-        assertProblem(() -> userService.delete(6L, 9L, null),
-                HttpStatus.BAD_REQUEST, "urn:problem:wrong-password");
-        assertProblem(() -> userService.delete(6L, 9L, new DeleteAccountRequest("Wrong#123")),
-                HttpStatus.BAD_REQUEST, "urn:problem:wrong-password");
+        assertProblem(
+                () -> userService.delete(6L, 5L, new DeleteAccountRequest("Admin#123")),
+                HttpStatus.FORBIDDEN,
+                "urn:problem:owner-required");
+        assertProblem(() -> userService.delete(6L, 9L, null), HttpStatus.BAD_REQUEST, "urn:problem:wrong-password");
+        assertProblem(
+                () -> userService.delete(6L, 9L, new DeleteAccountRequest("Wrong#123")),
+                HttpStatus.BAD_REQUEST,
+                "urn:problem:wrong-password");
         verify(userRepository, never()).delete(any());
 
         userService.delete(6L, 9L, new DeleteAccountRequest("Owner#123"));

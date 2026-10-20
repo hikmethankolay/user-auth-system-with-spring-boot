@@ -127,8 +127,12 @@ public class RateLimitFilter extends OncePerRequestFilter {
 
         Long count;
         try {
-            count = redis.execute(INCREMENT, List.of(key + window, key + (window - 1)),
-                    Long.toString(2 * windowMillis), Long.toString(remainingMillis), Long.toString(windowMillis));
+            count = redis.execute(
+                    INCREMENT,
+                    List.of(key + window, key + (window - 1)),
+                    Long.toString(2 * windowMillis),
+                    Long.toString(remainingMillis),
+                    Long.toString(windowMillis));
         } catch (DataAccessException ex) {
             log.warn("Rate limit check failed, allowing request: {}", ex.getMessage());
             filterChain.doFilter(request, response);
@@ -140,8 +144,14 @@ public class RateLimitFilter extends OncePerRequestFilter {
         response.setHeader("RateLimit-Reset", Long.toString(resetSeconds));
 
         if (count > limit) {
-            resolver.resolveException(request, response, null, ApiException.tooManyRequests(ProblemType.RATE_LIMITED,
-                    "Rate limit exceeded. Try again in " + resetSeconds + " seconds.", Duration.ofSeconds(resetSeconds)));
+            resolver.resolveException(
+                    request,
+                    response,
+                    null,
+                    ApiException.tooManyRequests(
+                            ProblemType.RATE_LIMITED,
+                            "Rate limit exceeded. Try again in " + resetSeconds + " seconds.",
+                            Duration.ofSeconds(resetSeconds)));
             return;
         }
         filterChain.doFilter(request, response);

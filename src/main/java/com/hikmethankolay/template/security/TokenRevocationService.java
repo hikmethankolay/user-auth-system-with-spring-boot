@@ -55,7 +55,9 @@ public class TokenRevocationService {
      * @param properties      application properties holding the access token lifetime
      */
     public TokenRevocationService(
-            StringRedisTemplate redis, @Value("${spring.application.name}") String applicationName, AppProperties properties) {
+            StringRedisTemplate redis,
+            @Value("${spring.application.name}") String applicationName,
+            AppProperties properties) {
         this.redis = redis;
         this.keyPrefix = applicationName + ":revoked-token:";
         this.userKeyPrefix = applicationName + ":tokens-revoked-before:";
@@ -141,7 +143,9 @@ public class TokenRevocationService {
                 return true;
             }
             Instant issuedAt = jwt.getIssuedAt();
-            return entries.get(1) != null && issuedAt != null && issuedAt.getEpochSecond() < Long.parseLong(entries.get(1));
+            return entries.get(1) != null
+                    && issuedAt != null
+                    && issuedAt.getEpochSecond() < Long.parseLong(entries.get(1));
         } catch (DataAccessException ex) {
             log.warn("Could not check token revocation for {}: {}", tokenId, ex.getMessage());
             return false;

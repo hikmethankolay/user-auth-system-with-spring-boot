@@ -18,7 +18,13 @@ import java.time.Instant;
  */
 @Schema(requiredProperties = {"id", "username", "email", "role", "emailVerified", "createdAt", "updatedAt"})
 public record UserResponse(
-        long id, String username, @Schema(format = "email") String email, Role role, boolean emailVerified, Instant createdAt, Instant updatedAt) {
+        long id,
+        String username,
+        @Schema(format = "email") String email,
+        Role role,
+        boolean emailVerified,
+        Instant createdAt,
+        Instant updatedAt) {
 
     /**
      * Maps an entity to its public representation.
@@ -27,7 +33,13 @@ public record UserResponse(
      * @return the response body
      */
     public static UserResponse from(User user) {
-        return new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getRole(),
-                user.isEmailVerified(), user.getCreatedAt(), user.getUpdatedAt());
+        return new UserResponse(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getRole(),
+                user.isEmailVerified(),
+                user.getCreatedAt(),
+                user.getUpdatedAt());
     }
 }

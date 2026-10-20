@@ -10,11 +10,11 @@ public final class TestProperties {
     public static final String JWT_SECRET = "unit-test-secret-that-is-at-least-32-chars";
     public static final String ISSUER = "test-issuer";
 
-    private TestProperties() {
-    }
+    private TestProperties() {}
 
     public static AppProperties create() {
-        return withJwt(new AppProperties.Jwt(JWT_SECRET, ISSUER, Duration.ofMinutes(15), Duration.ofDays(1), Duration.ofDays(30)));
+        return withJwt(new AppProperties.Jwt(
+                JWT_SECRET, ISSUER, Duration.ofMinutes(15), Duration.ofDays(1), Duration.ofDays(30)));
     }
 
     /** Default test properties with different JWT settings. */

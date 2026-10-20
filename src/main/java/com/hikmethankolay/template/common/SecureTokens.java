@@ -20,8 +20,7 @@ public final class SecureTokens {
     private static final SecureRandom RANDOM = new SecureRandom();
 
     /** Not instantiable. */
-    private SecureTokens() {
-    }
+    private SecureTokens() {}
 
     /**
      * Generates a new token.

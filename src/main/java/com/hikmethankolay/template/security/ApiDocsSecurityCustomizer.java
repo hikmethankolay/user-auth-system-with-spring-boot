@@ -83,38 +83,44 @@ public class ApiDocsSecurityCustomizer implements OpenApiCustomizer, OperationCu
             openApi.setComponents(new Components());
         }
         openApi.getComponents()
-                .addSecuritySchemes(BEARER_SCHEME, new SecurityScheme()
-                        .type(SecurityScheme.Type.HTTP)
-                        .scheme("bearer")
-                        .bearerFormat("JWT")
-                        .description("Access token from login or refresh"))
-                .addSecuritySchemes(COOKIE_SCHEME, new SecurityScheme()
-                        .type(SecurityScheme.Type.APIKEY)
-                        .in(SecurityScheme.In.COOKIE)
-                        .name(cookieName)
-                        .description("HttpOnly cookie set by login and refresh, for browsers"));
+                .addSecuritySchemes(
+                        BEARER_SCHEME,
+                        new SecurityScheme()
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme("bearer")
+                                .bearerFormat("JWT")
+                                .description("Access token from login or refresh"))
+                .addSecuritySchemes(
+                        COOKIE_SCHEME,
+                        new SecurityScheme()
+                                .type(SecurityScheme.Type.APIKEY)
+                                .in(SecurityScheme.In.COOKIE)
+                                .name(cookieName)
+                                .description("HttpOnly cookie set by login and refresh, for browsers"));
         // Two requirement objects mean "either one".
         List<SecurityRequirement> authenticated = List.of(
-                new SecurityRequirement().addList(BEARER_SCHEME),
-                new SecurityRequirement().addList(COOKIE_SCHEME));
+                new SecurityRequirement().addList(BEARER_SCHEME), new SecurityRequirement().addList(COOKIE_SCHEME));
 
-        openApi.getPaths().forEach((path, item) -> item.readOperations().forEach(operation -> {
-            if (REFRESH_COOKIE_PATHS.contains(path)) {
-                operation.addParametersItem(new Parameter()
-                        .in("cookie")
-                        .name(refreshCookieName)
-                        .required(false)
-                        .description("Refresh token cookie set by login and refresh; used when the body has no refreshToken")
-                        .schema(new StringSchema()));
-            }
-            if (isPublic(path)) {
-                operation.setSecurity(List.of());
-            } else {
-                operation.setSecurity(authenticated);
-                operation.getResponses().putIfAbsent("401",
-                        OpenApiConfig.responseRef(OpenApiConfig.UNAUTHORIZED));
-            }
-        }));
+        openApi.getPaths()
+                .forEach((path, item) -> item.readOperations().forEach(operation -> {
+                    if (REFRESH_COOKIE_PATHS.contains(path)) {
+                        operation.addParametersItem(new Parameter()
+                                .in("cookie")
+                                .name(refreshCookieName)
+                                .required(false)
+                                .description(
+                                        "Refresh token cookie set by login and refresh; used when the body has no refreshToken")
+                                .schema(new StringSchema()));
+                    }
+                    if (isPublic(path)) {
+                        operation.setSecurity(List.of());
+                    } else {
+                        operation.setSecurity(authenticated);
+                        operation
+                                .getResponses()
+                                .putIfAbsent("401", OpenApiConfig.responseRef(OpenApiConfig.UNAUTHORIZED));
+                    }
+                }));
     }
 
     /**

@@ -64,8 +64,7 @@ public class User {
     private int sessionVersion;
 
     /** Constructor required by JPA. */
-    protected User() {
-    }
+    protected User() {}
 
     /**
      * Creates a new, not yet persisted user.

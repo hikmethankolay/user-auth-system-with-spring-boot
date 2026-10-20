@@ -30,7 +30,11 @@ public record AppUserDetails(
      */
     static AppUserDetails from(User user) {
         return new AppUserDetails(
-                user.getId(), user.getUsername(), user.getPasswordHash(), user.getRole(), user.isEmailVerified(),
+                user.getId(),
+                user.getUsername(),
+                user.getPasswordHash(),
+                user.getRole(),
+                user.isEmailVerified(),
                 user.getSessionVersion());
     }
 

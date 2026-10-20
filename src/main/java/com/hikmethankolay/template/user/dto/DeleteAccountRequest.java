@@ -9,5 +9,4 @@ import jakarta.validation.constraints.Size;
  *
  * @param password the caller's current password, so a stolen token alone cannot delete an account
  */
-public record DeleteAccountRequest(@NotBlank @Size(max = 72) String password) {
-}
+public record DeleteAccountRequest(@NotBlank @Size(max = 72) String password) {}

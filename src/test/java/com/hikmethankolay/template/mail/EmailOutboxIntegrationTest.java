@@ -37,7 +37,8 @@ class EmailOutboxIntegrationTest extends IntegrationTest {
     }
 
     private boolean queued(String to) {
-        return repository.findAll().stream().anyMatch(email -> email.getRecipient().equals(to));
+        return repository.findAll().stream()
+                .anyMatch(email -> email.getRecipient().equals(to));
     }
 
     @Test
@@ -87,7 +88,8 @@ class EmailOutboxIntegrationTest extends IntegrationTest {
         assertThat(mail.latest("outbox-retry@example.com", "Outbox test")).isEmpty();
         OutboxEmail pending = repository.findAll().stream()
                 .filter(email -> email.getRecipient().equals("outbox-retry@example.com"))
-                .findFirst().orElseThrow();
+                .findFirst()
+                .orElseThrow();
         assertThat(pending.getAttempts()).isEqualTo(1);
         assertThat(pending.getNextAttemptAt()).isAfter(Instant.now());
 

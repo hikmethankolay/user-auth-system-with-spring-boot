@@ -70,7 +70,9 @@ public class LoginAttemptService {
      * @param applicationName value of {@code spring.application.name}, used to namespace keys
      */
     public LoginAttemptService(
-            StringRedisTemplate redis, AppProperties properties, @Value("${spring.application.name}") String applicationName) {
+            StringRedisTemplate redis,
+            AppProperties properties,
+            @Value("${spring.application.name}") String applicationName) {
         this.redis = redis;
         this.keyPrefix = applicationName + ":login-failures:";
         this.maxAttempts = properties.login().maxAttempts();
@@ -87,7 +89,8 @@ public class LoginAttemptService {
     public boolean tryAcquire(String... keys) {
         List<String> prefixed = Arrays.stream(keys).map(key -> keyPrefix + key).toList();
         try {
-            Long allowed = redis.execute(ACQUIRE, prefixed, Long.toString(lockDuration.toMillis()), Integer.toString(maxAttempts));
+            Long allowed = redis.execute(
+                    ACQUIRE, prefixed, Long.toString(lockDuration.toMillis()), Integer.toString(maxAttempts));
             return allowed == null || allowed == 1;
         } catch (DataAccessException ex) {
             log.warn("Could not check login failures for {}: {}", List.of(keys), ex.getMessage());

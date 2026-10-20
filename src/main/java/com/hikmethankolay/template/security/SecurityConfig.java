@@ -20,7 +20,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter.ReferrerPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,6 +38,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter.ReferrerPolicy;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -68,12 +68,23 @@ public class SecurityConfig {
 
     /** Paths reachable without authentication. Add new public endpoints here. */
     static final String[] PUBLIC_PATHS = {
-            "/api/v1/auth/register", "/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/auth/logout",
-            "/api/v1/auth/verify-email", "/api/v1/auth/verify-email/resend",
-            "/api/v1/auth/password-reset", "/api/v1/auth/password-reset/confirm",
-            "/actuator/health", "/actuator/health/**", "/actuator/info", "/actuator/prometheus",
-            "/v3/api-docs", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**",
-            "/error"
+        "/api/v1/auth/register",
+        "/api/v1/auth/login",
+        "/api/v1/auth/refresh",
+        "/api/v1/auth/logout",
+        "/api/v1/auth/verify-email",
+        "/api/v1/auth/verify-email/resend",
+        "/api/v1/auth/password-reset",
+        "/api/v1/auth/password-reset/confirm",
+        "/actuator/health",
+        "/actuator/health/**",
+        "/actuator/info",
+        "/actuator/prometheus",
+        "/v3/api-docs",
+        "/v3/api-docs/**",
+        "/swagger-ui.html",
+        "/swagger-ui/**",
+        "/error"
     };
 
     /**
@@ -86,8 +97,7 @@ public class SecurityConfig {
             + "frame-ancestors 'none'; base-uri 'none'; form-action 'none'";
 
     /** {@code Permissions-Policy}: the API never needs browser features such as the camera or location. */
-    private static final String PERMISSIONS_POLICY =
-            "camera=(), microphone=(), geolocation=(), payment=(), usb=()";
+    private static final String PERMISSIONS_POLICY = "camera=(), microphone=(), geolocation=(), payment=(), usb=()";
 
     /**
      * Filter chain for {@code PUBLIC_PATHS}: everything is permitted and no token is read.
@@ -117,7 +127,8 @@ public class SecurityConfig {
     @Bean
     @Order(2)
     SecurityFilterChain apiFilterChain(
-            HttpSecurity http, SecurityProblemHandler problemHandler, BearerTokenResolver bearerTokenResolver) throws Exception {
+            HttpSecurity http, SecurityProblemHandler problemHandler, BearerTokenResolver bearerTokenResolver)
+            throws Exception {
         return applyCommonSettings(http, problemHandler)
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .oauth2ResourceServer(resourceServer -> resourceServer
@@ -136,21 +147,18 @@ public class SecurityConfig {
      * @return the same builder, for chaining
      */
     private static HttpSecurity applyCommonSettings(HttpSecurity http, SecurityProblemHandler problemHandler) {
-        return http
-                .csrf(AbstractHttpConfigurer::disable)
+        return http.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
                 .requestCache(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .headers(headers -> headers
-                        .contentSecurityPolicy(csp -> csp.policyDirectives(CONTENT_SECURITY_POLICY))
+                .headers(headers -> headers.contentSecurityPolicy(csp -> csp.policyDirectives(CONTENT_SECURITY_POLICY))
                         .referrerPolicy(referrer -> referrer.policy(ReferrerPolicy.NO_REFERRER))
                         .permissionsPolicyHeader(permissions -> permissions.policy(PERMISSIONS_POLICY)))
-                .exceptionHandling(exceptions -> exceptions
-                        .authenticationEntryPoint(problemHandler)
-                        .accessDeniedHandler(problemHandler));
+                .exceptionHandling(exceptions ->
+                        exceptions.authenticationEntryPoint(problemHandler).accessDeniedHandler(problemHandler));
     }
 
     /**
@@ -177,8 +185,10 @@ public class SecurityConfig {
     @Bean
     static RoleHierarchy roleHierarchy() {
         return RoleHierarchyImpl.withDefaultRolePrefix()
-                .role("OWNER").implies("ADMIN")
-                .role("ADMIN").implies("USER")
+                .role("OWNER")
+                .implies("ADMIN")
+                .role("ADMIN")
+                .implies("USER")
                 .build();
     }
 
@@ -201,7 +211,8 @@ public class SecurityConfig {
      * @return the authentication manager
      */
     @Bean
-    AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    AuthenticationManager authenticationManager(
+            UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder);
         return new ProviderManager(provider);
@@ -242,7 +253,8 @@ public class SecurityConfig {
                 .macAlgorithm(MacAlgorithm.HS256)
                 .build();
         OAuth2TokenValidator<Jwt> notRevoked = jwt -> revocations.isRevoked(jwt)
-                ? OAuth2TokenValidatorResult.failure(new OAuth2Error("invalid_token", "The token has been revoked.", null))
+                ? OAuth2TokenValidatorResult.failure(
+                        new OAuth2Error("invalid_token", "The token has been revoked.", null))
                 : OAuth2TokenValidatorResult.success();
         decoder.setJwtValidator(new DelegatingOAuth2TokenValidator<>(
                 JwtValidators.createDefaultWithIssuer(properties.jwt().issuer()), notRevoked));
@@ -272,8 +284,14 @@ public class SecurityConfig {
         cors.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         cors.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         // Every header the OpenAPI document declares on responses, so cross-origin clients can read them.
-        cors.setExposedHeaders(List.of("Location", "Retry-After", "X-Trace-Id", "RateLimit-Limit",
-                "RateLimit-Remaining", "RateLimit-Reset", HttpHeaders.CONTENT_DISPOSITION));
+        cors.setExposedHeaders(List.of(
+                "Location",
+                "Retry-After",
+                "X-Trace-Id",
+                "RateLimit-Limit",
+                "RateLimit-Remaining",
+                "RateLimit-Reset",
+                HttpHeaders.CONTENT_DISPOSITION));
         cors.setAllowCredentials(true);
         cors.setMaxAge(3600L);
 

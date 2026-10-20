@@ -53,7 +53,8 @@ class AccountIntegrationTest extends IntegrationTest {
 
     @Test
     void unknownTokenIsRejected() throws Exception {
-        mockMvc.perform(post("/api/v1/auth/verify-email").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/api/v1/auth/verify-email")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"token":"definitely-not-a-real-token"}"""))
                 .andExpect(status().isBadRequest())
@@ -102,7 +103,8 @@ class AccountIntegrationTest extends IntegrationTest {
                 {"token":"%s","newPassword":"Reset#4567"}""", CapturingMailSender.token(reset)), 204);
 
         login(username, "Reset#4567");
-        mockMvc.perform(post("/api/v1/auth/login").with(fromIp("10.0.2.1"))
+        mockMvc.perform(post("/api/v1/auth/login")
+                        .with(fromIp("10.0.2.1"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
                                 {"identifier":"%s","password":"%s"}""", username, PASSWORD)))
@@ -116,9 +118,11 @@ class AccountIntegrationTest extends IntegrationTest {
         postJson("/api/v1/auth/password-reset", json("""
                 {"email":"%s@example.com"}""", username), 202);
 
-        postJson("/api/v1/auth/password-reset/confirm", json("""
-                {"token":"%s","newPassword":"weak"}""",
-                CapturingMailSender.token(latestMail(username, "Reset your password"))), 400);
+        postJson(
+                "/api/v1/auth/password-reset/confirm",
+                json("""
+                {"token":"%s","newPassword":"weak"}""", CapturingMailSender.token(latestMail(username, "Reset your password"))),
+                400);
     }
 
     @Test
@@ -137,11 +141,15 @@ class AccountIntegrationTest extends IntegrationTest {
     void changingEmailRequiresVerificationAgain() throws Exception {
         String username = uniqueUsername();
         String token = registerAndLogin(username);
-        postJson("/api/v1/auth/verify-email", json("""
-                {"token":"%s"}""", CapturingMailSender.token(latestMail(username, "Confirm your email"))), 204);
+        postJson(
+                "/api/v1/auth/verify-email",
+                json("""
+                {"token":"%s"}""", CapturingMailSender.token(latestMail(username, "Confirm your email"))),
+                204);
 
         String newAddress = "moved-" + username + "@example.com";
-        mockMvc.perform(patch("/api/v1/users/me").with(bearer(token))
+        mockMvc.perform(patch("/api/v1/users/me")
+                        .with(bearer(token))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
                                 {"email":"%s","currentPassword":"%s"}""", newAddress, PASSWORD)))
@@ -156,13 +164,13 @@ class AccountIntegrationTest extends IntegrationTest {
         String username = uniqueUsername();
         String token = registerAndLogin(username);
 
-        for (String body : new String[] {
-                json("""
-                        {"email":"stolen-%s@example.com"}""", username),
-                json("""
+        for (String body : new String[] {json("""
+                        {"email":"stolen-%s@example.com"}""", username), json("""
                         {"email":"stolen-%s@example.com","currentPassword":"Wrong#123"}""", username)}) {
-            mockMvc.perform(patch("/api/v1/users/me").with(bearer(token))
-                            .contentType(MediaType.APPLICATION_JSON).content(body))
+            mockMvc.perform(patch("/api/v1/users/me")
+                            .with(bearer(token))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(body))
                     .andExpect(status().isBadRequest())
                     .andExpect(jsonPath("$.type").value(endsWith("wrong-password")));
         }
@@ -179,7 +187,8 @@ class AccountIntegrationTest extends IntegrationTest {
         String resetToken = CapturingMailSender.token(latestMail(username, "Reset your password"));
         String verificationToken = CapturingMailSender.token(latestMail(username, "Confirm your email"));
 
-        mockMvc.perform(patch("/api/v1/users/me").with(bearer(token))
+        mockMvc.perform(patch("/api/v1/users/me")
+                        .with(bearer(token))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
                                 {"email":"moved-%s@example.com","currentPassword":"%s"}""", username, PASSWORD)))
@@ -193,7 +202,8 @@ class AccountIntegrationTest extends IntegrationTest {
 
     @Test
     void emptyTokenIsAValidationError() throws Exception {
-        mockMvc.perform(post("/api/v1/auth/verify-email").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/api/v1/auth/verify-email")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"token":""}"""))
                 .andExpect(status().isBadRequest())
@@ -205,17 +215,21 @@ class AccountIntegrationTest extends IntegrationTest {
         String tooLong = "a".repeat(250) + "@example.com";
         String token = registerAndLogin(uniqueUsername());
 
-        mockMvc.perform(post("/api/v1/auth/verify-email/resend").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/api/v1/auth/verify-email/resend")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
                                 {"email":"%s"}""", tooLong)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors[?(@.field == 'email')]").exists());
-        mockMvc.perform(post("/api/v1/auth/register").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/api/v1/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
                                 {"username":"%s","email":"%s","password":"%s"}""", uniqueUsername(), tooLong, PASSWORD)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors[?(@.field == 'email')]").exists());
-        mockMvc.perform(patch("/api/v1/users/me").with(bearer(token)).contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(patch("/api/v1/users/me")
+                        .with(bearer(token))
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
                                 {"email":"%s"}""", tooLong)))
                 .andExpect(status().isBadRequest())

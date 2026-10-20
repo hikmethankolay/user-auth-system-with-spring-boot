@@ -6,5 +6,4 @@ package com.hikmethankolay.template.user;
  *
  * @param userId id of the user whose address must be verified
  */
-public record EmailVerificationRequired(long userId) {
-}
+public record EmailVerificationRequired(long userId) {}

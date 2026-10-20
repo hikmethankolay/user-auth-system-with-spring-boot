@@ -66,7 +66,8 @@ public class TokenService {
     public IssuedToken issue(long userId, String username, Role role) {
         Instant now = Instant.now();
         Duration ttl = properties.accessTokenTtl();
-        Instant issuedAt = revocations.issuedNotBefore(userId).filter(now::isBefore).orElse(now);
+        Instant issuedAt =
+                revocations.issuedNotBefore(userId).filter(now::isBefore).orElse(now);
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .id(UUID.randomUUID().toString())
@@ -79,7 +80,8 @@ public class TokenService {
                 .build();
         JwsHeader header = JwsHeader.with(MacAlgorithm.HS256).build();
 
-        String value = jwtEncoder.encode(JwtEncoderParameters.from(header, claims)).getTokenValue();
+        String value =
+                jwtEncoder.encode(JwtEncoderParameters.from(header, claims)).getTokenValue();
         return new IssuedToken(value, ttl);
     }
 
@@ -99,6 +101,5 @@ public class TokenService {
      * @param value the compact, signed JWT
      * @param ttl   how long the token is valid
      */
-    public record IssuedToken(String value, Duration ttl) {
-    }
+    public record IssuedToken(String value, Duration ttl) {}
 }

@@ -25,12 +25,16 @@ class VerifiedEmailRequiredIntegrationTest extends IntegrationTest {
         String loginBody = json("""
                 {"identifier":"%s","password":"%s"}""", username, PASSWORD);
 
-        mockMvc.perform(post("/api/v1/auth/login").contentType(MediaType.APPLICATION_JSON).content(loginBody))
+        mockMvc.perform(post("/api/v1/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(loginBody))
                 .andExpect(status().isForbidden())
                 .andExpect(jsonPath("$.detail").value("Email address is not verified."));
 
-        String token = CapturingMailSender.token(mail.latest(username + "@example.com", "Confirm your email").orElseThrow());
-        mockMvc.perform(post("/api/v1/auth/verify-email").contentType(MediaType.APPLICATION_JSON)
+        String token = CapturingMailSender.token(
+                mail.latest(username + "@example.com", "Confirm your email").orElseThrow());
+        mockMvc.perform(post("/api/v1/auth/verify-email")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
                                 {"token":"%s"}""", token)))
                 .andExpect(status().isNoContent());

@@ -57,8 +57,7 @@ public class RefreshToken {
     private int sessionVersion;
 
     /** Constructor required by JPA. */
-    protected RefreshToken() {
-    }
+    protected RefreshToken() {}
 
     /**
      * Creates a new, unused token record.
@@ -70,7 +69,8 @@ public class RefreshToken {
      * @param rememberMe     whether the session was started with "remember me"
      * @param expiresAt      when the token expires
      */
-    public RefreshToken(long userId, UUID familyId, int sessionVersion, String tokenHash, boolean rememberMe, Instant expiresAt) {
+    public RefreshToken(
+            long userId, UUID familyId, int sessionVersion, String tokenHash, boolean rememberMe, Instant expiresAt) {
         this.userId = userId;
         this.sessionVersion = sessionVersion;
         this.familyId = familyId;

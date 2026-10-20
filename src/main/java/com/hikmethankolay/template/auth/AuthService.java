@@ -130,18 +130,24 @@ public class AuthService {
      */
     public AuthTokens login(LoginRequest request, String clientIp) {
         String identifier = request.identifier().trim();
-        Long accountId = userRepository.findByUsernameOrEmail(identifier, identifier.toLowerCase(Locale.ROOT))
-                .map(User::getId).orElse(null);
+        Long accountId = userRepository
+                .findByUsernameOrEmail(identifier, identifier.toLowerCase(Locale.ROOT))
+                .map(User::getId)
+                .orElse(null);
         // Keyed by user id, so the username and the email of one account share a single limit.
-        String accountKey = "account:" + (accountId != null ? accountId.toString() : identifier.toLowerCase(Locale.ROOT));
+        String accountKey =
+                "account:" + (accountId != null ? accountId.toString() : identifier.toLowerCase(Locale.ROOT));
         String ipKey = "ip:" + clientIp;
         // Users sometimes type their password into the identifier field: audit a short hash, never the text.
-        String identifierHash = SecureTokens.hash(identifier.toLowerCase(Locale.ROOT)).substring(0, 12);
+        String identifierHash =
+                SecureTokens.hash(identifier.toLowerCase(Locale.ROOT)).substring(0, 12);
 
         if (!loginAttempts.tryAcquire(ipKey, accountKey)) {
             audit.record(AuditEvent.LOGIN_BLOCKED, accountId, "identifierHash", identifierHash);
-            throw ApiException.tooManyRequests(ProblemType.LOGIN_LOCKED,
-                    "Too many failed login attempts. Please try again later.", loginAttempts.lockDuration());
+            throw ApiException.tooManyRequests(
+                    ProblemType.LOGIN_LOCKED,
+                    "Too many failed login attempts. Please try again later.",
+                    loginAttempts.lockDuration());
         }
 
         Authentication authentication;
@@ -162,7 +168,8 @@ public class AuthService {
         // Checked only after the password, so the response does not reveal whether an account exists.
         if (requireVerifiedEmail && !user.emailVerified()) {
             audit.record(AuditEvent.LOGIN_UNVERIFIED, user.id());
-            throw new ApiException(HttpStatus.FORBIDDEN, ProblemType.EMAIL_NOT_VERIFIED, "Email address is not verified.");
+            throw new ApiException(
+                    HttpStatus.FORBIDDEN, ProblemType.EMAIL_NOT_VERIFIED, "Email address is not verified.");
         }
         // Issued first: it fails if the password or role changed since it was checked.
         RefreshTokenService.IssuedRefreshToken refreshToken =
@@ -185,7 +192,8 @@ public class AuthService {
         }
         RefreshTokenService.Rotation rotation = refreshTokens.rotate(refreshToken);
         // The user cannot be missing: deleting a user deletes its refresh tokens.
-        return userRepository.findById(rotation.userId())
+        return userRepository
+                .findById(rotation.userId())
                 .map(user -> new AuthTokens(
                         tokenService.issue(user.getId(), user.getUsername(), user.getRole()), rotation.successor()))
                 .orElseThrow(() -> new BadCredentialsException(RefreshTokenService.INVALID_REFRESH_TOKEN));

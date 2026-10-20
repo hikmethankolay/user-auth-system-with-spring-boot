@@ -99,9 +99,14 @@ public class EmailOutbox {
         this.newTransaction = new TransactionTemplate(transactionManager);
         this.newTransaction.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
         this.properties = properties.mail();
-        this.sent = Counter.builder("mail.outbox.sent").description("Emails sent").register(meterRegistry);
-        this.failures = Counter.builder("mail.outbox.failures").description("Failed sending attempts").register(meterRegistry);
-        this.dropped = Counter.builder("mail.outbox.dropped").description("Emails given up").register(meterRegistry);
+        this.sent =
+                Counter.builder("mail.outbox.sent").description("Emails sent").register(meterRegistry);
+        this.failures = Counter.builder("mail.outbox.failures")
+                .description("Failed sending attempts")
+                .register(meterRegistry);
+        this.dropped = Counter.builder("mail.outbox.dropped")
+                .description("Emails given up")
+                .register(meterRegistry);
         Gauge.builder("mail.outbox.pending", outbox, OutboxEmailRepository::count)
                 .description("Emails waiting to be sent")
                 .register(meterRegistry);
@@ -125,7 +130,8 @@ public class EmailOutbox {
                     return;
                 }
                 try {
-                    newTransaction.executeWithoutResult(status -> outbox.lockById(id).ifPresent(email -> send(email, Instant.now())));
+                    newTransaction.executeWithoutResult(
+                            status -> outbox.lockById(id).ifPresent(email -> send(email, Instant.now())));
                 } finally {
                     immediateSend.release();
                 }
@@ -145,7 +151,8 @@ public class EmailOutbox {
      * @param now the time to compare due dates with; tests pass a later time to skip the backoff
      */
     public void sendDue(Instant now) {
-        newTransaction.executeWithoutResult(status -> outbox.lockDue(now, BATCH_SIZE).forEach(email -> send(email, now)));
+        newTransaction.executeWithoutResult(
+                status -> outbox.lockDue(now, BATCH_SIZE).forEach(email -> send(email, now)));
     }
 
     /**
@@ -170,11 +177,20 @@ public class EmailOutbox {
             if (email.getAttempts() >= properties.maxAttempts()) {
                 outbox.delete(email);
                 dropped.increment();
-                log.error("Gave up sending email {} '{}' after {} attempts: {}",
-                        email.getId(), email.getSubject(), email.getAttempts(), ex.getMessage());
+                log.error(
+                        "Gave up sending email {} '{}' after {} attempts: {}",
+                        email.getId(),
+                        email.getSubject(),
+                        email.getAttempts(),
+                        ex.getMessage());
             } else {
-                log.warn("Could not send email {} '{}' (attempt {}), retrying at {}: {}",
-                        email.getId(), email.getSubject(), email.getAttempts(), email.getNextAttemptAt(), ex.getMessage());
+                log.warn(
+                        "Could not send email {} '{}' (attempt {}), retrying at {}: {}",
+                        email.getId(),
+                        email.getSubject(),
+                        email.getAttempts(),
+                        email.getNextAttemptAt(),
+                        ex.getMessage());
             }
         }
     }

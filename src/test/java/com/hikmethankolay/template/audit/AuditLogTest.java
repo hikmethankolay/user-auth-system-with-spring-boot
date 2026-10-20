@@ -33,7 +33,8 @@ class AuditLogTest {
     }
 
     private double count(AuditEvent event) {
-        var counter = registry.find(AuditLog.METRIC_NAME).tag("event", event.action()).counter();
+        var counter =
+                registry.find(AuditLog.METRIC_NAME).tag("event", event.action()).counter();
         return counter == null ? 0 : counter.count();
     }
 
@@ -46,8 +47,8 @@ class AuditLogTest {
 
         audit.record(AuditEvent.ROLE_CHANGED, 42L, "from", "USER", "to", "ADMIN");
 
-        assertThat(output).contains(
-                "event=admin.role_changed userId=42 actorId=1 clientIp=203.0.113.7 from=USER to=ADMIN");
+        assertThat(output)
+                .contains("event=admin.role_changed userId=42 actorId=1 clientIp=203.0.113.7 from=USER to=ADMIN");
         assertThat(count(AuditEvent.ROLE_CHANGED)).isEqualTo(1);
     }
 

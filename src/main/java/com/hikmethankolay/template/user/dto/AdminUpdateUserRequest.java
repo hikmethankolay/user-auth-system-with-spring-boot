@@ -20,9 +20,11 @@ public record AdminUpdateUserRequest(
         @ValidUsername String username,
         @ValidEmail String email,
         @ValidPassword String password,
-        @Schema(allowableValues = {"USER", "ADMIN"},
+
+        @Schema(
+                allowableValues = {"USER", "ADMIN"},
                 description = "New role. Only the owner can change roles, confirmed with `currentPassword`")
         Role role,
-        @Schema(description = "The caller's own current password; required when `role` changes")
-        @Size(max = 72) String currentPassword) {
-}
+
+        @Schema(description = "The caller's own current password; required when `role` changes") @Size(max = 72)
+        String currentPassword) {}

@@ -36,7 +36,8 @@ class AppUserDetailsService implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String identifier) {
-        return userRepository.findByUsernameOrEmail(identifier, identifier.toLowerCase(Locale.ROOT))
+        return userRepository
+                .findByUsernameOrEmail(identifier, identifier.toLowerCase(Locale.ROOT))
                 .map(AppUserDetails::from)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }

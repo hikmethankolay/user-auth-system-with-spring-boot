@@ -73,8 +73,10 @@ public class TestMailConfiguration {
         /** Returns the newest message sent to an address with a subject containing the given text. */
         public Optional<SimpleMailMessage> latest(String to, String subjectPart) {
             return messages.reversed().stream()
-                    .filter(message -> message.getTo() != null && List.of(message.getTo()).contains(to))
-                    .filter(message -> message.getSubject() != null && message.getSubject().contains(subjectPart))
+                    .filter(message ->
+                            message.getTo() != null && List.of(message.getTo()).contains(to))
+                    .filter(message ->
+                            message.getSubject() != null && message.getSubject().contains(subjectPart))
                     .findFirst();
         }
 

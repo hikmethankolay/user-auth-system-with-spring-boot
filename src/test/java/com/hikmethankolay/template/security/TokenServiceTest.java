@@ -24,7 +24,8 @@ class TokenServiceTest {
     private final SecurityConfig securityConfig = new SecurityConfig();
     private final AppProperties properties = TestProperties.create();
     private final TokenRevocationService revocations = mock(TokenRevocationService.class);
-    private final TokenService tokenService = new TokenService(securityConfig.jwtEncoder(properties), revocations, properties);
+    private final TokenService tokenService =
+            new TokenService(securityConfig.jwtEncoder(properties), revocations, properties);
     private final JwtDecoder decoder = securityConfig.jwtDecoder(properties, revocations);
 
     @Test
@@ -44,9 +45,14 @@ class TokenServiceTest {
     @Test
     void tokenSignedWithAnotherSecretIsRejected() {
         AppProperties other = TestProperties.withJwt(new AppProperties.Jwt(
-                "another-secret-that-is-also-32-chars-long", TestProperties.ISSUER, Duration.ofMinutes(15), Duration.ofDays(1), Duration.ofDays(30)));
+                "another-secret-that-is-also-32-chars-long",
+                TestProperties.ISSUER,
+                Duration.ofMinutes(15),
+                Duration.ofDays(1),
+                Duration.ofDays(30)));
         String foreignToken = new TokenService(securityConfig.jwtEncoder(other), revocations, other)
-                .issue(1L, "mallory", Role.ADMIN).value();
+                .issue(1L, "mallory", Role.ADMIN)
+                .value();
 
         assertThatThrownBy(() -> decoder.decode(foreignToken)).isInstanceOf(JwtException.class);
     }
@@ -55,7 +61,8 @@ class TokenServiceTest {
     void revokedTokenIsRejected() {
         String value = tokenService.issue(1L, "bob", Role.USER).value();
         String tokenId = decoder.decode(value).getId();
-        when(revocations.isRevoked(argThat((Jwt jwt) -> tokenId.equals(jwt.getId())))).thenReturn(true);
+        when(revocations.isRevoked(argThat((Jwt jwt) -> tokenId.equals(jwt.getId()))))
+                .thenReturn(true);
 
         assertThatThrownBy(() -> decoder.decode(value))
                 .isInstanceOf(JwtException.class)
@@ -74,8 +81,10 @@ class TokenServiceTest {
 
     @Test
     void everyTokenGetsItsOwnId() {
-        String first = decoder.decode(tokenService.issue(1L, "bob", Role.USER).value()).getId();
-        String second = decoder.decode(tokenService.issue(1L, "bob", Role.USER).value()).getId();
+        String first =
+                decoder.decode(tokenService.issue(1L, "bob", Role.USER).value()).getId();
+        String second =
+                decoder.decode(tokenService.issue(1L, "bob", Role.USER).value()).getId();
 
         assertThat(first).isNotEqualTo(second);
     }
@@ -83,9 +92,14 @@ class TokenServiceTest {
     @Test
     void tokenFromAnotherIssuerIsRejected() {
         AppProperties other = TestProperties.withJwt(new AppProperties.Jwt(
-                TestProperties.JWT_SECRET, "someone-else", Duration.ofMinutes(15), Duration.ofDays(1), Duration.ofDays(30)));
+                TestProperties.JWT_SECRET,
+                "someone-else",
+                Duration.ofMinutes(15),
+                Duration.ofDays(1),
+                Duration.ofDays(30)));
         String foreignToken = new TokenService(securityConfig.jwtEncoder(other), revocations, other)
-                .issue(1L, "mallory", Role.ADMIN).value();
+                .issue(1L, "mallory", Role.ADMIN)
+                .value();
 
         assertThatThrownBy(() -> decoder.decode(foreignToken)).isInstanceOf(JwtException.class);
     }

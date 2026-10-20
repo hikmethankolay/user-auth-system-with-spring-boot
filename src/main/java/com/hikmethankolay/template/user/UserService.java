@@ -14,8 +14,8 @@ import com.hikmethankolay.template.user.dto.UserResponse;
 import java.util.List;
 import java.util.Locale;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -69,7 +69,10 @@ public class UserService {
      * @param audit           records security events
      */
     public UserService(
-            UserRepository userRepository, PasswordEncoder passwordEncoder, ApplicationEventPublisher events, AuditLog audit) {
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder,
+            ApplicationEventPublisher events,
+            AuditLog audit) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.events = events;
@@ -239,13 +242,19 @@ public class UserService {
         String oldUsername = user.getUsername();
         String oldEmail = user.getEmail();
         applyIdentityChanges(user, request.username(), request.email());
-        boolean identityChanged = !user.getUsername().equals(oldUsername) || !user.getEmail().equals(oldEmail);
+        boolean identityChanged =
+                !user.getUsername().equals(oldUsername) || !user.getEmail().equals(oldEmail);
         if (request.password() != null) {
             user.setPasswordHash(passwordEncoder.encode(request.password()));
         }
         if (identityChanged || request.password() != null) {
-            audit.record(AuditEvent.USER_UPDATED_BY_ADMIN, id,
-                    "identityChanged", identityChanged, "passwordChanged", request.password() != null);
+            audit.record(
+                    AuditEvent.USER_UPDATED_BY_ADMIN,
+                    id,
+                    "identityChanged",
+                    identityChanged,
+                    "passwordChanged",
+                    request.password() != null);
         }
         if (roleChanged) {
             audit.record(AuditEvent.ROLE_CHANGED, id, "from", user.getRole(), "to", request.role());
@@ -348,7 +357,8 @@ public class UserService {
      */
     private void confirmPassword(User user, String password) {
         if (password == null || !passwordEncoder.matches(password, user.getPasswordHash())) {
-            throw ApiException.badRequest(ProblemType.WRONG_PASSWORD,
+            throw ApiException.badRequest(
+                    ProblemType.WRONG_PASSWORD,
                     "Confirm this change with your current password; it is missing or incorrect.");
         }
     }
@@ -361,7 +371,8 @@ public class UserService {
      * @throws ApiException 404 if the user does not exist
      */
     private User findUser(long id) {
-        return userRepository.findById(id)
+        return userRepository
+                .findById(id)
                 .orElseThrow(() -> ApiException.notFound(ProblemType.USER_NOT_FOUND, "User " + id + " not found."));
     }
 

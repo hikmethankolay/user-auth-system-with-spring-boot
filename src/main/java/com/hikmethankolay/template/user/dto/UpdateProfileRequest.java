@@ -15,5 +15,4 @@ import jakarta.validation.constraints.Size;
 public record UpdateProfileRequest(
         @ValidUsername String username,
         @ValidEmail String email,
-        @Size(max = 72) String currentPassword) {
-}
+        @Size(max = 72) String currentPassword) {}

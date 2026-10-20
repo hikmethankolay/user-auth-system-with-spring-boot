@@ -62,8 +62,10 @@ final class OpenApiConformance implements ResultMatcher {
         } catch (IOException ex) {
             throw new UncheckedIOException("Cannot read " + SPEC.toAbsolutePath(), ex);
         }
-        spec.path("paths").fieldNames().forEachRemaining(path -> paths.add(Map.entry(path,
-                Pattern.compile(Pattern.quote(path).replaceAll("\\{[^}]+}", "\\\\E[^/]+\\\\Q")))));
+        spec.path("paths")
+                .fieldNames()
+                .forEachRemaining(path -> paths.add(Map.entry(
+                        path, Pattern.compile(Pattern.quote(path).replaceAll("\\{[^}]+}", "\\\\E[^/]+\\\\Q")))));
         paths.sort(Comparator.comparing(entry -> entry.getKey().contains("{")));
     }
 
@@ -81,7 +83,8 @@ final class OpenApiConformance implements ResultMatcher {
         MockHttpServletRequest request = result.getRequest();
         MockHttpServletResponse response = result.getResponse();
         String path = documentedPath(request);
-        JsonNode operation = path == null ? null
+        JsonNode operation = path == null
+                ? null
                 : spec.path("paths").path(path).path(request.getMethod().toLowerCase(Locale.ROOT));
         if (operation == null || operation.isMissingNode()) {
             return;
@@ -128,7 +131,8 @@ final class OpenApiConformance implements ResultMatcher {
             return pattern.toString();
         }
         return paths.stream()
-                .filter(entry -> entry.getValue().matcher(request.getRequestURI()).matches())
+                .filter(entry ->
+                        entry.getValue().matcher(request.getRequestURI()).matches())
                 .map(Map.Entry::getKey)
                 .findFirst()
                 .orElse(null);

@@ -53,8 +53,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     ResponseEntity<ProblemDetail> handleAuthentication(AuthenticationException ex) {
         ProblemDetail problem = ex instanceof BadCredentialsException
                 ? ProblemType.INVALID_CREDENTIALS.problem(HttpStatus.UNAUTHORIZED, ex.getMessage())
-                : ProblemType.UNAUTHENTICATED.problem(HttpStatus.UNAUTHORIZED,
-                        "Authentication is required to access this resource.");
+                : ProblemType.UNAUTHENTICATED.problem(
+                        HttpStatus.UNAUTHORIZED, "Authentication is required to access this resource.");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .header(HttpHeaders.WWW_AUTHENTICATE, "Bearer")
                 .body(problem);
@@ -68,7 +68,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(AccessDeniedException.class)
     ProblemDetail handleAccessDenied(AccessDeniedException ex) {
-        return ProblemType.FORBIDDEN.problem(HttpStatus.FORBIDDEN, "You do not have permission to access this resource.");
+        return ProblemType.FORBIDDEN.problem(
+                HttpStatus.FORBIDDEN, "You do not have permission to access this resource.");
     }
 
     /**
@@ -81,9 +82,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({DataIntegrityViolationException.class, OptimisticLockingFailureException.class})
     ProblemDetail handleDataIntegrity(DataAccessException ex) {
         // The database message repeats the conflicting value (e.g. an email), so only the constraint is logged.
-        log.warn("Conflicting write: {}", ex.getCause() instanceof ConstraintViolationException violation
-                ? "constraint " + violation.getConstraintName()
-                : ex.getClass().getSimpleName());
+        log.warn(
+                "Conflicting write: {}",
+                ex.getCause() instanceof ConstraintViolationException violation
+                        ? "constraint " + violation.getConstraintName()
+                        : ex.getClass().getSimpleName());
         return ProblemType.CONFLICT.problem(HttpStatus.CONFLICT, "The request conflicts with existing data.");
     }
 
@@ -95,7 +98,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(PropertyReferenceException.class)
     ProblemDetail handleInvalidSortProperty(PropertyReferenceException ex) {
-        return ProblemType.INVALID_SORT.problem(HttpStatus.BAD_REQUEST, "Unknown sort property: " + ex.getPropertyName());
+        return ProblemType.INVALID_SORT.problem(
+                HttpStatus.BAD_REQUEST, "Unknown sort property: " + ex.getPropertyName());
     }
 
     /**
@@ -139,6 +143,5 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      * @param field   JSON property name
      * @param message why the value was rejected
      */
-    public record FieldViolation(String field, String message) {
-    }
+    public record FieldViolation(String field, String message) {}
 }

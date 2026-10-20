@@ -15,6 +15,7 @@ class DatabaseSettingsIntegrationTest extends IntegrationTest {
     @Test
     void connectionsHaveStatementAndIdleTransactionTimeouts() {
         assertThat(jdbc.queryForObject("show statement_timeout", String.class)).isEqualTo("30s");
-        assertThat(jdbc.queryForObject("show idle_in_transaction_session_timeout", String.class)).isEqualTo("1min");
+        assertThat(jdbc.queryForObject("show idle_in_transaction_session_timeout", String.class))
+                .isEqualTo("1min");
     }
 }

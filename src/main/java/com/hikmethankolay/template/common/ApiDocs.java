@@ -13,6 +13,5 @@ public final class ApiDocs {
     public static final String PROBLEM_SCHEMA = "#/components/schemas/Problem";
 
     /** Not instantiable. */
-    private ApiDocs() {
-    }
+    private ApiDocs() {}
 }

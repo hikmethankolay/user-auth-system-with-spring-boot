@@ -52,8 +52,7 @@ public class OutboxEmail {
     private Instant createdAt;
 
     /** Constructor required by JPA. */
-    protected OutboxEmail() {
-    }
+    protected OutboxEmail() {}
 
     /**
      * Queues a new email for immediate sending.
@@ -132,7 +131,8 @@ public class OutboxEmail {
      */
     public void recordFailure(String error, Instant nextAttemptAt) {
         this.attempts++;
-        this.lastError = error == null || error.length() <= MAX_ERROR_LENGTH ? error : error.substring(0, MAX_ERROR_LENGTH);
+        this.lastError =
+                error == null || error.length() <= MAX_ERROR_LENGTH ? error : error.substring(0, MAX_ERROR_LENGTH);
         this.nextAttemptAt = nextAttemptAt;
     }
 }

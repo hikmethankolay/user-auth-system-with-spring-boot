@@ -24,8 +24,17 @@ class AdminBootstrapTest {
 
     private AdminBootstrap bootstrap() {
         AppProperties p = TestProperties.create();
-        return new AdminBootstrap(users, new AppProperties(p.jwt(), p.cookie(), p.cors(), p.login(), p.rateLimit(),
-                p.account(), p.mail(), new AppProperties.Admin("owner", "owner@example.com", "Owner#12345")));
+        return new AdminBootstrap(
+                users,
+                new AppProperties(
+                        p.jwt(),
+                        p.cookie(),
+                        p.cors(),
+                        p.login(),
+                        p.rateLimit(),
+                        p.account(),
+                        p.mail(),
+                        new AppProperties.Admin("owner", "owner@example.com", "Owner#12345")));
     }
 
     @Test

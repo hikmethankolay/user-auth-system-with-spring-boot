@@ -50,7 +50,9 @@ public abstract class IntegrationTest {
                         .content(json("""
                                 {"username":"%s","email":"%s@example.com","password":"%s"}""", username, username, PASSWORD)))
                 .andExpect(status().isCreated())
-                .andReturn().getResponse().getContentAsString();
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
         return ((Number) JsonPath.read(body, "$.id")).longValue();
     }
 
@@ -65,13 +67,14 @@ public abstract class IntegrationTest {
                         .content(json("""
                                 {"identifier":"%s","password":"%s"}""", identifier, password)))
                 .andExpect(status().isOk())
-                .andReturn().getResponse().getContentAsString();
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
         return new Tokens(JsonPath.read(body, "$.accessToken"), JsonPath.read(body, "$.refreshToken"));
     }
 
     /** Access and refresh token from a login or refresh response. */
-    public record Tokens(String accessToken, String refreshToken) {
-    }
+    public record Tokens(String accessToken, String refreshToken) {}
 
     protected String registerAndLogin(String username) throws Exception {
         register(username);

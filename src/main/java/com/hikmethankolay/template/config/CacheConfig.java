@@ -45,13 +45,16 @@ public class CacheConfig implements CachingConfigurer {
      * @return the customizer applied by Spring Boot's Redis cache auto-configuration
      */
     @Bean
-    RedisCacheManagerBuilderCustomizer redisCacheCustomizer(JsonMapper jsonMapper, RedisConnectionFactory connectionFactory) {
-        return builder -> builder
-                .cacheWriter(RedisCacheWriter.create(connectionFactory, writer -> writer.immediateWrites()))
+    RedisCacheManagerBuilderCustomizer redisCacheCustomizer(
+            JsonMapper jsonMapper, RedisConnectionFactory connectionFactory) {
+        return builder -> builder.cacheWriter(
+                        RedisCacheWriter.create(connectionFactory, writer -> writer.immediateWrites()))
                 .transactionAware()
-                .withCacheConfiguration(CacheNames.USERS, builder.cacheDefaults()
-                        .serializeValuesWith(SerializationPair.fromSerializer(
-                                new JacksonJsonRedisSerializer<>(jsonMapper, UserResponse.class))));
+                .withCacheConfiguration(
+                        CacheNames.USERS,
+                        builder.cacheDefaults()
+                                .serializeValuesWith(SerializationPair.fromSerializer(
+                                        new JacksonJsonRedisSerializer<>(jsonMapper, UserResponse.class))));
     }
 
     /**
@@ -72,7 +75,6 @@ public class CacheConfig implements CachingConfigurer {
         public static final String USERS = "users";
 
         /** Constants only. */
-        private CacheNames() {
-        }
+        private CacheNames() {}
     }
 }

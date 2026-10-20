@@ -84,7 +84,9 @@ public class UserController {
      */
     @GetMapping("/me")
     @Operation(operationId = "getCurrentUser", summary = "Get the current user")
-    @ApiResponse(responseCode = "200", description = "The current user",
+    @ApiResponse(
+            responseCode = "200",
+            description = "The current user",
             content = @Content(schema = @Schema(implementation = UserResponse.class)))
     public UserResponse me(@AuthenticationPrincipal Jwt jwt) {
         return userService.getById(TokenService.userId(jwt));
@@ -98,14 +100,25 @@ public class UserController {
      * @return the updated user
      */
     @PatchMapping("/me")
-    @Operation(operationId = "updateCurrentUser", summary = "Update the current user's profile",
+    @Operation(
+            operationId = "updateCurrentUser",
+            summary = "Update the current user's profile",
             description = "Changes the username and/or email; omitted fields stay unchanged. Changing the email needs "
                     + "`currentPassword`. A new email address is marked unverified and a verification email is sent to "
                     + "it; links sent to the old address stop working.")
-    @ApiResponse(responseCode = "200", description = "The updated user",
+    @ApiResponse(
+            responseCode = "200",
+            description = "The updated user",
             content = @Content(schema = @Schema(implementation = UserResponse.class)))
-    @ApiResponse(responseCode = "400", description = "Invalid input (see `errors`), or the email changes and `currentPassword` is missing or wrong", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
-    @ApiResponse(responseCode = "409", description = "Username or email already taken", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    @ApiResponse(
+            responseCode = "400",
+            description =
+                    "Invalid input (see `errors`), or the email changes and `currentPassword` is missing or wrong",
+            content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    @ApiResponse(
+            responseCode = "409",
+            description = "Username or email already taken",
+            content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     public UserResponse updateMe(@AuthenticationPrincipal Jwt jwt, @Valid @RequestBody UpdateProfileRequest request) {
         return userService.updateProfile(TokenService.userId(jwt), request);
     }
@@ -118,10 +131,15 @@ public class UserController {
      */
     @PutMapping("/me/password")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(operationId = "changeCurrentUserPassword", summary = "Change the current user's password",
+    @Operation(
+            operationId = "changeCurrentUserPassword",
+            summary = "Change the current user's password",
             description = "Ends every session of the user, including the current one: log in again afterwards.")
     @ApiResponse(responseCode = "204", description = "Password changed; every session has ended")
-    @ApiResponse(responseCode = "400", description = "Invalid input (see `errors`), or the current password is wrong", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    @ApiResponse(
+            responseCode = "400",
+            description = "Invalid input (see `errors`), or the current password is wrong",
+            content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     public void changeMyPassword(@AuthenticationPrincipal Jwt jwt, @Valid @RequestBody ChangePasswordRequest request) {
         userService.changePassword(TokenService.userId(jwt), request);
     }
@@ -135,11 +153,19 @@ public class UserController {
      */
     @DeleteMapping("/me")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(operationId = "deleteCurrentUser", summary = "Delete the current user's account",
+    @Operation(
+            operationId = "deleteCurrentUser",
+            summary = "Delete the current user's account",
             description = "Needs the current password. Deletes the user's data and ends every session.")
     @ApiResponse(responseCode = "204", description = "Account and data deleted; every session has ended")
-    @ApiResponse(responseCode = "400", description = "Invalid input (see `errors`), or the password is wrong", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
-    @ApiResponse(responseCode = "409", description = "The owner account cannot be deleted", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    @ApiResponse(
+            responseCode = "400",
+            description = "Invalid input (see `errors`), or the password is wrong",
+            content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    @ApiResponse(
+            responseCode = "409",
+            description = "The owner account cannot be deleted",
+            content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     public void deleteMe(@AuthenticationPrincipal Jwt jwt, @Valid @RequestBody DeleteAccountRequest request) {
         userService.deleteOwnAccount(TokenService.userId(jwt), request);
     }
@@ -153,14 +179,23 @@ public class UserController {
      */
     @GetMapping("/me/export")
     @Operation(operationId = "exportCurrentUserData", summary = "Export the current user's personal data")
-    @ApiResponse(responseCode = "200", description = "Everything stored about the user",
-            headers = @Header(name = HttpHeaders.CONTENT_DISPOSITION, description = "attachment; filename=\"personal-data.json\"",
-                    schema = @Schema(type = "string")),
+    @ApiResponse(
+            responseCode = "200",
+            description = "Everything stored about the user",
+            headers =
+                    @Header(
+                            name = HttpHeaders.CONTENT_DISPOSITION,
+                            description = "attachment; filename=\"personal-data.json\"",
+                            schema = @Schema(type = "string")),
             content = @Content(schema = @Schema(implementation = PersonalDataExport.class)))
     public ResponseEntity<PersonalDataExport> exportMe(@AuthenticationPrincipal Jwt jwt) {
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION,
-                        ContentDisposition.attachment().filename("personal-data.json").build().toString())
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        ContentDisposition.attachment()
+                                .filename("personal-data.json")
+                                .build()
+                                .toString())
                 .body(personalData.export(TokenService.userId(jwt)));
     }
 
@@ -190,7 +225,9 @@ public class UserController {
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or #id.toString() == authentication.name")
     @Operation(operationId = "getUser", summary = "Get a user (admin or self)")
-    @ApiResponse(responseCode = "200", description = "The user",
+    @ApiResponse(
+            responseCode = "200",
+            description = "The user",
             content = @Content(schema = @Schema(implementation = UserResponse.class)))
     public UserResponse get(@PathVariable Long id) {
         return userService.getById(id);
@@ -206,19 +243,33 @@ public class UserController {
      */
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(operationId = "updateUser", summary = "Update a user (admin)",
+    @Operation(
+            operationId = "updateUser",
+            summary = "Update a user (admin)",
             description = "Administrators update regular users. Changing a role, or changing an administrator or "
                     + "the owner, needs the owner; a role change also needs the owner's `currentPassword`. The owner "
                     + "cannot be demoted and the OWNER role cannot be assigned. A new password or role ends every "
                     + "session of that user, so it applies immediately. A new email address is marked unverified.")
-    @ApiResponse(responseCode = "400", description = "Invalid input (see `errors`), or `currentPassword` is missing "
-            + "or wrong for a role change", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
-    @ApiResponse(responseCode = "403", description = "Not an administrator, or the change needs the owner", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
-    @ApiResponse(responseCode = "200", description = "The updated user",
+    @ApiResponse(
+            responseCode = "400",
+            description =
+                    "Invalid input (see `errors`), or `currentPassword` is missing " + "or wrong for a role change",
+            content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    @ApiResponse(
+            responseCode = "403",
+            description = "Not an administrator, or the change needs the owner",
+            content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    @ApiResponse(
+            responseCode = "200",
+            description = "The updated user",
             content = @Content(schema = @Schema(implementation = UserResponse.class)))
-    @ApiResponse(responseCode = "409", description = "Username or email already taken, or the change would assign or "
-            + "remove the OWNER role", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
-    public UserResponse update(@PathVariable long id, @AuthenticationPrincipal Jwt jwt,
+    @ApiResponse(
+            responseCode = "409",
+            description = "Username or email already taken, or the change would assign or " + "remove the OWNER role",
+            content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    public UserResponse update(
+            @PathVariable long id,
+            @AuthenticationPrincipal Jwt jwt,
             @Valid @RequestBody AdminUpdateUserRequest request) {
         return userService.update(id, TokenService.userId(jwt), request);
     }
@@ -234,16 +285,28 @@ public class UserController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(operationId = "deleteUser", summary = "Delete a user (admin)",
+    @Operation(
+            operationId = "deleteUser",
+            summary = "Delete a user (admin)",
             description = "Administrators delete regular users. Deleting an administrator needs the owner and a body "
                     + "with the owner's current `password`. The owner cannot be deleted.")
     @ApiResponse(responseCode = "204", description = "User and data deleted; every session of the user has ended")
-    @ApiResponse(responseCode = "400", description = "Invalid input, an administrator deleting their own account this way, "
-            + "or the password is missing or wrong when deleting an administrator", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
-    @ApiResponse(responseCode = "403", description = "Not an administrator, or deleting an administrator without being "
-            + "the owner", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
-    @ApiResponse(responseCode = "409", description = "The owner account cannot be deleted", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
-    public void delete(@PathVariable long id, @AuthenticationPrincipal Jwt jwt,
+    @ApiResponse(
+            responseCode = "400",
+            description = "Invalid input, an administrator deleting their own account this way, "
+                    + "or the password is missing or wrong when deleting an administrator",
+            content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    @ApiResponse(
+            responseCode = "403",
+            description = "Not an administrator, or deleting an administrator without being " + "the owner",
+            content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    @ApiResponse(
+            responseCode = "409",
+            description = "The owner account cannot be deleted",
+            content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    public void delete(
+            @PathVariable long id,
+            @AuthenticationPrincipal Jwt jwt,
             @Valid @RequestBody(required = false) DeleteAccountRequest confirmation) {
         userService.delete(id, TokenService.userId(jwt), confirmation);
     }

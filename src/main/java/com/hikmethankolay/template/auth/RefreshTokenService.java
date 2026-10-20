@@ -60,7 +60,8 @@ public class RefreshTokenService {
      * @param audit      records token reuse
      * @param users      reads the users' session version
      */
-    public RefreshTokenService(RefreshTokenRepository tokens, AppProperties properties, AuditLog audit, UserRepository users) {
+    public RefreshTokenService(
+            RefreshTokenRepository tokens, AppProperties properties, AuditLog audit, UserRepository users) {
         this.tokens = tokens;
         this.properties = properties.jwt();
         this.audit = audit;
@@ -115,7 +116,8 @@ public class RefreshTokenService {
         current.markUsed(now);
         // Only the newest used token is needed to detect reuse; older ones would pile up until they expire.
         tokens.deleteUsedInFamilyExcept(current.getFamilyId(), current.getTokenHash());
-        return new Rotation(current.getUserId(),
+        return new Rotation(
+                current.getUserId(),
                 issue(current.getUserId(), current.getFamilyId(), current.getSessionVersion(), current.isRememberMe()));
     }
 
@@ -150,7 +152,8 @@ public class RefreshTokenService {
     @Transactional(readOnly = true)
     public List<Session> activeSessions(long userId) {
         return tokens.findActiveByUserId(userId, Instant.now()).stream()
-                .map(token -> new Session(token.getFamilyId(), token.isRememberMe(), token.getCreatedAt(), token.getExpiresAt()))
+                .map(token -> new Session(
+                        token.getFamilyId(), token.isRememberMe(), token.getCreatedAt(), token.getExpiresAt()))
                 .toList();
     }
 
@@ -172,7 +175,10 @@ public class RefreshTokenService {
      * @return {@code false} if the user is gone or their sessions ended since
      */
     private boolean isCurrent(long userId, int sessionVersion) {
-        return users.findById(userId).map(User::getSessionVersion).filter(version -> version == sessionVersion).isPresent();
+        return users.findById(userId)
+                .map(User::getSessionVersion)
+                .filter(version -> version == sessionVersion)
+                .isPresent();
     }
 
     /**
@@ -187,7 +193,13 @@ public class RefreshTokenService {
     private IssuedRefreshToken issue(long userId, UUID familyId, int sessionVersion, boolean rememberMe) {
         Duration ttl = rememberMe ? properties.rememberMeTtl() : properties.refreshTokenTtl();
         String token = SecureTokens.generate();
-        tokens.save(new RefreshToken(userId, familyId, sessionVersion, SecureTokens.hash(token), rememberMe, Instant.now().plus(ttl)));
+        tokens.save(new RefreshToken(
+                userId,
+                familyId,
+                sessionVersion,
+                SecureTokens.hash(token),
+                rememberMe,
+                Instant.now().plus(ttl)));
         return new IssuedRefreshToken(token, ttl, rememberMe);
     }
 
@@ -198,8 +210,7 @@ public class RefreshTokenService {
      * @param ttl        how long it is valid
      * @param rememberMe whether the session was started with "remember me"
      */
-    public record IssuedRefreshToken(String value, Duration ttl, boolean rememberMe) {
-    }
+    public record IssuedRefreshToken(String value, Duration ttl, boolean rememberMe) {}
 
     /**
      * Result of a successful exchange.
@@ -207,8 +218,7 @@ public class RefreshTokenService {
      * @param userId    owner of the session
      * @param successor the token that replaces the exchanged one
      */
-    public record Rotation(long userId, IssuedRefreshToken successor) {
-    }
+    public record Rotation(long userId, IssuedRefreshToken successor) {}
 
     /**
      * An active session, as listed in the personal data export.
@@ -218,6 +228,5 @@ public class RefreshTokenService {
      * @param lastUsedAt when its current refresh token was issued (the login or the last refresh)
      * @param expiresAt  when it ends unless refreshed
      */
-    public record Session(UUID id, boolean rememberMe, Instant lastUsedAt, Instant expiresAt) {
-    }
+    public record Session(UUID id, boolean rememberMe, Instant lastUsedAt, Instant expiresAt) {}
 }

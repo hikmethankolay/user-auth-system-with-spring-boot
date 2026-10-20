@@ -8,5 +8,4 @@ import jakarta.validation.constraints.NotBlank;
  *
  * @param email the account's email address
  */
-public record EmailRequest(@NotBlank @ValidEmail String email) {
-}
+public record EmailRequest(@NotBlank @ValidEmail String email) {}

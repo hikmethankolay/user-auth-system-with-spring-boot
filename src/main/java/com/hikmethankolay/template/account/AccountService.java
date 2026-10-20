@@ -142,7 +142,8 @@ public class AccountService {
      */
     @Transactional
     public void verifyEmail(String token) {
-        userService.markEmailVerified(consume(token, AccountTokenType.EMAIL_VERIFICATION).getUserId());
+        userService.markEmailVerified(
+                consume(token, AccountTokenType.EMAIL_VERIFICATION).getUserId());
     }
 
     /**
@@ -194,7 +195,8 @@ public class AccountService {
      */
     private void sendVerification(User user) {
         Duration ttl = properties.verificationTokenTtl();
-        mailer.sendEmailVerification(user.getEmail(), issue(user.getId(), AccountTokenType.EMAIL_VERIFICATION, ttl), ttl);
+        mailer.sendEmailVerification(
+                user.getEmail(), issue(user.getId(), AccountTokenType.EMAIL_VERIFICATION, ttl), ttl);
     }
 
     /**
@@ -206,7 +208,8 @@ public class AccountService {
      * @return {@code true} if another email must not be sent yet
      */
     private boolean recentlyIssued(long userId, AccountTokenType type) {
-        return tokens.existsByUserIdAndTypeAndCreatedAtAfter(userId, type, Instant.now().minus(RESEND_COOLDOWN));
+        return tokens.existsByUserIdAndTypeAndCreatedAtAfter(
+                userId, type, Instant.now().minus(RESEND_COOLDOWN));
     }
 
     /**
@@ -220,7 +223,8 @@ public class AccountService {
     private String issue(long userId, AccountTokenType type, Duration ttl) {
         tokens.deleteAllByUserIdAndType(userId, type);
         String token = SecureTokens.generate();
-        tokens.save(new AccountToken(userId, type, SecureTokens.hash(token), Instant.now().plus(ttl)));
+        tokens.save(new AccountToken(
+                userId, type, SecureTokens.hash(token), Instant.now().plus(ttl)));
         return token;
     }
 

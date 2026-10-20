@@ -29,6 +29,8 @@
         <archunit.version>1.5.1</archunit.version>
         <!-- 1.5.x uses Jackson 2, which springdoc already brings; validates responses against api/openapi.json. -->
         <json-schema-validator.version>1.5.9</json-schema-validator.version>
+        <spotless.version>3.10.4</spotless.version>
+        <palantir-java-format.version>2.102.0</palantir-java-format.version>
         <!--
           Security patches newer than the versions managed by Spring Boot 4.1.1 (found by the Trivy scan in CI).
           Remove each override once a Spring Boot upgrade manages an equal or newer version.
@@ -198,6 +200,28 @@
                                 <dependencyConvergence/>
                             </rules>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Formatting: scripts/test.sh applies it, CI checks it. -->
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>${spotless.version}</version>
+                <configuration>
+                    <java>
+                        <palantirJavaFormat>
+                            <version>${palantir-java-format.version}</version>
+                        </palantirJavaFormat>
+                        <removeUnusedImports/>
+                    </java>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>

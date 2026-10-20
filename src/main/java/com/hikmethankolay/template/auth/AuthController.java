@@ -59,7 +59,8 @@ public class AuthController {
     private final AuthService authService;
 
     /** Description of the {@code Set-Cookie} headers on token responses. */
-    private static final String SET_COOKIES = "The access token cookie (path /) and the refresh token cookie (path /api/v1/auth)";
+    private static final String SET_COOKIES =
+            "The access token cookie (path /) and the refresh token cookie (path /api/v1/auth)";
 
     /** Authentication cookie settings. */
     private final AppProperties.Cookie cookieProperties;
@@ -88,13 +89,22 @@ public class AuthController {
      */
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(operationId = "registerUser", summary = "Register a new user",
+    @Operation(
+            operationId = "registerUser",
+            summary = "Register a new user",
             description = "Creates an account with the USER role and sends a verification email.")
-    @ApiResponse(responseCode = "201", description = "User created",
-            headers = @Header(name = HttpHeaders.LOCATION, description = "URL of the new user",
-                    schema = @Schema(type = "string", format = "uri")),
+    @ApiResponse(
+            responseCode = "201",
+            description = "User created",
+            headers =
+                    @Header(
+                            name = HttpHeaders.LOCATION,
+                            description = "URL of the new user",
+                            schema = @Schema(type = "string", format = "uri")),
             content = @Content(schema = @Schema(implementation = UserResponse.class)))
-    @ApiResponse(responseCode = "409", description = "Username or email already taken",
+    @ApiResponse(
+            responseCode = "409",
+            description = "Username or email already taken",
             content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     public ResponseEntity<UserResponse> register(@Valid @RequestBody RegisterRequest request) {
         UserResponse user = authService.register(request);
@@ -113,16 +123,30 @@ public class AuthController {
      * @return {@code 200 OK} with the tokens in the body and in cookies
      */
     @PostMapping("/login")
-    @Operation(operationId = "login", summary = "Log in and obtain tokens",
-            description = "Accepts a username or an email address. Repeated failures lock the IP and the account (429).")
-    @ApiResponse(responseCode = "200", description = "Logged in; the tokens are also set as HttpOnly cookies",
-            headers = @Header(name = HttpHeaders.SET_COOKIE, description = SET_COOKIES, schema = @Schema(type = "string")),
+    @Operation(
+            operationId = "login",
+            summary = "Log in and obtain tokens",
+            description =
+                    "Accepts a username or an email address. Repeated failures lock the IP and the account (429).")
+    @ApiResponse(
+            responseCode = "200",
+            description = "Logged in; the tokens are also set as HttpOnly cookies",
+            headers =
+                    @Header(
+                            name = HttpHeaders.SET_COOKIE,
+                            description = SET_COOKIES,
+                            schema = @Schema(type = "string")),
             content = @Content(schema = @Schema(implementation = TokenResponse.class)))
-    @ApiResponse(responseCode = "401", description = "Wrong username, email or password",
+    @ApiResponse(
+            responseCode = "401",
+            description = "Wrong username, email or password",
             content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
-    @ApiResponse(responseCode = "403", description = "Email address not verified (when verification is required)",
+    @ApiResponse(
+            responseCode = "403",
+            description = "Email address not verified (when verification is required)",
             content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
-    public ResponseEntity<TokenResponse> login(@Valid @RequestBody LoginRequest request, HttpServletRequest httpRequest) {
+    public ResponseEntity<TokenResponse> login(
+            @Valid @RequestBody LoginRequest request, HttpServletRequest httpRequest) {
         // getRemoteAddr() honours X-Forwarded-For only when server.forward-headers-strategy is framework or native.
         return tokenResponse(authService.login(request, httpRequest.getRemoteAddr()));
     }
@@ -136,13 +160,23 @@ public class AuthController {
      * @return {@code 200 OK} with the new tokens in the body and in cookies
      */
     @PostMapping("/refresh")
-    @Operation(operationId = "refreshTokens", summary = "Exchange a refresh token for new tokens",
+    @Operation(
+            operationId = "refreshTokens",
+            summary = "Exchange a refresh token for new tokens",
             description = "Takes the refresh token from the body or the refresh token cookie. Each refresh token works "
                     + "once; presenting a used one ends the whole session.")
-    @ApiResponse(responseCode = "200", description = "New tokens; also set as HttpOnly cookies",
-            headers = @Header(name = HttpHeaders.SET_COOKIE, description = SET_COOKIES, schema = @Schema(type = "string")),
+    @ApiResponse(
+            responseCode = "200",
+            description = "New tokens; also set as HttpOnly cookies",
+            headers =
+                    @Header(
+                            name = HttpHeaders.SET_COOKIE,
+                            description = SET_COOKIES,
+                            schema = @Schema(type = "string")),
             content = @Content(schema = @Schema(implementation = TokenResponse.class)))
-    @ApiResponse(responseCode = "401", description = "Refresh token missing, invalid, expired or already used",
+    @ApiResponse(
+            responseCode = "401",
+            description = "Refresh token missing, invalid, expired or already used",
             content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     public ResponseEntity<TokenResponse> refresh(
             @Valid @RequestBody(required = false) RefreshRequest request, HttpServletRequest httpRequest) {
@@ -160,10 +194,16 @@ public class AuthController {
     @PostMapping("/logout")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(operationId = "logout", summary = "Log out (revoke the tokens and clear the auth cookies)")
-    @ApiResponse(responseCode = "204", description = "Logged out, also when no or invalid tokens were sent",
-            headers = @Header(name = HttpHeaders.SET_COOKIE, description = "Expires both auth cookies",
-                    schema = @Schema(type = "string")))
-    public ResponseEntity<Void> logout(@RequestBody(required = false) RefreshRequest request, HttpServletRequest httpRequest) {
+    @ApiResponse(
+            responseCode = "204",
+            description = "Logged out, also when no or invalid tokens were sent",
+            headers =
+                    @Header(
+                            name = HttpHeaders.SET_COOKIE,
+                            description = "Expires both auth cookies",
+                            schema = @Schema(type = "string")))
+    public ResponseEntity<Void> logout(
+            @RequestBody(required = false) RefreshRequest request, HttpServletRequest httpRequest) {
         String accessToken;
         try {
             accessToken = bearerTokenResolver.resolve(httpRequest);
@@ -203,12 +243,22 @@ public class AuthController {
         Duration session = Duration.ofSeconds(-1);
         return ResponseEntity.ok()
                 .cacheControl(CacheControl.noStore())
-                .header(HttpHeaders.SET_COOKIE, accessCookie(
-                        tokens.accessToken().value(), persistent ? tokens.accessToken().ttl() : session).toString())
-                .header(HttpHeaders.SET_COOKIE, refreshCookie(
-                        tokens.refreshToken().value(), persistent ? tokens.refreshToken().ttl() : session).toString())
+                .header(
+                        HttpHeaders.SET_COOKIE,
+                        accessCookie(
+                                        tokens.accessToken().value(),
+                                        persistent ? tokens.accessToken().ttl() : session)
+                                .toString())
+                .header(
+                        HttpHeaders.SET_COOKIE,
+                        refreshCookie(
+                                        tokens.refreshToken().value(),
+                                        persistent ? tokens.refreshToken().ttl() : session)
+                                .toString())
                 .body(TokenResponse.bearer(
-                        tokens.accessToken().value(), tokens.accessToken().ttl(), tokens.refreshToken().value()));
+                        tokens.accessToken().value(),
+                        tokens.accessToken().ttl(),
+                        tokens.refreshToken().value()));
     }
 
     /**

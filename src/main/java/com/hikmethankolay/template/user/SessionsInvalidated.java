@@ -8,5 +8,4 @@ package com.hikmethankolay.template.user;
  *
  * @param userId id of the user whose sessions end
  */
-public record SessionsInvalidated(long userId) {
-}
+public record SessionsInvalidated(long userId) {}

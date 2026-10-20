@@ -52,6 +52,7 @@ public record AppProperties(
             @NotBlank(message = "must be set (JWT_SECRET)")
             @Size(min = 32, message = "must be at least 32 characters (JWT_SECRET)")
             String secret,
+
             @NotBlank String issuer,
             @NotNull Duration accessTokenTtl,
             @NotNull Duration refreshTokenTtl,
@@ -77,16 +78,18 @@ public record AppProperties(
      * @param secure      whether the cookies are sent over HTTPS only; enable in production
      * @param sameSite    {@code SameSite} attribute; {@code Strict} protects against CSRF
      */
-    public record Cookie(@NotBlank String name, @NotBlank String refreshName, boolean secure, @NotBlank String sameSite) {
-    }
+    public record Cookie(
+            @NotBlank String name,
+            @NotBlank String refreshName,
+            boolean secure,
+            @NotBlank String sameSite) {}
 
     /**
      * CORS settings.
      *
      * @param allowedOrigins origins allowed to call the API with credentials; never use {@code *}
      */
-    public record Cors(List<String> allowedOrigins) {
-    }
+    public record Cors(List<String> allowedOrigins) {}
 
     /**
      * Brute-force protection settings.
@@ -94,8 +97,7 @@ public record AppProperties(
      * @param maxAttempts  failed logins after which an IP or account is blocked
      * @param lockDuration how long a block lasts after the last failure
      */
-    public record Login(@Positive int maxAttempts, @NotNull Duration lockDuration) {
-    }
+    public record Login(@Positive int maxAttempts, @NotNull Duration lockDuration) {}
 
     /**
      * Per-client-IP rate limit for all API requests (Actuator is exempt).
@@ -103,8 +105,7 @@ public record AppProperties(
      * @param enabled           whether requests are limited
      * @param requestsPerMinute requests allowed per IP in each one-minute window
      */
-    public record RateLimit(boolean enabled, @Positive int requestsPerMinute) {
-    }
+    public record RateLimit(boolean enabled, @Positive int requestsPerMinute) {}
 
     /**
      * Email verification and password reset settings.
@@ -114,8 +115,9 @@ public record AppProperties(
      * @param passwordResetTokenTtl     how long a password reset link is valid
      */
     public record Account(
-            boolean requireVerifiedEmail, @NotNull Duration verificationTokenTtl, @NotNull Duration passwordResetTokenTtl) {
-    }
+            boolean requireVerifiedEmail,
+            @NotNull Duration verificationTokenTtl,
+            @NotNull Duration passwordResetTokenTtl) {}
 
     /**
      * Outgoing email settings (the SMTP server itself is configured with {@code spring.mail.*}).
@@ -131,8 +133,7 @@ public record AppProperties(
             @NotBlank String from,
             @NotBlank String linkBaseUrl,
             @Positive int maxAttempts,
-            @NotNull Duration retryDelay) {
-    }
+            @NotNull Duration retryDelay) {}
 
     /**
      * Initial administrator, created on startup when all three fields are set and no admin exists yet.

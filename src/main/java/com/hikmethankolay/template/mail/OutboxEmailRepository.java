@@ -21,8 +21,10 @@ public interface OutboxEmailRepository extends JpaRepository<OutboxEmail, Long> 
      * @param limit maximum number of emails
      * @return the locked emails
      */
-    @Query(value = "select * from email_outbox where next_attempt_at <= :now order by id limit :limit "
-            + "for update skip locked", nativeQuery = true)
+    @Query(
+            value = "select * from email_outbox where next_attempt_at <= :now order by id limit :limit "
+                    + "for update skip locked",
+            nativeQuery = true)
     List<OutboxEmail> lockDue(Instant now, int limit);
 
     /**

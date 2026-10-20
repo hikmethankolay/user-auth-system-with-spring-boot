@@ -31,14 +31,15 @@ class OpenApiContractTest extends IntegrationTest {
 
     @Test
     void statusCodesMatchTheRuntimeBehaviour() throws Exception {
-        spec()
-                .andExpect(jsonPath(AUTH + "register'].post.responses['201'].headers.Location").exists())
+        spec().andExpect(jsonPath(AUTH + "register'].post.responses['201'].headers.Location")
+                        .exists())
                 .andExpect(jsonPath(AUTH + "register'].post.responses['200']").doesNotExist())
                 .andExpect(jsonPath(AUTH + "register'].post.responses['409']").exists())
                 .andExpect(jsonPath(AUTH + "logout'].post.responses['204']").exists())
                 .andExpect(jsonPath(AUTH + "logout'].post.responses['200']").doesNotExist())
                 .andExpect(jsonPath(AUTH + "login'].post.responses['401']").exists())
-                .andExpect(jsonPath(AUTH + "login'].post.responses['200'].headers.Set-Cookie").exists())
+                .andExpect(jsonPath(AUTH + "login'].post.responses['200'].headers.Set-Cookie")
+                        .exists())
                 .andExpect(jsonPath(USERS + "/me'].patch.responses['409']").exists())
                 .andExpect(jsonPath(USERS + "/me'].patch.responses['200']").exists())
                 .andExpect(jsonPath(USERS + "/{id}'].patch.responses['200']").exists())
@@ -47,16 +48,21 @@ class OpenApiContractTest extends IntegrationTest {
 
     @Test
     void errorsAreProblemDetails() throws Exception {
-        spec()
-                .andExpect(jsonPath("$.components.schemas.Problem.properties", hasKey("errors")))
-                .andExpect(jsonPath("$.components.schemas.Problem.properties.type.description",
+        spec().andExpect(jsonPath("$.components.schemas.Problem.properties", hasKey("errors")))
+                .andExpect(jsonPath(
+                        "$.components.schemas.Problem.properties.type.description",
                         containsString("urn:problem:username-taken")))
                 // Shared error responses are declared once and referenced.
-                .andExpect(jsonPath(AUTH + "register'].post.responses['400']['$ref']").value("#/components/responses/BadRequest"))
-                .andExpect(jsonPath(USERS + "/me'].get.responses['401']['$ref']").value("#/components/responses/Unauthorized"))
-                .andExpect(jsonPath(USERS + "'].get.responses['403']['$ref']").value("#/components/responses/Forbidden"))
-                .andExpect(jsonPath(USERS + "/me'].get.responses['429']['$ref']").value("#/components/responses/TooManyRequests"))
-                .andExpect(jsonPath(USERS + "/me'].get.responses['500']['$ref']").value("#/components/responses/InternalServerError"))
+                .andExpect(jsonPath(AUTH + "register'].post.responses['400']['$ref']")
+                        .value("#/components/responses/BadRequest"))
+                .andExpect(jsonPath(USERS + "/me'].get.responses['401']['$ref']")
+                        .value("#/components/responses/Unauthorized"))
+                .andExpect(
+                        jsonPath(USERS + "'].get.responses['403']['$ref']").value("#/components/responses/Forbidden"))
+                .andExpect(jsonPath(USERS + "/me'].get.responses['429']['$ref']")
+                        .value("#/components/responses/TooManyRequests"))
+                .andExpect(jsonPath(USERS + "/me'].get.responses['500']['$ref']")
+                        .value("#/components/responses/InternalServerError"))
                 .andExpect(jsonPath("$.components.responses.*.content", everyItem(hasKey("application/problem+json"))))
                 .andExpect(jsonPath("$.components.responses.TooManyRequests.headers", hasKey("Retry-After")))
                 .andExpect(jsonPath("$.components.responses.Unauthorized.headers", hasKey("WWW-Authenticate")))
@@ -66,30 +72,39 @@ class OpenApiContractTest extends IntegrationTest {
 
     @Test
     void schemasAreCompleteForClientGenerators() throws Exception {
-        spec()
-                .andExpect(jsonPath("$.tags[*].name", containsInAnyOrder("Authentication", "Account", "Users")))
-                .andExpect(jsonPath("$.components.schemas.PageMetadata.required",
+        spec().andExpect(jsonPath("$.tags[*].name", containsInAnyOrder("Authentication", "Account", "Users")))
+                .andExpect(jsonPath(
+                        "$.components.schemas.PageMetadata.required",
                         containsInAnyOrder("number", "size", "totalElements", "totalPages")))
-                .andExpect(jsonPath("$.components.schemas.PagedModelUserResponse.required",
-                        containsInAnyOrder("content", "page")))
-                .andExpect(jsonPath("$.components.schemas.RegisterRequest.properties.password.writeOnly").value(true))
-                .andExpect(jsonPath("$.components.schemas.RegisterRequest.properties.password.format").value("password"))
-                .andExpect(jsonPath("$.components.schemas.RegisterRequest.properties.password.description",
+                .andExpect(jsonPath(
+                        "$.components.schemas.PagedModelUserResponse.required", containsInAnyOrder("content", "page")))
+                .andExpect(jsonPath("$.components.schemas.RegisterRequest.properties.password.writeOnly")
+                        .value(true))
+                .andExpect(jsonPath("$.components.schemas.RegisterRequest.properties.password.format")
+                        .value("password"))
+                .andExpect(jsonPath(
+                        "$.components.schemas.RegisterRequest.properties.password.description",
                         containsString("72 bytes")))
-                .andExpect(jsonPath("$.components.schemas.LoginRequest.properties.password.maxLength").value(72))
-                .andExpect(jsonPath("$.components.schemas.UserResponse.properties.email.format").value("email"))
-                .andExpect(jsonPath("$.components.schemas.TokenResponse.properties.tokenType.enum", contains("Bearer")));
+                .andExpect(jsonPath("$.components.schemas.LoginRequest.properties.password.maxLength")
+                        .value(72))
+                .andExpect(jsonPath("$.components.schemas.UserResponse.properties.email.format")
+                        .value("email"))
+                .andExpect(
+                        jsonPath("$.components.schemas.TokenResponse.properties.tokenType.enum", contains("Bearer")));
     }
 
     @Test
     void securityMatchesTheFilterChains() throws Exception {
-        spec()
-                .andExpect(jsonPath("$.components.securitySchemes.bearerAuth.scheme").value("bearer"))
-                .andExpect(jsonPath("$.components.securitySchemes.cookieAuth.in").value("cookie"))
-                .andExpect(jsonPath("$.components.securitySchemes.cookieAuth.name").value("auth_token"))
+        spec().andExpect(jsonPath("$.components.securitySchemes.bearerAuth.scheme")
+                        .value("bearer"))
+                .andExpect(
+                        jsonPath("$.components.securitySchemes.cookieAuth.in").value("cookie"))
+                .andExpect(
+                        jsonPath("$.components.securitySchemes.cookieAuth.name").value("auth_token"))
                 .andExpect(jsonPath(AUTH + "login'].post.security", empty()))
                 .andExpect(jsonPath(AUTH + "refresh'].post.security", empty()))
-                .andExpect(jsonPath(AUTH + "refresh'].post.parameters[?(@.in == 'cookie')].name", hasItem("refresh_token")))
+                .andExpect(jsonPath(
+                        AUTH + "refresh'].post.parameters[?(@.in == 'cookie')].name", hasItem("refresh_token")))
                 .andExpect(jsonPath(AUTH + "password-reset'].post.security", empty()))
                 .andExpect(jsonPath(USERS + "/me'].get.security[*]", hasItem(hasKey("bearerAuth"))))
                 .andExpect(jsonPath(USERS + "/me'].get.security[*]", hasItem(hasKey("cookieAuth"))))
@@ -98,34 +113,37 @@ class OpenApiContractTest extends IntegrationTest {
 
     @Test
     void paginationUsesSeparateParametersWithALimit() throws Exception {
-        spec()
-                .andExpect(jsonPath(USERS + "'].get.parameters[*].name", containsInAnyOrder("page", "size", "sort")))
+        spec().andExpect(jsonPath(USERS + "'].get.parameters[*].name", containsInAnyOrder("page", "size", "sort")))
                 .andExpect(jsonPath(USERS + "'].get.parameters[?(@.name == 'size')].schema.maximum", hasItem(100)))
-                .andExpect(jsonPath(USERS + "'].get.parameters[?(@.name == 'sort')].description",
+                .andExpect(jsonPath(
+                        USERS + "'].get.parameters[?(@.name == 'sort')].description",
                         hasItem(containsString("Allowed properties: id, username, email"))))
-                .andExpect(jsonPath(USERS + "'].get.parameters[?(@.name == 'sort')].description",
+                .andExpect(jsonPath(
+                        USERS + "'].get.parameters[?(@.name == 'sort')].description",
                         everyItem(not(containsString("password")))))
-                .andExpect(jsonPath(USERS + "'].get.parameters[?(@.name == 'sort')].schema.items.pattern",
-                        hasItem("^(id|username|email|role|emailVerified|createdAt|updatedAt)(,(asc|desc|ASC|DESC))?$")));
+                .andExpect(
+                        jsonPath(
+                                USERS + "'].get.parameters[?(@.name == 'sort')].schema.items.pattern",
+                                hasItem(
+                                        "^(id|username|email|role|emailVerified|createdAt|updatedAt)(,(asc|desc|ASC|DESC))?$")));
     }
 
     @Test
     void operationsHaveDescriptiveIds() throws Exception {
-        spec()
-                .andExpect(jsonPath("$.paths.*.*.operationId",
-                        everyItem(not(oneOf("get", "list", "update", "delete", "me")))))
+        spec().andExpect(jsonPath(
+                        "$.paths.*.*.operationId", everyItem(not(oneOf("get", "list", "update", "delete", "me")))))
                 .andExpect(jsonPath(USERS + "'].get.operationId").value("listUsers"))
                 .andExpect(jsonPath(AUTH + "register'].post.operationId").value("registerUser"));
     }
 
     @Test
     void responsesDeclareHeadersAndRequiredFields() throws Exception {
-        spec()
-                .andExpect(jsonPath(USERS + "/me'].get.responses['200'].headers", hasKey("X-Trace-Id")))
+        spec().andExpect(jsonPath(USERS + "/me'].get.responses['200'].headers", hasKey("X-Trace-Id")))
                 .andExpect(jsonPath(USERS + "/me'].get.responses['200'].headers", hasKey("RateLimit-Remaining")))
                 .andExpect(jsonPath("$.components.schemas.UserResponse.required", hasItem("id")))
                 .andExpect(jsonPath("$.components.schemas.TokenResponse.required", hasItem("refreshToken")))
-                .andExpect(jsonPath("$.components.schemas.TokenRequest.properties.token.minLength").value(1))
+                .andExpect(jsonPath("$.components.schemas.TokenRequest.properties.token.minLength")
+                        .value(1))
                 .andExpect(jsonPath("$.servers[0].url").value("/"));
     }
 }

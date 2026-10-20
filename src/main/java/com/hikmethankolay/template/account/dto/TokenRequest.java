@@ -8,5 +8,5 @@ import jakarta.validation.constraints.Size;
  *
  * @param token the token from the email link
  */
-public record TokenRequest(@NotBlank @Size(min = 1, max = 100) String token) {
-}
+public record TokenRequest(
+        @NotBlank @Size(min = 1, max = 100) String token) {}

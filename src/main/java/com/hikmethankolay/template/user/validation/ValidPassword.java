@@ -36,7 +36,8 @@ public @interface ValidPassword {
      *
      * @return the message
      */
-    String message() default "must be 8-72 characters (at most 72 bytes in UTF-8) and include an uppercase letter, a lowercase letter, a digit and a symbol";
+    String message() default
+            "must be 8-72 characters (at most 72 bytes in UTF-8) and include an uppercase letter, a lowercase letter, a digit and a symbol";
 
     /**
      * Validation groups.

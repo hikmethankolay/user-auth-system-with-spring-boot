@@ -17,6 +17,8 @@ import java.util.Map;
 public record PersonalDataExport(
         Instant exportedAt,
         UserResponse profile,
-        @Schema(description = "Data kept by other features, one entry per section; currently `sessions`, the user's "
-                + "active sessions") Map<String, Object> related) {
-}
+
+        @Schema(
+                description = "Data kept by other features, one entry per section; currently `sessions`, the user's "
+                        + "active sessions")
+        Map<String, Object> related) {}

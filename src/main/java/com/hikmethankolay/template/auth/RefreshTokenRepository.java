@@ -51,7 +51,8 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long
      * @param tokenHash hash of the used token to keep
      */
     @Modifying
-    @Query("delete from RefreshToken t where t.familyId = :familyId and t.usedAt is not null and t.tokenHash <> :tokenHash")
+    @Query(
+            "delete from RefreshToken t where t.familyId = :familyId and t.usedAt is not null and t.tokenHash <> :tokenHash")
     void deleteUsedInFamilyExcept(UUID familyId, String tokenHash);
 
     /**

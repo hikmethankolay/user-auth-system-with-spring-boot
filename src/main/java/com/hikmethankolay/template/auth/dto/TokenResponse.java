@@ -12,7 +12,11 @@ import java.time.Duration;
  * @param refreshToken single-use token for {@code POST /api/v1/auth/refresh}
  */
 @Schema(requiredProperties = {"accessToken", "tokenType", "expiresIn", "refreshToken"})
-public record TokenResponse(String accessToken, @Schema(allowableValues = "Bearer") String tokenType, long expiresIn, String refreshToken) {
+public record TokenResponse(
+        String accessToken,
+        @Schema(allowableValues = "Bearer") String tokenType,
+        long expiresIn,
+        String refreshToken) {
 
     /**
      * Creates a bearer token response.

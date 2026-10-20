@@ -41,7 +41,9 @@ public class AccountMailer {
      * @param ttl   how long the link is valid
      */
     public void sendEmailVerification(String to, String token, Duration ttl) {
-        outbox.enqueue(to, "Confirm your email address",
+        outbox.enqueue(
+                to,
+                "Confirm your email address",
                 "Confirm your email address by opening this link:%n%n%s%n%nThe link expires in %d minutes."
                         .formatted(link("/verify-email", token), ttl.toMinutes()));
     }
@@ -54,9 +56,11 @@ public class AccountMailer {
      * @param ttl   how long the link is valid
      */
     public void sendPasswordReset(String to, String token, Duration ttl) {
-        outbox.enqueue(to, "Reset your password",
+        outbox.enqueue(
+                to,
+                "Reset your password",
                 ("Someone asked to reset the password of your account. If that was you, open this link:%n%n%s%n%n"
-                        + "The link expires in %d minutes. If you did not ask for this, ignore this email.")
+                                + "The link expires in %d minutes. If you did not ask for this, ignore this email.")
                         .formatted(link("/reset-password", token), ttl.toMinutes()));
     }
 

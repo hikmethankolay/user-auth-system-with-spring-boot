@@ -8,5 +8,4 @@ import jakarta.validation.constraints.Size;
  *
  * @param refreshToken the refresh token from the last login or refresh
  */
-public record RefreshRequest(@Size(max = 100) String refreshToken) {
-}
+public record RefreshRequest(@Size(max = 100) String refreshToken) {}

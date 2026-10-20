@@ -44,8 +44,7 @@ public class AccountToken {
     private Instant createdAt;
 
     /** Constructor required by JPA. */
-    protected AccountToken() {
-    }
+    protected AccountToken() {}
 
     /**
      * Creates a new token record.
