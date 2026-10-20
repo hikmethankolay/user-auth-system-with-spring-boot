@@ -8,6 +8,8 @@ import org.springframework.cache.interceptor.CacheErrorHandler;
 import org.springframework.cache.interceptor.LoggingCacheErrorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.RedisCacheWriter;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.serializer.JacksonJsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair;
 import tools.jackson.databind.json.JsonMapper;
@@ -21,11 +23,14 @@ import tools.jackson.databind.json.JsonMapper;
  *   <li>TTL and key prefix come from {@code spring.cache.redis.*} in {@code application.yml}.</li>
  *   <li>The cache manager is transaction-aware: puts and evictions inside a transaction are applied
  *       only after it commits, so a rolled-back update never leaves stale data behind.</li>
+ *   <li>Writes are immediate: each put and eviction has completed in Redis before the call returns.
+ *       With Lettuce, Spring Data Redis otherwise sends them asynchronously, so a cache fill from a read
+ *       could land after a later eviction and keep a deleted or changed user cached until the TTL ends.</li>
  *   <li>Cache errors are logged and ignored, so a Redis outage slows the API down instead of breaking it.</li>
  * </ul>
  *
  * <p>To cache something new, add a name to {@link CacheNames}, register its value type in
- * {@link #redisCacheCustomizer(JsonMapper)} and annotate the service method with
+ * {@link #redisCacheCustomizer(JsonMapper, RedisConnectionFactory)} and annotate the service method with
  * {@code @Cacheable} / {@code @CacheEvict}. Cache DTOs, not JPA entities.</p>
  */
 @Configuration(proxyBeanMethods = false)
@@ -33,14 +38,16 @@ import tools.jackson.databind.json.JsonMapper;
 public class CacheConfig implements CachingConfigurer {
 
     /**
-     * Configures the value serializer of each cache and enables transaction awareness.
+     * Configures the value serializer of each cache, immediate writes and transaction awareness.
      *
-     * @param jsonMapper the application's JSON mapper, so cached values match API serialization
+     * @param jsonMapper        the application's JSON mapper, so cached values match API serialization
+     * @param connectionFactory the Redis connection the cache writer uses
      * @return the customizer applied by Spring Boot's Redis cache auto-configuration
      */
     @Bean
-    RedisCacheManagerBuilderCustomizer redisCacheCustomizer(JsonMapper jsonMapper) {
+    RedisCacheManagerBuilderCustomizer redisCacheCustomizer(JsonMapper jsonMapper, RedisConnectionFactory connectionFactory) {
         return builder -> builder
+                .cacheWriter(RedisCacheWriter.create(connectionFactory, writer -> writer.immediateWrites()))
                 .transactionAware()
                 .withCacheConfiguration(CacheNames.USERS, builder.cacheDefaults()
                         .serializeValuesWith(SerializationPair.fromSerializer(
