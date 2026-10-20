@@ -76,7 +76,10 @@ detail with the content type `application/problem+json`:
 
 ## Pagination
 
-List endpoints take Spring Data's `page`, `size` (at most 100) and `sort` parameters and return:
+List endpoints take Spring Data's `page`, `size` (at most 100) and `sort` parameters. `sort` only accepts the
+properties listed in its parameter description; for `/api/v1/users` that is `id`, `username`, `email`, `role`,
+`emailVerified`, `createdAt` and `updatedAt`. Anything else, including real but hidden columns such as the password
+hash, is rejected with `400`, because sorting by a hidden column reveals information about its values. They return:
 
 ```json
 { "content": [ ... ], "page": { "size": 20, "number": 0, "totalElements": 42, "totalPages": 3 } }

@@ -1360,7 +1360,7 @@
             "minimum" : 1
           }
         }, {
-          "description" : "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+          "description" : "Sort order as `property,asc` or `property,desc`; repeat the parameter to sort by several properties. Allowed properties: id, username, email, role, emailVerified, createdAt, updatedAt. Any other property is rejected with 400.",
           "in" : "query",
           "name" : "sort",
           "required" : false,
@@ -1368,7 +1368,8 @@
             "type" : "array",
             "default" : [ "id,ASC" ],
             "items" : {
-              "type" : "string"
+              "type" : "string",
+              "pattern" : "^(id|username|email|role|emailVerified|createdAt|updatedAt)(,(asc|desc|ASC|DESC))?$"
             }
           }
         } ],

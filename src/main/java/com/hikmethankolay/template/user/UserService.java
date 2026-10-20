@@ -3,12 +3,14 @@ package com.hikmethankolay.template.user;
 import com.hikmethankolay.template.audit.AuditEvent;
 import com.hikmethankolay.template.audit.AuditLog;
 import com.hikmethankolay.template.common.ApiException;
+import com.hikmethankolay.template.common.SortAllowList;
 import com.hikmethankolay.template.config.CacheConfig.CacheNames;
 import com.hikmethankolay.template.user.dto.AdminUpdateUserRequest;
 import com.hikmethankolay.template.user.dto.ChangePasswordRequest;
 import com.hikmethankolay.template.user.dto.DeleteAccountRequest;
 import com.hikmethankolay.template.user.dto.UpdateProfileRequest;
 import com.hikmethankolay.template.user.dto.UserResponse;
+import java.util.List;
 import java.util.Locale;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.context.ApplicationEventPublisher;
@@ -34,6 +36,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 public class UserService {
+
+    /**
+     * Properties users can be sorted by: only fields already visible in {@link UserResponse}, never
+     * {@code passwordHash}. Listed in the {@code sort} parameter description of the API.
+     */
+    public static final String SORTABLE_PROPERTIES = "id, username, email, role, emailVerified, createdAt, updatedAt";
+
+    /** Rejects sorting by anything outside {@link #SORTABLE_PROPERTIES}. */
+    private static final SortAllowList SORTING = new SortAllowList(List.of(SORTABLE_PROPERTIES.split(", ")));
 
     /** User persistence. */
     private final UserRepository userRepository;
@@ -135,9 +146,10 @@ public class UserService {
      *
      * @param pageable page number, size and sort order
      * @return one page of users
+     * @throws ApiException 400 if the sort order uses a property outside {@link #SORTABLE_PROPERTIES}
      */
     public Page<UserResponse> list(Pageable pageable) {
-        return userRepository.findAll(pageable).map(UserResponse::from);
+        return userRepository.findAll(SORTING.check(pageable)).map(UserResponse::from);
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.hikmethankolay.template;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.everyItem;
 import static org.hamcrest.Matchers.hasItem;
@@ -73,7 +74,13 @@ class OpenApiContractTest extends IntegrationTest {
     void paginationUsesSeparateParametersWithALimit() throws Exception {
         spec()
                 .andExpect(jsonPath(USERS + "'].get.parameters[*].name", containsInAnyOrder("page", "size", "sort")))
-                .andExpect(jsonPath(USERS + "'].get.parameters[?(@.name == 'size')].schema.maximum", hasItem(100)));
+                .andExpect(jsonPath(USERS + "'].get.parameters[?(@.name == 'size')].schema.maximum", hasItem(100)))
+                .andExpect(jsonPath(USERS + "'].get.parameters[?(@.name == 'sort')].description",
+                        hasItem(containsString("Allowed properties: id, username, email"))))
+                .andExpect(jsonPath(USERS + "'].get.parameters[?(@.name == 'sort')].description",
+                        everyItem(not(containsString("password")))))
+                .andExpect(jsonPath(USERS + "'].get.parameters[?(@.name == 'sort')].schema.items.pattern",
+                        hasItem("^(id|username|email|role|emailVerified|createdAt|updatedAt)(,(asc|desc|ASC|DESC))?$")));
     }
 
     @Test

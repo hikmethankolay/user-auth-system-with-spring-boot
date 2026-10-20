@@ -1,6 +1,7 @@
 package com.hikmethankolay.template.config;
 
 import com.hikmethankolay.template.common.ApiDocs;
+import com.hikmethankolay.template.common.SortableBy;
 import com.hikmethankolay.template.common.TraceIdResponseFilter;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -22,6 +23,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import org.springdoc.core.customizers.OpenApiCustomizer;
+import org.springdoc.core.customizers.OperationCustomizer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,6 +39,7 @@ import org.springframework.core.annotation.Order;
  *       (400 for operations with input, 404 for operations on {@code {id}}, 429 everywhere);</li>
  *   <li>the {@code X-Trace-Id} and {@code RateLimit-*} headers on every response and {@code Retry-After} on 429;</li>
  *   <li>the page size limit ({@code spring.data.web.pageable.max-page-size}) on {@code size} parameters;</li>
+ *   <li>the allowed properties of {@code sort} parameters, from {@link SortableBy};</li>
  *   <li>a relative server URL, so Swagger UI and generated clients call the host that serves the document.</li>
  * </ul>
  *
@@ -106,6 +109,35 @@ public class OpenApiConfig {
                         .forEach(parameter -> parameter.getSchema().setMaximum(BigDecimal.valueOf(maxPageSize)));
             }
         }));
+    }
+
+    /**
+     * Documents the allowed properties of the {@code sort} parameter on operations annotated with
+     * {@link SortableBy}: they are listed in the description and enforced by a pattern.
+     *
+     * @return the customizer springdoc applies to every operation
+     */
+    @Bean
+    OperationCustomizer sortableProperties() {
+        return (operation, handlerMethod) -> {
+            SortableBy sortable = handlerMethod.getMethodAnnotation(SortableBy.class);
+            if (sortable != null && operation.getParameters() != null) {
+                String properties = sortable.value();
+                String alternatives = String.join("|", properties.split(", "));
+                operation.getParameters().stream()
+                        .filter(parameter -> "sort".equals(parameter.getName()))
+                        .forEach(parameter -> {
+                            parameter.setDescription("Sort order as `property,asc` or `property,desc`; repeat the "
+                                    + "parameter to sort by several properties. Allowed properties: " + properties
+                                    + ". Any other property is rejected with 400.");
+                            if (parameter.getSchema() != null && parameter.getSchema().getItems() != null) {
+                                parameter.getSchema().getItems()
+                                        .setPattern("^(" + alternatives + ")(,(asc|desc|ASC|DESC))?$");
+                            }
+                        });
+            }
+            return operation;
+        };
     }
 
     /**

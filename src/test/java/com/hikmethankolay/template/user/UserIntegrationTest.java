@@ -153,6 +153,30 @@ class UserIntegrationTest extends IntegrationTest {
     }
 
     @Test
+    void sortingByAHiddenColumnIsRejected() throws Exception {
+        String adminToken = login(ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        // passwordHash is a real entity property, but sorting by it would reveal the order of the hashes.
+        mockMvc.perform(get("/api/v1/users").with(bearer(adminToken)).param("sort", "passwordHash,asc"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.detail").value("Cannot sort by 'passwordHash'. Allowed properties: "
+                        + "id, username, email, role, emailVerified, createdAt, updatedAt."));
+        mockMvc.perform(get("/api/v1/users").with(bearer(adminToken))
+                        .param("sort", "createdAt,desc").param("sort", "passwordHash"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void sortingByVisibleFieldsWorks() throws Exception {
+        String adminToken = login(ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        mockMvc.perform(get("/api/v1/users").with(bearer(adminToken))
+                        .param("sort", "createdAt,desc").param("sort", "username"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").isArray());
+    }
+
+    @Test
     void deletingOwnAccountRequiresThePasswordAndEndsTheSession() throws Exception {
         String username = uniqueUsername();
         String token = registerAndLogin(username);

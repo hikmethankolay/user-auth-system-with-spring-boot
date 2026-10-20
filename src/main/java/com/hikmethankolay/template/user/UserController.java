@@ -1,6 +1,7 @@
 package com.hikmethankolay.template.user;
 
 import com.hikmethankolay.template.common.ApiDocs;
+import com.hikmethankolay.template.common.SortableBy;
 import com.hikmethankolay.template.security.TokenService;
 import com.hikmethankolay.template.user.dto.AdminUpdateUserRequest;
 import com.hikmethankolay.template.user.dto.ChangePasswordRequest;
@@ -157,7 +158,8 @@ public class UserController {
 
     /**
      * Lists users. Supports the standard {@code page}, {@code size} and {@code sort} query parameters,
-     * e.g. {@code ?page=0&size=20&sort=createdAt,desc}.
+     * e.g. {@code ?page=0&size=20&sort=createdAt,desc}; {@code sort} is limited to
+     * {@link UserService#SORTABLE_PROPERTIES}.
      *
      * @param pageable requested page
      * @return one page of users
@@ -165,6 +167,7 @@ public class UserController {
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(operationId = "listUsers", summary = "List users (admin)")
+    @SortableBy(UserService.SORTABLE_PROPERTIES)
     public Page<UserResponse> list(@ParameterObject @PageableDefault(size = 20, sort = "id") Pageable pageable) {
         return userService.list(pageable);
     }
