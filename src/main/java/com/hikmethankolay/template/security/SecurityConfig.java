@@ -161,7 +161,7 @@ public class SecurityConfig {
      *
      * @return the converter used by the resource server
      */
-    private static JwtAuthenticationConverter jwtAuthenticationConverter() {
+    static JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter authorities = new JwtGrantedAuthoritiesConverter();
         authorities.setAuthoritiesClaimName(TokenService.ROLES_CLAIM);
         authorities.setAuthorityPrefix("ROLE_");
