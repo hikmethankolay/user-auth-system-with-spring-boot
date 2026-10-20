@@ -7,8 +7,8 @@ from the template's releases and keep their dependencies current (Dependabot is 
 
 | Version | Supported |
 |---------|-----------|
-| 2.8.x (latest) | Yes |
-| < 2.8 | No |
+| 2.9.x (latest) | Yes |
+| < 2.9 | No |
 
 ## Reporting a vulnerability
 

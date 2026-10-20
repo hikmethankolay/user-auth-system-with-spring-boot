@@ -42,14 +42,14 @@ docker run -p 8080:8080 -e SPRING_PROFILES_ACTIVE=prod \
 Check that an image was built by this repository's release workflow before deploying it:
 
 ```bash
-cosign verify ghcr.io/hikmethankolay/spring-boot-backend-template:2.8.2 \
+cosign verify ghcr.io/hikmethankolay/spring-boot-backend-template:2.9.0 \
   --certificate-identity-regexp '^https://github.com/hikmethankolay/spring-boot-backend-template/\.github/workflows/release\.yml@refs/tags/v' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com
 
 # Build provenance (SLSA) and the SBOM (SPDX) attached to the image; needs Docker with buildx
-docker buildx imagetools inspect ghcr.io/hikmethankolay/spring-boot-backend-template:2.8.2 \
+docker buildx imagetools inspect ghcr.io/hikmethankolay/spring-boot-backend-template:2.9.0 \
   --format '{{ json (index .Provenance "linux/amd64").SLSA }}'
-docker buildx imagetools inspect ghcr.io/hikmethankolay/spring-boot-backend-template:2.8.2 \
+docker buildx imagetools inspect ghcr.io/hikmethankolay/spring-boot-backend-template:2.9.0 \
   --format '{{ json (index .SBOM "linux/amd64").SPDX }}'
 ```
 
