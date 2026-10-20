@@ -50,4 +50,13 @@ grep -rlI --exclude-dir=.git --exclude-dir=target --exclude-dir=node_modules --e
   sed_inplace "s|$old_package|$new_package|g" "$file"
 done
 
+# The template's release history does not apply to the new project.
+cat > CHANGELOG.md <<'EOF2'
+# Changelog
+
+Notable changes to this project. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+## [Unreleased]
+EOF2
+
 info "Done. Review the changes (git status), then run scripts/test.sh."
