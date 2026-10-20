@@ -138,4 +138,35 @@ class AccountIntegrationTest extends IntegrationTest {
 
         assertThat(mail.latest(newAddress, "Confirm your email")).isPresent();
     }
+
+    @Test
+    void emptyTokenIsAValidationError() throws Exception {
+        mockMvc.perform(post("/api/v1/auth/verify-email").contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"token":""}"""))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[?(@.field == 'token')]").exists());
+    }
+
+    @Test
+    void everyEmailFieldUsesTheSameRule() throws Exception {
+        String tooLong = "a".repeat(250) + "@example.com";
+        String token = registerAndLogin(uniqueUsername());
+
+        mockMvc.perform(post("/api/v1/auth/verify-email/resend").contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"email":"%s"}""", tooLong)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[?(@.field == 'email')]").exists());
+        mockMvc.perform(post("/api/v1/auth/register").contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"username":"%s","email":"%s","password":"%s"}""", uniqueUsername(), tooLong, PASSWORD)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[?(@.field == 'email')]").exists());
+        mockMvc.perform(patch("/api/v1/users/me").with(bearer(token)).contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"email":"%s"}""", tooLong)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[?(@.field == 'email')]").exists());
+    }
 }

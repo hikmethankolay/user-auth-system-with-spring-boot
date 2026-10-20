@@ -1,10 +1,9 @@
 package com.hikmethankolay.template.user.dto;
 
 import com.hikmethankolay.template.user.Role;
+import com.hikmethankolay.template.user.validation.ValidEmail;
 import com.hikmethankolay.template.user.validation.ValidPassword;
 import com.hikmethankolay.template.user.validation.ValidUsername;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Size;
 
 /**
  * Body of {@code PATCH /api/v1/users/{id}} (administrators only). Omitted ({@code null}) fields are left unchanged.
@@ -16,7 +15,7 @@ import jakarta.validation.constraints.Size;
  */
 public record AdminUpdateUserRequest(
         @ValidUsername String username,
-        @Email @Size(min = 3, max = 254) String email,
+        @ValidEmail String email,
         @ValidPassword String password,
         Role role) {
 }

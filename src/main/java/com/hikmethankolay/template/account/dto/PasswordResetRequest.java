@@ -11,6 +11,6 @@ import jakarta.validation.constraints.Size;
  * @param newPassword the new password; see {@link ValidPassword}
  */
 public record PasswordResetRequest(
-        @NotBlank @Size(max = 100) String token,
+        @NotBlank @Size(min = 1, max = 100) String token,
         @NotBlank @ValidPassword String newPassword) {
 }
