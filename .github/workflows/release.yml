@@ -16,6 +16,9 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
 
@@ -31,6 +34,7 @@ jobs:
   release:
     needs: test
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: write
       packages: write
@@ -79,7 +83,20 @@ jobs:
           DIGEST: ${{ steps.build.outputs.digest }}
         run: cosign sign --yes "ghcr.io/${GITHUB_REPOSITORY,,}@${DIGEST}"
 
+      # Proves the published image verifies with the same command users run (Production guide).
+      - name: Verify signature and provenance
+        env:
+          DIGEST: ${{ steps.build.outputs.digest }}
+        run: |
+          image="ghcr.io/${GITHUB_REPOSITORY,,}@${DIGEST}"
+          cosign verify "$image" \
+            --certificate-identity "https://github.com/${GITHUB_REPOSITORY}/.github/workflows/release.yml@${GITHUB_REF}" \
+            --certificate-oidc-issuer https://token.actions.githubusercontent.com > /dev/null
+          docker buildx imagetools inspect "$image" --format '{{ json (index .Provenance "linux/amd64").SLSA }}' \
+            | jq -e '.buildType // .buildDefinition.buildType' > /dev/null
+          docker buildx imagetools inspect "$image" --format '{{ json (index .SBOM "linux/amd64").SPDX }}' > sbom.spdx.json
+
       - name: Create GitHub release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release create "$GITHUB_REF_NAME" --generate-notes --verify-tag
+        run: gh release create "$GITHUB_REF_NAME" --generate-notes --verify-tag sbom.spdx.json

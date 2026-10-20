@@ -24,8 +24,9 @@ and exposes `8080` for the API and `8081` for Actuator. Pushing a `v*` tag runs 
 1. It runs the tests.
 2. It publishes the image to `ghcr.io/<owner>/<repo>` for `linux/amd64` and `linux/arm64`, with an SBOM and build
    provenance attached.
-3. It signs the image with [Sigstore cosign](https://docs.sigstore.dev/) (keyless, through GitHub's OIDC identity).
-4. It creates a GitHub release, and the documentation site is rebuilt.
+3. It signs the image with [Sigstore cosign](https://docs.sigstore.dev/) (keyless, through GitHub's OIDC identity),
+   then runs the verification below against what it just published.
+4. It creates a GitHub release with the SBOM (`sbom.spdx.json`) attached, and the documentation site is rebuilt.
 
 ```bash
 docker run -p 8080:8080 -e SPRING_PROFILES_ACTIVE=prod \
@@ -41,13 +42,15 @@ docker run -p 8080:8080 -e SPRING_PROFILES_ACTIVE=prod \
 Check that an image was built by this repository's release workflow before deploying it:
 
 ```bash
-cosign verify ghcr.io/hikmethankolay/spring-boot-backend-template:2.6.0 \
+cosign verify ghcr.io/hikmethankolay/spring-boot-backend-template:2.8.2 \
   --certificate-identity-regexp '^https://github.com/hikmethankolay/spring-boot-backend-template/\.github/workflows/release\.yml@refs/tags/v' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com
 
-# The SBOM (SPDX) attached to the image; needs Docker with buildx
-docker buildx imagetools inspect ghcr.io/hikmethankolay/spring-boot-backend-template:2.6.0 \
-  --format '{{ json .SBOM }}'
+# Build provenance (SLSA) and the SBOM (SPDX) attached to the image; needs Docker with buildx
+docker buildx imagetools inspect ghcr.io/hikmethankolay/spring-boot-backend-template:2.8.2 \
+  --format '{{ json (index .Provenance "linux/amd64").SLSA }}'
+docker buildx imagetools inspect ghcr.io/hikmethankolay/spring-boot-backend-template:2.8.2 \
+  --format '{{ json (index .SBOM "linux/amd64").SPDX }}'
 ```
 
 `cosign` and `docker buildx` work against the registry, so the image does not have to be pulled first. Both
