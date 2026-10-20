@@ -34,6 +34,8 @@
         <palantir-java-format.version>2.102.0</palantir-java-format.version>
         <spotbugs-maven-plugin.version>4.10.5.0</spotbugs-maven-plugin.version>
         <findsecbugs.version>1.14.0</findsecbugs.version>
+        <pitest.version>1.30.1</pitest.version>
+        <pitest-junit5.version>1.2.3</pitest-junit5.version>
         <!--
           Security patches newer than the versions managed by Spring Boot 4.1.1 (found by the Trivy scan in CI).
           Remove each override once a Spring Boot upgrade manages an equal or newer version.
@@ -377,6 +379,39 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <!--
+              Mutation testing of the security and auth code: `./mvnw test-compile pitest:mutationCoverage`.
+              Slow, so it runs weekly in .github/workflows/mutation.yml rather than on every build.
+            -->
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>${pitest.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>${pitest-junit5.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <targetClasses>
+                        <param>com.hikmethankolay.template.security.*</param>
+                        <param>com.hikmethankolay.template.auth.*</param>
+                    </targetClasses>
+                    <argLine>-javaagent:${org.mockito:mockito-core:jar} -Xshare:off -DDOTENV_PATH=${project.build.directory}/no-dotenv-in-tests</argLine>
+                    <!-- The security code is exercised mostly by integration tests, which Surefire excludes. -->
+                    <parseSurefireConfig>false</parseSurefireConfig>
+                    <timestampedReports>false</timestampedReports>
+                    <outputFormats>
+                        <param>HTML</param>
+                        <param>XML</param>
+                    </outputFormats>
+                    <!-- Measured 71%; raise it as tests improve. -->
+                    <mutationThreshold>68</mutationThreshold>
+                </configuration>
             </plugin>
         </plugins>
     </build>
