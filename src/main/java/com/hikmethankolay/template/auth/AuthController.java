@@ -145,7 +145,7 @@ public class AuthController {
     @ApiResponse(responseCode = "401", description = "Refresh token missing, invalid, expired or already used",
             content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     public ResponseEntity<TokenResponse> refresh(
-            @RequestBody(required = false) RefreshRequest request, HttpServletRequest httpRequest) {
+            @Valid @RequestBody(required = false) RefreshRequest request, HttpServletRequest httpRequest) {
         return tokenResponse(authService.refresh(refreshToken(request, httpRequest)));
     }
 

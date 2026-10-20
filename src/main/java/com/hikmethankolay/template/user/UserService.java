@@ -3,6 +3,7 @@ package com.hikmethankolay.template.user;
 import com.hikmethankolay.template.audit.AuditEvent;
 import com.hikmethankolay.template.audit.AuditLog;
 import com.hikmethankolay.template.common.ApiException;
+import com.hikmethankolay.template.common.ProblemType;
 import com.hikmethankolay.template.common.SortAllowList;
 import com.hikmethankolay.template.config.CacheConfig.CacheNames;
 import com.hikmethankolay.template.user.dto.AdminUpdateUserRequest;
@@ -190,7 +191,7 @@ public class UserService {
     public void changePassword(long id, ChangePasswordRequest request) {
         User user = findUser(id);
         if (!passwordEncoder.matches(request.currentPassword(), user.getPasswordHash())) {
-            throw ApiException.badRequest("Current password is incorrect.");
+            throw ApiException.badRequest(ProblemType.WRONG_PASSWORD, "Current password is incorrect.");
         }
         user.setPasswordHash(passwordEncoder.encode(request.newPassword()));
         audit.record(AuditEvent.PASSWORD_CHANGED, id);
@@ -204,12 +205,18 @@ public class UserService {
      * @param id      user id
      * @param request the changes
      * @return the updated user
-     * @throws ApiException 404 if the user does not exist, 409 if the new username or email is taken
+     * @throws ApiException 404 if the user does not exist, 409 if the new username or email is taken or
+     *                      the change would demote the last administrator
      */
     @Transactional
     @CacheEvict(cacheNames = CacheNames.USERS, key = "#id")
     public UserResponse update(long id, AdminUpdateUserRequest request) {
         User user = findUser(id);
+        boolean roleChanged = request.role() != null && request.role() != user.getRole();
+        if (roleChanged && user.getRole() == Role.ADMIN && userRepository.countByRole(Role.ADMIN) == 1) {
+            throw ApiException.conflict(ProblemType.LAST_ADMINISTRATOR,
+                    "The last administrator cannot lose the ADMIN role.");
+        }
         String oldUsername = user.getUsername();
         String oldEmail = user.getEmail();
         applyIdentityChanges(user, request.username(), request.email());
@@ -221,7 +228,6 @@ public class UserService {
             audit.record(AuditEvent.USER_UPDATED_BY_ADMIN, id,
                     "identityChanged", identityChanged, "passwordChanged", request.password() != null);
         }
-        boolean roleChanged = request.role() != null && request.role() != user.getRole();
         if (roleChanged) {
             audit.record(AuditEvent.ROLE_CHANGED, id, "from", user.getRole(), "to", request.role());
             user.setRole(request.role());
@@ -244,7 +250,7 @@ public class UserService {
     @CacheEvict(cacheNames = CacheNames.USERS, key = "#id")
     public void delete(long id, long requesterId) {
         if (id == requesterId) {
-            throw ApiException.badRequest("You cannot delete your own account.");
+            throw ApiException.badRequest(ProblemType.OWN_ACCOUNT, "You cannot delete your own account.");
         }
         userRepository.delete(findUser(id));
         audit.record(AuditEvent.USER_DELETED_BY_ADMIN, id);
@@ -265,10 +271,10 @@ public class UserService {
     public void deleteOwnAccount(long id, DeleteAccountRequest request) {
         User user = findUser(id);
         if (!passwordEncoder.matches(request.password(), user.getPasswordHash())) {
-            throw ApiException.badRequest("Password is incorrect.");
+            throw ApiException.badRequest(ProblemType.WRONG_PASSWORD, "Password is incorrect.");
         }
         if (user.getRole() == Role.ADMIN && userRepository.countByRole(Role.ADMIN) == 1) {
-            throw ApiException.conflict("The last administrator cannot delete their account.");
+            throw ApiException.conflict(ProblemType.LAST_ADMINISTRATOR, "The last administrator cannot delete their account.");
         }
         userRepository.delete(user);
         audit.record(AuditEvent.ACCOUNT_DELETED, id);
@@ -284,7 +290,7 @@ public class UserService {
      */
     private User findUser(long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> ApiException.notFound("User " + id + " not found."));
+                .orElseThrow(() -> ApiException.notFound(ProblemType.USER_NOT_FOUND, "User " + id + " not found."));
     }
 
     /**
@@ -320,7 +326,7 @@ public class UserService {
      */
     private void ensureUsernameAvailable(String username) {
         if (userRepository.existsByUsername(username)) {
-            throw ApiException.conflict("Username is already taken.");
+            throw ApiException.conflict(ProblemType.USERNAME_TAKEN, "Username is already taken.");
         }
     }
 
@@ -332,7 +338,7 @@ public class UserService {
      */
     private void ensureEmailAvailable(String email) {
         if (userRepository.existsByEmail(email)) {
-            throw ApiException.conflict("Email is already registered.");
+            throw ApiException.conflict(ProblemType.EMAIL_TAKEN, "Email is already registered.");
         }
     }
 

@@ -19,15 +19,19 @@ The document describes the behaviour, not just the shapes:
   clients get usable method names;
 - error responses are `application/problem+json` with the `Problem` schema: 400 on operations with input, 401 on
   protected ones, 403 where a role is required, 404 on `/{id}`, 409 where a username or email can conflict, and 429
-  everywhere;
+  and 500 everywhere. The shared ones are declared once under `components.responses` and referenced, and each
+  operation that can fail in a specific way describes when;
 - public operations have an empty `security` list; protected ones accept the `bearerAuth` header **or** the
   `cookieAuth` cookie (`auth_token`); refresh and logout also document the `refresh_token` cookie;
-- responses declare `X-Trace-Id` and `RateLimit-*` (plus `Retry-After` on 429, `Location` on 201 and `Set-Cookie`
-  on token responses);
+- responses declare `X-Trace-Id` and `RateLimit-*` (plus `Retry-After` on 429, `WWW-Authenticate` on 401, `Location`
+  on 201 and `Set-Cookie` on token responses), defined once under `components.headers`;
+- page responses mark every field as required, and password fields are `writeOnly` with `format: password`;
 - pagination is three query parameters, `page`, `size` (at most 100) and `sort`.
 
-Two tests keep it honest. `OpenApiContractTest` checks these rules on the generated document, and
-`OpenApiSpecExportTest` fails when `api/openapi.json` differs from it. After an intended API change, regenerate the
+Three checks keep it honest. `OpenApiContractTest` checks these rules on the generated document,
+`OpenApiSpecExportTest` fails when `api/openapi.json` differs from it, and every response of the integration tests is
+validated against `api/openapi.json` (`OpenApiConformance`): an undocumented status, an undocumented content type or a
+body that does not match its schema fails the test that produced it. After an intended API change, regenerate the
 file and commit it with the code:
 
 ```bash
@@ -56,7 +60,9 @@ git diff api/openapi.json
 | `PATCH` / `DELETE` | `/api/v1/users/{id}` | admin | `200` / `204` |
 
 Every email field (`register`, `PATCH /users/me`, the admin update and the email endpoints) uses the same rule,
-`@ValidEmail`: a well-formed address of 3 to 254 characters. Tokens must not be empty.
+`@ValidEmail`: a well-formed address of 3 to 254 characters. Tokens must not be empty. New passwords
+(`@ValidPassword`) have 8 to 72 characters, at most 72 bytes in UTF-8 (BCrypt's limit), and an uppercase letter, a
+lowercase letter, a digit and a symbol.
 
 ## Errors
 
@@ -65,7 +71,7 @@ detail with the content type `application/problem+json`:
 
 ```json
 {
-  "type": "about:blank",
+  "type": "urn:problem:validation-failed",
   "title": "Bad Request",
   "status": 400,
   "detail": "Request validation failed.",
@@ -73,6 +79,28 @@ detail with the content type `application/problem+json`:
   "errors": [{ "field": "email", "message": "must be a well-formed email address" }]
 }
 ```
+
+`type` tells errors apart without parsing `detail`. Errors raised by Spring MVC itself (malformed JSON, unsupported
+media type, ...) use `about:blank`; everything else uses one of these (the list is also in the description of
+`Problem.type` in the OpenAPI document, generated from `ProblemType`):
+
+| `type` | Status | When |
+|--------|--------|------|
+| `urn:problem:validation-failed` | 400 | The body is invalid; the fields are listed in `errors` |
+| `urn:problem:invalid-sort` | 400 | `sort` names a property that cannot be sorted by |
+| `urn:problem:wrong-password` | 400 | The current password sent to confirm the change is wrong |
+| `urn:problem:invalid-token` | 400 | An email verification or password reset token is unknown, used or expired |
+| `urn:problem:own-account` | 400 | An administrator tried to delete themselves through `/users/{id}` |
+| `urn:problem:invalid-credentials` | 401 | Wrong login, or a refresh token that is missing, invalid, expired or used |
+| `urn:problem:unauthenticated` | 401 | The access token is missing, invalid, expired or revoked |
+| `urn:problem:forbidden` | 403 | The caller lacks the required role |
+| `urn:problem:email-not-verified` | 403 | Login before the email address is verified (when required) |
+| `urn:problem:user-not-found` | 404 | No user has this id |
+| `urn:problem:username-taken` / `email-taken` | 409 | The username or email belongs to another account |
+| `urn:problem:last-administrator` | 409 | The change would leave the application without an administrator |
+| `urn:problem:conflict` | 409 | A concurrent change got there first; retry |
+| `urn:problem:login-locked` / `rate-limited` | 429 | Too many failed logins / requests; wait `Retry-After` seconds |
+| `urn:problem:internal-error` | 500 | Unexpected error; quote `X-Trace-Id` when reporting it |
 
 ## Pagination
 

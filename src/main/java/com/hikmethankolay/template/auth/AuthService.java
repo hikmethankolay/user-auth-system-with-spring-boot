@@ -5,6 +5,7 @@ import com.hikmethankolay.template.audit.AuditLog;
 import com.hikmethankolay.template.auth.dto.LoginRequest;
 import com.hikmethankolay.template.auth.dto.RegisterRequest;
 import com.hikmethankolay.template.common.ApiException;
+import com.hikmethankolay.template.common.ProblemType;
 import com.hikmethankolay.template.config.AppProperties;
 import com.hikmethankolay.template.security.AppUserDetails;
 import com.hikmethankolay.template.security.LoginAttemptService;
@@ -132,7 +133,7 @@ public class AuthService {
 
         if (loginAttempts.isBlocked(ipKey) || loginAttempts.isBlocked(accountKey)) {
             audit.record(AuditEvent.LOGIN_BLOCKED, null, "identifier", identifier);
-            throw ApiException.tooManyRequests(
+            throw ApiException.tooManyRequests(ProblemType.LOGIN_LOCKED,
                     "Too many failed login attempts. Please try again later.", loginAttempts.lockDuration());
         }
 
@@ -152,7 +153,7 @@ public class AuthService {
         // Checked only after the password, so the response does not reveal whether an account exists.
         if (requireVerifiedEmail && !user.emailVerified()) {
             audit.record(AuditEvent.LOGIN_UNVERIFIED, user.id());
-            throw new ApiException(HttpStatus.FORBIDDEN, "Email address is not verified.");
+            throw new ApiException(HttpStatus.FORBIDDEN, ProblemType.EMAIL_NOT_VERIFIED, "Email address is not verified.");
         }
         audit.record(AuditEvent.LOGIN_SUCCEEDED, user.id(), "rememberMe", request.isRememberMe());
         return new AuthTokens(

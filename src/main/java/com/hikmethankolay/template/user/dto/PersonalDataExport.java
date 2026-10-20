@@ -14,5 +14,9 @@ import java.util.Map;
  *                   {@link com.hikmethankolay.template.user.PersonalDataProvider}, e.g. {@code sessions}
  */
 @Schema(requiredProperties = {"exportedAt", "profile", "related"})
-public record PersonalDataExport(Instant exportedAt, UserResponse profile, Map<String, Object> related) {
+public record PersonalDataExport(
+        Instant exportedAt,
+        UserResponse profile,
+        @Schema(description = "Data kept by other features, one entry per section; currently `sessions`, the user's "
+                + "active sessions") Map<String, Object> related) {
 }

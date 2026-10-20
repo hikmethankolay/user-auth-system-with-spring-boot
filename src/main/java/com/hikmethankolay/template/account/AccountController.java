@@ -3,7 +3,11 @@ package com.hikmethankolay.template.account;
 import com.hikmethankolay.template.account.dto.EmailRequest;
 import com.hikmethankolay.template.account.dto.PasswordResetRequest;
 import com.hikmethankolay.template.account.dto.TokenRequest;
+import com.hikmethankolay.template.common.ApiDocs;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -32,6 +36,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Account")
 public class AccountController {
 
+    /** Description of the 400 response of the operations that take a token from an email. */
+    private static final String INVALID_TOKEN = "Invalid input (see `errors`), or the token is unknown, used or expired";
+
     /** Account business logic. */
     private final AccountService accountService;
 
@@ -52,6 +59,8 @@ public class AccountController {
     @PostMapping("/verify-email")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Confirm an email address")
+    @ApiResponse(responseCode = "204", description = "Email address verified")
+    @ApiResponse(responseCode = "400", description = INVALID_TOKEN, content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     public void verifyEmail(@Valid @RequestBody TokenRequest request) {
         accountService.verifyEmail(request.token());
     }
@@ -64,6 +73,8 @@ public class AccountController {
     @PostMapping("/verify-email/resend")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @Operation(summary = "Resend the verification email")
+    @ApiResponse(responseCode = "202", description = "A new verification email is sent if the address belongs to an "
+            + "unverified account; the answer is the same either way")
     public void resendVerification(@Valid @RequestBody EmailRequest request) {
         accountService.resendVerification(request.email());
     }
@@ -76,6 +87,8 @@ public class AccountController {
     @PostMapping("/password-reset")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @Operation(summary = "Request a password reset email")
+    @ApiResponse(responseCode = "202", description = "A reset email is sent if the address belongs to an account; "
+            + "the answer is the same either way")
     public void requestPasswordReset(@Valid @RequestBody EmailRequest request) {
         accountService.requestPasswordReset(request.email());
     }
@@ -88,6 +101,8 @@ public class AccountController {
     @PostMapping("/password-reset/confirm")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Set a new password with a reset token")
+    @ApiResponse(responseCode = "204", description = "Password changed; every session of the user has ended")
+    @ApiResponse(responseCode = "400", description = INVALID_TOKEN, content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     public void resetPassword(@Valid @RequestBody PasswordResetRequest request) {
         accountService.resetPassword(request.token(), request.newPassword());
     }

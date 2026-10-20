@@ -27,7 +27,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
  * HTTP/1.1 400 Bad Request
  * Content-Type: application/problem+json
  *
- * {"type":"about:blank","title":"Bad Request","status":400,"detail":"Request validation failed.",
+ * {"type":"urn:problem:validation-failed","title":"Bad Request","status":400,"detail":"Request validation failed.",
  *  "instance":"/api/v1/auth/register","errors":[{"field":"email","message":"must be a well-formed email address"}]}
  * </pre>
  *
@@ -48,12 +48,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(AuthenticationException.class)
     ResponseEntity<ProblemDetail> handleAuthentication(AuthenticationException ex) {
-        String detail = ex instanceof BadCredentialsException
-                ? ex.getMessage()
-                : "Authentication is required to access this resource.";
+        ProblemDetail problem = ex instanceof BadCredentialsException
+                ? ProblemType.INVALID_CREDENTIALS.problem(HttpStatus.UNAUTHORIZED, ex.getMessage())
+                : ProblemType.UNAUTHENTICATED.problem(HttpStatus.UNAUTHORIZED,
+                        "Authentication is required to access this resource.");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .header(HttpHeaders.WWW_AUTHENTICATE, "Bearer")
-                .body(ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, detail));
+                .body(problem);
     }
 
     /**
@@ -64,7 +65,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(AccessDeniedException.class)
     ProblemDetail handleAccessDenied(AccessDeniedException ex) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, "You do not have permission to access this resource.");
+        return ProblemType.FORBIDDEN.problem(HttpStatus.FORBIDDEN, "You do not have permission to access this resource.");
     }
 
     /**
@@ -76,7 +77,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     ProblemDetail handleDataIntegrity(DataIntegrityViolationException ex) {
         log.warn("Data integrity violation: {}", ex.getMostSpecificCause().getMessage());
-        return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, "The request conflicts with existing data.");
+        return ProblemType.CONFLICT.problem(HttpStatus.CONFLICT, "The request conflicts with existing data.");
     }
 
     /**
@@ -87,7 +88,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(PropertyReferenceException.class)
     ProblemDetail handleInvalidSortProperty(PropertyReferenceException ex) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Unknown sort property: " + ex.getPropertyName());
+        return ProblemType.INVALID_SORT.problem(HttpStatus.BAD_REQUEST, "Unknown sort property: " + ex.getPropertyName());
     }
 
     /**
@@ -99,7 +100,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     ProblemDetail handleUnexpected(Exception ex) {
         log.error("Unhandled exception", ex);
-        return ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred.");
+        return ProblemType.INTERNAL_ERROR.problem(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred.");
     }
 
     /**
@@ -119,6 +120,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .toList();
 
         ProblemDetail body = ex.getBody();
+        body.setType(ProblemType.VALIDATION_FAILED.uri());
         body.setDetail("Request validation failed.");
         body.setProperty("errors", errors);
         return handleExceptionInternal(ex, body, headers, status, request);

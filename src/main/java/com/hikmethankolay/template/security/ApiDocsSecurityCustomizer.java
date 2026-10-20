@@ -112,7 +112,7 @@ public class ApiDocsSecurityCustomizer implements OpenApiCustomizer, OperationCu
             } else {
                 operation.setSecurity(authenticated);
                 operation.getResponses().putIfAbsent("401",
-                        OpenApiConfig.problem("Missing, invalid, expired or revoked access token"));
+                        OpenApiConfig.responseRef(OpenApiConfig.UNAUTHORIZED));
             }
         }));
     }
@@ -127,7 +127,7 @@ public class ApiDocsSecurityCustomizer implements OpenApiCustomizer, OperationCu
     @Override
     public Operation customize(Operation operation, HandlerMethod handlerMethod) {
         if (AnnotatedElementUtils.hasAnnotation(handlerMethod.getMethod(), PreAuthorize.class)) {
-            operation.getResponses().putIfAbsent("403", OpenApiConfig.problem("Authenticated, but not allowed"));
+            operation.getResponses().putIfAbsent("403", OpenApiConfig.responseRef(OpenApiConfig.FORBIDDEN));
         }
         return operation;
     }

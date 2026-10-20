@@ -40,7 +40,7 @@ public final class SortAllowList {
     public Pageable check(Pageable pageable) {
         for (Sort.Order order : pageable.getSort()) {
             if (!allowed.contains(order.getProperty())) {
-                throw ApiException.badRequest(
+                throw ApiException.badRequest(ProblemType.INVALID_SORT,
                         "Cannot sort by '" + order.getProperty() + "'. Allowed properties: " + description + ".");
             }
         }

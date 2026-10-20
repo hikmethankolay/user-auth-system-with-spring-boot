@@ -1,5 +1,6 @@
 package com.hikmethankolay.template;
 
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
@@ -48,11 +49,36 @@ class OpenApiContractTest extends IntegrationTest {
     void errorsAreProblemDetails() throws Exception {
         spec()
                 .andExpect(jsonPath("$.components.schemas.Problem.properties", hasKey("errors")))
-                .andExpect(jsonPath(AUTH + "register'].post.responses['400'].content", hasKey("application/problem+json")))
-                .andExpect(jsonPath(USERS + "/me'].get.responses['401'].content", hasKey("application/problem+json")))
-                .andExpect(jsonPath(USERS + "'].get.responses['403'].content", hasKey("application/problem+json")))
-                .andExpect(jsonPath(USERS + "/me'].get.responses['429'].headers", hasKey("Retry-After")))
+                .andExpect(jsonPath("$.components.schemas.Problem.properties.type.description",
+                        containsString("urn:problem:username-taken")))
+                // Shared error responses are declared once and referenced.
+                .andExpect(jsonPath(AUTH + "register'].post.responses['400']['$ref']").value("#/components/responses/BadRequest"))
+                .andExpect(jsonPath(USERS + "/me'].get.responses['401']['$ref']").value("#/components/responses/Unauthorized"))
+                .andExpect(jsonPath(USERS + "'].get.responses['403']['$ref']").value("#/components/responses/Forbidden"))
+                .andExpect(jsonPath(USERS + "/me'].get.responses['429']['$ref']").value("#/components/responses/TooManyRequests"))
+                .andExpect(jsonPath(USERS + "/me'].get.responses['500']['$ref']").value("#/components/responses/InternalServerError"))
+                .andExpect(jsonPath("$.components.responses.*.content", everyItem(hasKey("application/problem+json"))))
+                .andExpect(jsonPath("$.components.responses.TooManyRequests.headers", hasKey("Retry-After")))
+                .andExpect(jsonPath("$.components.responses.Unauthorized.headers", hasKey("WWW-Authenticate")))
+                .andExpect(jsonPath(AUTH + "login'].post.responses['401'].headers", hasKey("WWW-Authenticate")))
                 .andExpect(jsonPath(USERS + "/me'].get.responses['200'].content", not(hasKey("*/*"))));
+    }
+
+    @Test
+    void schemasAreCompleteForClientGenerators() throws Exception {
+        spec()
+                .andExpect(jsonPath("$.tags[*].name", containsInAnyOrder("Authentication", "Account", "Users")))
+                .andExpect(jsonPath("$.components.schemas.PageMetadata.required",
+                        containsInAnyOrder("number", "size", "totalElements", "totalPages")))
+                .andExpect(jsonPath("$.components.schemas.PagedModelUserResponse.required",
+                        containsInAnyOrder("content", "page")))
+                .andExpect(jsonPath("$.components.schemas.RegisterRequest.properties.password.writeOnly").value(true))
+                .andExpect(jsonPath("$.components.schemas.RegisterRequest.properties.password.format").value("password"))
+                .andExpect(jsonPath("$.components.schemas.RegisterRequest.properties.password.description",
+                        containsString("72 bytes")))
+                .andExpect(jsonPath("$.components.schemas.LoginRequest.properties.password.maxLength").value(72))
+                .andExpect(jsonPath("$.components.schemas.UserResponse.properties.email.format").value("email"))
+                .andExpect(jsonPath("$.components.schemas.TokenResponse.properties.tokenType.enum", contains("Bearer")));
     }
 
     @Test

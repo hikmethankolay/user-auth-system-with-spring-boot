@@ -17,13 +17,13 @@ import java.lang.annotation.Target;
 
 /**
  * Password strength rule: 8-72 characters with at least one uppercase letter, one lowercase
- * letter, one digit and one symbol. BCrypt's input limit is 72 bytes; this rule counts characters,
- * so passwords with many multi-byte characters can still exceed it.
+ * letter, one digit and one symbol, and at most 72 bytes in UTF-8 (BCrypt's input limit; longer
+ * input makes hashing fail), checked by {@link ValidPasswordValidator}.
  *
  * <p>{@code null} is valid; combine with {@code @NotBlank} when the field is required.</p>
  */
 @Documented
-@Constraint(validatedBy = {})
+@Constraint(validatedBy = ValidPasswordValidator.class)
 @Target({FIELD, METHOD, PARAMETER, ANNOTATION_TYPE})
 @Retention(RUNTIME)
 @Size(min = 8, max = 72)
@@ -36,7 +36,7 @@ public @interface ValidPassword {
      *
      * @return the message
      */
-    String message() default "must be 8-72 characters and include an uppercase letter, a lowercase letter, a digit and a symbol";
+    String message() default "must be 8-72 characters (at most 72 bytes in UTF-8) and include an uppercase letter, a lowercase letter, a digit and a symbol";
 
     /**
      * Validation groups.

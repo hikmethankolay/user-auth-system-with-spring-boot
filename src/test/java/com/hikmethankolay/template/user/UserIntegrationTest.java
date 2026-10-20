@@ -53,7 +53,8 @@ class UserIntegrationTest extends IntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
                                 {"username":"%s"}""", taken)))
-                .andExpect(status().isConflict());
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.type").value("urn:problem:username-taken"));
     }
 
     @Test
@@ -67,6 +68,7 @@ class UserIntegrationTest extends IntegrationTest {
                         .content(json("""
                                 {"currentPassword":"Wrong#123","newPassword":"%s"}""", newPassword)))
                 .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.type").value("urn:problem:wrong-password"))
                 .andExpect(jsonPath("$.detail").value("Current password is incorrect."));
 
         mockMvc.perform(put("/api/v1/users/me/password").with(bearer(token))

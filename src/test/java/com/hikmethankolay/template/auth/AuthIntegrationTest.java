@@ -114,7 +114,41 @@ class AuthIntegrationTest extends IntegrationTest {
                         .content(json("""
                                 {"identifier":"%s","password":"Wrong#123"}""", username)))
                 .andExpect(status().isUnauthorized())
+                .andExpect(header().string(HttpHeaders.WWW_AUTHENTICATE, "Bearer"))
+                .andExpect(jsonPath("$.type").value("urn:problem:invalid-credentials"))
                 .andExpect(jsonPath("$.detail").value("Invalid username or password."));
+    }
+
+    @Test
+    void passwordOverBcryptByteLimitIsRejected() throws Exception {
+        // 64 characters, but each "ğ" takes 2 bytes in UTF-8: 124 bytes, over BCrypt's 72-byte limit.
+        String password = "Aa1!" + "ğ".repeat(60);
+        String username = uniqueUsername();
+
+        mockMvc.perform(post("/api/v1/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"username":"%s","email":"%s@example.com","password":"%s"}""", username, username, password)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.type").value("urn:problem:validation-failed"))
+                .andExpect(jsonPath("$.errors[0].field").value("password"));
+    }
+
+    @Test
+    void missingAccessTokenIsUnauthenticated() throws Exception {
+        mockMvc.perform(get("/api/v1/users/me"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(header().string(HttpHeaders.WWW_AUTHENTICATE, "Bearer"))
+                .andExpect(jsonPath("$.type").value("urn:problem:unauthenticated"));
+    }
+
+    @Test
+    void corsExposesTheDocumentedResponseHeaders() throws Exception {
+        mockMvc.perform(get("/api/v1/users/me").header(HttpHeaders.ORIGIN, "http://localhost:3000"))
+                .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, allOf(
+                        containsString("X-Trace-Id"), containsString("Retry-After"), containsString("Content-Disposition"),
+                        containsString("RateLimit-Limit"), containsString("RateLimit-Remaining"),
+                        containsString("RateLimit-Reset"))));
     }
 
     @Test

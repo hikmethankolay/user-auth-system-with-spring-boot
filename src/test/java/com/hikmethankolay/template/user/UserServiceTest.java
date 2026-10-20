@@ -110,6 +110,34 @@ class UserServiceTest {
     }
 
     @Test
+    void lastAdministratorCannotBeDemoted() {
+        User admin = withId(new User("root", "root@example.com", "hashed", Role.ADMIN), 1L);
+        when(userRepository.findById(1L)).thenReturn(Optional.of(admin));
+        when(userRepository.countByRole(Role.ADMIN)).thenReturn(1L);
+
+        assertThatThrownBy(() -> userService.update(1L, new AdminUpdateUserRequest(null, null, null, Role.USER)))
+                .isInstanceOfSatisfying(ApiException.class, ex -> {
+                    assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
+                    assertThat(ex.getBody().getType()).hasToString("urn:problem:last-administrator");
+                });
+        assertThat(admin.getRole()).isEqualTo(Role.ADMIN);
+        verify(userRepository, never()).saveAndFlush(any());
+    }
+
+    @Test
+    void administratorCanBeDemotedWhileAnotherRemains() {
+        User admin = withId(new User("root", "root@example.com", "hashed", Role.ADMIN), 1L);
+        when(userRepository.findById(1L)).thenReturn(Optional.of(admin));
+        when(userRepository.countByRole(Role.ADMIN)).thenReturn(2L);
+        when(userRepository.saveAndFlush(admin)).thenReturn(admin);
+
+        UserResponse response = userService.update(1L, new AdminUpdateUserRequest(null, null, null, Role.USER));
+
+        assertThat(response.role()).isEqualTo(Role.USER);
+        verify(events).publishEvent(new SessionsInvalidated(1L));
+    }
+
+    @Test
     void deleteRejectsOwnAccount() {
         assertThatThrownBy(() -> userService.delete(5L, 5L))
                 .isInstanceOfSatisfying(ApiException.class,

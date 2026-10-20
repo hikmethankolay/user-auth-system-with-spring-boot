@@ -84,6 +84,8 @@ public class UserController {
      */
     @GetMapping("/me")
     @Operation(operationId = "getCurrentUser", summary = "Get the current user")
+    @ApiResponse(responseCode = "200", description = "The current user",
+            content = @Content(schema = @Schema(implementation = UserResponse.class)))
     public UserResponse me(@AuthenticationPrincipal Jwt jwt) {
         return userService.getById(TokenService.userId(jwt));
     }
@@ -116,6 +118,8 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(operationId = "changeCurrentUserPassword", summary = "Change the current user's password",
             description = "Ends every session of the user, including the current one: log in again afterwards.")
+    @ApiResponse(responseCode = "204", description = "Password changed; every session has ended")
+    @ApiResponse(responseCode = "400", description = "Invalid input (see `errors`), or the current password is wrong", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     public void changeMyPassword(@AuthenticationPrincipal Jwt jwt, @Valid @RequestBody ChangePasswordRequest request) {
         userService.changePassword(TokenService.userId(jwt), request);
     }
@@ -131,6 +135,8 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(operationId = "deleteCurrentUser", summary = "Delete the current user's account",
             description = "Needs the current password. Deletes the user's data and ends every session.")
+    @ApiResponse(responseCode = "204", description = "Account and data deleted; every session has ended")
+    @ApiResponse(responseCode = "400", description = "Invalid input (see `errors`), or the password is wrong", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     @ApiResponse(responseCode = "409", description = "The last administrator cannot delete their account", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     public void deleteMe(@AuthenticationPrincipal Jwt jwt, @Valid @RequestBody DeleteAccountRequest request) {
         userService.deleteOwnAccount(TokenService.userId(jwt), request);
@@ -167,6 +173,7 @@ public class UserController {
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(operationId = "listUsers", summary = "List users (admin)")
+    @ApiResponse(responseCode = "200", description = "One page of users")
     @SortableBy(UserService.SORTABLE_PROPERTIES)
     public Page<UserResponse> list(@ParameterObject @PageableDefault(size = 20, sort = "id") Pageable pageable) {
         return userService.list(pageable);
@@ -181,6 +188,8 @@ public class UserController {
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or #id.toString() == authentication.name")
     @Operation(operationId = "getUser", summary = "Get a user (admin or self)")
+    @ApiResponse(responseCode = "200", description = "The user",
+            content = @Content(schema = @Schema(implementation = UserResponse.class)))
     public UserResponse get(@PathVariable Long id) {
         return userService.getById(id);
     }
@@ -199,7 +208,8 @@ public class UserController {
                     + "A new email address is marked unverified.")
     @ApiResponse(responseCode = "200", description = "The updated user",
             content = @Content(schema = @Schema(implementation = UserResponse.class)))
-    @ApiResponse(responseCode = "409", description = "Username or email already taken", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    @ApiResponse(responseCode = "409", description = "Username or email already taken, or the change would demote the "
+            + "last administrator", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     public UserResponse update(@PathVariable long id, @Valid @RequestBody AdminUpdateUserRequest request) {
         return userService.update(id, request);
     }
@@ -214,6 +224,7 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(operationId = "deleteUser", summary = "Delete a user (admin)")
+    @ApiResponse(responseCode = "204", description = "User and data deleted; every session of the user has ended")
     @ApiResponse(responseCode = "400", description = "Administrators cannot delete their own account this way", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     public void delete(@PathVariable long id, @AuthenticationPrincipal Jwt jwt) {
         userService.delete(id, TokenService.userId(jwt));

@@ -1,6 +1,7 @@
 package com.hikmethankolay.template.security;
 
 import com.hikmethankolay.template.common.ApiException;
+import com.hikmethankolay.template.common.ProblemType;
 import com.hikmethankolay.template.config.AppProperties;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -128,7 +129,7 @@ public class RateLimitFilter extends OncePerRequestFilter {
         response.setHeader("RateLimit-Reset", Long.toString(resetSeconds));
 
         if (count > limit) {
-            resolver.resolveException(request, response, null, ApiException.tooManyRequests(
+            resolver.resolveException(request, response, null, ApiException.tooManyRequests(ProblemType.RATE_LIMITED,
                     "Rate limit exceeded. Try again in " + resetSeconds + " seconds.", Duration.ofSeconds(resetSeconds)));
             return;
         }

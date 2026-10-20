@@ -18,7 +18,7 @@ import java.time.Instant;
  */
 @Schema(requiredProperties = {"id", "username", "email", "role", "emailVerified", "createdAt", "updatedAt"})
 public record UserResponse(
-        long id, String username, String email, Role role, boolean emailVerified, Instant createdAt, Instant updatedAt) {
+        long id, String username, @Schema(format = "email") String email, Role role, boolean emailVerified, Instant createdAt, Instant updatedAt) {
 
     /**
      * Maps an entity to its public representation.

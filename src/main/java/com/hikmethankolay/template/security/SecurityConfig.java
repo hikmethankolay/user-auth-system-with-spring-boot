@@ -9,6 +9,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -253,7 +254,9 @@ public class SecurityConfig {
         cors.setAllowedOrigins(properties.cors().allowedOrigins());
         cors.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         cors.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-        cors.setExposedHeaders(List.of("Location", "Retry-After", "X-Trace-Id"));
+        // Every header the OpenAPI document declares on responses, so cross-origin clients can read them.
+        cors.setExposedHeaders(List.of("Location", "Retry-After", "X-Trace-Id", "RateLimit-Limit",
+                "RateLimit-Remaining", "RateLimit-Reset", HttpHeaders.CONTENT_DISPOSITION));
         cors.setAllowCredentials(true);
         cors.setMaxAge(3600L);
 

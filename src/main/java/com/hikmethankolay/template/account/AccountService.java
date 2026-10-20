@@ -3,6 +3,7 @@ package com.hikmethankolay.template.account;
 import com.hikmethankolay.template.audit.AuditEvent;
 import com.hikmethankolay.template.audit.AuditLog;
 import com.hikmethankolay.template.common.ApiException;
+import com.hikmethankolay.template.common.ProblemType;
 import com.hikmethankolay.template.common.SecureTokens;
 import com.hikmethankolay.template.config.AppProperties;
 import com.hikmethankolay.template.user.EmailVerificationRequired;
@@ -191,7 +192,7 @@ public class AccountService {
     private AccountToken consume(String token, AccountTokenType type) {
         AccountToken stored = tokens.findByTokenHashAndType(SecureTokens.hash(token), type)
                 .filter(candidate -> !candidate.isExpired(Instant.now()))
-                .orElseThrow(() -> ApiException.badRequest(INVALID_TOKEN));
+                .orElseThrow(() -> ApiException.badRequest(ProblemType.INVALID_TOKEN, INVALID_TOKEN));
         tokens.deleteAllByUserIdAndType(stored.getUserId(), type);
         return stored;
     }

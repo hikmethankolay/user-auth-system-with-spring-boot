@@ -18,12 +18,13 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 /**
  * Base class for end-to-end tests: full application context, real PostgreSQL via Testcontainers.
+ * Every response is checked against {@code api/openapi.json} ({@link OpenApiConformance}).
  * Skipped automatically when no Docker-compatible runtime is available.
  */
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@Import({TestcontainersConfiguration.class, TestMailConfiguration.class})
+@Import({TestcontainersConfiguration.class, TestMailConfiguration.class, OpenApiConformance.Configuration.class})
 @Testcontainers(disabledWithoutDocker = true)
 public abstract class IntegrationTest {
 

@@ -1,6 +1,7 @@
 package com.hikmethankolay.template.auth.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 /**
  * Body of {@code POST /api/v1/auth/login}.
@@ -9,7 +10,10 @@ import jakarta.validation.constraints.NotBlank;
  * @param password   plain password
  * @param rememberMe optional; {@code true} keeps the session for {@code app.jwt.remember-me-ttl} and uses persistent cookies
  */
-public record LoginRequest(@NotBlank String identifier, @NotBlank String password, Boolean rememberMe) {
+public record LoginRequest(
+        @NotBlank @Size(max = 254) String identifier,
+        @NotBlank @Size(max = 72) String password,
+        Boolean rememberMe) {
 
     /**
      * Tells whether "remember me" was requested.

@@ -13,6 +13,16 @@
     "url" : "/",
     "description" : "The host serving this document"
   } ],
+  "tags" : [ {
+    "description" : "Registration, login, token refresh and logout",
+    "name" : "Authentication"
+  }, {
+    "description" : "Email verification and password reset, confirmed with a token sent by email",
+    "name" : "Account"
+  }, {
+    "description" : "The current user's profile and data, and user administration",
+    "name" : "Users"
+  } ],
   "paths" : {
     "/api/v1/auth/login" : {
       "post" : {
@@ -40,25 +50,13 @@
             "description" : "Logged in; the tokens are also set as HttpOnly cookies",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "Set-Cookie" : {
                 "description" : "The access token cookie (path /) and the refresh token cookie (path /api/v1/auth)",
@@ -68,51 +66,12 @@
                 "style" : "simple"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "400" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Invalid input; validation errors are listed in `errors`",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/BadRequest"
           },
           "401" : {
             "content" : {
@@ -125,31 +84,19 @@
             "description" : "Wrong username, email or password",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
+              },
+              "WWW-Authenticate" : {
+                "$ref" : "#/components/headers/WWW-Authenticate"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
@@ -164,79 +111,24 @@
             "description" : "Email address not verified (when verification is required)",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "429" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Too many requests or login attempts; wait for `Retry-After` seconds",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "Retry-After" : {
-                "description" : "Seconds to wait before retrying",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/TooManyRequests"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/InternalServerError"
           }
         },
         "security" : [ ],
@@ -270,25 +162,13 @@
             "description" : "Logged out, also when no or invalid tokens were sent",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "Set-Cookie" : {
                 "description" : "Expires both auth cookies",
@@ -298,97 +178,18 @@
                 "style" : "simple"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "400" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Invalid input; validation errors are listed in `errors`",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/BadRequest"
           },
           "429" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Too many requests or login attempts; wait for `Retry-After` seconds",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "Retry-After" : {
-                "description" : "Seconds to wait before retrying",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/TooManyRequests"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/InternalServerError"
           }
         },
         "security" : [ ],
@@ -411,121 +212,30 @@
         },
         "responses" : {
           "202" : {
-            "description" : "Accepted",
+            "description" : "A reset email is sent if the address belongs to an account; the answer is the same either way",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "400" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Invalid input; validation errors are listed in `errors`",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/BadRequest"
           },
           "429" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Too many requests or login attempts; wait for `Retry-After` seconds",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "Retry-After" : {
-                "description" : "Seconds to wait before retrying",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/TooManyRequests"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/InternalServerError"
           }
         },
         "security" : [ ],
@@ -548,34 +258,19 @@
         },
         "responses" : {
           "204" : {
-            "description" : "No Content",
+            "description" : "Password changed; every session of the user has ended",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
@@ -587,82 +282,27 @@
                 }
               }
             },
-            "description" : "Invalid input; validation errors are listed in `errors`",
+            "description" : "Invalid input (see `errors`), or the token is unknown, used or expired",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "429" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Too many requests or login attempts; wait for `Retry-After` seconds",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "Retry-After" : {
-                "description" : "Seconds to wait before retrying",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/TooManyRequests"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/InternalServerError"
           }
         },
         "security" : [ ],
@@ -704,25 +344,13 @@
             "description" : "New tokens; also set as HttpOnly cookies",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "Set-Cookie" : {
                 "description" : "The access token cookie (path /) and the refresh token cookie (path /api/v1/auth)",
@@ -732,51 +360,12 @@
                 "style" : "simple"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "400" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Invalid input; validation errors are listed in `errors`",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/BadRequest"
           },
           "401" : {
             "content" : {
@@ -789,79 +378,27 @@
             "description" : "Refresh token missing, invalid, expired or already used",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
+              },
+              "WWW-Authenticate" : {
+                "$ref" : "#/components/headers/WWW-Authenticate"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "429" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Too many requests or login attempts; wait for `Retry-After` seconds",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "Retry-After" : {
-                "description" : "Seconds to wait before retrying",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/TooManyRequests"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/InternalServerError"
           }
         },
         "security" : [ ],
@@ -903,72 +440,21 @@
                 "style" : "simple"
               },
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "400" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Invalid input; validation errors are listed in `errors`",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/BadRequest"
           },
           "409" : {
             "content" : {
@@ -981,79 +467,24 @@
             "description" : "Username or email already taken",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "429" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Too many requests or login attempts; wait for `Retry-After` seconds",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "Retry-After" : {
-                "description" : "Seconds to wait before retrying",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/TooManyRequests"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/InternalServerError"
           }
         },
         "security" : [ ],
@@ -1076,34 +507,19 @@
         },
         "responses" : {
           "204" : {
-            "description" : "No Content",
+            "description" : "Email address verified",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
@@ -1115,82 +531,27 @@
                 }
               }
             },
-            "description" : "Invalid input; validation errors are listed in `errors`",
+            "description" : "Invalid input (see `errors`), or the token is unknown, used or expired",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "429" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Too many requests or login attempts; wait for `Retry-After` seconds",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "Retry-After" : {
-                "description" : "Seconds to wait before retrying",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/TooManyRequests"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/InternalServerError"
           }
         },
         "security" : [ ],
@@ -1213,121 +574,30 @@
         },
         "responses" : {
           "202" : {
-            "description" : "Accepted",
+            "description" : "A new verification email is sent if the address belongs to an unverified account; the answer is the same either way",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "400" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Invalid input; validation errors are listed in `errors`",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/BadRequest"
           },
           "429" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Too many requests or login attempts; wait for `Retry-After` seconds",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "Retry-After" : {
-                "description" : "Seconds to wait before retrying",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/TooManyRequests"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/InternalServerError"
           }
         },
         "security" : [ ],
@@ -1382,199 +652,36 @@
                 }
               }
             },
-            "description" : "OK",
+            "description" : "One page of users",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "400" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Invalid input; validation errors are listed in `errors`",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/BadRequest"
           },
           "401" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Missing, invalid, expired or revoked access token",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/Unauthorized"
           },
           "403" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Authenticated, but not allowed",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/Forbidden"
           },
           "429" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Too many requests or login attempts; wait for `Retry-After` seconds",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "Retry-After" : {
-                "description" : "Seconds to wait before retrying",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/TooManyRequests"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/InternalServerError"
           }
         },
         "security" : [ {
@@ -1602,34 +709,19 @@
         },
         "responses" : {
           "204" : {
-            "description" : "No Content",
+            "description" : "Account and data deleted; every session has ended",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
@@ -1641,75 +733,24 @@
                 }
               }
             },
-            "description" : "Invalid input; validation errors are listed in `errors`",
+            "description" : "Invalid input (see `errors`), or the password is wrong",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "401" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Missing, invalid, expired or revoked access token",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/Unauthorized"
           },
           "409" : {
             "content" : {
@@ -1722,79 +763,24 @@
             "description" : "The last administrator cannot delete their account",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "429" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Too many requests or login attempts; wait for `Retry-After` seconds",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "Retry-After" : {
-                "description" : "Seconds to wait before retrying",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/TooManyRequests"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/InternalServerError"
           }
         },
         "security" : [ {
@@ -1816,121 +802,30 @@
                 }
               }
             },
-            "description" : "OK",
+            "description" : "The current user",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "401" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Missing, invalid, expired or revoked access token",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/Unauthorized"
           },
           "429" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Too many requests or login attempts; wait for `Retry-After` seconds",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "Retry-After" : {
-                "description" : "Seconds to wait before retrying",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/TooManyRequests"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/InternalServerError"
           }
         },
         "security" : [ {
@@ -1966,111 +861,24 @@
             "description" : "The updated user",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "400" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Invalid input; validation errors are listed in `errors`",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/BadRequest"
           },
           "401" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Missing, invalid, expired or revoked access token",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/Unauthorized"
           },
           "409" : {
             "content" : {
@@ -2083,79 +891,24 @@
             "description" : "Username or email already taken",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "429" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Too many requests or login attempts; wait for `Retry-After` seconds",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "Retry-After" : {
-                "description" : "Seconds to wait before retrying",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/TooManyRequests"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/InternalServerError"
           }
         },
         "security" : [ {
@@ -2189,118 +942,27 @@
                 "style" : "simple"
               },
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "401" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Missing, invalid, expired or revoked access token",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/Unauthorized"
           },
           "429" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Too many requests or login attempts; wait for `Retry-After` seconds",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "Retry-After" : {
-                "description" : "Seconds to wait before retrying",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/TooManyRequests"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/InternalServerError"
           }
         },
         "security" : [ {
@@ -2328,34 +990,19 @@
         },
         "responses" : {
           "204" : {
-            "description" : "No Content",
+            "description" : "Password changed; every session has ended",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
@@ -2367,121 +1014,30 @@
                 }
               }
             },
-            "description" : "Invalid input; validation errors are listed in `errors`",
+            "description" : "Invalid input (see `errors`), or the current password is wrong",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "401" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Missing, invalid, expired or revoked access token",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/Unauthorized"
           },
           "429" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Too many requests or login attempts; wait for `Retry-After` seconds",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "Retry-After" : {
-                "description" : "Seconds to wait before retrying",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/TooManyRequests"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/InternalServerError"
           }
         },
         "security" : [ {
@@ -2507,34 +1063,19 @@
         } ],
         "responses" : {
           "204" : {
-            "description" : "No Content",
+            "description" : "User and data deleted; every session of the user has ended",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
@@ -2549,196 +1090,33 @@
             "description" : "Administrators cannot delete their own account this way",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "401" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Missing, invalid, expired or revoked access token",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/Unauthorized"
           },
           "403" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Authenticated, but not allowed",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/Forbidden"
           },
           "404" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "No user with this id",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/UserNotFound"
           },
           "429" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Too many requests or login attempts; wait for `Retry-After` seconds",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "Retry-After" : {
-                "description" : "Seconds to wait before retrying",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/TooManyRequests"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/InternalServerError"
           }
         },
         "security" : [ {
@@ -2769,238 +1147,39 @@
                 }
               }
             },
-            "description" : "OK",
+            "description" : "The user",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "400" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Invalid input; validation errors are listed in `errors`",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/BadRequest"
           },
           "401" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Missing, invalid, expired or revoked access token",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/Unauthorized"
           },
           "403" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Authenticated, but not allowed",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/Forbidden"
           },
           "404" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "No user with this id",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/UserNotFound"
           },
           "429" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Too many requests or login attempts; wait for `Retry-After` seconds",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "Retry-After" : {
-                "description" : "Seconds to wait before retrying",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/TooManyRequests"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/InternalServerError"
           }
         },
         "security" : [ {
@@ -3045,189 +1224,30 @@
             "description" : "The updated user",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "400" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Invalid input; validation errors are listed in `errors`",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/BadRequest"
           },
           "401" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Missing, invalid, expired or revoked access token",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/Unauthorized"
           },
           "403" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Authenticated, but not allowed",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/Forbidden"
           },
           "404" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "No user with this id",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/UserNotFound"
           },
           "409" : {
             "content" : {
@@ -3237,82 +1257,27 @@
                 }
               }
             },
-            "description" : "Username or email already taken",
+            "description" : "Username or email already taken, or the change would demote the last administrator",
             "headers" : {
               "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Limit"
               },
               "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Remaining"
               },
               "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
+                "$ref" : "#/components/headers/RateLimit-Reset"
               },
               "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
+                "$ref" : "#/components/headers/X-Trace-Id"
               }
             }
           },
           "429" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Too many requests or login attempts; wait for `Retry-After` seconds",
-            "headers" : {
-              "RateLimit-Limit" : {
-                "description" : "Requests allowed per minute for the client IP",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Remaining" : {
-                "description" : "Requests left in the current window",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "RateLimit-Reset" : {
-                "description" : "Seconds until the window resets",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "Retry-After" : {
-                "description" : "Seconds to wait before retrying",
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Trace-Id" : {
-                "description" : "Trace id of the request; quote it when reporting an error",
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "#/components/responses/TooManyRequests"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/InternalServerError"
           }
         },
         "security" : [ {
@@ -3326,6 +1291,200 @@
     }
   },
   "components" : {
+    "headers" : {
+      "RateLimit-Limit" : {
+        "description" : "Requests allowed per minute for the client IP",
+        "schema" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      },
+      "RateLimit-Remaining" : {
+        "description" : "Requests left in the current window",
+        "schema" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      },
+      "RateLimit-Reset" : {
+        "description" : "Seconds until the window resets",
+        "schema" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      },
+      "Retry-After" : {
+        "description" : "Seconds to wait before retrying",
+        "schema" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      },
+      "WWW-Authenticate" : {
+        "description" : "Authentication scheme to use: `Bearer`",
+        "schema" : {
+          "type" : "string"
+        }
+      },
+      "X-Trace-Id" : {
+        "description" : "Trace id of the request; quote it when reporting an error",
+        "schema" : {
+          "type" : "string"
+        }
+      }
+    },
+    "responses" : {
+      "BadRequest" : {
+        "content" : {
+          "application/problem+json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "Invalid input; validation errors are listed in `errors`",
+        "headers" : {
+          "RateLimit-Limit" : {
+            "$ref" : "#/components/headers/RateLimit-Limit"
+          },
+          "RateLimit-Remaining" : {
+            "$ref" : "#/components/headers/RateLimit-Remaining"
+          },
+          "RateLimit-Reset" : {
+            "$ref" : "#/components/headers/RateLimit-Reset"
+          },
+          "X-Trace-Id" : {
+            "$ref" : "#/components/headers/X-Trace-Id"
+          }
+        }
+      },
+      "Forbidden" : {
+        "content" : {
+          "application/problem+json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "Authenticated, but not allowed",
+        "headers" : {
+          "RateLimit-Limit" : {
+            "$ref" : "#/components/headers/RateLimit-Limit"
+          },
+          "RateLimit-Remaining" : {
+            "$ref" : "#/components/headers/RateLimit-Remaining"
+          },
+          "RateLimit-Reset" : {
+            "$ref" : "#/components/headers/RateLimit-Reset"
+          },
+          "X-Trace-Id" : {
+            "$ref" : "#/components/headers/X-Trace-Id"
+          }
+        }
+      },
+      "InternalServerError" : {
+        "content" : {
+          "application/problem+json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "Unexpected server error; quote `X-Trace-Id` when reporting it",
+        "headers" : {
+          "RateLimit-Limit" : {
+            "$ref" : "#/components/headers/RateLimit-Limit"
+          },
+          "RateLimit-Remaining" : {
+            "$ref" : "#/components/headers/RateLimit-Remaining"
+          },
+          "RateLimit-Reset" : {
+            "$ref" : "#/components/headers/RateLimit-Reset"
+          },
+          "X-Trace-Id" : {
+            "$ref" : "#/components/headers/X-Trace-Id"
+          }
+        }
+      },
+      "TooManyRequests" : {
+        "content" : {
+          "application/problem+json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "Too many requests or login attempts; wait for `Retry-After` seconds",
+        "headers" : {
+          "RateLimit-Limit" : {
+            "$ref" : "#/components/headers/RateLimit-Limit"
+          },
+          "RateLimit-Remaining" : {
+            "$ref" : "#/components/headers/RateLimit-Remaining"
+          },
+          "RateLimit-Reset" : {
+            "$ref" : "#/components/headers/RateLimit-Reset"
+          },
+          "Retry-After" : {
+            "$ref" : "#/components/headers/Retry-After"
+          },
+          "X-Trace-Id" : {
+            "$ref" : "#/components/headers/X-Trace-Id"
+          }
+        }
+      },
+      "Unauthorized" : {
+        "content" : {
+          "application/problem+json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "Missing, invalid, expired or revoked access token",
+        "headers" : {
+          "RateLimit-Limit" : {
+            "$ref" : "#/components/headers/RateLimit-Limit"
+          },
+          "RateLimit-Remaining" : {
+            "$ref" : "#/components/headers/RateLimit-Remaining"
+          },
+          "RateLimit-Reset" : {
+            "$ref" : "#/components/headers/RateLimit-Reset"
+          },
+          "WWW-Authenticate" : {
+            "$ref" : "#/components/headers/WWW-Authenticate"
+          },
+          "X-Trace-Id" : {
+            "$ref" : "#/components/headers/X-Trace-Id"
+          }
+        }
+      },
+      "UserNotFound" : {
+        "content" : {
+          "application/problem+json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "No user with this id",
+        "headers" : {
+          "RateLimit-Limit" : {
+            "$ref" : "#/components/headers/RateLimit-Limit"
+          },
+          "RateLimit-Remaining" : {
+            "$ref" : "#/components/headers/RateLimit-Remaining"
+          },
+          "RateLimit-Reset" : {
+            "$ref" : "#/components/headers/RateLimit-Reset"
+          },
+          "X-Trace-Id" : {
+            "$ref" : "#/components/headers/X-Trace-Id"
+          }
+        }
+      }
+    },
     "schemas" : {
       "AdminUpdateUserRequest" : {
         "type" : "object",
@@ -3338,9 +1497,12 @@
           },
           "password" : {
             "type" : "string",
+            "format" : "password",
+            "description" : "8-72 characters and at most 72 bytes in UTF-8, with an uppercase letter, a lowercase letter, a digit and a symbol",
             "maxLength" : 72,
             "minLength" : 8,
-            "pattern" : "^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^0-9A-Za-z]).*$"
+            "pattern" : "^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^0-9A-Za-z]).*$",
+            "writeOnly" : true
           },
           "role" : {
             "type" : "string",
@@ -3359,13 +1521,19 @@
         "properties" : {
           "currentPassword" : {
             "type" : "string",
-            "minLength" : 1
+            "format" : "password",
+            "maxLength" : 72,
+            "minLength" : 0,
+            "writeOnly" : true
           },
           "newPassword" : {
             "type" : "string",
+            "format" : "password",
+            "description" : "8-72 characters and at most 72 bytes in UTF-8, with an uppercase letter, a lowercase letter, a digit and a symbol",
             "maxLength" : 72,
             "minLength" : 8,
-            "pattern" : "^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^0-9A-Za-z]).*$"
+            "pattern" : "^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^0-9A-Za-z]).*$",
+            "writeOnly" : true
           }
         },
         "required" : [ "currentPassword", "newPassword" ]
@@ -3375,7 +1543,10 @@
         "properties" : {
           "password" : {
             "type" : "string",
-            "minLength" : 1
+            "format" : "password",
+            "maxLength" : 72,
+            "minLength" : 0,
+            "writeOnly" : true
           }
         },
         "required" : [ "password" ]
@@ -3411,11 +1582,15 @@
         "properties" : {
           "identifier" : {
             "type" : "string",
-            "minLength" : 1
+            "maxLength" : 254,
+            "minLength" : 0
           },
           "password" : {
             "type" : "string",
-            "minLength" : 1
+            "format" : "password",
+            "maxLength" : 72,
+            "minLength" : 0,
+            "writeOnly" : true
           },
           "rememberMe" : {
             "type" : "boolean"
@@ -3442,7 +1617,8 @@
             "type" : "integer",
             "format" : "int64"
           }
-        }
+        },
+        "required" : [ "number", "size", "totalElements", "totalPages" ]
       },
       "PagedModelUserResponse" : {
         "type" : "object",
@@ -3456,16 +1632,20 @@
           "page" : {
             "$ref" : "#/components/schemas/PageMetadata"
           }
-        }
+        },
+        "required" : [ "content", "page" ]
       },
       "PasswordResetRequest" : {
         "type" : "object",
         "properties" : {
           "newPassword" : {
             "type" : "string",
+            "format" : "password",
+            "description" : "8-72 characters and at most 72 bytes in UTF-8, with an uppercase letter, a lowercase letter, a digit and a symbol",
             "maxLength" : 72,
             "minLength" : 8,
-            "pattern" : "^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^0-9A-Za-z]).*$"
+            "pattern" : "^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^0-9A-Za-z]).*$",
+            "writeOnly" : true
           },
           "token" : {
             "type" : "string",
@@ -3487,7 +1667,8 @@
           },
           "related" : {
             "type" : "object",
-            "additionalProperties" : { }
+            "additionalProperties" : { },
+            "description" : "Data kept by other features, one entry per section; currently `sessions`, the user's active sessions"
           }
         },
         "required" : [ "exportedAt", "profile", "related" ]
@@ -3524,7 +1705,8 @@
           "type" : {
             "type" : "string",
             "format" : "uri",
-            "example" : "about:blank"
+            "description" : "Identifies the kind of error. `about:blank` for generic HTTP errors (malformed JSON, unsupported media type, ...), otherwise one of:\n\n- `urn:problem:validation-failed`: The request body is invalid; the fields are listed in `errors`\n- `urn:problem:invalid-sort`: The `sort` parameter names a property that cannot be sorted by\n- `urn:problem:invalid-credentials`: Wrong username, email or password, or a refresh token that is missing, invalid, expired or already used\n- `urn:problem:unauthenticated`: The access token is missing, invalid, expired or revoked\n- `urn:problem:forbidden`: The caller is authenticated but lacks the required role\n- `urn:problem:email-not-verified`: The email address must be verified before logging in\n- `urn:problem:wrong-password`: The current password sent to confirm the change is wrong\n- `urn:problem:invalid-token`: The email verification or password reset token is unknown, used or expired\n- `urn:problem:username-taken`: The username belongs to another account\n- `urn:problem:email-taken`: The email address belongs to another account\n- `urn:problem:last-administrator`: The change would leave the application without an administrator\n- `urn:problem:own-account`: Administrators cannot delete their own account through the admin endpoint\n- `urn:problem:user-not-found`: No user has this id\n- `urn:problem:conflict`: The change conflicts with data written at the same time; retry it\n- `urn:problem:login-locked`: Too many failed logins for this IP or account; wait for `Retry-After` seconds\n- `urn:problem:rate-limited`: Too many requests from this IP; wait for `Retry-After` seconds\n- `urn:problem:internal-error`: Unexpected server error; quote `X-Trace-Id` when reporting it",
+            "example" : "urn:problem:validation-failed"
           }
         },
         "required" : [ "status", "title", "type" ]
@@ -3533,7 +1715,9 @@
         "type" : "object",
         "properties" : {
           "refreshToken" : {
-            "type" : "string"
+            "type" : "string",
+            "maxLength" : 100,
+            "minLength" : 0
           }
         }
       },
@@ -3548,9 +1732,12 @@
           },
           "password" : {
             "type" : "string",
+            "format" : "password",
+            "description" : "8-72 characters and at most 72 bytes in UTF-8, with an uppercase letter, a lowercase letter, a digit and a symbol",
             "maxLength" : 72,
             "minLength" : 8,
-            "pattern" : "^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^0-9A-Za-z]).*$"
+            "pattern" : "^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^0-9A-Za-z]).*$",
+            "writeOnly" : true
           },
           "username" : {
             "type" : "string",
@@ -3586,7 +1773,8 @@
             "type" : "string"
           },
           "tokenType" : {
-            "type" : "string"
+            "type" : "string",
+            "enum" : [ "Bearer" ]
           }
         },
         "required" : [ "accessToken", "expiresIn", "refreshToken", "tokenType" ]
@@ -3616,7 +1804,8 @@
             "format" : "date-time"
           },
           "email" : {
-            "type" : "string"
+            "type" : "string",
+            "format" : "email"
           },
           "emailVerified" : {
             "type" : "boolean"

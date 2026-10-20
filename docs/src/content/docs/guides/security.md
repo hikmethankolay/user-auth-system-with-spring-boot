@@ -20,6 +20,8 @@ Authentication is stateless, using JWTs and Spring Security's OAuth2 resource se
 - Public endpoints, including `/refresh`, have their own filter chain without token processing, so an expired or stale
   access token can never block login or refresh.
 - Everything else requires a valid access token. Role checks use `@PreAuthorize("hasRole('ADMIN')")`.
+- CORS exposes every response header the API documents (`X-Trace-Id`, `RateLimit-*`, `Retry-After`, `Location`,
+  `Content-Disposition`) to the origins in `CORS_ALLOWED_ORIGINS`.
 - CSRF protection is off, because the API is stateless and the cookies are `SameSite=Strict`.
 
 A client keeps calling the API with the access token, and when it gets `401`, calls `/refresh` once and retries.
