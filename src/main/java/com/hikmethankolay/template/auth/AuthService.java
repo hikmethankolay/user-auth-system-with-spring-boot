@@ -18,6 +18,7 @@ import com.hikmethankolay.template.user.UserRepository;
 import com.hikmethankolay.template.user.UserService;
 import com.hikmethankolay.template.user.dto.UserResponse;
 import java.util.Locale;
+import java.util.Objects;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -164,7 +165,7 @@ public class AuthService {
         // only takes back its own attempt.
         loginAttempts.reset(accountKey);
         loginAttempts.release(ipKey);
-        AppUserDetails user = (AppUserDetails) authentication.getPrincipal();
+        AppUserDetails user = (AppUserDetails) Objects.requireNonNull(authentication.getPrincipal());
         // Checked only after the password, so the response does not reveal whether an account exists.
         if (requireVerifiedEmail && !user.emailVerified()) {
             audit.record(AuditEvent.LOGIN_UNVERIFIED, user.id());

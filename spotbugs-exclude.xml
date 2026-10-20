@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SpotBugs findings accepted on purpose; each entry says why. -->
+<FindBugsFilter>
+    <!--
+      Spring injects shared beans through constructors and records hold the collections they are given;
+      defensive copies of either would be wrong (beans) or pointless (immutable configuration).
+    -->
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2"/>
+    </Match>
+    <!-- Finalizer attacks need a subclass with a finalizer; Spring beans are not subclassed by untrusted code. -->
+    <Match>
+        <Bug pattern="CT_CONSTRUCTOR_THROW"/>
+    </Match>
+</FindBugsFilter>
