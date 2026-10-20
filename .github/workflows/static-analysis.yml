@@ -1,0 +1,36 @@
+name: Static analysis
+
+# Error Prone (at compile time) and SpotBugs with FindSecBugs at maximum effort and the low threshold,
+# with the exclusions in spotbugs-exclude.xml. The full build in ci.yml runs the same checks; this
+# workflow exists so the README badge reflects this scan on its own.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  spotbugs:
+    name: SpotBugs
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      - name: Error Prone and SpotBugs
+        run: ./mvnw -B compile spotbugs:check
