@@ -79,7 +79,8 @@ public class JwtKeys {
      * @return the decoder
      */
     NimbusJwtDecoder decoder() {
-        JWSAlgorithm algorithm = (JWSAlgorithm) keys.getKeys().getFirst().getAlgorithm();
+        JWSAlgorithm algorithm =
+                JWSAlgorithm.parse(keys.getKeys().getFirst().getAlgorithm().getName());
         DefaultJWTProcessor<SecurityContext> processor = new DefaultJWTProcessor<>();
         processor.setJWSKeySelector(new JWSVerificationKeySelector<>(algorithm, new ImmutableJWKSet<>(keys)));
         // Spring Security's validators check the claims, as with its own decoder builders.

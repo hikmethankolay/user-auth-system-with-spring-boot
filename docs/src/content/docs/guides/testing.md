@@ -51,7 +51,8 @@ difference; regenerate the file with `-Dopenapi.update=true`, see [API overview]
   `auth` packages. Filtered runs (`-Dtest`, `-Dit.test`) skip the check.
 - **Formatting** differs from `palantir-java-format` (Spotless). `scripts/test.sh` formats first; otherwise run
   `./mvnw spotless:apply`.
-- **SpotBugs** with FindSecBugs reports a bug. Accepted findings go in `spotbugs-exclude.xml` with a reason.
+- **SpotBugs** with FindSecBugs (maximum effort, low threshold) reports a bug. Accepted findings go in
+  `spotbugs-exclude.xml` with a reason.
 - **Error Prone** finds an error-level bug pattern while compiling.
 - The **Maven Enforcer** finds a JDK older than 25, Maven older than 3.9, or conflicting dependency versions.
 
