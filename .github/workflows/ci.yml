@@ -9,10 +9,18 @@ on:
 permissions:
   contents: read
 
+# A newer push to the same pull request cancels the run in progress; runs on main always finish.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   build:
     name: Build and test
     runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
 
@@ -36,6 +44,9 @@ jobs:
   image:
     name: Docker image and vulnerability scan
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
 
@@ -54,6 +65,9 @@ jobs:
   docs:
     name: Documentation
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
 
