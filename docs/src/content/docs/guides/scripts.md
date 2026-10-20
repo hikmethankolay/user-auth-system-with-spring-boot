@@ -10,7 +10,7 @@ Every script exists as `scripts/<name>.sh` and `scripts\<name>.bat`.
 | `setup` | Checks JDK 25 and a container runtime, creates `.env` from `.env.example` with a random `JWT_SECRET` and admin password, compiles. `--force` recreates `.env`. |
 | `dev` | Starts PostgreSQL, Redis and Mailpit, then runs the app from source with `spring-boot:run`. |
 | `db` | Local services: `up`, `down`, `reset` (deletes data), `logs`, `psql`, `redis-cli`, `status`. |
-| `test` | Unit, integration and architecture tests plus the coverage report (`target/site/jacoco/index.html`). Extra arguments go to Maven, e.g. `-Dtest=UserServiceTest`. |
+| `test` | Formats the code, runs unit, integration and architecture tests, and checks coverage minimums, formatting and SpotBugs (report: `target/site/jacoco/index.html`). `--unit` runs only the unit tests. Extra arguments go to Maven, e.g. `--unit -Dtest=UserServiceTest` or `-Dit.test=UserIntegrationTest`. |
 | `build` | Builds `target/*.jar`; runs the tests unless `--skip-tests`. |
 | `run` | Runs the built jar with the settings from `.env`. |
 | `docker` | Whole stack in containers (PostgreSQL, Redis, Mailpit, app image): `up` (builds the image), `down`, `logs`, `ps`. The app is on `PORT` (default 8080). |

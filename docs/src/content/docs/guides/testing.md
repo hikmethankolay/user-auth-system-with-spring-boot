@@ -4,12 +4,17 @@ description: Unit, integration, architecture and load tests.
 ---
 
 ```bash
-scripts/test.sh            # unit, integration and ArchUnit tests; JaCoCo report in target/site/jacoco
+scripts/test.sh            # unit, integration and ArchUnit tests, coverage, SpotBugs and formatting checks
+scripts/test.sh --unit     # unit tests only: no Spring context, no containers, a few seconds
 scripts/docs.sh --strict   # fails on any Doxygen warning, including undocumented code
 scripts/load-test.sh       # k6: realistic user journeys; fails on slow requests, errors or 429s
 ```
 
-## Integration tests
+## Unit and integration tests
+
+Tests named `*Test` are unit tests: Surefire runs them in `./mvnw test`, without a Spring context or containers.
+Tests named `*IntegrationTest` run in `./mvnw verify` through Failsafe. Run one class of either kind with
+`scripts/test.sh --unit -Dtest=UserServiceTest` or `scripts/test.sh -Dit.test=UserIntegrationTest`.
 
 Integration tests extend `IntegrationTest`, which starts the full application against one throwaway
 `postgres:18-alpine` and one `redis:8-alpine` container (Testcontainers), shared by all test classes. Outgoing mail goes through
@@ -33,10 +38,26 @@ class OrderIntegrationTest extends IntegrationTest {
 
 ## API contract tests
 
-`OpenApiContractTest` reads `/v3/api-docs` and checks that the document matches the API's behaviour: status codes,
+`OpenApiContractIntegrationTest` reads `/v3/api-docs` and checks that the document matches the API's behaviour: status codes,
 problem-detail errors, public and protected operations, pagination parameters, response headers, operationIds and
-required fields. `OpenApiSpecExportTest` compares the document with the committed `api/openapi.json` and fails on any
+required fields. `OpenApiSpecExportIntegrationTest` compares the document with the committed `api/openapi.json` and fails on any
 difference; regenerate the file with `-Dopenapi.update=true`, see [API overview](../api/#openapi-document).
+
+## Quality gates
+
+`./mvnw verify` (and so `scripts/test.sh` and CI) fails when:
+
+- **Coverage** drops below the JaCoCo minimums in `pom.xml`: lines and branches overall, and lines in the `security` and
+  `auth` packages. Filtered runs (`-Dtest`, `-Dit.test`) skip the check.
+- **Formatting** differs from `palantir-java-format` (Spotless). `scripts/test.sh` formats first; otherwise run
+  `./mvnw spotless:apply`.
+- **SpotBugs** with FindSecBugs reports a bug. Accepted findings go in `spotbugs-exclude.xml` with a reason.
+- **Error Prone** finds an error-level bug pattern while compiling.
+- The **Maven Enforcer** finds a JDK older than 25, Maven older than 3.9, or conflicting dependency versions.
+
+**Mutation testing** (PIT) changes the code in the `security` and `auth` packages and checks that a test fails each
+time. It runs weekly in CI (`.github/workflows/mutation.yml`) and fails below the threshold in `pom.xml`; run it with
+`./mvnw test-compile org.pitest:pitest-maven:mutationCoverage` (report in `target/pit-reports`).
 
 ## Architecture tests
 

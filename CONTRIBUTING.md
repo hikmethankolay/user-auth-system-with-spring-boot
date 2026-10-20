@@ -10,7 +10,8 @@ You need JDK 25 and Docker or Podman.
 ```bash
 scripts/setup.sh   # checks prerequisites, creates .env, compiles
 scripts/dev.sh     # starts PostgreSQL, Redis and Mailpit, then the app
-scripts/test.sh    # all tests and the coverage report (target/site/jacoco)
+scripts/test.sh    # formats the code, runs all tests and checks coverage, SpotBugs and formatting
+scripts/test.sh --unit   # unit tests only, a few seconds, no containers
 ```
 
 The [Getting started](https://hikmethankolay.github.io/spring-boot-backend-template/guides/getting-started/)
@@ -19,12 +20,12 @@ explain the details.
 
 ## Before opening a pull request
 
-- `scripts/test.sh` passes. New behaviour comes with tests; integration tests extend `IntegrationTest`.
+- `scripts/test.sh` passes. New behaviour comes with tests; integration tests extend `IntegrationTest` and are named `*IntegrationTest`.
 - `scripts/docs.sh --strict` passes: every class, method and field has a Doxygen comment.
 - The architecture rules in `ArchitectureTest` still hold (controllers use services, no entities in the API).
 - Configuration changes are reflected in `.env.example` and the Configuration guide (`docs/`).
 - API changes are reflected in the committed `api/openapi.json`: regenerate it with
-  `scripts/test.sh -Dtest=OpenApiSpecExportTest -Dopenapi.update=true` and review the diff.
+  `scripts/test.sh -Dit.test=OpenApiSpecExportIntegrationTest -Dopenapi.update=true` and review the diff.
 - Database changes are new Flyway migrations (`V<n>__description.sql`); never edit a released one.
 
 ## Commits and pull requests
