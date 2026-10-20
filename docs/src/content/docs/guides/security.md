@@ -9,8 +9,8 @@ Authentication is stateless, using JWTs and Spring Security's OAuth2 resource se
 
 - `POST /api/v1/auth/login` accepts a username or an email address and returns two tokens, in the body
   (`{"accessToken", "tokenType", "expiresIn", "refreshToken"}`) and as HttpOnly `SameSite=Strict` cookies.
-- The **access token** is an HS256 JWT signed with `JWT_SECRET`. It carries `sub`, `roles`, `username` and a unique
-  `jti`, and expires after `JWT_ACCESS_TOKEN_TTL` (15 minutes). Send it as `Authorization: Bearer …` or as the
+- The **access token** is a JWT signed with `JWT_SECRET` (HS256, the default) or `JWT_PRIVATE_KEY` (RS256, see
+  [Signing keys](#signing-keys)). It carries `sub`, `roles`, `username` and a unique `jti`, and expires after `JWT_ACCESS_TOKEN_TTL` (15 minutes). Send it as `Authorization: Bearer …` or as the
   `auth_token` cookie.
 - The **refresh token** is an opaque 256-bit random value; only its SHA-256 hash is stored (table `refresh_tokens`).
   Exchange it at `POST /api/v1/auth/refresh` (body `{"refreshToken": "…"}`, or the `refresh_token` cookie, which the
@@ -25,6 +25,39 @@ Authentication is stateless, using JWTs and Spring Security's OAuth2 resource se
 - CSRF protection is off, because the API is stateless and the cookies are `SameSite=Strict`.
 
 A client keeps calling the API with the access token, and when it gets `401`, calls `/refresh` once and retries.
+
+## Signing keys
+
+`JWT_ALGORITHM` picks how access tokens are signed:
+
+| | `HS256` (default) | `RS256` |
+|---|---|---|
+| Key | `JWT_SECRET`, a shared secret | `JWT_PRIVATE_KEY`, an RSA private key (PEM, 2048 bits or more) |
+| Who can verify tokens | only this application | anyone with the public key from `GET /.well-known/jwks.json` |
+| Who can sign tokens | anyone holding the secret | only this application |
+| Use when | one service issues and checks the tokens | other services must check tokens without being able to mint them |
+
+A second service with `RS256` needs only the JWK Set URL:
+
+```java
+JwtDecoder decoder = NimbusJwtDecoder.withJwkSetUri("https://api.example.com/.well-known/jwks.json").build();
+```
+
+Generate a key with `openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:3072`. With `HS256` the JWK Set is
+empty: a shared secret is never published.
+
+### Key rotation
+
+Both settings take a comma-separated list. The **first** key signs new tokens; **every** key verifies them. Each token
+names its key in the `kid` header (the key's RFC 7638 thumbprint). To rotate without logging anyone out:
+
+1. Deploy with the new key first and the old one second: `JWT_SECRET=<new>,<old>`.
+2. After one `JWT_ACCESS_TOKEN_TTL` (15 minutes), every token signed with the old key has expired. Deploy with
+   `JWT_SECRET=<new>` alone.
+
+`JWT_PRIVATE_KEY` works the same way, and both public keys appear in the JWK Set during the overlap. Refresh tokens
+are random values stored as hashes, not signed, so they are not affected. If a key leaked, skip the overlap: deploy
+the new key alone, which ends every access token at once (refresh tokens keep working).
 
 ## Roles
 

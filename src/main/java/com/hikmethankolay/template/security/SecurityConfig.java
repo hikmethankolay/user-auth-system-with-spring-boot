@@ -1,11 +1,7 @@
 package com.hikmethankolay.template.security;
 
 import com.hikmethankolay.template.config.AppProperties;
-import com.nimbusds.jose.jwk.source.ImmutableSecret;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -27,13 +23,11 @@ import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2TokenValidatorResult;
-import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
@@ -76,6 +70,7 @@ public class SecurityConfig {
         "/api/v1/auth/verify-email/resend",
         "/api/v1/auth/password-reset",
         "/api/v1/auth/password-reset/confirm",
+        "/.well-known/jwks.json",
         "/actuator/health",
         "/actuator/health/**",
         "/actuator/info",
@@ -219,14 +214,25 @@ public class SecurityConfig {
     }
 
     /**
-     * Signs tokens with HMAC-SHA256.
+     * The signing and verification keys from {@code app.jwt}.
      *
-     * @param properties application properties holding the secret
+     * @param properties application properties holding the algorithm and keys
+     * @return the keys
+     */
+    @Bean
+    JwtKeys jwtKeys(AppProperties properties) {
+        return new JwtKeys(properties);
+    }
+
+    /**
+     * Signs tokens with the first configured key.
+     *
+     * @param keys the configured keys
      * @return the JWT encoder used by {@link TokenService}
      */
     @Bean
-    JwtEncoder jwtEncoder(AppProperties properties) {
-        return new NimbusJwtEncoder(new ImmutableSecret<>(signingKey(properties)));
+    JwtEncoder jwtEncoder(JwtKeys keys) {
+        return keys.encoder();
     }
 
     /**
@@ -241,17 +247,16 @@ public class SecurityConfig {
     }
 
     /**
-     * Verifies signature, expiry, issuer and revocation of incoming tokens.
+     * Verifies signature (against any configured key), expiry, issuer and revocation of incoming tokens.
      *
-     * @param properties  application properties holding the secret and issuer
+     * @param keys        the configured keys
+     * @param properties  application properties holding the issuer
      * @param revocations denylist of revoked token ids
      * @return the JWT decoder used by the resource server
      */
     @Bean
-    JwtDecoder jwtDecoder(AppProperties properties, TokenRevocationService revocations) {
-        NimbusJwtDecoder decoder = NimbusJwtDecoder.withSecretKey(signingKey(properties))
-                .macAlgorithm(MacAlgorithm.HS256)
-                .build();
+    JwtDecoder jwtDecoder(JwtKeys keys, AppProperties properties, TokenRevocationService revocations) {
+        NimbusJwtDecoder decoder = keys.decoder();
         OAuth2TokenValidator<Jwt> notRevoked = jwt -> revocations.isRevoked(jwt)
                 ? OAuth2TokenValidatorResult.failure(
                         new OAuth2Error("invalid_token", "The token has been revoked.", null))
@@ -259,16 +264,6 @@ public class SecurityConfig {
         decoder.setJwtValidator(new DelegatingOAuth2TokenValidator<>(
                 JwtValidators.createDefaultWithIssuer(properties.jwt().issuer()), notRevoked));
         return decoder;
-    }
-
-    /**
-     * Builds the HMAC key from the configured secret.
-     *
-     * @param properties application properties holding the secret
-     * @return the signing key
-     */
-    private static SecretKey signingKey(AppProperties properties) {
-        return new SecretKeySpec(properties.jwt().secret().getBytes(StandardCharsets.UTF_8), "HmacSHA256");
     }
 
     /**

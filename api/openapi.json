@@ -24,6 +24,48 @@
     "name" : "Users"
   } ],
   "paths" : {
+    "/.well-known/jwks.json" : {
+      "get" : {
+        "description" : "JWK Set with the RS256 public keys; empty when tokens are signed with HS256.",
+        "operationId" : "getJwks",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "additionalProperties" : { }
+                }
+              }
+            },
+            "description" : "OK",
+            "headers" : {
+              "RateLimit-Limit" : {
+                "$ref" : "#/components/headers/RateLimit-Limit"
+              },
+              "RateLimit-Remaining" : {
+                "$ref" : "#/components/headers/RateLimit-Remaining"
+              },
+              "RateLimit-Reset" : {
+                "$ref" : "#/components/headers/RateLimit-Reset"
+              },
+              "X-Trace-Id" : {
+                "$ref" : "#/components/headers/X-Trace-Id"
+              }
+            }
+          },
+          "429" : {
+            "$ref" : "#/components/responses/TooManyRequests"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/InternalServerError"
+          }
+        },
+        "security" : [ ],
+        "summary" : "Public keys for verifying access tokens",
+        "tags" : [ "Authentication" ]
+      }
+    },
     "/api/v1/auth/login" : {
       "post" : {
         "description" : "Accepts a username or an email address. Repeated failures lock the IP and the account (429).",

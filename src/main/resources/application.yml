@@ -129,7 +129,11 @@ springdoc:
 
 app:
   jwt:
+    # HS256 (shared secret) or RS256 (private key, public keys served at /.well-known/jwks.json).
+    algorithm: ${JWT_ALGORITHM:HS256}
+    # Comma-separated: the first key signs, all keys verify (key rotation, see the Security guide).
     secret: ${JWT_SECRET:}
+    private-key: ${JWT_PRIVATE_KEY:}
     issuer: ${spring.application.name}
     # Access tokens (JWTs) cannot be revoked cheaply, so keep them short; clients renew them with the refresh token.
     access-token-ttl: ${JWT_ACCESS_TOKEN_TTL:15m}

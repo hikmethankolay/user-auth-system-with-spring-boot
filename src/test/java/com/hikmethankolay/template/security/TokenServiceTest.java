@@ -9,24 +9,32 @@ import static org.mockito.Mockito.when;
 import com.hikmethankolay.template.TestProperties;
 import com.hikmethankolay.template.config.AppProperties;
 import com.hikmethankolay.template.user.Role;
+import com.nimbusds.jose.jwk.JWKSet;
+import java.security.KeyPairGenerator;
+import java.security.interfaces.RSAPublicKey;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtException;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
 class TokenServiceTest {
+
+    /** A second valid HS256 secret. */
+    private static final String OTHER_SECRET = "another-secret-that-is-also-32-chars-long";
 
     private final SecurityConfig securityConfig = new SecurityConfig();
     private final AppProperties properties = TestProperties.create();
     private final TokenRevocationService revocations = mock(TokenRevocationService.class);
-    private final TokenService tokenService =
-            new TokenService(securityConfig.jwtEncoder(properties), revocations, properties);
-    private final JwtDecoder decoder = securityConfig.jwtDecoder(properties, revocations);
+    private final TokenService tokenService = tokenService(properties);
+    private final JwtDecoder decoder = decoder(properties);
 
     @Test
     void issuedTokenCarriesUserClaims() {
@@ -44,15 +52,10 @@ class TokenServiceTest {
 
     @Test
     void tokenSignedWithAnotherSecretIsRejected() {
-        AppProperties other = TestProperties.withJwt(new AppProperties.Jwt(
-                "another-secret-that-is-also-32-chars-long",
-                TestProperties.ISSUER,
-                Duration.ofMinutes(15),
-                Duration.ofDays(1),
-                Duration.ofDays(30)));
-        String foreignToken = new TokenService(securityConfig.jwtEncoder(other), revocations, other)
-                .issue(1L, "mallory", Role.ADMIN)
-                .value();
+        AppProperties other =
+                TestProperties.withJwt(TestProperties.hs256(List.of(OTHER_SECRET), TestProperties.ISSUER));
+        String foreignToken =
+                tokenService(other).issue(1L, "mallory", Role.ADMIN).value();
 
         assertThatThrownBy(() -> decoder.decode(foreignToken)).isInstanceOf(JwtException.class);
     }
@@ -91,16 +94,116 @@ class TokenServiceTest {
 
     @Test
     void tokenFromAnotherIssuerIsRejected() {
-        AppProperties other = TestProperties.withJwt(new AppProperties.Jwt(
-                TestProperties.JWT_SECRET,
-                "someone-else",
+        AppProperties other =
+                TestProperties.withJwt(TestProperties.hs256(List.of(TestProperties.JWT_SECRET), "someone-else"));
+        String foreignToken =
+                tokenService(other).issue(1L, "mallory", Role.ADMIN).value();
+
+        assertThatThrownBy(() -> decoder.decode(foreignToken)).isInstanceOf(JwtException.class);
+    }
+
+    /** After a rotation, tokens signed with the previous secret are still accepted, and new ones use the new secret. */
+    @Test
+    void tokenSignedWithAPreviousSecretIsAcceptedAfterRotation() {
+        String oldToken = tokenService.issue(1L, "bob", Role.USER).value();
+        AppProperties rotated = TestProperties.withJwt(
+                TestProperties.hs256(List.of(OTHER_SECRET, TestProperties.JWT_SECRET), TestProperties.ISSUER));
+
+        assertThat(TokenService.userId(decoder(rotated).decode(oldToken))).isEqualTo(1L);
+        // New tokens are signed with the first secret, which the old configuration does not know.
+        String newToken = tokenService(rotated).issue(1L, "bob", Role.USER).value();
+        assertThatThrownBy(() -> decoder.decode(newToken)).isInstanceOf(JwtException.class);
+    }
+
+    /** Tokens carry the id of the key that signed them. */
+    @Test
+    void tokensNameTheirSigningKey() {
+        Jwt jwt = decoder.decode(tokenService.issue(1L, "bob", Role.USER).value());
+
+        assertThat(jwt.getHeaders()).containsKey("kid").containsEntry("alg", "HS256");
+    }
+
+    /** HS256 secrets never appear in the JWK Set. */
+    @Test
+    void hs256SecretsAreNeverPublished() {
+        assertThat(new JwtKeys(properties).publicJwks()).isEqualTo(Map.of("keys", List.of()));
+    }
+
+    /**
+     * RS256 tokens verify with the published public key alone.
+     *
+     * @throws Exception if the test key cannot be generated
+     */
+    @Test
+    void rs256TokensVerifyWithThePublishedPublicKey() throws Exception {
+        AppProperties rs256 = TestProperties.withJwt(new AppProperties.Jwt(
+                AppProperties.Jwt.Algorithm.RS256,
+                List.of(),
+                List.of(rsaPrivateKeyPem()),
+                TestProperties.ISSUER,
                 Duration.ofMinutes(15),
                 Duration.ofDays(1),
                 Duration.ofDays(30)));
-        String foreignToken = new TokenService(securityConfig.jwtEncoder(other), revocations, other)
-                .issue(1L, "mallory", Role.ADMIN)
-                .value();
+        String token = tokenService(rs256).issue(9L, "dave", Role.USER).value();
 
-        assertThatThrownBy(() -> decoder.decode(foreignToken)).isInstanceOf(JwtException.class);
+        JWKSet published = JWKSet.parse(new JwtKeys(rs256).publicJwks());
+        assertThat(published.getKeys())
+                .singleElement()
+                .satisfies(key -> assertThat(key.isPrivate()).isFalse());
+        RSAPublicKey publicKey = published.getKeys().getFirst().toRSAKey().toRSAPublicKey();
+        Jwt jwt = NimbusJwtDecoder.withPublicKey(publicKey).build().decode(token);
+        assertThat(TokenService.userId(jwt)).isEqualTo(9L);
+        assertThat(jwt.getHeaders()).containsEntry("alg", "RS256");
+    }
+
+    /** A value that is not an RSA private key stops the application with a message naming the setting. */
+    @Test
+    void invalidPrivateKeyFailsAtStartup() {
+        AppProperties broken = TestProperties.withJwt(new AppProperties.Jwt(
+                AppProperties.Jwt.Algorithm.RS256,
+                List.of(),
+                List.of("not a key"),
+                TestProperties.ISSUER,
+                Duration.ofMinutes(15),
+                Duration.ofDays(1),
+                Duration.ofDays(30)));
+
+        assertThatThrownBy(() -> new JwtKeys(broken))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("JWT_PRIVATE_KEY");
+    }
+
+    /**
+     * Creates a token service for the given settings.
+     *
+     * @param props the settings
+     * @return the service
+     */
+    private TokenService tokenService(AppProperties props) {
+        return new TokenService(securityConfig.jwtEncoder(new JwtKeys(props)), revocations, props);
+    }
+
+    /**
+     * Creates the application's decoder for the given settings.
+     *
+     * @param props the settings
+     * @return the decoder
+     */
+    private JwtDecoder decoder(AppProperties props) {
+        return securityConfig.jwtDecoder(new JwtKeys(props), props, revocations);
+    }
+
+    /**
+     * Generates a 2048-bit RSA private key in PKCS#8 PEM format.
+     *
+     * @return the PEM text
+     * @throws Exception if no RSA key generator is available
+     */
+    private static String rsaPrivateKeyPem() throws Exception {
+        KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+        generator.initialize(2048);
+        String body = Base64.getMimeEncoder()
+                .encodeToString(generator.generateKeyPair().getPrivate().getEncoded());
+        return "-----BEGIN PRIVATE KEY-----\n" + body + "\n-----END PRIVATE KEY-----\n";
     }
 }

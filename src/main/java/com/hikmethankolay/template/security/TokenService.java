@@ -6,7 +6,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
-import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwsHeader;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Service;
  * Issues signed JWTs and reads the application's custom claims.
  *
  * <p>Token validation is not done here but by Spring Security's resource server
- * (see {@link SecurityConfig#jwtDecoder(AppProperties, TokenRevocationService)}).</p>
+ * (see {@link SecurityConfig#jwtDecoder(JwtKeys, AppProperties, TokenRevocationService)}).</p>
  */
 @Service
 public class TokenService {
@@ -78,7 +77,7 @@ public class TokenService {
                 .claim(USERNAME_CLAIM, username)
                 .claim(ROLES_CLAIM, List.of(role.name()))
                 .build();
-        JwsHeader header = JwsHeader.with(MacAlgorithm.HS256).build();
+        JwsHeader header = JwsHeader.with(JwtKeys.algorithm(properties)).build();
 
         String value =
                 jwtEncoder.encode(JwtEncoderParameters.from(header, claims)).getTokenValue();

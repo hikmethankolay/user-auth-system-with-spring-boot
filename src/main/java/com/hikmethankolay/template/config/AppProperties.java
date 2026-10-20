@@ -42,31 +42,57 @@ public record AppProperties(
     /**
      * JWT settings.
      *
-     * @param secret          HMAC-SHA256 signing secret, at least 32 characters
+     * <p>Each key setting takes a comma-separated list: the first key signs new tokens and every key
+     * verifies them, so a key can be rotated without logging everyone out (see the Security guide).</p>
+     *
+     * @param algorithm       {@code HS256} (shared secret) or {@code RS256} (private key; other services verify
+     *                        tokens with the public keys at {@code /.well-known/jwks.json})
+     * @param secret          HS256 signing secrets, each at least 32 characters
+     * @param privateKey      RS256 private keys in PEM format (PKCS#8 or PKCS#1), each at least 2048 bits
      * @param issuer          value of the {@code iss} claim; tokens from other issuers are rejected
      * @param accessTokenTtl  lifetime of an access token (JWT); keep it short
      * @param refreshTokenTtl inactivity after which a session ends
      * @param rememberMeTtl   inactivity after which a session started with "remember me" ends
      */
     public record Jwt(
-            @NotBlank(message = "must be set (JWT_SECRET)")
-            @Size(min = 32, message = "must be at least 32 characters (JWT_SECRET)")
-            String secret,
-
+            @NotNull Algorithm algorithm,
+            List<@Size(min = 32, message = "must be at least 32 characters (JWT_SECRET)") String> secret,
+            List<String> privateKey,
             @NotBlank String issuer,
             @NotNull Duration accessTokenTtl,
             @NotNull Duration refreshTokenTtl,
             @NotNull Duration rememberMeTtl) {
 
         /**
+         * Requires the keys of the selected algorithm.
+         *
+         * @return {@code true} if at least one key is set for the selected {@code algorithm}
+         */
+        @AssertTrue(message = "must be set: JWT_SECRET for HS256, JWT_PRIVATE_KEY for RS256")
+        public boolean isKeyConfigured() {
+            List<String> keys = algorithm == Algorithm.RS256 ? privateKey : secret;
+            return keys != null && !keys.isEmpty();
+        }
+
+        /**
          * Rejects secrets made of a few repeated characters, such as {@code aaaa...} or {@code changeme...}.
          * shortcut: a heuristic that cannot measure randomness; for real assurance load a generated key from a secret store.
          *
-         * @return {@code true} if the secret uses at least 10 different characters
+         * @return {@code true} if every secret uses at least 10 different characters
          */
         @AssertTrue(message = "must be a random value, not repeated or placeholder text (JWT_SECRET)")
         public boolean isSecretVaried() {
-            return secret == null || secret.chars().distinct().count() >= 10;
+            return secret == null
+                    || secret.stream()
+                            .allMatch(value -> value.chars().distinct().count() >= 10);
+        }
+
+        /** Token signing algorithm. */
+        public enum Algorithm {
+            /** HMAC-SHA256 with a shared secret: only this application can verify tokens. */
+            HS256,
+            /** RSA-SHA256: anyone with the public key can verify tokens, only this application can sign them. */
+            RS256
         }
     }
 

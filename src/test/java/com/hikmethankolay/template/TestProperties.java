@@ -13,8 +13,19 @@ public final class TestProperties {
     private TestProperties() {}
 
     public static AppProperties create() {
-        return withJwt(new AppProperties.Jwt(
-                JWT_SECRET, ISSUER, Duration.ofMinutes(15), Duration.ofDays(1), Duration.ofDays(30)));
+        return withJwt(hs256(List.of(JWT_SECRET), ISSUER));
+    }
+
+    /** HS256 settings with the given secrets (the first signs) and issuer. */
+    public static AppProperties.Jwt hs256(List<String> secrets, String issuer) {
+        return new AppProperties.Jwt(
+                AppProperties.Jwt.Algorithm.HS256,
+                secrets,
+                List.of(),
+                issuer,
+                Duration.ofMinutes(15),
+                Duration.ofDays(1),
+                Duration.ofDays(30));
     }
 
     /** Default test properties with different JWT settings. */

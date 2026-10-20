@@ -21,7 +21,9 @@ The `app.*` settings are bound to a validated record (`AppProperties`), so a mis
 | `REDIS_HOST`, `REDIS_PORT` | `localhost`, `6379` | Redis: cache, lockout, rate limit, token revocation |
 | `REDIS_PASSWORD` / `REDIS_SSL_ENABLED` | *(none)* / `false` | Managed Redis with authentication and TLS; add `SPRING_DATA_REDIS_USERNAME` for an ACL user |
 | `CACHE_TTL` | `10m` | How long cached entries live |
-| `JWT_SECRET` | *(required)* | HMAC-SHA256 signing secret, at least 32 characters |
+| `JWT_ALGORITHM` | `HS256` | `HS256` (shared secret) or `RS256` (private key, public keys at `/.well-known/jwks.json`) |
+| `JWT_SECRET` | *(required for HS256)* | HMAC-SHA256 signing secrets, each at least 32 characters; comma-separated, the first signs ([key rotation](../security/#key-rotation)) |
+| `JWT_PRIVATE_KEY` | *(required for RS256)* | RSA private keys in PEM format; comma-separated, the first signs |
 | `JWT_ACCESS_TOKEN_TTL` | `15m` | Access token (JWT) lifetime; keep it short |
 | `JWT_REFRESH_TOKEN_TTL` / `JWT_REMEMBER_ME_TTL` | `1d` / `30d` | Session lifetime without activity, normal / remember-me |
 | `COOKIE_SECURE` | `false` (`true` in prod) | Send the auth cookies over HTTPS only |
