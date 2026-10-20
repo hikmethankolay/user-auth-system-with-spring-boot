@@ -4,7 +4,7 @@
 #   api/         REST API reference (Redoc) from the OpenAPI document exported by OpenApiSpecExportIntegrationTest
 #   reference/   Java reference (Doxygen)
 #   coverage/    test coverage (JaCoCo)
-# .github/workflows/pages.yml publishes it to the gh-pages branch on every v* tag.
+# .github/workflows/pages.yml deploys it to GitHub Pages on every v* tag.
 # Needs Node.js 22.22+ in addition to the JDK. Preview with: (cd docs && npm run preview)
 #
 # Usage: scripts/site.sh [--skip-build]   (--skip-build reuses existing test and Doxygen output)
