@@ -87,7 +87,8 @@ public class LoginAttemptService {
                     ACQUIRE, prefixed, Long.toString(lockDuration.toMillis()), Integer.toString(maxAttempts));
             return allowed == null || allowed == 1;
         } catch (DataAccessException ex) {
-            log.warn("Could not check login failures for {}: {}", List.of(keys), ex.getMessage());
+            // The keys are not logged: an unknown account's key holds the raw login identifier.
+            log.warn("Could not check login failures: {}", ex.getMessage());
             return true;
         }
     }
@@ -101,7 +102,7 @@ public class LoginAttemptService {
         try {
             redis.execute(RELEASE, List.of(keyPrefix + key));
         } catch (DataAccessException ex) {
-            log.warn("Could not release login attempt for {}: {}", key, ex.getMessage());
+            log.warn("Could not release a login attempt: {}", ex.getMessage());
         }
     }
 
@@ -114,7 +115,7 @@ public class LoginAttemptService {
         try {
             redis.delete(keyPrefix + key);
         } catch (DataAccessException ex) {
-            log.warn("Could not reset login failures for {}: {}", key, ex.getMessage());
+            log.warn("Could not reset login failures: {}", ex.getMessage());
         }
     }
 
