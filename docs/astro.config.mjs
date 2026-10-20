@@ -33,6 +33,10 @@ export default defineConfig({
           ],
         },
         {
+          label: 'Decisions',
+          autogenerate: { directory: 'adr' },
+        },
+        {
           label: 'Reference',
           items: [
             'guides/api',
