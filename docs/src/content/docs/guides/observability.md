@@ -32,12 +32,17 @@ holds alerting rules for the things that need a human:
 is a Grafana dashboard with traffic, latency percentiles, errors, slowest endpoints, security events, rate limiting,
 the email outbox, database connections, heap and CPU.
 
-Try both locally while `scripts/dev.sh` runs:
+Try both locally while the app runs (`scripts/dev.sh` or `scripts/docker.sh up`):
 
 ```bash
-docker compose --profile monitoring up -d   # Prometheus http://localhost:9090, Grafana http://localhost:3001
-docker compose --profile monitoring down
+docker compose --profile monitoring up -d   # with Podman: podman compose --profile monitoring up -d
+docker compose --profile monitoring down    # with Podman: podman compose --profile monitoring down
 ```
+
+Prometheus runs on http://localhost:9090 and Grafana on http://localhost:3001; the dashboard is at
+`/d/spring-boot-template`. Prometheus scrapes `host.docker.internal:8080`, which reaches the app whether it runs
+from source or in the `app` container. `scripts/docker.sh down` does not stop these two containers; use the
+`down` command above, or `podman compose --profile app --profile monitoring down` to stop everything at once.
 
 Grafana opens the dashboard without a login (anonymous viewer; the admin login is `admin` / `admin`). The rules are
 validated with `promtool check rules ops/prometheus/alerts.yml`. Thresholds are starting points: tune them to your

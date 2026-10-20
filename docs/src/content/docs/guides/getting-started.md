@@ -49,7 +49,36 @@ curl -s localhost:8080/api/v1/users/me -H "Authorization: Bearer $TOKEN"
 Registering sends a verification email to Mailpit. In development, login works before you verify. In the
 [production profile](../production/) it doesn't.
 
+The login response also contains a `refreshToken`. When the access token expires after 15 minutes, exchange it for a
+new pair:
+
+```bash
+curl -s -X POST localhost:8080/api/v1/auth/refresh -H 'Content-Type: application/json' \
+  -d '{"refreshToken":"<refreshToken from the login response>"}'
+```
+
+## Run everything in containers
+
+To run the app from its Docker image instead of from source, together with PostgreSQL, Redis and Mailpit:
+
+```bash
+scripts/docker.sh up     # builds the image and waits until every container is healthy
+scripts/smoke.sh         # same check as above
+scripts/docker.sh down
+```
+
 ## Stop it
 
 Press **Ctrl+C** to stop the app, then `scripts/db.sh down` to stop the containers. Data is kept until you run
 `scripts/db.sh reset`.
+
+To see what is running, use `docker ps` or `podman ps`.
+
+## Troubleshooting
+
+| Symptom | Cause and fix |
+|---------|---------------|
+| `bind: address already in use` for port 8080 | Another process (often an earlier `scripts/dev.sh`) holds the port. Find it with `ss -ltnp \| grep 8080` (Linux) or `lsof -i :8080` (macOS) and stop it, or start on another port: `PORT=8090 scripts/docker.sh up`. |
+| `permission denied … /var/run/docker.sock` | You ran a `docker` command, but your runtime is rootless Podman. Use `podman …` / `podman compose …`, or the scripts, which pick the right one. |
+| Integration tests are skipped | No container runtime was found. Start Docker, or let `scripts/test.sh` start `podman.socket`. |
+| Login returns `401` for `admin` | The password is the one `setup` wrote to `.env` (`ADMIN_PASSWORD`), unless it was changed later through the API. Reset it with the password reset flow; the email arrives in Mailpit. |

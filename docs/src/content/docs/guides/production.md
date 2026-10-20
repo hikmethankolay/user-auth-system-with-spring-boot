@@ -34,6 +34,8 @@ docker run -p 8080:8080 -e SPRING_PROFILES_ACTIVE=prod \
   ghcr.io/hikmethankolay/spring-boot-backend-template:latest
 ```
 
+`podman run` takes the same arguments.
+
 ### Verify the image
 
 Check that an image was built by this repository's release workflow before deploying it:
@@ -43,9 +45,13 @@ cosign verify ghcr.io/hikmethankolay/spring-boot-backend-template:2.6.0 \
   --certificate-identity-regexp '^https://github.com/hikmethankolay/spring-boot-backend-template/\.github/workflows/release\.yml@refs/tags/v' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com
 
+# The SBOM (SPDX) attached to the image; needs Docker with buildx
 docker buildx imagetools inspect ghcr.io/hikmethankolay/spring-boot-backend-template:2.6.0 \
-  --format '{{ json .SBOM }}'   # the SBOM (SPDX) of the image
+  --format '{{ json .SBOM }}'
 ```
+
+`cosign` and `docker buildx` work against the registry, so the image does not have to be pulled first. Both
+architectures (`linux/amd64`, `linux/arm64`) share one tag; `docker pull` and `podman pull` pick the right one.
 
 ### Kubernetes
 

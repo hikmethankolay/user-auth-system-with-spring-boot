@@ -4,7 +4,8 @@ description: Environment variables and the .env file.
 ---
 
 Everything is set through environment variables, or a `.env` file in the working directory, which both the app and
-Docker Compose read. Tests never read `.env`. [`.env.example`](https://github.com/hikmethankolay/spring-boot-backend-template/blob/main/.env.example)
+Docker Compose read. Tests never read `.env`: the build points `DOTENV_PATH` at a file that does not exist, and you
+can use the same variable to load another file, e.g. `DOTENV_PATH=staging.env java -jar target/*.jar`. [`.env.example`](https://github.com/hikmethankolay/spring-boot-backend-template/blob/main/.env.example)
 lists the common variables, and `scripts/setup.sh` creates `.env` from it with generated secrets.
 
 The `app.*` settings are bound to a validated record (`AppProperties`), so a missing or invalid value such as a short
@@ -14,6 +15,7 @@ The `app.*` settings are bound to a validated record (`AppProperties`), so a mis
 |----------|---------|---------|
 | `SPRING_PROFILES_ACTIVE` | *(none)* | `prod` for production defaults, see [Production](../production/) |
 | `DB_URL`, `DB_USERNAME`, `DB_PASSWORD` | `jdbc:postgresql://localhost:5432/app`, `app`, `app` | Database connection |
+| `DB_NAME` / `DB_PORT` | `app` / `5432` | Database name and host port of the local `db` container (compose only; the app uses `DB_URL`) |
 | `DB_POOL_SIZE` / `DB_CONNECTION_TIMEOUT_MS` | `10` / `5000` | Connections per instance; how long a request waits for one |
 | `DB_STATEMENT_TIMEOUT` / `DB_IDLE_IN_TRANSACTION_TIMEOUT` | `30s` / `60s` | PostgreSQL cancels longer queries and idle transactions (`0` disables) |
 | `REDIS_HOST`, `REDIS_PORT` | `localhost`, `6379` | Redis: cache, lockout, rate limit, token revocation |
