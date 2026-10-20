@@ -26,6 +26,27 @@ secure login, user accounts, errors, caching, monitoring and deployment. All of 
 
 Built with Spring Boot 4.1, Java 25, PostgreSQL 18 and Redis 8.
 
+### Why the newest versions
+
+A template is copied once and then lives for years, so it starts on the newest releases: every project created from
+it begins with the longest support window ahead instead of a migration. Java 25 is an LTS release; Spring Boot 4.1,
+PostgreSQL 18 and Redis 8 are the current major versions. Dependabot proposes updates weekly.
+
+### Compatibility
+
+| Component | Used and tested | Oldest expected to work | Notes |
+|-----------|-----------------|-------------------------|-------|
+| JDK | 25 | 25 | Enforced by the build (Maven Enforcer) |
+| Maven | 3.9.16 (wrapper) | 3.9 | Use `./mvnw` |
+| Spring Boot | 4.1 | 4.1 | Spring Framework 7, Spring Security 7, Jakarta EE 11 |
+| PostgreSQL | 18 | 15 | Plain SQL migrations; only 18 runs in CI |
+| Redis | 8 | 7 | Plain commands and Lua scripts; only 8 runs in CI |
+| Kubernetes | not run in CI | 1.25 | Stable APIs only; Pod Security admission is GA since 1.25 |
+
+Policy: patch and minor updates land as soon as the tests pass. A new major version of a component is adopted once it
+is generally available and the tests pass, and is recorded in the
+[changelog](https://github.com/hikmethankolay/spring-boot-backend-template/blob/main/CHANGELOG.md).
+
 ## Quick start
 
 You need **JDK 25** (a JRE is not enough) and **Docker or Podman**.
