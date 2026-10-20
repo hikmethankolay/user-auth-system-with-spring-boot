@@ -72,13 +72,10 @@ public enum ProblemType {
     /** An unexpected server error. */
     INTERNAL_ERROR("internal-error", "Unexpected server error; quote `X-Trace-Id` when reporting it");
 
-    /** Prefix of every problem type URN. */
     private static final String URN_PREFIX = "urn:problem:";
 
-    /** The value of {@code type}. */
     private final URI uri;
 
-    /** When the problem occurs, for the OpenAPI document. */
     private final String description;
 
     /**

@@ -37,7 +37,6 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
  */
 public class JwtKeys {
 
-    /** Signing key first, then the keys kept only for verification. */
     private final JWKSet keys;
 
     /**

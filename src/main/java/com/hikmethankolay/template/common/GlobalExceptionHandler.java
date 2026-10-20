@@ -40,7 +40,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    /** Logger for unexpected and data-integrity errors. */
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /**

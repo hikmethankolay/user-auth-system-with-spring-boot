@@ -17,7 +17,6 @@ import org.springframework.web.method.HandlerMethod;
 /** Called directly: springdoc caches the generated document, so integration tests would run it only once. */
 class ApiDocsSecurityCustomizerTest {
 
-    /** The customizer under test. */
     private final ApiDocsSecurityCustomizer customizer = new ApiDocsSecurityCustomizer(TestProperties.create());
 
     /** Public operations need no token; the others accept a bearer token or the cookie and document 401. */

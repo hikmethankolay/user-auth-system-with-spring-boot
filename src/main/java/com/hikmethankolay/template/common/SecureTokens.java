@@ -16,7 +16,6 @@ import java.util.HexFormat;
  */
 public final class SecureTokens {
 
-    /** Source of token randomness. */
     private static final SecureRandom RANDOM = new SecureRandom();
 
     /** Not instantiable. */

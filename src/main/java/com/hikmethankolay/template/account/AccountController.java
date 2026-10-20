@@ -36,11 +36,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Account")
 public class AccountController {
 
-    /** Description of the 400 response of the operations that take a token from an email. */
     private static final String INVALID_TOKEN =
             "Invalid input (see `errors`), or the token is unknown, used or expired";
 
-    /** Account business logic. */
     private final AccountService accountService;
 
     /**

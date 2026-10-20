@@ -27,7 +27,6 @@ public class TraceIdResponseFilter extends OncePerRequestFilter {
     /** Response header carrying the trace id. */
     public static final String HEADER = "X-Trace-Id";
 
-    /** The tracer; absent when tracing is disabled, e.g. in most tests. */
     private final ObjectProvider<Tracer> tracer;
 
     /**

@@ -21,13 +21,10 @@ import org.springframework.stereotype.Component;
 @Component
 class AdminBootstrap implements ApplicationRunner {
 
-    /** Logger for the bootstrap result. */
     private static final Logger log = LoggerFactory.getLogger(AdminBootstrap.class);
 
-    /** Creates the admin account. */
     private final UserService userService;
 
-    /** Configured admin credentials. */
     private final AppProperties.Admin admin;
 
     /**

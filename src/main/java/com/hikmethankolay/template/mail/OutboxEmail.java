@@ -15,39 +15,30 @@ import java.time.Instant;
 @Table(name = "email_outbox")
 public class OutboxEmail {
 
-    /** Longest error message kept, matching the column size. */
     private static final int MAX_ERROR_LENGTH = 500;
 
-    /** Database-generated id. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /** Recipient address. */
     @Column(nullable = false, length = 254)
     private String recipient;
 
-    /** Subject line. */
     @Column(nullable = false, length = 200)
     private String subject;
 
-    /** Plain-text body. */
     @Column(nullable = false, columnDefinition = "text")
     private String body;
 
-    /** Failed sending attempts so far. */
     @Column(nullable = false)
     private int attempts;
 
-    /** Earliest time of the next sending attempt. */
     @Column(name = "next_attempt_at", nullable = false)
     private Instant nextAttemptAt;
 
-    /** Error of the last failed attempt, if any. */
     @Column(name = "last_error", length = MAX_ERROR_LENGTH)
     private String lastError;
 
-    /** When the email was queued. */
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 

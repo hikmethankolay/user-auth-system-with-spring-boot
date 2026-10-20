@@ -19,40 +19,31 @@ import java.util.UUID;
 @Table(name = "refresh_tokens")
 public class RefreshToken {
 
-    /** Database-generated id. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /** Owner of the token. */
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    /** Shared by every token issued from the same login. */
     @Column(name = "family_id", nullable = false)
     private UUID familyId;
 
-    /** Hex SHA-256 of the token; the token itself is never stored. */
     @Column(name = "token_hash", nullable = false, unique = true, length = 64)
     private String tokenHash;
 
-    /** Whether the session was started with "remember me". */
     @Column(name = "remember_me", nullable = false)
     private boolean rememberMe;
 
-    /** When the token stops being accepted. */
     @Column(name = "expires_at", nullable = false)
     private Instant expiresAt;
 
-    /** When the token was exchanged for a new one, or {@code null} while unused. */
     @Column(name = "used_at")
     private Instant usedAt;
 
-    /** When the token was issued. */
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
-    /** The user's session version when the session started; a newer one on the user ends the session. */
     @Column(name = "session_version", nullable = false, updatable = false)
     private int sessionVersion;
 

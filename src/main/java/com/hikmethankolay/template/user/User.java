@@ -20,46 +20,36 @@ import java.time.Instant;
 @Table(name = "users")
 public class User {
 
-    /** Database-generated id. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /** Unique username. */
     @Column(nullable = false, unique = true, length = 32)
     private String username;
 
-    /** Unique email address, stored in lower case. */
     @Column(nullable = false, unique = true, length = 254)
     private String email;
 
-    /** Encoded password; the plain password is never stored. */
     @Column(name = "password_hash", nullable = false, length = 100)
     private String passwordHash;
 
-    /** Role of the user. */
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private Role role;
 
-    /** Whether the user has confirmed their email address. */
     @Column(name = "email_verified", nullable = false)
     private boolean emailVerified;
 
-    /** Creation time, set once on insert. */
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
-    /** Time of the last update. */
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 
-    /** Optimistic-lock version: a write based on a stale read fails instead of reverting newer changes. */
     @Version
     @Column(nullable = false)
     private long version;
 
-    /** Bumped when every session must end; refresh tokens issued under an older value are rejected. */
     @Column(name = "session_version", nullable = false)
     private int sessionVersion;
 

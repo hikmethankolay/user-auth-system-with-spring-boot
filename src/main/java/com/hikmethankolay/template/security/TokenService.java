@@ -28,13 +28,10 @@ public class TokenService {
     /** Claim holding the username, for clients that want to display it without an extra request. */
     public static final String USERNAME_CLAIM = "username";
 
-    /** Signs the tokens. */
     private final JwtEncoder jwtEncoder;
 
-    /** Tells whether a revocation cut-off is active for the user. */
     private final TokenRevocationService revocations;
 
-    /** Issuer and lifetime settings. */
     private final AppProperties.Jwt properties;
 
     /**

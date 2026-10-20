@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Authentication")
 public class JwksController {
 
-    /** The configured keys. */
     private final JwtKeys keys;
 
     /**

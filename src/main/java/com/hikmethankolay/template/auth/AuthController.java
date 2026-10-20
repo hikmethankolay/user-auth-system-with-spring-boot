@@ -55,17 +55,13 @@ import org.springframework.web.util.WebUtils;
 @Tag(name = "Authentication")
 public class AuthController {
 
-    /** Authentication business logic. */
     private final AuthService authService;
 
-    /** Description of the {@code Set-Cookie} headers on token responses. */
     private static final String SET_COOKIES =
             "The access token cookie (path /) and the refresh token cookie (path /api/v1/auth)";
 
-    /** Authentication cookie settings. */
     private final AppProperties.Cookie cookieProperties;
 
-    /** Reads the token presented at logout. */
     private final BearerTokenResolver bearerTokenResolver;
 
     /**

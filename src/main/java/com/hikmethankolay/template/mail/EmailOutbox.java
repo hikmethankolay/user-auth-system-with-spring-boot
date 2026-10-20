@@ -42,13 +42,10 @@ import org.springframework.transaction.support.TransactionTemplate;
 @Service
 public class EmailOutbox {
 
-    /** Logger for sending failures. */
     private static final Logger log = LoggerFactory.getLogger(EmailOutbox.class);
 
-    /** Emails sent per {@link #sendDue()} run; the rest wait for the next run. */
     private static final int BATCH_SIZE = 50;
 
-    /** Longest wait between two attempts. */
     private static final Duration MAX_RETRY_DELAY = Duration.ofHours(1);
 
     /**
@@ -58,25 +55,18 @@ public class EmailOutbox {
      */
     private final Semaphore immediateSend = new Semaphore(1);
 
-    /** Outbox persistence. */
     private final OutboxEmailRepository outbox;
 
-    /** Sends the messages (SMTP via {@code spring.mail.*}). */
     private final MailSender mailSender;
 
-    /** Runs each send in its own transaction. */
     private final TransactionTemplate newTransaction;
 
-    /** Sender address and retry policy. */
     private final AppProperties.Mail properties;
 
-    /** Successfully sent emails. */
     private final Counter sent;
 
-    /** Failed attempts, including those that are retried. */
     private final Counter failures;
 
-    /** Emails given up after the last attempt. */
     private final Counter dropped;
 
     /**

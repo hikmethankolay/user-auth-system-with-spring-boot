@@ -17,9 +17,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 /** Unit tests of {@link AppUserDetailsService} and {@link AppUserDetails}. */
 class AppUserDetailsServiceTest {
 
-    /** Reads the users' session versions. */
     private final UserRepository users = mock(UserRepository.class);
-    /** The service under test. */
     private final AppUserDetailsService service = new AppUserDetailsService(users);
 
     /** Users are found by username or lower-cased email, and their security view never prints the hash. */

@@ -29,18 +29,12 @@ import org.springframework.security.authentication.BadCredentialsException;
 @ExtendWith(OutputCaptureExtension.class)
 class RefreshTokenServiceTest {
 
-    /** Raw value of the stored refresh token. */
     private static final String RAW = "raw-refresh-token";
-    /** Session (family) id of the stored token. */
     private static final UUID FAMILY = UUID.randomUUID();
 
-    /** Refresh token persistence. */
     private final RefreshTokenRepository tokens = mock(RefreshTokenRepository.class);
-    /** Reads the users' session versions. */
     private final UserRepository users = mock(UserRepository.class);
-    /** Records audit events. */
     private final AuditLog audit = mock(AuditLog.class);
-    /** The service under test. */
     private final RefreshTokenService service = new RefreshTokenService(tokens, TestProperties.create(), audit, users);
 
     /** A rotated remember-me token passes its session version, family and long lifetime on to its successor. */

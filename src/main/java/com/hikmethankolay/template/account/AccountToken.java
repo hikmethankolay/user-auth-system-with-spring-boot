@@ -17,29 +17,23 @@ import java.time.Instant;
 @Table(name = "account_tokens")
 public class AccountToken {
 
-    /** Database-generated id. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /** Owner of the token. */
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    /** What the token may be used for. */
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
     private AccountTokenType type;
 
-    /** Hex SHA-256 of the token; the token itself is never stored. */
     @Column(name = "token_hash", nullable = false, unique = true, length = 64)
     private String tokenHash;
 
-    /** When the token stops being accepted. */
     @Column(name = "expires_at", nullable = false)
     private Instant expiresAt;
 
-    /** When the token was issued. */
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 

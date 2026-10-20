@@ -13,10 +13,8 @@ import org.springframework.web.util.WebUtils;
  */
 class CookieBearerTokenResolver implements BearerTokenResolver {
 
-    /** Standard resolver for the {@code Authorization} header. */
     private final BearerTokenResolver headerResolver = new DefaultBearerTokenResolver();
 
-    /** Name of the authentication cookie. */
     private final String cookieName;
 
     /**

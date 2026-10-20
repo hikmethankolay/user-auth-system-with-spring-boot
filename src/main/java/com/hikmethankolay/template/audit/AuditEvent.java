@@ -59,10 +59,8 @@ public enum AuditEvent {
     /** A user downloaded an export of their personal data. */
     DATA_EXPORTED("user.data_exported", Level.INFO);
 
-    /** Name used in logs and as the {@code event} metric tag, e.g. {@code auth.login_failed}. */
     private final String action;
 
-    /** Log level; warnings mark events worth alerting on. */
     private final Level level;
 
     /**

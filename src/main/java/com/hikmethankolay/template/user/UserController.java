@@ -59,10 +59,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Users")
 public class UserController {
 
-    /** User business logic. */
     private final UserService userService;
 
-    /** Builds the personal data export. */
     private final PersonalDataService personalData;
 
     /**

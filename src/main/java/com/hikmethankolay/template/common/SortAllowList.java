@@ -14,10 +14,8 @@ import org.springframework.data.domain.Sort;
  */
 public final class SortAllowList {
 
-    /** Properties that may be sorted by. */
     private final Set<String> allowed;
 
-    /** Allowed properties in declaration order, for the error message. */
     private final String description;
 
     /**

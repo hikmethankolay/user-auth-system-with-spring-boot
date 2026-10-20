@@ -16,13 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PersonalDataService {
 
-    /** Profile lookups. */
     private final UserService userService;
 
-    /** Feature-specific data, in bean order. */
     private final List<PersonalDataProvider> providers;
 
-    /** Records the export. */
     private final AuditLog audit;
 
     /**

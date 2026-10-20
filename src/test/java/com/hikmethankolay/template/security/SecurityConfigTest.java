@@ -24,9 +24,7 @@ import org.springframework.web.cors.CorsConfiguration;
 /** The security beans, called directly: a cached Spring context would hide a broken bean method from PIT. */
 class SecurityConfigTest {
 
-    /** The configuration under test, called without a Spring context. */
     private final SecurityConfig config = new SecurityConfig();
-    /** Default test properties (HS256). */
     private final AppProperties properties = TestProperties.create();
 
     /** CORS allows the configured origins with credentials, the API's methods and headers, and exposes the documented response headers. */

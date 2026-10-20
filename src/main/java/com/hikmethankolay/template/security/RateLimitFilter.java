@@ -42,10 +42,8 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 @Order(Ordered.HIGHEST_PRECEDENCE + 3)
 public class RateLimitFilter extends OncePerRequestFilter {
 
-    /** Logger for Redis failures. */
     private static final Logger log = LoggerFactory.getLogger(RateLimitFilter.class);
 
-    /** Length of one rate-limit window. */
     private static final Duration WINDOW = Duration.ofMinutes(1);
 
     /**
@@ -59,19 +57,14 @@ public class RateLimitFilter extends OncePerRequestFilter {
             local previous = tonumber(redis.call('GET', KEYS[2]) or '0')
             return current + math.floor(previous * tonumber(ARGV[2]) / tonumber(ARGV[3]))""", Long.class);
 
-    /** Redis access with string keys and values. */
     private final StringRedisTemplate redis;
 
-    /** Renders the 429 like every other API error. */
     private final HandlerExceptionResolver resolver;
 
-    /** Key prefix, namespaced by application name. */
     private final String keyPrefix;
 
-    /** Whether limiting is enabled. */
     private final boolean enabled;
 
-    /** Requests allowed per window. */
     private final int limit;
 
     /**

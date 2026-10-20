@@ -48,16 +48,12 @@ public class ApiDocsSecurityCustomizer implements OpenApiCustomizer, OperationCu
     /** Name of the access token cookie scheme. */
     static final String COOKIE_SCHEME = "cookieAuth";
 
-    /** Operations that read the refresh token from the body or the refresh token cookie. */
     private static final List<String> REFRESH_COOKIE_PATHS = List.of("/api/v1/auth/refresh", "/api/v1/auth/logout");
 
-    /** Name of the access token cookie. */
     private final String cookieName;
 
-    /** Name of the refresh token cookie. */
     private final String refreshCookieName;
 
-    /** {@link SecurityConfig#PUBLIC_PATHS}, parsed once. */
     private final List<PathPattern> publicPaths = Arrays.stream(SecurityConfig.PUBLIC_PATHS)
             .map(PathPatternParser.defaultInstance::parse)
             .toList();

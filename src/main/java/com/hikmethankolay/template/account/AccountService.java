@@ -35,31 +35,22 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Service
 public class AccountService {
 
-    /** Logger for token cleanup. */
     private static final Logger log = LoggerFactory.getLogger(AccountService.class);
 
-    /** Error for unknown, used or expired tokens; deliberately the same for all three. */
     private static final String INVALID_TOKEN = "The link is invalid or has expired.";
 
-    /** Minimum time between two reset or verification emails requested anonymously for one account. */
     private static final Duration RESEND_COOLDOWN = Duration.ofMinutes(1);
 
-    /** Token persistence. */
     private final AccountTokenRepository tokens;
 
-    /** User lookups by id and email. */
     private final UserRepository users;
 
-    /** User changes, with cache eviction. */
     private final UserService userService;
 
-    /** Sends the emails. */
     private final AccountMailer mailer;
 
-    /** Token lifetimes. */
     private final AppProperties.Account properties;
 
-    /** Records security events. */
     private final AuditLog audit;
 
     /**

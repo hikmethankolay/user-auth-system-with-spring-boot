@@ -38,10 +38,8 @@ public class AuditLog {
     /** Name of the counter incremented for every entry. */
     public static final String METRIC_NAME = "security.audit.events";
 
-    /** Logger receiving the audit trail. */
     private static final Logger log = LoggerFactory.getLogger(LOGGER_NAME);
 
-    /** Registry for the event counters. */
     private final MeterRegistry meterRegistry;
 
     /**

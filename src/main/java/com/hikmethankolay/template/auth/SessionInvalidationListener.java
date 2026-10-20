@@ -15,13 +15,10 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Component
 public class SessionInvalidationListener {
 
-    /** Deletes refresh tokens. */
     private final RefreshTokenService refreshTokens;
 
-    /** Rejects access tokens issued before the change. */
     private final TokenRevocationService revocations;
 
-    /** Records the revocation. */
     private final AuditLog audit;
 
     /**

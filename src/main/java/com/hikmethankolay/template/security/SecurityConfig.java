@@ -91,7 +91,6 @@ public class SecurityConfig {
             + "style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; "
             + "frame-ancestors 'none'; base-uri 'none'; form-action 'none'";
 
-    /** {@code Permissions-Policy}: the API never needs browser features such as the camera or location. */
     private static final String PERMISSIONS_POLICY = "camera=(), microphone=(), geolocation=(), payment=(), usb=()";
 
     /**

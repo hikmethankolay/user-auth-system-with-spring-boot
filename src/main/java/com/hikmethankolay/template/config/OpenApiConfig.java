@@ -85,13 +85,10 @@ public class OpenApiConfig {
     /** Component name of the 500 response of every operation. */
     static final String INTERNAL_SERVER_ERROR = "InternalServerError";
 
-    /** Prefix of references to response components. */
     private static final String RESPONSES_REF = "#/components/responses/";
 
-    /** Prefix of references to header components. */
     private static final String HEADERS_REF = "#/components/headers/";
 
-    /** Response headers present on every API response, keyed by name, in document order. */
     private static final Map<String, String> COMMON_HEADERS = orderedMap(
             TraceIdResponseFilter.HEADER,
             "Trace id of the request; quote it when reporting an error",
@@ -102,7 +99,6 @@ public class OpenApiConfig {
             "RateLimit-Reset",
             "Seconds until the window resets");
 
-    /** Description of the password fields checked by {@code @ValidPassword}. */
     private static final String PASSWORD_RULE = "8-72 characters and at most 72 bytes in UTF-8, with an uppercase "
             + "letter, a lowercase letter, a digit and a symbol";
 

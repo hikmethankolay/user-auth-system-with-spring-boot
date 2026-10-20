@@ -27,7 +27,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class LoginAttemptService {
 
-    /** Logger for Redis failures. */
     private static final Logger log = LoggerFactory.getLogger(LoginAttemptService.class);
 
     /**
@@ -45,21 +44,16 @@ public class LoginAttemptService {
             end
             return 1""", Long.class);
 
-    /** Takes back one counted attempt, never going below zero. */
     private static final RedisScript<Long> RELEASE = RedisScript.of(
             "if tonumber(redis.call('GET', KEYS[1]) or '0') > 0 then return redis.call('DECR', KEYS[1]) end return 0",
             Long.class);
 
-    /** Redis access with string keys and values. */
     private final StringRedisTemplate redis;
 
-    /** Key prefix, namespaced by application name. */
     private final String keyPrefix;
 
-    /** Failures after which a key is blocked. */
     private final int maxAttempts;
 
-    /** How long a block lasts after the last failure. */
     private final Duration lockDuration;
 
     /**

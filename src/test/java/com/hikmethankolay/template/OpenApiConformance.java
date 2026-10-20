@@ -42,10 +42,8 @@ import org.springframework.web.servlet.HandlerMapping;
  */
 final class OpenApiConformance implements ResultMatcher {
 
-    /** The committed document, relative to the project directory Maven runs the tests in. */
     private static final Path SPEC = Path.of("api", "openapi.json");
 
-    /** Shared instance; the document is read once per test JVM. */
     private static final OpenApiConformance INSTANCE = new OpenApiConformance();
 
     private final JsonNode spec;
@@ -53,7 +51,6 @@ final class OpenApiConformance implements ResultMatcher {
     private final JsonSchemaFactory schemas = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V202012);
     private final Map<String, JsonSchema> compiled = new ConcurrentHashMap<>();
 
-    /** Documented paths and their patterns; paths without variables first, so {@code /users/me} wins over {@code /users/{id}}. */
     private final List<Map.Entry<String, Pattern>> paths = new ArrayList<>();
 
     private OpenApiConformance() {

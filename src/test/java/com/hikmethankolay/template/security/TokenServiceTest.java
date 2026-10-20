@@ -27,7 +27,6 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
 class TokenServiceTest {
 
-    /** A second valid HS256 secret. */
     private static final String OTHER_SECRET = "another-secret-that-is-also-32-chars-long";
 
     private final SecurityConfig securityConfig = new SecurityConfig();

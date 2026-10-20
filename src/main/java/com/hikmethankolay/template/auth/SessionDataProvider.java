@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class SessionDataProvider implements PersonalDataProvider {
 
-    /** Lists the sessions. */
     private final RefreshTokenService refreshTokens;
 
     /**

@@ -17,7 +17,6 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 @Component
 class SecurityProblemHandler implements AuthenticationEntryPoint, AccessDeniedHandler {
 
-    /** Spring MVC's composite resolver, which includes the {@code @RestControllerAdvice} handlers. */
     private final HandlerExceptionResolver resolver;
 
     /**

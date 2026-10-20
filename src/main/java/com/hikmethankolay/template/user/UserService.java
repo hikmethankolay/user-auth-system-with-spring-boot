@@ -45,19 +45,14 @@ public class UserService {
      */
     public static final String SORTABLE_PROPERTIES = "id, username, email, role, emailVerified, createdAt, updatedAt";
 
-    /** Rejects sorting by anything outside {@link #SORTABLE_PROPERTIES}. */
     private static final SortAllowList SORTING = new SortAllowList(List.of(SORTABLE_PROPERTIES.split(", ")));
 
-    /** User persistence. */
     private final UserRepository userRepository;
 
-    /** Hashes and verifies passwords. */
     private final PasswordEncoder passwordEncoder;
 
-    /** Publishes {@link EmailVerificationRequired} and {@link SessionsInvalidated} events. */
     private final ApplicationEventPublisher events;
 
-    /** Records security events. */
     private final AuditLog audit;
 
     /**

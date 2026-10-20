@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 class AppUserDetailsService implements UserDetailsService {
 
-    /** User persistence. */
     private final UserRepository userRepository;
 
     /**

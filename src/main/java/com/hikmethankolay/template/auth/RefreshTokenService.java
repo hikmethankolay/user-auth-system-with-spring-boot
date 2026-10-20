@@ -34,22 +34,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class RefreshTokenService {
 
-    /** Logger for token cleanup. */
     private static final Logger log = LoggerFactory.getLogger(RefreshTokenService.class);
 
     /** Error for unknown, used, revoked or expired tokens; deliberately the same for all. */
     static final String INVALID_REFRESH_TOKEN = "The refresh token is missing, invalid or expired.";
 
-    /** Token persistence. */
     private final RefreshTokenRepository tokens;
 
-    /** Token lifetimes. */
     private final AppProperties.Jwt properties;
 
-    /** Records token reuse. */
     private final AuditLog audit;
 
-    /** Reads the users' current session version. */
     private final UserRepository users;
 
     /**

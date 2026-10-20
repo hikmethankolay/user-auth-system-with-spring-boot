@@ -39,34 +39,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
 
-    /** Verifies username/email and password. */
     private final AuthenticationManager authenticationManager;
 
-    /** Brute-force protection. */
     private final LoginAttemptService loginAttempts;
 
-    /** Issues JWTs. */
     private final TokenService tokenService;
 
-    /** Creates users on registration. */
     private final UserService userService;
 
-    /** Reloads users on token refresh. */
     private final UserRepository userRepository;
 
-    /** Issues and rotates refresh tokens. */
     private final RefreshTokenService refreshTokens;
 
-    /** Revokes access tokens on logout. */
     private final TokenRevocationService revocations;
 
-    /** Validates the token presented at logout. */
     private final JwtDecoder jwtDecoder;
 
-    /** Whether login requires a verified email address. */
     private final boolean requireVerifiedEmail;
 
-    /** Records security events. */
     private final AuditLog audit;
 
     /**

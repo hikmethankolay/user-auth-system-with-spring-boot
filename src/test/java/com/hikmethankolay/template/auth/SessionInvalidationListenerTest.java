@@ -13,13 +13,9 @@ import org.junit.jupiter.api.Test;
 /** Unit tests of {@link SessionInvalidationListener}. */
 class SessionInvalidationListenerTest {
 
-    /** Ends refresh-token sessions. */
     private final RefreshTokenService refreshTokens = mock(RefreshTokenService.class);
-    /** Revokes access tokens. */
     private final TokenRevocationService revocations = mock(TokenRevocationService.class);
-    /** Records audit events. */
     private final AuditLog audit = mock(AuditLog.class);
-    /** The listener under test. */
     private final SessionInvalidationListener listener =
             new SessionInvalidationListener(refreshTokens, revocations, audit);
 

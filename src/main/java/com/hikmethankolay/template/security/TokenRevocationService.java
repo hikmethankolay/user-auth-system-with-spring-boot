@@ -32,19 +32,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class TokenRevocationService {
 
-    /** Logger for Redis failures. */
     private static final Logger log = LoggerFactory.getLogger(TokenRevocationService.class);
 
-    /** Redis access with string keys and values. */
     private final StringRedisTemplate redis;
 
-    /** Key prefix of revoked token ids, namespaced by application name. */
     private final String keyPrefix;
 
-    /** Key prefix of per-user cut-off times, namespaced by application name. */
     private final String userKeyPrefix;
 
-    /** Lifetime of access tokens: how long a per-user cut-off must be kept. */
     private final Duration accessTokenTtl;
 
     /**

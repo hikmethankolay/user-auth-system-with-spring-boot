@@ -16,10 +16,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Component
 public class AccountMailer {
 
-    /** Queues the messages. */
     private final EmailOutbox outbox;
 
-    /** Link base URL. */
     private final AppProperties.Mail properties;
 
     /**
