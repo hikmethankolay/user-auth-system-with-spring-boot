@@ -6,12 +6,14 @@ import com.hikmethankolay.template.auth.dto.LoginRequest;
 import com.hikmethankolay.template.auth.dto.RegisterRequest;
 import com.hikmethankolay.template.common.ApiException;
 import com.hikmethankolay.template.common.ProblemType;
+import com.hikmethankolay.template.common.SecureTokens;
 import com.hikmethankolay.template.config.AppProperties;
 import com.hikmethankolay.template.security.AppUserDetails;
 import com.hikmethankolay.template.security.LoginAttemptService;
 import com.hikmethankolay.template.security.TokenRevocationService;
 import com.hikmethankolay.template.security.TokenService;
 import com.hikmethankolay.template.user.Role;
+import com.hikmethankolay.template.user.User;
 import com.hikmethankolay.template.user.UserRepository;
 import com.hikmethankolay.template.user.UserService;
 import com.hikmethankolay.template.user.dto.UserResponse;
@@ -128,11 +130,16 @@ public class AuthService {
      */
     public AuthTokens login(LoginRequest request, String clientIp) {
         String identifier = request.identifier().trim();
-        String accountKey = "account:" + identifier.toLowerCase(Locale.ROOT);
+        Long accountId = userRepository.findByUsernameOrEmail(identifier, identifier.toLowerCase(Locale.ROOT))
+                .map(User::getId).orElse(null);
+        // Keyed by user id, so the username and the email of one account share a single limit.
+        String accountKey = "account:" + (accountId != null ? accountId.toString() : identifier.toLowerCase(Locale.ROOT));
         String ipKey = "ip:" + clientIp;
+        // Users sometimes type their password into the identifier field: audit a short hash, never the text.
+        String identifierHash = SecureTokens.hash(identifier.toLowerCase(Locale.ROOT)).substring(0, 12);
 
         if (!loginAttempts.tryAcquire(ipKey, accountKey)) {
-            audit.record(AuditEvent.LOGIN_BLOCKED, null, "identifier", identifier);
+            audit.record(AuditEvent.LOGIN_BLOCKED, accountId, "identifierHash", identifierHash);
             throw ApiException.tooManyRequests(ProblemType.LOGIN_LOCKED,
                     "Too many failed login attempts. Please try again later.", loginAttempts.lockDuration());
         }
@@ -143,7 +150,7 @@ public class AuthService {
                     UsernamePasswordAuthenticationToken.unauthenticated(identifier, request.password()));
         } catch (AuthenticationException ex) {
             // The attempt was already counted by tryAcquire.
-            audit.record(AuditEvent.LOGIN_FAILED, null, "identifier", identifier);
+            audit.record(AuditEvent.LOGIN_FAILED, accountId, "identifierHash", identifierHash);
             throw new BadCredentialsException("Invalid username or password.");
         }
 

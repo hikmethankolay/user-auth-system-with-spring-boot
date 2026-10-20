@@ -1,6 +1,7 @@
 package com.hikmethankolay.template.config;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -55,6 +56,17 @@ public record AppProperties(
             @NotNull Duration accessTokenTtl,
             @NotNull Duration refreshTokenTtl,
             @NotNull Duration rememberMeTtl) {
+
+        /**
+         * Rejects secrets made of a few repeated characters, such as {@code aaaa...} or {@code changeme...}.
+         * shortcut: a heuristic that cannot measure randomness; for real assurance load a generated key from a secret store.
+         *
+         * @return {@code true} if the secret uses at least 10 different characters
+         */
+        @AssertTrue(message = "must be a random value, not repeated or placeholder text (JWT_SECRET)")
+        public boolean isSecretVaried() {
+            return secret == null || secret.chars().distinct().count() >= 10;
+        }
     }
 
     /**
@@ -114,14 +126,12 @@ public record AppProperties(
      *                           and {@code /reset-password?token=...}
      * @param maxAttempts        sending attempts before an email is given up
      * @param retryDelay         wait after the first failed attempt; doubles after each further failure
-     * @param outboxPollInterval how often failed emails are retried
      */
     public record Mail(
             @NotBlank String from,
             @NotBlank String linkBaseUrl,
             @Positive int maxAttempts,
-            @NotNull Duration retryDelay,
-            @NotNull Duration outboxPollInterval) {
+            @NotNull Duration retryDelay) {
     }
 
     /**

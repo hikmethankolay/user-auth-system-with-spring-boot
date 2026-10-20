@@ -42,8 +42,8 @@ public class AccountMailer {
      */
     public void sendEmailVerification(String to, String token, Duration ttl) {
         outbox.enqueue(to, "Confirm your email address",
-                "Confirm your email address by opening this link:%n%n%s%n%nThe link expires in %d hours."
-                        .formatted(link("/verify-email", token), ttl.toHours()));
+                "Confirm your email address by opening this link:%n%n%s%n%nThe link expires in %d minutes."
+                        .formatted(link("/verify-email", token), ttl.toMinutes()));
     }
 
     /**

@@ -175,6 +175,26 @@ class AuthIntegrationTest extends IntegrationTest {
     }
 
     @Test
+    void usernameAndEmailShareOneLockout() throws Exception {
+        String username = uniqueUsername();
+        register(username);
+
+        for (String identifier : new String[] {username, username, username + "@example.com"}) {
+            mockMvc.perform(post("/api/v1/auth/login").with(fromIp("10.0.9." + identifier.length()))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(json("""
+                                    {"identifier":"%s","password":"Wrong#123"}""", identifier)))
+                    .andExpect(status().isUnauthorized());
+        }
+
+        mockMvc.perform(post("/api/v1/auth/login").with(fromIp("10.0.9.200"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"identifier":"%s@example.com","password":"%s"}""", username, PASSWORD)))
+                .andExpect(status().isTooManyRequests());
+    }
+
+    @Test
     void protectedEndpointWithoutTokenIsUnauthorized() throws Exception {
         mockMvc.perform(get("/api/v1/users/me"))
                 .andExpect(status().isUnauthorized())
@@ -284,6 +304,32 @@ class AuthIntegrationTest extends IntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
                                 {"refreshToken":"%s"}""", refreshed.refreshToken())))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void onlyTheNewestUsedTokenIsKeptForReuseDetection() throws Exception {
+        String username = uniqueUsername();
+        register(username);
+        Tokens login = loginTokens(username, PASSWORD);
+        Tokens first = refresh(login.refreshToken());
+        Tokens second = refresh(first.refreshToken());
+
+        // The login token was cleaned up: replaying it is rejected but does not end the session.
+        mockMvc.perform(post("/api/v1/auth/refresh").contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"refreshToken":"%s"}""", login.refreshToken())))
+                .andExpect(status().isUnauthorized());
+        Tokens third = refresh(second.refreshToken());
+
+        // Replaying the newest used token is still detected and ends the session.
+        mockMvc.perform(post("/api/v1/auth/refresh").contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"refreshToken":"%s"}""", second.refreshToken())))
+                .andExpect(status().isUnauthorized());
+        mockMvc.perform(post("/api/v1/auth/refresh").contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"refreshToken":"%s"}""", third.refreshToken())))
                 .andExpect(status().isUnauthorized());
     }
 

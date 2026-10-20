@@ -9,12 +9,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.hikmethankolay.template.IntegrationTest;
 import java.util.concurrent.ThreadLocalRandom;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 
 @TestPropertySource(properties = "app.rate-limit.requests-per-minute=3")
 class RateLimitIntegrationTest extends IntegrationTest {
+
+    @Autowired
+    private StringRedisTemplate redis;
 
     /** A fresh IP per test, so counters from other tests never interfere. */
     private static String randomIp() {
@@ -40,6 +45,16 @@ class RateLimitIntegrationTest extends IntegrationTest {
 
         // Other clients are not affected.
         mockMvc.perform(get("/api/v1/users/me").with(fromIp(randomIp()))).andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void thePreviousMinuteStillCounts() throws Exception {
+        String ip = randomIp();
+        long previousWindow = System.currentTimeMillis() / 60_000 - 1;
+        // A burst at the end of the previous minute: nearly all of it is still inside the last 60 seconds.
+        redis.opsForValue().set("spring-boot-template:rate-limit:{" + ip + "}:" + previousWindow, "100000");
+
+        mockMvc.perform(get("/api/v1/users/me").with(fromIp(ip))).andExpect(status().isTooManyRequests());
     }
 
     @Test

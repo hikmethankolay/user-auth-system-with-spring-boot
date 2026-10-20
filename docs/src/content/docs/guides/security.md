@@ -117,7 +117,8 @@ new failures. A successful login only resets the account counter, not the IP cou
 
 ## Rate limiting
 
-Every client IP gets `RATE_LIMIT_PER_MINUTE` requests per minute across all instances. Responses carry
+Every client IP gets `RATE_LIMIT_PER_MINUTE` requests per sliding minute across all instances, so no burst of twice
+the limit is possible around the turn of a minute. Responses carry
 `RateLimit-Limit`, `RateLimit-Remaining` and `RateLimit-Reset`. Over the limit, the API answers `429` with
 `Retry-After`. Actuator is exempt.
 

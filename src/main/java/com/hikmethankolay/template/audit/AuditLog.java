@@ -105,7 +105,8 @@ public class AuditLog {
         LoggingEventBuilder entry = log.atLevel(event.level());
         fields.forEach(entry::addKeyValue);
         entry.log(fields.entrySet().stream()
-                .map(field -> field.getKey() + "=" + field.getValue())
+                // Line breaks in a value (e.g. a login identifier) would forge extra lines in text logs.
+                .map(field -> field.getKey() + "=" + String.valueOf(field.getValue()).replaceAll("[\\r\\n]", "_"))
                 .collect(Collectors.joining(" ")));
         Counter.builder(METRIC_NAME)
                 .description("Security audit events")

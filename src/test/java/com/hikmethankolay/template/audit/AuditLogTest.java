@@ -52,6 +52,14 @@ class AuditLogTest {
     }
 
     @Test
+    void lineBreaksInValuesCannotForgeEntries(CapturedOutput output) {
+        audit.record(AuditEvent.LOGIN_FAILED, null, "identifierHash", "abc\nevent=admin.role_changed");
+
+        assertThat(output).contains("identifierHash=abc_event=admin.role_changed");
+        assertThat(output).doesNotContain("\nevent=admin.role_changed");
+    }
+
+    @Test
     void waitsForTheTransactionToCommit(CapturedOutput output) {
         TransactionSynchronizationManager.initSynchronization();
 

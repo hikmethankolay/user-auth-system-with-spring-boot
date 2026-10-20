@@ -3,7 +3,9 @@ package com.hikmethankolay.template;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -32,12 +34,28 @@ public class TestMailConfiguration {
 
         private final AtomicInteger failuresLeft = new AtomicInteger();
 
+        private final AtomicReference<CountDownLatch[]> hold = new AtomicReference<>();
+
         @Override
         public void send(SimpleMailMessage message) {
+            CountDownLatch[] latches = hold.getAndSet(null);
+            if (latches != null) {
+                latches[0].countDown();
+                try {
+                    latches[1].await();
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+            }
             if (failuresLeft.getAndUpdate(left -> Math.max(0, left - 1)) > 0) {
                 throw new MailSendException("Simulated SMTP outage");
             }
             messages.add(message);
+        }
+
+        /** Makes the next send count down {@code entered} and then wait for {@code release}, like a slow SMTP server. */
+        public void holdNextSend(CountDownLatch entered, CountDownLatch release) {
+            hold.set(new CountDownLatch[] {entered, release});
         }
 
         /** Makes the next {@code count} sends fail, like an SMTP outage. */

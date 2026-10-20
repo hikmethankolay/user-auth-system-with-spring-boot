@@ -8,14 +8,13 @@ on:
   push:
     tags: ['v*']
 
+# Tests run in their own job without write access, so test code and test dependencies never hold
+# the rights to publish or sign.
 permissions:
-  contents: write
-  packages: write
-  # OIDC token for keyless cosign signing.
-  id-token: write
+  contents: read
 
 jobs:
-  release:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
@@ -28,6 +27,17 @@ jobs:
 
       - name: Test
         run: ./mvnw -B verify
+
+  release:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      # OIDC token for keyless cosign signing.
+      id-token: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
 
       - uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
 

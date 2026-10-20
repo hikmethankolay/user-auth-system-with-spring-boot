@@ -1,6 +1,7 @@
 package com.hikmethankolay.template.common;
 
 import java.util.List;
+import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -79,7 +80,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler({DataIntegrityViolationException.class, OptimisticLockingFailureException.class})
     ProblemDetail handleDataIntegrity(DataAccessException ex) {
-        log.warn("Conflicting write: {}", ex.getMostSpecificCause().getMessage());
+        // The database message repeats the conflicting value (e.g. an email), so only the constraint is logged.
+        log.warn("Conflicting write: {}", ex.getCause() instanceof ConstraintViolationException violation
+                ? "constraint " + violation.getConstraintName()
+                : ex.getClass().getSimpleName());
         return ProblemType.CONFLICT.problem(HttpStatus.CONFLICT, "The request conflicts with existing data.");
     }
 

@@ -113,6 +113,8 @@ public class RefreshTokenService {
             throw new BadCredentialsException(INVALID_REFRESH_TOKEN);
         }
         current.markUsed(now);
+        // Only the newest used token is needed to detect reuse; older ones would pile up until they expire.
+        tokens.deleteUsedInFamilyExcept(current.getFamilyId(), current.getTokenHash());
         return new Rotation(current.getUserId(),
                 issue(current.getUserId(), current.getFamilyId(), current.getSessionVersion(), current.isRememberMe()));
     }

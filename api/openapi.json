@@ -837,7 +837,7 @@
         "tags" : [ "Users" ]
       },
       "patch" : {
-        "description" : "Changes the username and/or email; omitted fields stay unchanged. A new email address is marked unverified and a verification email is sent to it.",
+        "description" : "Changes the username and/or email; omitted fields stay unchanged. Changing the email needs `currentPassword`. A new email address is marked unverified and a verification email is sent to it; links sent to the old address stop working.",
         "operationId" : "updateCurrentUser",
         "requestBody" : {
           "content" : {
@@ -875,7 +875,28 @@
             }
           },
           "400" : {
-            "$ref" : "#/components/responses/BadRequest"
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Invalid input (see `errors`), or the email changes and `currentPassword` is missing or wrong",
+            "headers" : {
+              "RateLimit-Limit" : {
+                "$ref" : "#/components/headers/RateLimit-Limit"
+              },
+              "RateLimit-Remaining" : {
+                "$ref" : "#/components/headers/RateLimit-Remaining"
+              },
+              "RateLimit-Reset" : {
+                "$ref" : "#/components/headers/RateLimit-Reset"
+              },
+              "X-Trace-Id" : {
+                "$ref" : "#/components/headers/X-Trace-Id"
+              }
+            }
           },
           "401" : {
             "$ref" : "#/components/responses/Unauthorized"

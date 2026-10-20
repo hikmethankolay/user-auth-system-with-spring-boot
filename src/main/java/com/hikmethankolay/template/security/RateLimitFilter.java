@@ -25,7 +25,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 /**
- * Limits every client IP to {@code app.rate-limit.requests-per-minute} requests per one-minute window.
+ * Limits every client IP to {@code app.rate-limit.requests-per-minute} requests per minute, as a
+ * sliding window: the previous minute's count is weighted by how much of it still overlaps the last
+ * 60 seconds, so a client cannot send twice the limit around the turn of a minute.
  *
  * <p>Counters live in Redis, so the limit holds across all instances. Every response carries the
  * IETF draft headers {@code RateLimit-Limit}, {@code RateLimit-Remaining} and {@code RateLimit-Reset}
@@ -46,11 +48,16 @@ public class RateLimitFilter extends OncePerRequestFilter {
     /** Length of one rate-limit window. */
     private static final Duration WINDOW = Duration.ofMinutes(1);
 
-    /** Atomically increments the window counter, setting its expiry on the first request. */
-    private static final RedisScript<Long> INCREMENT = RedisScript.of(
-            "local count = redis.call('INCR', KEYS[1]) "
-                    + "if count == 1 then redis.call('PEXPIRE', KEYS[1], ARGV[1]) end return count",
-            Long.class);
+    /**
+     * Atomically counts the request in the current window (expiring after two windows, so the next
+     * window can still read it) and returns the sliding count: the current window plus the previous
+     * one weighted by {@code ARGV[2] / ARGV[3]}, the share of it still inside the last minute.
+     */
+    private static final RedisScript<Long> INCREMENT = RedisScript.of("""
+            local current = redis.call('INCR', KEYS[1])
+            if current == 1 then redis.call('PEXPIRE', KEYS[1], ARGV[1]) end
+            local previous = tonumber(redis.call('GET', KEYS[2]) or '0')
+            return current + math.floor(previous * tonumber(ARGV[2]) / tonumber(ARGV[3]))""", Long.class);
 
     /** Redis access with string keys and values. */
     private final StringRedisTemplate redis;
@@ -110,14 +117,18 @@ public class RateLimitFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        long nowSeconds = Instant.now().getEpochSecond();
-        long window = nowSeconds / WINDOW.toSeconds();
-        long resetSeconds = (window + 1) * WINDOW.toSeconds() - nowSeconds;
+        long windowMillis = WINDOW.toMillis();
+        long nowMillis = Instant.now().toEpochMilli();
+        long window = nowMillis / windowMillis;
+        long remainingMillis = windowMillis - nowMillis % windowMillis;
+        long resetSeconds = Math.ceilDiv(remainingMillis, 1000);
+        // The braces keep both keys of one client in the same Redis Cluster slot.
+        String key = keyPrefix + "{" + request.getRemoteAddr() + "}:";
 
         Long count;
         try {
-            count = redis.execute(INCREMENT, List.of(keyPrefix + request.getRemoteAddr() + ":" + window),
-                    Long.toString(WINDOW.toMillis()));
+            count = redis.execute(INCREMENT, List.of(key + window, key + (window - 1)),
+                    Long.toString(2 * windowMillis), Long.toString(remainingMillis), Long.toString(windowMillis));
         } catch (DataAccessException ex) {
             log.warn("Rate limit check failed, allowing request: {}", ex.getMessage());
             filterChain.doFilter(request, response);

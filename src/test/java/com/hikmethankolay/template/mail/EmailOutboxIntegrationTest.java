@@ -6,6 +6,8 @@ import com.hikmethankolay.template.IntegrationTest;
 import com.hikmethankolay.template.TestMailConfiguration.CapturingMailSender;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,26 @@ class EmailOutboxIntegrationTest extends IntegrationTest {
 
         assertThat(mail.latest("outbox-ok@example.com", "Outbox test")).isPresent();
         assertThat(queued("outbox-ok@example.com")).isFalse();
+    }
+
+    @Test
+    void onlyOneEmailIsSentImmediatelyAtATime() throws Exception {
+        CountDownLatch entered = new CountDownLatch(1);
+        CountDownLatch release = new CountDownLatch(1);
+        mail.holdNextSend(entered, release);
+        Thread slow = Thread.ofVirtual().start(() -> enqueue("outbox-slow@example.com"));
+        assertThat(entered.await(10, TimeUnit.SECONDS)).isTrue();
+
+        // The slow send holds the slot, so this one stays queued for the scheduler.
+        enqueue("outbox-waiting@example.com");
+        assertThat(queued("outbox-waiting@example.com")).isTrue();
+        assertThat(mail.latest("outbox-waiting@example.com", "Outbox test")).isEmpty();
+
+        release.countDown();
+        slow.join();
+        assertThat(mail.latest("outbox-slow@example.com", "Outbox test")).isPresent();
+        outbox.sendDue(Instant.now());
+        assertThat(mail.latest("outbox-waiting@example.com", "Outbox test")).isPresent();
     }
 
     @Test

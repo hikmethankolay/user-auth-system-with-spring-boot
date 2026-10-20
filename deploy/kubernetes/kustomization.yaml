@@ -16,6 +16,6 @@ resources:
   - pdb.yaml
   - networkpolicy.yaml
 images:
-  # Pin a release tag (or digest) instead of "latest".
+  # A pinned release, so every apply deploys the same, signed image; bump it to deploy a new release.
   - name: ghcr.io/hikmethankolay/spring-boot-backend-template
-    newTag: latest
+    newTag: "2.8.1"

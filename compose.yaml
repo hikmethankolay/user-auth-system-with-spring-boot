@@ -55,7 +55,8 @@ services:
       MAIL_HOST: mailpit
       MAIL_PORT: 1025
     ports:
-      - "${PORT:-8080}:8080"
+      # Local only, like the other services: this profile has the API docs on and Secure cookies off.
+      - "127.0.0.1:${PORT:-8080}:8080"
     depends_on:
       db:
         condition: service_healthy

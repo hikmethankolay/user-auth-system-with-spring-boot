@@ -99,10 +99,12 @@ public class UserController {
      */
     @PatchMapping("/me")
     @Operation(operationId = "updateCurrentUser", summary = "Update the current user's profile",
-            description = "Changes the username and/or email; omitted fields stay unchanged. A new email address is "
-                    + "marked unverified and a verification email is sent to it.")
+            description = "Changes the username and/or email; omitted fields stay unchanged. Changing the email needs "
+                    + "`currentPassword`. A new email address is marked unverified and a verification email is sent to "
+                    + "it; links sent to the old address stop working.")
     @ApiResponse(responseCode = "200", description = "The updated user",
             content = @Content(schema = @Schema(implementation = UserResponse.class)))
+    @ApiResponse(responseCode = "400", description = "Invalid input (see `errors`), or the email changes and `currentPassword` is missing or wrong", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     @ApiResponse(responseCode = "409", description = "Username or email already taken", content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     public UserResponse updateMe(@AuthenticationPrincipal Jwt jwt, @Valid @RequestBody UpdateProfileRequest request) {
         return userService.updateProfile(TokenService.userId(jwt), request);
