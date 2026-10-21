@@ -47,6 +47,16 @@ jobs:
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
 
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      # The image build packages the pom's version, so the jar reports the release (v2.1.0 -> 2.1.0), not a snapshot.
+      - name: Set version from tag
+        run: ./mvnw -B -q versions:set -DnewVersion="${GITHUB_REF_NAME#v}" -DgenerateBackupPoms=false
+
       - uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
 
       - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
