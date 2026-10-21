@@ -41,6 +41,35 @@ jobs:
           name: coverage-report
           path: target/site/jacoco/
 
+  # Runs the .bat scripts, so they cannot silently drift from their .sh counterparts. The Windows runner has no
+  # Linux containers, so only the scripts that need none run here; the build job covers the integration tests.
+  windows:
+    name: Windows scripts
+    runs-on: windows-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    defaults:
+      run:
+        shell: cmd
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      - name: Unit tests
+        run: scripts\test.bat --unit
+
+      - name: Documentation
+        run: scripts\docs.bat
+
+      - name: Build jar
+        run: scripts\build.bat --skip-tests
+
   image:
     name: Docker image and vulnerability scan
     runs-on: ubuntu-latest
