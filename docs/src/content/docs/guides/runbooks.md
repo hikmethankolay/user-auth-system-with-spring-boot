@@ -63,7 +63,8 @@ More than 30 failed logins per minute: likely credential stuffing.
 1. Search the `audit` logger for `auth.login_failed` and group by `clientIp`.
 2. The per-account lockout and per-IP rate limit already slow the attack. Block persistent sources at the ingress or
    firewall. Lower `RATE_LIMIT_PER_MINUTE` if needed.
-3. **Impact:** locked accounts for real users with the same username (`LOGIN_LOCK_DURATION`).
+3. **Impact:** an account is locked for its real user (`LOGIN_LOCK_DURATION`) only after `LOGIN_ACCOUNT_MAX_ATTEMPTS`
+   failures, which takes several IPs, since each IP is blocked after `LOGIN_MAX_ATTEMPTS`.
 
 ### RefreshTokenReused
 
@@ -90,9 +91,10 @@ More than 10 warnings per minute, usually because **Redis is unreachable**: the 
 failures`, `Rate limit check failed` or `Could not check token revocation`.
 
 1. Check Redis: `scripts/db.sh redis-cli ping` locally, or the managed service's status page.
-2. **Impact while Redis is down** ([ADR 2](../../adr/0002-redis-fail-open/)): requests keep working, but lockout and
-   rate limiting are off, revoked access tokens stay valid until they expire (15 minutes), and the cache is bypassed.
-   Refresh tokens are in PostgreSQL and unaffected.
+2. **Impact while Redis is down** ([ADR 2](../../adr/0002-redis-fail-open/)): new logins fail with `503`, so no
+   password can be guessed meanwhile. Signed-in clients keep working and refresh their tokens (refresh tokens are in
+   PostgreSQL), but rate limiting is off, revoked access tokens stay valid until they expire (15 minutes), and the
+   cache is bypassed.
 3. Once Redis is back, the warnings stop on their own; nothing needs to be replayed.
 
 ## Email

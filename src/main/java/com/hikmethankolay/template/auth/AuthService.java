@@ -116,7 +116,8 @@ public class AuthService {
      * @param request  username or email, password and remember-me flag
      * @param clientIp address of the client, used for rate limiting
      * @return the access and refresh tokens
-     * @throws ApiException            429 if the IP or account is blocked
+     * @throws ApiException            429 if the IP or account is blocked, 503 if the failed-login
+     *                                 counters cannot be checked
      * @throws BadCredentialsException if the credentials are wrong (mapped to 401)
      */
     public AuthTokens login(LoginRequest request, String clientIp) {

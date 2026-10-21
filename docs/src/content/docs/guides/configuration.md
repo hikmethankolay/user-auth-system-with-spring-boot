@@ -28,7 +28,7 @@ The `app.*` settings are bound to a validated record (`AppProperties`), so a mis
 | `JWT_REFRESH_TOKEN_TTL` / `JWT_REMEMBER_ME_TTL` | `1d` / `30d` | Session lifetime without activity, normal / remember-me |
 | `COOKIE_SECURE` | `false` (`true` in prod) | Send the auth cookies over HTTPS only |
 | `CORS_ALLOWED_ORIGINS` | `http://localhost:3000` | Comma-separated browser origins |
-| `LOGIN_MAX_ATTEMPTS` / `LOGIN_LOCK_DURATION` | `10` / `1h` | Brute-force lockout |
+| `LOGIN_MAX_ATTEMPTS` / `LOGIN_ACCOUNT_MAX_ATTEMPTS` / `LOGIN_LOCK_DURATION` | `10` / `100` / `1h` | Brute-force lockout: failed logins per IP, per account, and how long a block lasts ([details](../security/#brute-force-protection)) |
 | `RATE_LIMIT_ENABLED` / `RATE_LIMIT_PER_MINUTE` | `true` / `120` | Per-IP API rate limit |
 | `REQUIRE_VERIFIED_EMAIL` | `false` (`true` in prod) | Block login until the email address is verified |
 | `MAIL_HOST`, `MAIL_PORT`, `MAIL_FROM` | `localhost`, `1025`, `no-reply@example.com` | Outgoing mail (Mailpit by default). Set `SPRING_MAIL_USERNAME` / `SPRING_MAIL_PASSWORD` for a real SMTP server |

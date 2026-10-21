@@ -133,7 +133,8 @@ groups:
           summary: "Errors logged"
           description: "{{ $labels.instance }} logged {{ $value }} errors in 10 minutes. Search the logs for level ERROR."
 
-      # The Redis-backed protections fail open with a warning, so a burst of warnings usually means Redis is down.
+      # The Redis-backed protections log a warning when Redis is unreachable (login then fails closed, the rest fail
+      # open), so a burst of warnings usually means Redis is down.
       - alert: WarningLogSpike
         expr: sum by (application, instance) (rate(logback_events_total{level="warn"}[5m])) * 60 > 10
         for: 5m

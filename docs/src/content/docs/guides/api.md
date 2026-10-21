@@ -102,6 +102,7 @@ media type, ...) use `about:blank`; everything else uses one of these (the list 
 | `urn:problem:conflict` | 409 | A concurrent change got there first; retry |
 | `urn:problem:login-locked` / `rate-limited` | 429 | Too many failed logins / requests; wait `Retry-After` seconds |
 | `urn:problem:internal-error` | 500 | Unexpected error; quote `X-Trace-Id` when reporting it |
+| `urn:problem:login-unavailable` | 503 | Login cannot check the failed-login counters (Redis is down); retry later |
 
 ## Pagination
 

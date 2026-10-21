@@ -66,6 +66,9 @@ public enum ProblemType {
     /** Too many failed logins for the IP or the account. */
     LOGIN_LOCKED("login-locked", "Too many failed logins for this IP or account; wait for `Retry-After` seconds"),
 
+    /** Login is refused because the brute-force counters cannot be checked (Redis is unavailable). */
+    LOGIN_UNAVAILABLE("login-unavailable", "Login is temporarily unavailable; retry later"),
+
     /** The client exceeded the request rate limit. */
     RATE_LIMITED("rate-limited", "Too many requests from this IP; wait for `Retry-After` seconds"),
 

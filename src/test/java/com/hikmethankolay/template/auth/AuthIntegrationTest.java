@@ -168,29 +168,50 @@ class AuthIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    void repeatedFailedLoginsAreBlocked() throws Exception {
+    void repeatedFailedLoginsBlockTheIp() throws Exception {
         String username = uniqueUsername();
         register(username);
-        String wrongLogin = json("""
-                {"identifier":"%s","password":"Wrong#123"}""", username);
 
         for (int attempt = 0; attempt < 3; attempt++) {
-            mockMvc.perform(post("/api/v1/auth/login")
-                            .with(fromIp("10.0.0.2"))
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(wrongLogin))
-                    .andExpect(status().isUnauthorized());
+            failLogin(username, "10.0.0.2");
         }
 
-        // Even the correct password is rejected while the account is locked, from any IP.
+        // Even the correct password is rejected from the blocked IP...
         mockMvc.perform(post("/api/v1/auth/login")
-                        .with(fromIp("10.0.0.3"))
+                        .with(fromIp("10.0.0.2"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
                                 {"identifier":"%s","password":"%s"}""", username, PASSWORD)))
                 .andExpect(status().isTooManyRequests())
                 .andExpect(header().string(HttpHeaders.RETRY_AFTER, "3600"))
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_PROBLEM_JSON));
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_PROBLEM_JSON))
+                .andExpect(jsonPath("$.type").value("urn:problem:login-locked"));
+
+        // ...but one client cannot lock the real user out.
+        mockMvc.perform(post("/api/v1/auth/login")
+                        .with(fromIp("10.0.0.3"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"identifier":"%s","password":"%s"}""", username, PASSWORD)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void failedLoginsFromManyIpsBlockTheAccount() throws Exception {
+        String username = uniqueUsername();
+        register(username);
+
+        for (int attempt = 1; attempt <= 5; attempt++) {
+            failLogin(username, "10.0.4." + attempt);
+        }
+
+        mockMvc.perform(post("/api/v1/auth/login")
+                        .with(fromIp("10.0.4.100"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"identifier":"%s","password":"%s"}""", username, PASSWORD)))
+                .andExpect(status().isTooManyRequests())
+                .andExpect(header().string(HttpHeaders.RETRY_AFTER, "3600"));
     }
 
     @Test
@@ -198,21 +219,25 @@ class AuthIntegrationTest extends IntegrationTest {
         String username = uniqueUsername();
         register(username);
 
-        for (String identifier : new String[] {username, username, username + "@example.com"}) {
-            mockMvc.perform(post("/api/v1/auth/login")
-                            .with(fromIp("10.0.9." + identifier.length()))
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(json("""
-                                    {"identifier":"%s","password":"Wrong#123"}""", identifier)))
-                    .andExpect(status().isUnauthorized());
+        for (int attempt = 1; attempt <= 5; attempt++) {
+            failLogin(attempt % 2 == 0 ? username : username + "@example.com", "10.0.8." + attempt);
         }
 
         mockMvc.perform(post("/api/v1/auth/login")
-                        .with(fromIp("10.0.9.200"))
+                        .with(fromIp("10.0.8.100"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json("""
                                 {"identifier":"%s@example.com","password":"%s"}""", username, PASSWORD)))
                 .andExpect(status().isTooManyRequests());
+    }
+
+    private void failLogin(String identifier, String ip) throws Exception {
+        mockMvc.perform(post("/api/v1/auth/login")
+                        .with(fromIp(ip))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json("""
+                                {"identifier":"%s","password":"Wrong#123"}""", identifier)))
+                .andExpect(status().isUnauthorized());
     }
 
     @Test

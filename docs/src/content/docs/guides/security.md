@@ -144,9 +144,16 @@ Audit log entries keep the user id after deletion. Decide how long you retain th
 
 ## Brute-force protection
 
-Failed logins are counted per client IP and per account in Redis. After `LOGIN_MAX_ATTEMPTS` failures, the login is
-rejected with `429` and `Retry-After`, even with the right password, until `LOGIN_LOCK_DURATION` has passed without
+Failed logins are counted per client IP and per account in Redis. An IP is blocked after `LOGIN_MAX_ATTEMPTS`
+failures (default 10), an account after `LOGIN_ACCOUNT_MAX_ATTEMPTS` (default 100). While either is blocked, the login
+is rejected with `429` and `Retry-After`, even with the right password, until `LOGIN_LOCK_DURATION` has passed without
 new failures. A successful login only resets the account counter, not the IP counter.
+
+The account limit is the higher one so that a single client cannot lock a real user out by typing wrong passwords for
+their username: its IP is blocked long before the account. Locking an account takes failures from at least
+`LOGIN_ACCOUNT_MAX_ATTEMPTS / LOGIN_MAX_ATTEMPTS` IPs within the lock duration, and the account limit still caps
+distributed guessing against one account. Lower `LOGIN_ACCOUNT_MAX_ATTEMPTS` if you prefer stricter protection over
+availability for targeted users.
 
 ## Rate limiting
 
@@ -200,6 +207,8 @@ Entries are written after the transaction commits, so rolled-back actions never 
 
 ## Redis outages
 
-The lockout, rate limit and revocation checks fail open: if Redis is unreachable, requests are allowed and a warning
-is logged. That keeps the API available, at the cost of briefly disabling these protections. Refresh tokens live in
-PostgreSQL and keep working. See [Production](../production/).
+The rate limit and revocation checks fail open: if Redis is unreachable, requests are allowed and a warning is
+logged. That keeps the API available, at the cost of briefly disabling these protections. Login fails closed instead:
+it answers `503` (`urn:problem:login-unavailable`) until Redis is back, so an outage is never a window for unlimited
+password guessing. Signed-in clients are unaffected, and refresh tokens live in PostgreSQL and keep working. See
+[ADR 2](../../adr/0002-redis-fail-open/) and [Production](../production/).

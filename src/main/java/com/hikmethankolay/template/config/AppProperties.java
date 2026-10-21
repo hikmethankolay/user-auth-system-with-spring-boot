@@ -120,10 +120,15 @@ public record AppProperties(
     /**
      * Brute-force protection settings.
      *
-     * @param maxAttempts  failed logins after which an IP or account is blocked
-     * @param lockDuration how long a block lasts after the last failure
+     * @param maxAttempts        failed logins after which an IP is blocked
+     * @param accountMaxAttempts failed logins after which an account is blocked; higher than
+     *                           {@code maxAttempts}, so locking out a user takes several IPs
+     * @param lockDuration       how long a block lasts after the last failure
      */
-    public record Login(@Positive int maxAttempts, @NotNull Duration lockDuration) {}
+    public record Login(
+            @Positive int maxAttempts,
+            @Positive int accountMaxAttempts,
+            @NotNull Duration lockDuration) {}
 
     /**
      * Per-client-IP rate limit for all API requests (Actuator is exempt).

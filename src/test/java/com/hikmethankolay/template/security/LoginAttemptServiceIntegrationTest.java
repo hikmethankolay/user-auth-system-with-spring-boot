@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
-/** Login lockout counters in Redis (max attempts is 3 in the test profile). */
+/** Login lockout counters in Redis (3 attempts per IP and 5 per account in the test profile). */
 class LoginAttemptServiceIntegrationTest extends IntegrationTest {
 
     @Autowired
@@ -28,59 +28,69 @@ class LoginAttemptServiceIntegrationTest extends IntegrationTest {
     }
 
     @Test
-    void blocksKeyAfterMaxAttempts() {
-        String key = uniqueKey("ip");
+    void blocksIpAfterMaxAttempts() {
+        String ip = uniqueKey("ip");
         for (int i = 0; i < 3; i++) {
-            assertThat(service.tryAcquire(key)).isTrue();
+            assertThat(service.tryAcquire(ip, uniqueKey("account"))).isTrue();
         }
 
-        assertThat(service.tryAcquire(key)).isFalse();
+        assertThat(service.tryAcquire(ip, uniqueKey("account"))).isFalse();
     }
 
     @Test
-    void blocksTheAttemptIfAnyKeyIsBlocked() {
+    void blocksAccountAfterAccountMaxAttempts() {
+        String account = uniqueKey("account");
+        for (int i = 0; i < 5; i++) {
+            assertThat(service.tryAcquire(uniqueKey("ip"), account)).isTrue();
+        }
+
+        assertThat(service.tryAcquire(uniqueKey("ip"), account)).isFalse();
+    }
+
+    @Test
+    void oneIpCannotLockAnAccount() {
         String ip = uniqueKey("ip");
         String account = uniqueKey("account");
         for (int i = 0; i < 3; i++) {
             service.tryAcquire(ip, account);
         }
 
-        assertThat(service.tryAcquire(ip, uniqueKey("account"))).isFalse();
-        assertThat(service.tryAcquire(uniqueKey("ip"), account)).isFalse();
-        assertThat(service.tryAcquire(uniqueKey("ip"), uniqueKey("account"))).isTrue();
+        assertThat(service.tryAcquire(ip, account)).isFalse();
+        assertThat(service.tryAcquire(uniqueKey("ip"), account)).isTrue();
     }
 
     @Test
-    void resetUnblocksKey() {
-        String key = uniqueKey("account");
-        for (int i = 0; i < 3; i++) {
-            service.tryAcquire(key);
+    void resetUnblocksAccount() {
+        String account = uniqueKey("account");
+        for (int i = 0; i < 5; i++) {
+            service.tryAcquire(uniqueKey("ip"), account);
         }
 
-        service.reset(key);
+        service.reset(account);
 
-        assertThat(service.tryAcquire(key)).isTrue();
+        assertThat(service.tryAcquire(uniqueKey("ip"), account)).isTrue();
     }
 
     @Test
     void releaseTakesBackOneAttempt() {
-        String key = uniqueKey("ip");
+        String ip = uniqueKey("ip");
         for (int i = 0; i < 3; i++) {
-            service.tryAcquire(key);
+            service.tryAcquire(ip, uniqueKey("account"));
         }
 
-        service.release(key);
+        service.release(ip);
 
-        assertThat(service.tryAcquire(key)).isTrue();
-        assertThat(service.tryAcquire(key)).isFalse();
+        assertThat(service.tryAcquire(ip, uniqueKey("account"))).isTrue();
+        assertThat(service.tryAcquire(ip, uniqueKey("account"))).isFalse();
     }
 
     @Test
     void concurrentAttemptsCannotExceedTheLimit() throws Exception {
-        String key = uniqueKey("account");
+        String ip = uniqueKey("ip");
+        String account = uniqueKey("account");
         try (ExecutorService pool = Executors.newFixedThreadPool(20)) {
             List<Future<Boolean>> results =
-                    pool.invokeAll(Collections.nCopies(20, (Callable<Boolean>) () -> service.tryAcquire(key)));
+                    pool.invokeAll(Collections.nCopies(20, (Callable<Boolean>) () -> service.tryAcquire(ip, account)));
             long allowed = 0;
             for (Future<Boolean> result : results) {
                 allowed += result.get() ? 1 : 0;
@@ -91,10 +101,10 @@ class LoginAttemptServiceIntegrationTest extends IntegrationTest {
 
     @Test
     void countersExpireAfterLockDuration() {
-        String key = uniqueKey("ip");
-        service.tryAcquire(key);
+        String ip = uniqueKey("ip");
+        service.tryAcquire(ip, uniqueKey("account"));
 
-        Long ttlSeconds = redis.getExpire("spring-boot-template:login-failures:" + key);
+        Long ttlSeconds = redis.getExpire("spring-boot-template:login-failures:" + ip);
         assertThat(ttlSeconds)
                 .isPositive()
                 .isLessThanOrEqualTo(service.lockDuration().toSeconds());

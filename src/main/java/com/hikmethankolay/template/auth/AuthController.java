@@ -141,6 +141,10 @@ public class AuthController {
             responseCode = "403",
             description = "Email address not verified (when verification is required)",
             content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    @ApiResponse(
+            responseCode = "503",
+            description = "Login is temporarily unavailable because the failed-login counters cannot be checked",
+            content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     public ResponseEntity<TokenResponse> login(
             @Valid @RequestBody LoginRequest request, HttpServletRequest httpRequest) {
         // getRemoteAddr() honours X-Forwarded-For only when server.forward-headers-strategy is framework or native.

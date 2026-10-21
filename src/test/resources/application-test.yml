@@ -3,6 +3,7 @@ app:
     secret: test-secret-that-is-at-least-32-characters-long
   login:
     max-attempts: 3
+    account-max-attempts: 5
   rate-limit:
     # High enough for the whole suite (all requests come from 127.0.0.1); RateLimitIntegrationTest lowers it.
     requests-per-minute: 5000

@@ -112,9 +112,10 @@ server's `max_connections`, or put PgBouncer in front of it. Every connection ha
 
 ## Trade-offs to revisit
 
-- **Fail-open on Redis outages.** The cache, login lockout, rate limit and access-token revocation keep the API
-  available when Redis is down, at the cost of briefly disabling those protections. Refresh tokens live in PostgreSQL
-  and are unaffected. Run Redis with high availability, or change the handlers to fail closed.
+- **Fail-open on Redis outages.** The cache, rate limit and access-token revocation keep the API available when
+  Redis is down, at the cost of briefly disabling those protections; new logins fail with `503` until it is back.
+  Refresh tokens live in PostgreSQL and are unaffected. Run Redis with high availability, or change the handlers to
+  fail closed.
 - **Redis memory.** Redis holds security state, so it runs with `noeviction`. Size it for your traffic; every key has
   a TTL.
 - **Access tokens after logout of other sessions.** Revoking a session deletes its refresh token immediately; its
