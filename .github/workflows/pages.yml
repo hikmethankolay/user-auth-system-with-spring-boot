@@ -37,6 +37,12 @@ jobs:
           cache: npm
           cache-dependency-path: docs/package-lock.json
 
+      # The Javadoc title shows the pom's version; use the latest release, as the site's home page does.
+      - name: Set version from the latest tag
+        run: |
+          version=$(git describe --tags --abbrev=0)
+          ./mvnw -B -q versions:set -DnewVersion="${version#v}" -DgenerateBackupPoms=false
+
       - name: Build site (tests, OpenAPI export, Javadoc, coverage, Starlight)
         env:
           # Project site URL: https://<owner>.github.io/<repository>/

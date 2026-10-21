@@ -6,6 +6,10 @@ releases use [semantic versioning](https://semver.org/). Each release's full lis
 
 ## [Unreleased]
 
+### Fixed
+
+- The Java reference on the documentation site showed version `0.0.1-SNAPSHOT` instead of the release.
+
 ## [2.9.2] - 2026-10-21
 
 ### Added
