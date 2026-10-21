@@ -1,16 +1,10 @@
 # Spring Boot Backend Template
 
 [![CI](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/ci.yml/badge.svg)](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/codeql.yml/badge.svg)](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/codeql.yml)
-[![SpotBugs](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/static-analysis.yml/badge.svg)](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/static-analysis.yml)
 [![Coverage](https://img.shields.io/endpoint?url=https://hikmethankolay.github.io/spring-boot-backend-template/badges/coverage.json)](https://hikmethankolay.github.io/spring-boot-backend-template/coverage/)
 [![Mutation score](https://img.shields.io/endpoint?url=https://hikmethankolay.github.io/spring-boot-backend-template/badges/mutation.json)](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/mutation.yml)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/hikmethankolay/spring-boot-backend-template/badge)](https://scorecard.dev/viewer/?uri=github.com/hikmethankolay/spring-boot-backend-template)
-[![SLSA 3](https://slsa.dev/images/gh-badge-level3.svg)](https://hikmethankolay.github.io/spring-boot-backend-template/guides/production/#verify-the-image)
 [![Release](https://img.shields.io/github/v/release/hikmethankolay/spring-boot-backend-template)](https://github.com/hikmethankolay/spring-boot-backend-template/releases)
-[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-16a34a)](https://hikmethankolay.github.io/spring-boot-backend-template/)
-[![Java](https://img.shields.io/badge/Java-25-ed8b00)](https://openjdk.org/projects/jdk/25/)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1-6db33f)](https://spring.io/projects/spring-boot)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 Start a new Spring Boot REST backend from a codebase that already handles the hard, repetitive parts:
