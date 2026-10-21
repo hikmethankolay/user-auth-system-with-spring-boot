@@ -5,7 +5,8 @@ For larger changes, please open an issue first to agree on the approach.
 
 ## Development setup
 
-You need JDK 25 and Docker or Podman.
+You need JDK 25 and Docker or Podman: without a container runtime the integration tests fail rather than being
+skipped.
 
 ```bash
 scripts/setup.sh   # checks prerequisites, creates .env, compiles

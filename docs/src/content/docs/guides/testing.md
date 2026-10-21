@@ -22,7 +22,8 @@ the email outbox and is captured in memory (`TestMailConfiguration`), so tests c
 links from the emails. `CapturingMailSender.failNext(n)` simulates an SMTP outage, and `EmailOutbox.sendDue(time)`
 runs a retry pass at a chosen time. The test profile sets the background retry to once an hour
 (`application-test.yml`), so it does not interfere with a test.
-Without a container runtime the integration tests are skipped, not failed.
+Without a container runtime the integration tests fail instead of being skipped, so a passing build always means every
+test ran. Use `scripts/test.sh --unit` to run only the unit tests.
 
 ```java
 class OrderIntegrationTest extends IntegrationTest {

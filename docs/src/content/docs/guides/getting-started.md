@@ -80,5 +80,5 @@ To see what is running, use `docker ps` or `podman ps`.
 |---------|---------------|
 | `bind: address already in use` for port 8080 | Another process (often an earlier `scripts/dev.sh`) holds the port. Find it with `ss -ltnp \| grep 8080` (Linux) or `lsof -i :8080` (macOS) and stop it, or start on another port: `PORT=8090 scripts/docker.sh up`. |
 | `permission denied … /var/run/docker.sock` | You ran a `docker` command, but your runtime is rootless Podman. Use `podman …` / `podman compose …`, or the scripts, which pick the right one. |
-| Integration tests are skipped | No container runtime was found. Start Docker, or let `scripts/test.sh` start `podman.socket`. |
+| Integration tests fail with `Could not find a valid Docker environment` | No container runtime was found. Start Docker, or let `scripts/test.sh` start `podman.socket`; `scripts/test.sh --unit` runs the unit tests without one. |
 | Login returns `401` for `admin` | The password is the one `setup` wrote to `.env` (`ADMIN_PASSWORD`), unless it was changed later through the API. Reset it with the password reset flow; the email arrives in Mailpit. |
