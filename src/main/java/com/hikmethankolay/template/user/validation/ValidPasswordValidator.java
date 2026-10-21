@@ -13,6 +13,11 @@ public class ValidPasswordValidator implements ConstraintValidator<ValidPassword
     /** BCrypt's input limit in bytes. */
     static final int MAX_BYTES = 72;
 
+    /** Creates the validator; Bean Validation instantiates it. */
+    public ValidPasswordValidator() {
+        // Nothing to initialise.
+    }
+
     /**
      * Checks the UTF-8 length of the password.
      *

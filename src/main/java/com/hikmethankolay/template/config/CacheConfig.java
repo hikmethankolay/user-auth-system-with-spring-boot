@@ -37,6 +37,11 @@ import tools.jackson.databind.json.JsonMapper;
 @EnableCaching
 public class CacheConfig implements CachingConfigurer {
 
+    /** Creates the configuration; Spring instantiates it. */
+    public CacheConfig() {
+        // Nothing to initialise.
+    }
+
     /**
      * Configures the value serializer of each cache, immediate writes and transaction awareness.
      *

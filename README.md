@@ -94,7 +94,7 @@ Each script exists as `scripts/<name>.sh` and `scripts\<name>.bat`.
 | `docker` | Whole stack in containers: `up`, `down`, `logs`, `ps` |
 | `smoke` | End-to-end check against a running instance |
 | `load-test` | k6 load test (see [Testing](https://hikmethankolay.github.io/spring-boot-backend-template/guides/testing/#load-test)) |
-| `docs` / `site` | Java reference (Doxygen) / the documentation website |
+| `docs` / `site` | Java reference (Javadoc) / the documentation website |
 | `rename-project` | Rename the Maven coordinates, app name and Java package for your project |
 
 ## Start your own project

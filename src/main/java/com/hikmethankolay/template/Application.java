@@ -16,6 +16,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class Application {
 
+    /** Instantiated by Spring as the primary configuration class. */
+    public Application() {
+        // Nothing to initialise.
+    }
+
     /**
      * Starts the Spring application context and the embedded web server.
      *

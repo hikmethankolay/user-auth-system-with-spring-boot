@@ -22,7 +22,7 @@ explain the details.
 ## Before opening a pull request
 
 - `scripts/test.sh` passes. New behaviour comes with tests; integration tests extend `IntegrationTest` and are named `*IntegrationTest`.
-- `scripts/docs.sh --strict` passes: every class, method and field has a Doxygen comment.
+- `scripts/docs.sh` passes: every public, protected and package-private class, method and field has a Javadoc comment.
 - The architecture rules in `ArchitectureTest` still hold (controllers use services, no entities in the API).
 - Configuration changes are reflected in `.env.example` and the Configuration guide (`docs/`).
 - API changes are reflected in the committed `api/openapi.json`: regenerate it with

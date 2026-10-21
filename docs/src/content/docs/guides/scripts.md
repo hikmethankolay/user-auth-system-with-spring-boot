@@ -16,7 +16,7 @@ Every script exists as `scripts/<name>.sh` and `scripts\<name>.bat`.
 | `docker` | Whole stack in containers (PostgreSQL, Redis, Mailpit, app image): `up` (builds the image), `down`, `logs`, `ps`. The app is on `PORT` (default 8080). |
 | `smoke` | End-to-end check against a running instance: `scripts/smoke.sh [base-url]`. |
 | `load-test` | k6 load test against a running instance. See [Testing](../testing/#load-test). |
-| `docs` | Doxygen HTML in `target/doxygen/html`. `--strict` fails on any Doxygen warning, including undocumented code. |
+| `docs` | Javadoc HTML in `target/reports/apidocs`. Fails on any Javadoc warning, including undocumented code. |
 | `site` | Builds this documentation website into `target/pages`. |
 | `rename-project` | Renames Maven coordinates, app name and Java package. See [Using the template](../new-project/). |
 

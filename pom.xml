@@ -277,6 +277,25 @@
                 </executions>
             </plugin>
 
+            <!--
+              Java reference for the documentation site: `./mvnw javadoc:javadoc` (scripts/docs.sh) writes it to
+              target/reports/apidocs and fails on any warning, including undocumented public, protected and
+              package-private code (ADR 6).
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <doclint>all</doclint>
+                    <failOnWarnings>true</failOnWarnings>
+                    <show>package</show>
+                    <linksource>true</linksource>
+                    <quiet>true</quiet>
+                    <doctitle>Spring Boot Template ${project.version}</doctitle>
+                    <windowtitle>Spring Boot Template</windowtitle>
+                </configuration>
+            </plugin>
+
             <!-- Unit tests (*Test): no Spring context, no containers; `./mvnw test` runs only these. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -102,6 +102,11 @@ public class OpenApiConfig {
     private static final String PASSWORD_RULE = "8-72 characters and at most 72 bytes in UTF-8, with an uppercase "
             + "letter, a lowercase letter, a digit and a symbol";
 
+    /** Creates the configuration; Spring instantiates it. */
+    public OpenApiConfig() {
+        // Nothing to initialise.
+    }
+
     /**
      * Describes the API.
      *

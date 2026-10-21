@@ -42,6 +42,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+    /** Creates the handler; Spring instantiates it. */
+    public GlobalExceptionHandler() {
+        // Nothing to initialise.
+    }
+
     /**
      * Maps missing, invalid or expired credentials to {@code 401 Unauthorized}.
      *

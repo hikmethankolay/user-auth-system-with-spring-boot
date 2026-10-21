@@ -93,6 +93,11 @@ public class SecurityConfig {
 
     private static final String PERMISSIONS_POLICY = "camera=(), microphone=(), geolocation=(), payment=(), usb=()";
 
+    /** Creates the configuration; Spring instantiates it. */
+    public SecurityConfig() {
+        // Nothing to initialise.
+    }
+
     /**
      * Filter chain for {@code PUBLIC_PATHS}: everything is permitted and no token is read.
      *

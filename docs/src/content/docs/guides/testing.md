@@ -6,7 +6,7 @@ description: Unit, integration, architecture and load tests.
 ```bash
 scripts/test.sh            # unit, integration and ArchUnit tests, coverage, SpotBugs and formatting checks
 scripts/test.sh --unit     # unit tests only: no Spring context, no containers, a few seconds
-scripts/docs.sh --strict   # fails on any Doxygen warning, including undocumented code
+scripts/docs.sh            # fails on any Javadoc warning, including undocumented code
 scripts/load-test.sh       # k6: realistic user journeys; fails on slow requests, errors or 429s
 ```
 

@@ -1,7 +1,7 @@
 @echo off
 rem Builds the documentation website into target\pages with Astro Starlight (docs\).
 rem See scripts/site.sh for details; CI publishes it on every v* tag. Needs Node.js 22.22+ and the JDK.
-rem Usage: scripts\site.bat [--skip-build]   (--skip-build reuses existing test and Doxygen output)
+rem Usage: scripts\site.bat [--skip-build]   (--skip-build reuses existing test and Javadoc output)
 setlocal
 cd /d "%~dp0.."
 
@@ -13,15 +13,15 @@ where npm >nul 2>&1 || (
 if /i not "%~1"=="--skip-build" (
   call "%~dp0lib.bat" require_jdk || exit /b 1
   call mvnw.cmd -B verify || exit /b 1
-  call "%~dp0docs.bat" --strict || exit /b 1
+  call "%~dp0docs.bat" || exit /b 1
 )
 
 if not exist "target\openapi.json" (
   echo error: target\openapi.json missing; it is written by the integration tests, which need Docker or Podman. 1>&2
   exit /b 1
 )
-if not exist "target\doxygen\html\index.html" (
-  echo error: Doxygen output missing; run scripts\docs.bat. 1>&2
+if not exist "target\reports\apidocs\index.html" (
+  echo error: Javadoc output missing; run scripts\docs.bat. 1>&2
   exit /b 1
 )
 if not exist "target\site\jacoco\jacoco.xml" (
@@ -34,7 +34,7 @@ for /f "usebackq delims=" %%l in (`powershell -NoProfile -ExecutionPolicy Bypass
   "$ErrorActionPreference = 'Stop';" ^
   "foreach ($d in 'docs\public\reference', 'docs\public\coverage') { if (Test-Path $d) { Remove-Item -Recurse -Force $d }; New-Item -ItemType Directory -Force -Path $d | Out-Null };" ^
   "Copy-Item 'target\openapi.json' 'docs\public\api\openapi.json';" ^
-  "Copy-Item -Recurse 'target\doxygen\html\*' 'docs\public\reference';" ^
+  "Copy-Item -Recurse 'target\reports\apidocs\*' 'docs\public\reference';" ^
   "Copy-Item -Recurse 'target\site\jacoco\*' 'docs\public\coverage';" ^
   "$line = ([xml](Get-Content -Raw 'target\site\jacoco\jacoco.xml' -Encoding UTF8)).report.counter | Where-Object type -eq 'LINE';" ^
   "'{0:N1}%%' -f (100 * [int]$line.covered / ([int]$line.covered + [int]$line.missed))"`) do set "PUBLIC_SITE_COVERAGE=%%l"

@@ -2,12 +2,12 @@
 # Builds the documentation website into target/pages with Astro Starlight (docs/):
 #   guides       Markdown pages in docs/src/content/docs
 #   api/         REST API reference (Redoc) from the OpenAPI document exported by OpenApiSpecExportIntegrationTest
-#   reference/   Java reference (Doxygen)
+#   reference/   Java reference (Javadoc)
 #   coverage/    test coverage (JaCoCo)
 # .github/workflows/pages.yml deploys it to GitHub Pages on every v* tag.
 # Needs Node.js 22.22+ in addition to the JDK. Preview with: (cd docs && npm run preview)
 #
-# Usage: scripts/site.sh [--skip-build]   (--skip-build reuses existing test and Doxygen output)
+# Usage: scripts/site.sh [--skip-build]   (--skip-build reuses existing test and Javadoc output)
 source "$(dirname "$0")/lib.sh"
 
 command -v npm >/dev/null 2>&1 || die "Node.js 22.22+ with npm is required to build the documentation site (https://nodejs.org)."
@@ -16,18 +16,18 @@ if [[ "${1:-}" != "--skip-build" ]]; then
   require_jdk
   configure_testcontainers
   ./mvnw -B verify
-  "$ROOT_DIR/scripts/docs.sh" --strict
+  "$ROOT_DIR/scripts/docs.sh"
 fi
 
 [[ -f target/openapi.json ]] || die "target/openapi.json missing; it is written by the integration tests, which need Docker or Podman."
-[[ -f target/doxygen/html/index.html ]] || die "Doxygen output missing; run scripts/docs.sh."
+[[ -f target/reports/apidocs/index.html ]] || die "Javadoc output missing; run scripts/docs.sh."
 [[ -f target/site/jacoco/jacoco.xml ]] || die "JaCoCo report missing; run scripts/test.sh."
 
 # Generated references are served as static files from docs/public (git-ignored).
 rm -rf docs/public/reference docs/public/coverage
 mkdir -p docs/public/reference docs/public/coverage
 cp target/openapi.json docs/public/api/openapi.json
-cp -R target/doxygen/html/. docs/public/reference/
+cp -R target/reports/apidocs/. docs/public/reference/
 cp -R target/site/jacoco/. docs/public/coverage/
 
 # Build information shown on the home page.
@@ -43,6 +43,6 @@ info "Building the Starlight site"
 
 rm -rf target/pages
 cp -R docs/dist target/pages
-touch target/pages/.nojekyll   # serve directories starting with "_" (Astro, Doxygen) as they are
+touch target/pages/.nojekyll   # serve directories starting with "_" (Astro) as they are
 
 info "Site for $PUBLIC_SITE_VERSION ($PUBLIC_SITE_COMMIT, coverage $PUBLIC_SITE_COVERAGE): target/pages"

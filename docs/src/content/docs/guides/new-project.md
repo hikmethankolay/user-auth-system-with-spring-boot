@@ -42,7 +42,7 @@ description: Turn the template into your own project.
 - anything depends on a controller
 - a class uses field injection, `System.out` or `java.util.logging`
 
-`scripts/docs.sh --strict` fails when a public class, method or field has no documentation comment.
+`scripts/docs.sh` fails when a public, protected or package-private class, method or field has no Javadoc comment.
 
 ## Project structure
 
