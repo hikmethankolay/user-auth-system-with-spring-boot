@@ -20,7 +20,7 @@ secure login, user accounts, errors, caching, monitoring and deployment. All of 
 - **Production defaults out of the box.** One `prod` profile switches on JSON logs, secure cookies, required email
   verification and an internal metrics port. Migrations, Redis caching, an email outbox with retries, query timeouts,
   metrics with alert rules and a Grafana dashboard, tracing, account deletion and data export are already wired in.
-- **Tested against the real thing.** 90+ tests run against real PostgreSQL and Redis containers, alongside architecture
+- **Tested against the real thing.** 165+ tests run against real PostgreSQL and Redis containers, alongside architecture
   rules, a load test and a vulnerability scan of the Docker image in CI.
 - **Ready to ship.** Releases publish signed multi-arch images with an SBOM; Kubernetes manifests pass the
   `restricted` Pod Security Standard.
