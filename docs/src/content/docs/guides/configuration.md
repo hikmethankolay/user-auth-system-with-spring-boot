@@ -9,12 +9,13 @@ can use the same variable to load another file, e.g. `DOTENV_PATH=staging.env ja
 lists the common variables, and `scripts/setup.sh` creates `.env` from it with generated secrets.
 
 The `app.*` settings are bound to a validated record (`AppProperties`), so a missing or invalid value such as a short
-`JWT_SECRET` stops the application at startup with a clear message.
+`JWT_SECRET` stops the application at startup with a clear message. The `prod` profile also refuses the local
+defaults marked *prod: must change* below.
 
 | Variable | Default | Purpose |
 |----------|---------|---------|
 | `SPRING_PROFILES_ACTIVE` | *(none)* | `prod` for production defaults, see [Production](../production/) |
-| `DB_URL`, `DB_USERNAME`, `DB_PASSWORD` | `jdbc:postgresql://localhost:5432/app`, `app`, `app` | Database connection |
+| `DB_URL`, `DB_USERNAME`, `DB_PASSWORD` | `jdbc:postgresql://localhost:5432/app`, `app`, `app` | Database connection (*prod: must change* `DB_PASSWORD`) |
 | `DB_NAME` / `DB_PORT` | `app` / `5432` | Database name and host port of the local `db` container (compose only; the app uses `DB_URL`) |
 | `DB_POOL_SIZE` / `DB_CONNECTION_TIMEOUT_MS` | `10` / `5000` | Connections per instance; how long a request waits for one |
 | `DB_STATEMENT_TIMEOUT` / `DB_IDLE_IN_TRANSACTION_TIMEOUT` | `30s` / `60s` | PostgreSQL cancels longer queries and idle transactions (`0` disables) |
@@ -28,14 +29,14 @@ The `app.*` settings are bound to a validated record (`AppProperties`), so a mis
 | `JWT_REFRESH_TOKEN_TTL` / `JWT_REMEMBER_ME_TTL` | `1d` / `30d` | Session lifetime without activity, normal / remember-me |
 | `MFA_ENCRYPTION_KEY` | *(required; `setup` fills it in)* | Encrypts two-factor secrets in the database, at least 32 characters. Changing it breaks enrolled authenticators ([details](../security/#two-factor-authentication)) |
 | `MFA_CHALLENGE_TTL` | `5m` | Time to enter the authenticator code after the password |
-| `OAUTH2_REDIRECT_URI`, `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET`, `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | `http://localhost:3000/oauth2/callback`, *(none)* | Login with GitHub and Google; a provider is on when both of its values are set ([details](../security/#login-with-github-and-google)) |
+| `OAUTH2_REDIRECT_URI`, `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET`, `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | `http://localhost:3000/oauth2/callback`, *(none)* | Login with GitHub and Google; a provider is on when both of its values are set ([details](../security/#login-with-github-and-google)); *prod: must change* the redirect URI when a provider is on |
 | `COOKIE_SECURE` | `false` (`true` in prod) | Send the auth cookies over HTTPS only |
-| `CORS_ALLOWED_ORIGINS` | `http://localhost:3000` | Comma-separated browser origins |
+| `CORS_ALLOWED_ORIGINS` | `http://localhost:3000` | Comma-separated browser origins (*prod: must change*) |
 | `LOGIN_MAX_ATTEMPTS` / `LOGIN_ACCOUNT_MAX_ATTEMPTS` / `LOGIN_LOCK_DURATION` | `10` / `100` / `1h` | Brute-force lockout: failed logins per IP, per account, and how long a block lasts ([details](../security/#brute-force-protection)) |
 | `RATE_LIMIT_ENABLED` / `RATE_LIMIT_PER_MINUTE` | `true` / `120` | Per-IP API rate limit |
 | `REQUIRE_VERIFIED_EMAIL` | `false` (`true` in prod) | Block login until the email address is verified |
 | `MAIL_HOST`, `MAIL_PORT`, `MAIL_FROM` | `localhost`, `1025`, `no-reply@example.com` | Outgoing mail (Mailpit by default). Set `SPRING_MAIL_USERNAME` / `SPRING_MAIL_PASSWORD` for a real SMTP server |
-| `MAIL_LINK_BASE_URL` | `http://localhost:3000` | Frontend that handles `/verify-email?token=…` and `/reset-password?token=…` |
+| `MAIL_LINK_BASE_URL` | `http://localhost:3000` | Frontend that handles `/verify-email?token=…` and `/reset-password?token=…` (*prod: must change*) |
 | `MAIL_MAX_ATTEMPTS` / `MAIL_RETRY_DELAY` / `MAIL_OUTBOX_POLL_INTERVAL` | `10` / `30s` / `10s` | Email outbox retries (the delay doubles after each failure, up to 1 hour) |
 | `ADMIN_USERNAME` / `ADMIN_EMAIL` / `ADMIN_PASSWORD` | *(none; `setup` fills them in)* | The owner account (role `OWNER`, see [Security](../security/#roles)), created only when all three are set and no owner exists |
 | `TRACING_SAMPLING_PROBABILITY` | `1.0` (`0.1` in prod) | Share of requests traced |

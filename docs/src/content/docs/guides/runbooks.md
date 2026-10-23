@@ -47,7 +47,9 @@ More than 30% of API requests take longer than 300 ms.
 Prometheus cannot scrape an instance for 2 minutes.
 
 1. `kubectl -n backend get pods`: a crash loop shows its reason in `kubectl -n backend logs --previous <pod>`.
-2. A startup failure prints the misconfigured setting (for example a missing `JWT_SECRET`).
+2. A startup failure prints the misconfigured setting (for example a missing `JWT_SECRET`, or, with the `prod`
+   profile, a `CORS_ALLOWED_ORIGINS` that still points to localhost; the logs say `The prod profile is running with
+   development settings`).
 3. **Impact:** none while other replicas are healthy (the PodDisruptionBudget keeps one up).
 
 ### HighServerErrorRate / HighLatency

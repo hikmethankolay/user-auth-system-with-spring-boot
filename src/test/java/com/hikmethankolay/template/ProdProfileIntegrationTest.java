@@ -1,5 +1,6 @@
 package com.hikmethankolay.template;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -7,13 +8,33 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
-/** The prod profile turns off the API docs, makes the auth cookie Secure and requires verified emails. */
+/**
+ * The prod profile turns off the API docs, makes the auth cookie Secure, requires verified emails and refuses the
+ * localhost defaults, so this test sets real-looking frontend URLs.
+ */
 @ActiveProfiles({"test", "prod"})
+@TestPropertySource(
+        properties = {
+            "app.cors.allowed-origins=https://app.example.com",
+            "app.mail.link-base-url=https://app.example.com",
+            "app.social-login.redirect-uri=https://app.example.com/oauth2/callback"
+        })
 class ProdProfileIntegrationTest extends IntegrationTest {
+
+    @Autowired
+    private ApplicationContext context;
+
+    @Test
+    void productionSettingsAreChecked() {
+        assertThat(context.containsBean("productionSettingsCheck")).isTrue();
+    }
 
     @Test
     void apiDocsAreDisabled() throws Exception {

@@ -13,6 +13,9 @@ Start the app with `SPRING_PROFILES_ACTIVE=prod` to switch to:
 - Swagger UI and API docs disabled
 - 10% trace sampling
 - Actuator on port `8081`, which must stay internal
+- a startup check that refuses the development defaults: the app does not start while `CORS_ALLOWED_ORIGINS`,
+  `MAIL_LINK_BASE_URL` or (with GitHub or Google login on) `OAUTH2_REDIRECT_URI` point to localhost, or while
+  `DB_PASSWORD` is the local `app`. The error names every variable to set.
 
 Each setting can still be overridden with its environment variable.
 
@@ -33,6 +36,7 @@ and exposes `8080` for the API and `8081` for Actuator. Pushing a `v*` tag runs 
 docker run -p 8080:8080 -e SPRING_PROFILES_ACTIVE=prod \
   -e DB_URL=... -e DB_USERNAME=... -e DB_PASSWORD=... \
   -e REDIS_HOST=... -e REDIS_PASSWORD=... -e JWT_SECRET=... -e MFA_ENCRYPTION_KEY=... -e MAIL_HOST=... \
+  -e CORS_ALLOWED_ORIGINS=https://app.example.com -e MAIL_LINK_BASE_URL=https://app.example.com \
   ghcr.io/hikmethankolay/spring-boot-backend-template:latest
 ```
 
