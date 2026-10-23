@@ -1,0 +1,39 @@
+// Dev container for VS Code and GitHub Codespaces: JDK 25 and Docker, nothing to install locally.
+// Docker-in-Docker lets scripts/dev.sh start PostgreSQL, Redis and Mailpit from compose.yaml,
+// and lets the integration tests start their Testcontainers, exactly as on a workstation.
+{
+  "name": "spring-boot-backend-template",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "features": {
+    "ghcr.io/devcontainers/features/java:1": {
+      "version": "25",
+      "jdkDistro": "tem",
+      "installMaven": "false"
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    // For scripts/client.sh and scripts/site.sh.
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    }
+  },
+  "hostRequirements": {
+    "cpus": 4,
+    "memory": "8gb"
+  },
+  // Creates .env with generated secrets and downloads the Maven dependencies.
+  "postCreateCommand": "scripts/setup.sh",
+  "forwardPorts": [8080, 8025],
+  "portsAttributes": {
+    "8080": { "label": "API", "onAutoForward": "notify" },
+    "8025": { "label": "Mailpit (sent emails)", "onAutoForward": "silent" }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "vmware.vscode-spring-boot",
+        "editorconfig.editorconfig"
+      ]
+    }
+  }
+}
