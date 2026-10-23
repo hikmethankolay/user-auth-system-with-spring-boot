@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -110,8 +111,9 @@ public class MfaController {
     /**
      * Turns two-factor authentication off.
      *
-     * @param jwt     the caller's token
-     * @param request password and a code
+     * @param jwt         the caller's token
+     * @param request     password and a code
+     * @param httpRequest the servlet request, used for the client IP
      */
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -119,7 +121,8 @@ public class MfaController {
             operationId = "disableTotp",
             summary = "Turn off two-factor authentication",
             description = "Needs the password and a code from the app or an unused recovery code. Deletes the "
-                    + "secret and the recovery codes.")
+                    + "secret and the recovery codes. Wrong passwords and codes count as failed logins: repeated "
+                    + "failures lock the IP and the account (429).")
     @ApiResponse(responseCode = "204", description = "Two-factor authentication is off")
     @ApiResponse(
             responseCode = "400",
@@ -129,7 +132,15 @@ public class MfaController {
             responseCode = "409",
             description = CONFLICT,
             content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
-    public void disable(@AuthenticationPrincipal Jwt jwt, @Valid @RequestBody DisableTotpRequest request) {
-        mfaService.disable(TokenService.userId(jwt), request.currentPassword(), request.code());
+    @ApiResponse(
+            responseCode = "503",
+            description = "Temporarily unavailable because the failed-login counters cannot be checked",
+            content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    public void disable(
+            @AuthenticationPrincipal Jwt jwt,
+            @Valid @RequestBody DisableTotpRequest request,
+            HttpServletRequest httpRequest) {
+        mfaService.disable(
+                TokenService.userId(jwt), request.currentPassword(), request.code(), httpRequest.getRemoteAddr());
     }
 }

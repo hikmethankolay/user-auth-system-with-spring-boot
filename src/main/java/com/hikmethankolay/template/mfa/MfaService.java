@@ -8,6 +8,7 @@ import com.hikmethankolay.template.common.SecureTokens;
 import com.hikmethankolay.template.config.CacheConfig.CacheNames;
 import com.hikmethankolay.template.mfa.dto.RecoveryCodesResponse;
 import com.hikmethankolay.template.mfa.dto.TotpEnrollmentResponse;
+import com.hikmethankolay.template.security.LoginAttemptService;
 import com.hikmethankolay.template.user.User;
 import com.hikmethankolay.template.user.UserRepository;
 import java.security.SecureRandom;
@@ -50,6 +51,8 @@ public class MfaService {
 
     private final AuditLog audit;
 
+    private final LoginAttemptService loginAttempts;
+
     private final String issuer;
 
     /**
@@ -60,6 +63,7 @@ public class MfaService {
      * @param cipher          encrypts the secrets
      * @param passwordEncoder checks the password when turning two-factor authentication off
      * @param audit           records security events
+     * @param loginAttempts   locks out repeated wrong passwords and codes
      * @param issuer          application name shown in authenticator apps
      */
     public MfaService(
@@ -68,12 +72,14 @@ public class MfaService {
             SecretCipher cipher,
             PasswordEncoder passwordEncoder,
             AuditLog audit,
+            LoginAttemptService loginAttempts,
             @Value("${spring.application.name}") String issuer) {
         this.users = users;
         this.recoveryCodes = recoveryCodes;
         this.cipher = cipher;
         this.passwordEncoder = passwordEncoder;
         this.audit = audit;
+        this.loginAttempts = loginAttempts;
         this.issuer = issuer;
     }
 
@@ -139,17 +145,31 @@ public class MfaService {
     /**
      * Turns two-factor authentication off and deletes the secret and the recovery codes.
      *
+     * <p>Wrong passwords and codes count as failed logins of the IP and the account, so a stolen token cannot be
+     * used to guess the code here instead of at login.</p>
+     *
      * @param userId          the caller
      * @param currentPassword the caller's password
      * @param code            an authenticator code or an unused recovery code
-     * @throws ApiException 409 if it is off, 400 if the password or the code is wrong
+     * @param clientIp        address of the client, used for the lockout
+     * @throws ApiException 409 if it is off, 400 if the password or the code is wrong, 429 if the IP or account
+     *                      is blocked, 503 if the failed-login counters cannot be checked
      */
     @Transactional
     @CacheEvict(cacheNames = CacheNames.USERS, key = "#userId")
-    public void disable(long userId, String currentPassword, String code) {
+    public void disable(long userId, String currentPassword, String code, String clientIp) {
         User user = findUser(userId);
         if (!user.isTotpEnabled()) {
             throw ApiException.conflict(ProblemType.TOTP_NOT_ENABLED, "Two-factor authentication is off.");
+        }
+        // The same keys as AuthService, so these failures and failed logins share one limit.
+        String accountKey = "account:" + userId;
+        String ipKey = "ip:" + clientIp;
+        if (!loginAttempts.tryAcquire(ipKey, accountKey)) {
+            throw ApiException.tooManyRequests(
+                    ProblemType.LOGIN_LOCKED,
+                    "Too many failed attempts. Please try again later.",
+                    loginAttempts.lockDuration());
         }
         if (!passwordEncoder.matches(currentPassword, user.getPasswordHash())) {
             throw ApiException.badRequest(ProblemType.WRONG_PASSWORD, "Current password is incorrect.");
@@ -157,6 +177,8 @@ public class MfaService {
         if (!checkCode(user, code)) {
             throw ApiException.badRequest(ProblemType.INVALID_MFA_CODE, "The code is wrong, expired or used.");
         }
+        loginAttempts.reset(accountKey);
+        loginAttempts.release(ipKey);
         user.disableTotp();
         recoveryCodes.deleteAllByUserId(userId);
         audit.record(AuditEvent.MFA_DISABLED, userId);

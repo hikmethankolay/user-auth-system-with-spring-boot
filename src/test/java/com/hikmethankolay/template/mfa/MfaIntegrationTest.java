@@ -84,7 +84,7 @@ class MfaIntegrationTest extends IntegrationTest {
         mockMvc.perform(confirmRequest(token, PASSWORD, "123456"))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.type").value("urn:problem:totp-not-enabled"));
-        mockMvc.perform(disable(token, PASSWORD, "123456"))
+        mockMvc.perform(disable(token, PASSWORD, "123456", "10.0.9.5"))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.type").value("urn:problem:totp-not-enabled"));
 
@@ -103,14 +103,34 @@ class MfaIntegrationTest extends IntegrationTest {
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.type").value("urn:problem:totp-already-enabled"));
 
-        mockMvc.perform(disable(token, "Wrong#123", Totp.code(secret, step + 1)))
+        mockMvc.perform(disable(token, "Wrong#123", Totp.code(secret, step + 1), "10.0.9.5"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.type").value("urn:problem:wrong-password"));
-        mockMvc.perform(disable(token, PASSWORD, Totp.code(secret, step + 1))).andExpect(status().isNoContent());
+        mockMvc.perform(disable(token, PASSWORD, Totp.code(secret, step + 1), "10.0.9.5"))
+                .andExpect(status().isNoContent());
 
         mockMvc.perform(get("/api/v1/users/me").with(bearer(token)))
                 .andExpect(jsonPath("$.mfaEnabled").value(false));
         login(username, PASSWORD);
+    }
+
+    @Test
+    void guessingTheCodeToTurnTwoFactorOffRunsIntoTheLockout() throws Exception {
+        String token = registerAndLogin(uniqueUsername());
+        byte[] secret = enroll(token);
+        long step = Totp.step(Instant.now().getEpochSecond());
+        confirm(token, Totp.code(secret, step));
+        String wrong = wrongCode(secret, step);
+
+        // The test profile blocks an IP after 3 failures.
+        for (int attempt = 0; attempt < 3; attempt++) {
+            mockMvc.perform(disable(token, PASSWORD, wrong, "10.0.9.6")).andExpect(status().isBadRequest());
+        }
+        mockMvc.perform(disable(token, PASSWORD, Totp.code(secret, step + 1), "10.0.9.6"))
+                .andExpect(status().isTooManyRequests())
+                .andExpect(jsonPath("$.type").value("urn:problem:login-locked"));
+        mockMvc.perform(get("/api/v1/users/me").with(bearer(token)))
+                .andExpect(jsonPath("$.mfaEnabled").value(true));
     }
 
     private byte[] enroll(String token) throws Exception {
@@ -162,9 +182,11 @@ class MfaIntegrationTest extends IntegrationTest {
                         {"currentPassword":"%s","code":"%s"}""", password, code));
     }
 
-    private static RequestBuilder disable(String token, String password, String code) {
+    /** Turns 2FA off from its own IP: wrong passwords and codes count against it. */
+    private static RequestBuilder disable(String token, String password, String code, String ip) {
         return delete(TOTP)
                 .with(bearer(token))
+                .with(fromIp(ip))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json("""
                         {"currentPassword":"%s","code":"%s"}""", password, code));
