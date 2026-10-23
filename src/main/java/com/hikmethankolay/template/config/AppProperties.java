@@ -26,6 +26,8 @@ import org.springframework.validation.annotation.Validated;
  * @param account   email verification and password reset settings
  * @param mail      outgoing email settings
  * @param admin     optional initial administrator account
+ * @param mfa         two-factor authentication settings
+ * @param socialLogin optional login with GitHub and Google
  */
 @Validated
 @ConfigurationProperties(prefix = "app")
@@ -37,7 +39,9 @@ public record AppProperties(
         @Valid @NotNull RateLimit rateLimit,
         @Valid @NotNull Account account,
         @Valid @NotNull Mail mail,
-        @Valid @NotNull Admin admin) {
+        @Valid @NotNull Admin admin,
+        @Valid @NotNull Mfa mfa,
+        @Valid @NotNull SocialLogin socialLogin) {
 
     /**
      * JWT settings.
@@ -182,6 +186,71 @@ public record AppProperties(
          */
         public boolean isConfigured() {
             return StringUtils.hasText(username) && StringUtils.hasText(email) && StringUtils.hasText(password);
+        }
+    }
+
+    /**
+     * Two-factor authentication (TOTP) settings.
+     *
+     * @param encryptionKey encrypts the TOTP secrets stored in the database; changing it makes every enrolled
+     *                      authenticator useless until its user signs in with a recovery code and re-enrolls
+     * @param challengeTtl  how long a user has to enter the code after the password
+     */
+    public record Mfa(
+            @NotBlank @Size(min = 32, message = "must be at least 32 characters (MFA_ENCRYPTION_KEY)")
+            String encryptionKey,
+
+            @NotNull Duration challengeTtl) {
+
+        /**
+         * Rejects placeholder keys such as a repeated character.
+         *
+         * @return {@code false} if the key has fewer than 10 distinct characters
+         */
+        @AssertTrue(message = "must be a random value, not repeated or placeholder text (MFA_ENCRYPTION_KEY)")
+        public boolean isEncryptionKeyVaried() {
+            return encryptionKey == null || encryptionKey.chars().distinct().count() >= 10;
+        }
+    }
+
+    /**
+     * Login with an external provider. A provider is offered only when its client id and secret are set.
+     *
+     * @param redirectUri the frontend page the provider sends the user back to; must be registered at the provider
+     * @param github      GitHub OAuth app credentials
+     * @param google      Google OAuth client credentials
+     */
+    public record SocialLogin(
+            String redirectUri,
+            @NotNull Client github,
+            @NotNull Client google) {
+
+        /**
+         * Tells whether the redirect URI is set when a provider is.
+         *
+         * @return {@code false} if a provider is configured without a redirect URI
+         */
+        @AssertTrue(message = "must be set when a provider is configured (OAUTH2_REDIRECT_URI)")
+        public boolean isRedirectUriConfigured() {
+            return StringUtils.hasText(redirectUri) || !(github.isConfigured() || google.isConfigured());
+        }
+
+        /**
+         * Credentials registered at a provider.
+         *
+         * @param clientId     client id
+         * @param clientSecret client secret
+         */
+        public record Client(String clientId, String clientSecret) {
+
+            /**
+             * Tells whether the provider is enabled.
+             *
+             * @return {@code true} if both the id and the secret are set
+             */
+            public boolean isConfigured() {
+                return StringUtils.hasText(clientId) && StringUtils.hasText(clientSecret);
+            }
         }
     }
 }

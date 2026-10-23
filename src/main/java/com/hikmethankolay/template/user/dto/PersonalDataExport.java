@@ -20,5 +20,5 @@ public record PersonalDataExport(
 
         @Schema(
                 description = "Data kept by other features, one entry per section; currently `sessions`, the user's "
-                        + "active sessions")
+                        + "active sessions, and `notes`")
         Map<String, Object> related) {}

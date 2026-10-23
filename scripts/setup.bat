@@ -22,7 +22,7 @@ echo ==^> Creating .env from .env.example with generated secrets
 powershell -NoProfile -ExecutionPolicy Bypass -Command ^
   "function Secret([int]$n) { $b = New-Object byte[] $n; [Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($b); [Convert]::ToBase64String($b) -replace '[+/=]','' };" ^
   "$admin = 'Admin#' + (Secret 12);" ^
-  "(Get-Content .env.example) -replace '^JWT_SECRET=.*', ('JWT_SECRET=' + (Secret 48)) -replace '^ADMIN_PASSWORD=.*', ('ADMIN_PASSWORD=' + $admin) | Set-Content -Encoding ascii .env;" ^
+  "(Get-Content .env.example) -replace '^JWT_SECRET=.*', ('JWT_SECRET=' + (Secret 48)) -replace '^MFA_ENCRYPTION_KEY=.*', ('MFA_ENCRYPTION_KEY=' + (Secret 48)) -replace '^ADMIN_PASSWORD=.*', ('ADMIN_PASSWORD=' + $admin) | Set-Content -Encoding ascii .env;" ^
   "Write-Host ('==> Initial admin password: ' + $admin + ' (stored in .env; change it after the first login)')"
 if errorlevel 1 exit /b 1
 

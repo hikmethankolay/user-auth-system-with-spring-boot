@@ -1,8 +1,12 @@
 package com.hikmethankolay.template.auth;
 
 import com.hikmethankolay.template.auth.dto.LoginRequest;
+import com.hikmethankolay.template.auth.dto.MfaChallengeResponse;
+import com.hikmethankolay.template.auth.dto.MfaLoginRequest;
 import com.hikmethankolay.template.auth.dto.RefreshRequest;
 import com.hikmethankolay.template.auth.dto.RegisterRequest;
+import com.hikmethankolay.template.auth.dto.SocialLoginRequest;
+import com.hikmethankolay.template.auth.dto.SocialProviderResponse;
 import com.hikmethankolay.template.auth.dto.TokenResponse;
 import com.hikmethankolay.template.common.ApiDocs;
 import com.hikmethankolay.template.config.AppProperties;
@@ -18,6 +22,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.time.Duration;
+import java.util.List;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,6 +30,8 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,7 +52,10 @@ import org.springframework.web.util.WebUtils;
  *   <caption>Endpoints</caption>
  *   <tr><th>Method</th><th>Path</th><th>Access</th><th>Success</th></tr>
  *   <tr><td>POST</td><td>/register</td><td>public</td><td>201 + Location</td></tr>
- *   <tr><td>POST</td><td>/login</td><td>public</td><td>200</td></tr>
+ *   <tr><td>POST</td><td>/login</td><td>public</td><td>200, or 202 when a second factor is needed</td></tr>
+ *   <tr><td>POST</td><td>/login/mfa</td><td>MFA token</td><td>200</td></tr>
+ *   <tr><td>GET</td><td>/oauth2/providers</td><td>public</td><td>200</td></tr>
+ *   <tr><td>POST</td><td>/oauth2/{provider}</td><td>public</td><td>200, or 202 when a second factor is needed</td></tr>
  *   <tr><td>POST</td><td>/refresh</td><td>refresh token</td><td>200</td></tr>
  *   <tr><td>POST</td><td>/logout</td><td>public</td><td>204</td></tr>
  * </table>
@@ -59,6 +69,9 @@ public class AuthController {
 
     private static final String SET_COOKIES =
             "The access token cookie (path /) and the refresh token cookie (path /api/v1/auth)";
+
+    private static final String LOGIN_UNAVAILABLE =
+            "Login is temporarily unavailable because the failed-login counters or MFA tokens cannot be checked";
 
     private final AppProperties.Cookie cookieProperties;
 
@@ -134,6 +147,11 @@ public class AuthController {
                             schema = @Schema(type = "string")),
             content = @Content(schema = @Schema(implementation = TokenResponse.class)))
     @ApiResponse(
+            responseCode = "202",
+            description = "Correct password, but the user has two-factor authentication: no tokens yet. Send the "
+                    + "`mfaToken` with a code to `POST /api/v1/auth/login/mfa`.",
+            content = @Content(schema = @Schema(implementation = MfaChallengeResponse.class)))
+    @ApiResponse(
             responseCode = "401",
             description = "Wrong username, email or password",
             content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
@@ -143,12 +161,114 @@ public class AuthController {
             content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
     @ApiResponse(
             responseCode = "503",
-            description = "Login is temporarily unavailable because the failed-login counters cannot be checked",
+            description = LOGIN_UNAVAILABLE,
             content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
-    public ResponseEntity<TokenResponse> login(
-            @Valid @RequestBody LoginRequest request, HttpServletRequest httpRequest) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request, HttpServletRequest httpRequest) {
         // getRemoteAddr() honours X-Forwarded-For only when server.forward-headers-strategy is framework or native.
-        return tokenResponse(authService.login(request, httpRequest.getRemoteAddr()));
+        return loginResponse(authService.login(request, httpRequest.getRemoteAddr()));
+    }
+
+    /**
+     * Finishes a login with the second factor.
+     *
+     * @param request     the MFA token from the login response and a code
+     * @param httpRequest the servlet request, used for the client IP
+     * @return {@code 200 OK} with the tokens in the body and in cookies
+     */
+    @PostMapping("/login/mfa")
+    @Operation(
+            operationId = "loginWithMfa",
+            summary = "Finish a login with an authenticator or recovery code",
+            description = "Wrong codes count as failed logins: repeated failures lock the IP and the account (429).")
+    @ApiResponse(
+            responseCode = "200",
+            description = "Logged in; the tokens are also set as HttpOnly cookies",
+            headers =
+                    @Header(
+                            name = HttpHeaders.SET_COOKIE,
+                            description = SET_COOKIES,
+                            schema = @Schema(type = "string")),
+            content = @Content(schema = @Schema(implementation = TokenResponse.class)))
+    @ApiResponse(
+            responseCode = "401",
+            description = "Wrong, expired or used code (retry with the same `mfaToken`), or an unknown or expired "
+                    + "`mfaToken` (log in again)",
+            content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    @ApiResponse(
+            responseCode = "503",
+            description = LOGIN_UNAVAILABLE,
+            content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    public ResponseEntity<TokenResponse> loginWithMfa(
+            @Valid @RequestBody MfaLoginRequest request, HttpServletRequest httpRequest) {
+        return tokenResponse(authService.loginWithMfa(request.mfaToken(), request.code(), httpRequest.getRemoteAddr()));
+    }
+
+    /**
+     * Lists the configured login providers.
+     *
+     * @return the providers and where to send users to log in with them
+     */
+    @GetMapping("/oauth2/providers")
+    @Operation(
+            operationId = "listLoginProviders",
+            summary = "List the configured login providers (GitHub, Google)",
+            description = "Empty when none is configured. Send the user to `authorizationUri` with a random `state` "
+                    + "and a PKCE `code_challenge` added; the provider redirects back to the frontend with a `code`.")
+    @ApiResponse(responseCode = "200", description = "The configured providers")
+    public List<SocialProviderResponse> loginProviders() {
+        return authService.socialProviders();
+    }
+
+    /**
+     * Logs in with an authorization code from GitHub or Google.
+     *
+     * @param provider {@code github} or {@code google}
+     * @param request  the code and the PKCE verifier
+     * @return {@code 200 OK} with the tokens, or {@code 202 Accepted} with an MFA token
+     */
+    @PostMapping("/oauth2/{provider}")
+    @Operation(
+            operationId = "loginWithProvider",
+            summary = "Log in with GitHub or Google",
+            description = "Exchanges the authorization code the provider sent to the frontend. The first login with "
+                    + "a provider account links it to the user with the same verified email, or creates a user.")
+    @ApiResponse(
+            responseCode = "200",
+            description = "Logged in; the tokens are also set as HttpOnly cookies",
+            headers =
+                    @Header(
+                            name = HttpHeaders.SET_COOKIE,
+                            description = SET_COOKIES,
+                            schema = @Schema(type = "string")),
+            content = @Content(schema = @Schema(implementation = TokenResponse.class)))
+    @ApiResponse(
+            responseCode = "202",
+            description = "The user has two-factor authentication: send the `mfaToken` with a code to "
+                    + "`POST /api/v1/auth/login/mfa`",
+            content = @Content(schema = @Schema(implementation = MfaChallengeResponse.class)))
+    @ApiResponse(
+            responseCode = "401",
+            description = "The provider rejected the code (expired, used, wrong redirect URI or PKCE verifier)",
+            content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    @ApiResponse(
+            responseCode = "403",
+            description = "The provider account has no verified email address",
+            content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    @ApiResponse(
+            responseCode = "404",
+            description = "The provider is not configured",
+            content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    @ApiResponse(
+            responseCode = "409",
+            description = "The email belongs to an account that has not verified it",
+            content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    @ApiResponse(
+            responseCode = "503",
+            description = LOGIN_UNAVAILABLE,
+            content = @Content(mediaType = ApiDocs.PROBLEM_JSON, schema = @Schema(ref = ApiDocs.PROBLEM_SCHEMA)))
+    public ResponseEntity<?> loginWithProvider(
+            @PathVariable String provider, @Valid @RequestBody SocialLoginRequest request) {
+        return loginResponse(authService.socialLogin(provider, request.code(), request.codeVerifier()));
     }
 
     /**
@@ -230,6 +350,23 @@ public class AuthController {
         }
         Cookie cookie = WebUtils.getCookie(httpRequest, cookieProperties.refreshName());
         return cookie != null ? cookie.getValue() : null;
+    }
+
+    /**
+     * Builds the response of a first factor: the tokens, or {@code 202 Accepted} with an MFA token.
+     *
+     * @param result the login outcome
+     * @return the response
+     */
+    private ResponseEntity<?> loginResponse(LoginResult result) {
+        return switch (result) {
+            case AuthTokens tokens -> tokenResponse(tokens);
+            case LoginResult.MfaRequired challenge ->
+                ResponseEntity.accepted()
+                        .cacheControl(CacheControl.noStore())
+                        .body(new MfaChallengeResponse(
+                                challenge.mfaToken(), challenge.ttl().toSeconds()));
+        };
     }
 
     /**

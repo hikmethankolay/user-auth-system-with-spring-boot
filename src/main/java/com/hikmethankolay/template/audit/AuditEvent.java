@@ -57,7 +57,22 @@ public enum AuditEvent {
     ACCOUNT_DELETED("user.account_deleted", Level.INFO),
 
     /** A user downloaded an export of their personal data. */
-    DATA_EXPORTED("user.data_exported", Level.INFO);
+    DATA_EXPORTED("user.data_exported", Level.INFO),
+
+    /** Two-factor authentication was turned on. */
+    MFA_ENABLED("user.mfa_enabled", Level.INFO),
+
+    /** Two-factor authentication was turned off. */
+    MFA_DISABLED("user.mfa_disabled", Level.WARN),
+
+    /** A wrong second-factor code was entered at login. */
+    MFA_FAILED("auth.mfa_failed", Level.WARN),
+
+    /** A recovery code was used instead of the authenticator. */
+    RECOVERY_CODE_USED("auth.recovery_code_used", Level.WARN),
+
+    /** An external provider account was linked to a user. */
+    SOCIAL_ACCOUNT_LINKED("auth.social_account_linked", Level.INFO);
 
     private final String action;
 

@@ -29,8 +29,9 @@ else
   cp .env.example .env
   admin_password="Admin#$(random_secret 12)"
   sed_inplace "s|^JWT_SECRET=.*|JWT_SECRET=$(random_secret 48)|" .env
+  sed_inplace "s|^MFA_ENCRYPTION_KEY=.*|MFA_ENCRYPTION_KEY=$(random_secret 48)|" .env
   sed_inplace "s|^ADMIN_PASSWORD=.*|ADMIN_PASSWORD=${admin_password}|" .env
-  info "Generated JWT_SECRET and an initial admin password: ${admin_password}"
+  info "Generated JWT_SECRET, MFA_ENCRYPTION_KEY and an initial admin password: ${admin_password}"
   info "(stored in .env; change it after the first login)"
 fi
 

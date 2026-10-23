@@ -32,7 +32,7 @@ and exposes `8080` for the API and `8081` for Actuator. Pushing a `v*` tag runs 
 ```bash
 docker run -p 8080:8080 -e SPRING_PROFILES_ACTIVE=prod \
   -e DB_URL=... -e DB_USERNAME=... -e DB_PASSWORD=... \
-  -e REDIS_HOST=... -e REDIS_PASSWORD=... -e JWT_SECRET=... -e MAIL_HOST=... \
+  -e REDIS_HOST=... -e REDIS_PASSWORD=... -e JWT_SECRET=... -e MFA_ENCRYPTION_KEY=... -e MAIL_HOST=... \
   ghcr.io/hikmethankolay/spring-boot-backend-template:latest
 ```
 
@@ -107,6 +107,8 @@ server's `max_connections`, or put PgBouncer in front of it. Every connection ha
 - [ ] Load `ops/prometheus/alerts.yml` and route the alerts to someone.
 - [ ] Ship the `audit` logger to long-term storage.
 - [ ] Generate a long random `JWT_SECRET` and store it in your secret manager.
+- [ ] Generate a separate random `MFA_ENCRYPTION_KEY`, store it in your secret manager (not with the database
+      backups) and back it up: losing it breaks every user's two-factor authentication.
 - [ ] Back up PostgreSQL (point-in-time recovery) and test a restore.
 - [ ] Deploy only signed images (`cosign verify`, or an admission policy such as Kyverno or Sigstore policy-controller).
 

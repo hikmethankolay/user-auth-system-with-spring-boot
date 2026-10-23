@@ -39,12 +39,41 @@ scripts/test.sh -Dit.test=OpenApiSpecExportIntegrationTest -Dopenapi.update=true
 git diff api/openapi.json
 ```
 
+### TypeScript client
+
+`scripts/client.sh` turns `api/openapi.json` into TypeScript types with
+[openapi-typescript](https://openapi-ts.dev/). Write them into your frontend and use them with
+[openapi-fetch](https://openapi-ts.dev/openapi-fetch/), which checks paths, parameters, bodies and responses at
+compile time:
+
+```bash
+scripts/client.sh ../web/src/api.ts
+```
+
+```ts
+import createClient from "openapi-fetch";
+import type { paths } from "./api";
+
+// credentials: "include" sends the HttpOnly auth cookies; add the origin to CORS_ALLOWED_ORIGINS.
+const api = createClient<paths>({ baseUrl: "http://localhost:8080", credentials: "include" });
+
+const { data, error } = await api.POST("/api/v1/auth/login", {
+  body: { identifier: "admin", password: "…" },
+});
+const me = await api.GET("/api/v1/users/me");
+```
+
+`error` is typed as the `Problem` schema. Run the script again whenever `api/openapi.json` changes.
+
 ## Endpoints
 
 | Method | Path | Access | Success |
 |--------|------|--------|---------|
 | `POST` | `/api/v1/auth/register` | public | `201` + `Location`, sends a verification email |
-| `POST` | `/api/v1/auth/login` | public | `200` access + refresh token, cookies |
+| `POST` | `/api/v1/auth/login` | public | `200` access + refresh token, cookies; `202` + `mfaToken` with 2FA |
+| `POST` | `/api/v1/auth/login/mfa` | MFA token | `200` access + refresh token, cookies |
+| `GET` | `/api/v1/auth/oauth2/providers` | public | `200` configured providers (GitHub, Google) |
+| `POST` | `/api/v1/auth/oauth2/{provider}` | public | `200` tokens, or `202` + `mfaToken` with 2FA |
 | `POST` | `/api/v1/auth/refresh` | refresh token | `200` new tokens; the refresh token is single-use |
 | `POST` | `/api/v1/auth/logout` | public | `204`; revokes the tokens, clears the cookies |
 | `POST` | `/api/v1/auth/verify-email` | public | `204` |
@@ -55,9 +84,16 @@ git diff api/openapi.json
 | `PUT` | `/api/v1/users/me/password` | authenticated | `204`; ends every session |
 | `DELETE` | `/api/v1/users/me` | authenticated + password | `204` |
 | `GET` | `/api/v1/users/me/export` | authenticated | `200` JSON attachment |
+| `POST` | `/api/v1/users/me/mfa/totp` | authenticated | `200` new secret and `otpauth://` URI |
+| `POST` | `/api/v1/users/me/mfa/totp/confirm` | authenticated + password + code | `200` recovery codes, shown once |
+| `DELETE` | `/api/v1/users/me/mfa/totp` | authenticated + password + code | `204` |
 | `GET` | `/api/v1/users?page=0&size=20&sort=createdAt,desc` | admin | `200` page |
 | `GET` | `/api/v1/users/{id}` | admin or that user | `200` |
 | `PATCH` / `DELETE` | `/api/v1/users/{id}` | admin; role changes and administrators: owner + password | `200` / `204` |
+| `GET` / `POST` | `/api/v1/notes` | authenticated (own notes only) | `200` page / `201` + `Location` |
+| `GET` / `PUT` / `DELETE` | `/api/v1/notes/{id}` | the note's owner | `200` / `200` / `204` |
+
+The notes endpoints belong to the sample feature (`note/`); see [Your first feature](../first-feature/).
 
 Every email field (`register`, `PATCH /users/me`, the admin update and the email endpoints) uses the same rule,
 `@ValidEmail`: a well-formed address of 3 to 254 characters. Tokens must not be empty. New passwords
@@ -91,12 +127,19 @@ media type, ...) use `about:blank`; everything else uses one of these (the list 
 | `urn:problem:wrong-password` | 400 | The caller's current password, required to confirm a change, is missing or wrong |
 | `urn:problem:invalid-token` | 400 | An email verification or password reset token is unknown, used or expired |
 | `urn:problem:own-account` | 400 | An administrator tried to delete themselves through `/users/{id}` |
+| `urn:problem:invalid-mfa-code` | 400 / 401 | The authenticator or recovery code is wrong, expired or used (401 at login) |
+| `urn:problem:mfa-challenge-expired` | 401 | The `mfaToken` is unknown, used or expired; log in again |
+| `urn:problem:social-email-unverified` | 403 | The GitHub/Google account has no verified email |
+| `urn:problem:provider-not-configured` | 404 | Login with this provider is not configured |
+| `urn:problem:totp-already-enabled` / `totp-not-enabled` | 409 | 2FA is already on, or off / not being enrolled |
+| `urn:problem:social-account-conflict` | 409 | The provider's email belongs to an account that has not verified it |
 | `urn:problem:invalid-credentials` | 401 | Wrong login, or a refresh token that is missing, invalid, expired or used |
 | `urn:problem:unauthenticated` | 401 | The access token is missing, invalid, expired or revoked |
 | `urn:problem:forbidden` | 403 | The caller lacks the required role |
 | `urn:problem:owner-required` | 403 | Only the owner can change roles and manage administrators |
 | `urn:problem:email-not-verified` | 403 | Login before the email address is verified (when required) |
 | `urn:problem:user-not-found` | 404 | No user has this id |
+| `urn:problem:note-not-found` | 404 | The caller has no note with this id (other users' notes look missing too) |
 | `urn:problem:username-taken` / `email-taken` | 409 | The username or email belongs to another account |
 | `urn:problem:owner-protected` | 409 | The owner cannot be deleted or demoted, and `OWNER` cannot be assigned |
 | `urn:problem:conflict` | 409 | A concurrent change got there first; retry |

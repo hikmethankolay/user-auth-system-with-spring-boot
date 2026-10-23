@@ -6,6 +6,25 @@ releases use [semantic versioning](https://semver.org/). Each release's full lis
 
 ## [Unreleased]
 
+### Added
+
+- Two-factor authentication with authenticator apps (TOTP): enrollment with a QR-code URI, ten single-use recovery
+  codes, and a second login step (`202` + `mfaToken`, then `POST /api/v1/auth/login/mfa`). Secrets are encrypted
+  with AES-GCM under the new, **required** `MFA_ENCRYPTION_KEY`; `setup` generates it.
+- Login with GitHub and Google (`GET /api/v1/auth/oauth2/providers`, `POST /api/v1/auth/oauth2/{provider}`): the
+  frontend runs the redirect with PKCE, the API exchanges the code and stays stateless. Enabled per provider by
+  `GITHUB_CLIENT_ID`/`_SECRET` and `GOOGLE_CLIENT_ID`/`_SECRET`.
+- `mfaEnabled` in the user response.
+- A sample feature, `note/` (`/api/v1/notes`), with the guide *Your first feature*: copy it, then delete it.
+- `scripts/client.sh`: TypeScript types for the API from `api/openapi.json` (openapi-typescript), for openapi-fetch.
+- A dev container for VS Code and GitHub Codespaces: JDK 25, Docker and Node.js without installing anything.
+- *Getting fixes from the template later* in *Using the template*.
+
+### Changed
+
+- Existing deployments must set `MFA_ENCRYPTION_KEY` (at least 32 random characters) before upgrading; the
+  application refuses to start without it.
+
 ### Fixed
 
 - The Java reference on the documentation site showed version `0.0.1-SNAPSHOT` instead of the release.

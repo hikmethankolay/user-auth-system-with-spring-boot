@@ -16,11 +16,14 @@ secure login, user accounts, errors, caching, monitoring and deployment. All of 
 
 - **Authentication you don't have to write.** Short-lived JWTs with rotating refresh tokens and reuse detection,
   logout that really revokes, every session ended on a password change, email verification, password reset,
-  brute-force lockout, rate limiting, security headers and an audit log.
+  two-factor authentication with authenticator apps, login with GitHub and Google, brute-force lockout, rate
+  limiting, security headers and an audit log.
+- **A worked example to copy.** The sample `note/` feature shows ownership checks, pagination, migrations, the data
+  export and tests in a few small files, and `scripts/client.sh` gives your frontend typed API calls.
 - **Production defaults out of the box.** One `prod` profile switches on JSON logs, secure cookies, required email
   verification and an internal metrics port. Migrations, Redis caching, an email outbox with retries, query timeouts,
   metrics with alert rules and a Grafana dashboard, tracing, account deletion and data export are already wired in.
-- **Tested against the real thing.** 165+ tests run against real PostgreSQL and Redis containers, alongside architecture
+- **Tested against the real thing.** 190+ tests run against real PostgreSQL and Redis containers, alongside architecture
   rules, a load test and a vulnerability scan of the Docker image in CI.
 - **Ready to ship.** Releases publish signed multi-arch images with an SBOM; Kubernetes manifests pass the
   `restricted` Pod Security Standard.
@@ -51,7 +54,9 @@ is generally available and the tests pass, and is recorded in the
 
 ## Quick start
 
-You need **JDK 25** (a JRE is not enough) and **Docker or Podman**.
+You need **JDK 25** (a JRE is not enough) and **Docker or Podman**, or nothing at all: open the repository in
+**GitHub Codespaces** (*Code → Codespaces → Create codespace*) or in VS Code's *Dev Containers*, which run `setup`
+for you, then continue with `scripts/dev.sh`.
 
 ```bash
 git clone https://github.com/hikmethankolay/spring-boot-backend-template.git
@@ -89,6 +94,7 @@ Each script exists as `scripts/<name>.sh` and `scripts\<name>.bat`.
 | `smoke` | End-to-end check against a running instance |
 | `load-test` | k6 load test (see [Testing](https://hikmethankolay.github.io/spring-boot-backend-template/guides/testing/#load-test)) |
 | `docs` / `site` | Java reference (Javadoc) / the documentation website |
+| `client` | TypeScript types for your frontend from the OpenAPI document |
 | `rename-project` | Rename the Maven coordinates, app name and Java package for your project |
 
 ## Start your own project

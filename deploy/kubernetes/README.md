@@ -13,6 +13,7 @@ exist already (managed services or their own charts).
    kubectl -n backend create secret generic app-secrets \
      --from-literal=DB_USERNAME=app --from-literal=DB_PASSWORD='...' \
      --from-literal=JWT_SECRET="$(openssl rand -base64 48)" \
+     --from-literal=MFA_ENCRYPTION_KEY="$(openssl rand -base64 48)" \
      --from-literal=REDIS_PASSWORD='...' \
      --from-literal=SPRING_MAIL_USERNAME='...' --from-literal=SPRING_MAIL_PASSWORD='...'
    ```

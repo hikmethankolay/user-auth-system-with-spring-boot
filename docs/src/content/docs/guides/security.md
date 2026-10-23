@@ -129,6 +129,65 @@ instance. After a password change the client must log in again.
 - With `REQUIRE_VERIFIED_EMAIL=true` (the prod default), unverified users get `403` at login.
 - Emails go through an outbox with retries, see [Observability](../observability/#email-outbox).
 
+## Two-factor authentication
+
+Users can protect their account with an authenticator app (TOTP, RFC 6238: Google Authenticator, 1Password, Aegis…).
+
+| Endpoint | Purpose |
+|----------|---------|
+| `POST /api/v1/users/me/mfa/totp` | New secret and its `otpauth://` URI; show the URI as a QR code |
+| `POST /api/v1/users/me/mfa/totp/confirm` | Password and the first code from the app: turns 2FA on and returns ten recovery codes, once |
+| `DELETE /api/v1/users/me/mfa/totp` | Turns 2FA off; needs the password **and** a code or recovery code |
+| `POST /api/v1/auth/login/mfa` | Second login step: `{"mfaToken": "…", "code": "123456"}` |
+
+Once it is on, a correct password (or GitHub/Google login) answers `202` with an `mfaToken` instead of tokens; the
+client sends it with a code to `/login/mfa` within `MFA_CHALLENGE_TTL` (5 minutes) and gets the usual token response.
+
+- Secrets are encrypted with AES-256-GCM under `MFA_ENCRYPTION_KEY`, bound to the user id, so a database dump alone
+  does not reveal them. Keep the key out of database backups. Changing it breaks every enrolled authenticator; the
+  affected users log in with a recovery code and enroll again.
+- A code is accepted within one 30-second step of the server clock, and only once: the step of the last accepted code
+  is stored. Recovery codes are stored as SHA-256 hashes and work once.
+- Wrong codes count as failed logins of the IP and the account ([brute-force protection](#brute-force-protection)),
+  and a correct password does not reset the account counter while the second factor is pending, so codes cannot be
+  guessed by logging in again and again.
+- The MFA token lives in Redis; without Redis, users with 2FA cannot log in (`503`), as with the failed-login counters.
+- Nobody can turn off another user's 2FA. A user who lost both the app and the recovery codes needs an administrator
+  to act in the database; decide and document that procedure.
+
+## Login with GitHub and Google
+
+Set `GITHUB_CLIENT_ID`/`GITHUB_CLIENT_SECRET` and/or `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET`, and register
+`OAUTH2_REDIRECT_URI` (a page of your frontend) as the callback URL at the provider. The API stays stateless: the
+frontend runs the redirect and hands the code to the API.
+
+1. `GET /api/v1/auth/oauth2/providers` lists the configured providers with an `authorizationUri`.
+2. The frontend adds a random `state` and a PKCE `code_challenge` (`S256`), keeps `state` and the `code_verifier` in
+   `sessionStorage`, and sends the user there.
+3. The provider redirects to `OAUTH2_REDIRECT_URI?code=…&state=…`. The frontend checks `state`, then calls
+   `POST /api/v1/auth/oauth2/{provider}` with `{"code": "…", "codeVerifier": "…"}`.
+4. The API exchanges the code (with the client secret, which never leaves the server), reads the profile and answers
+   like `/login`: `200` with tokens and cookies, or `202` when the user has 2FA.
+
+```ts
+// Step 2, in the browser
+const verifier = base64url(crypto.getRandomValues(new Uint8Array(32)));
+const challenge = base64url(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(verifier))));
+const state = base64url(crypto.getRandomValues(new Uint8Array(16)));
+sessionStorage.setItem("oauth", JSON.stringify({ state, verifier }));
+location.href = `${authorizationUri}&state=${state}&code_challenge=${challenge}&code_challenge_method=S256`;
+// base64url(bytes) = btoa(String.fromCharCode(...bytes)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "")
+```
+
+Who logs in:
+
+- A provider account used before logs in as the user it is linked to, matched by the provider's user id, not the email.
+- Otherwise the provider must report a **verified** email (`403 social-email-unverified` if not). A user with that
+  email who has verified it here gets the provider account linked. A user who has not verified it gets nothing linked
+  (`409 social-account-conflict`): whoever registered the address may not own it.
+- Otherwise a new `USER` is created with the email marked verified and a random password; it can set a password
+  through the password reset, which it needs to delete the account, change its email or turn on 2FA.
+
 ## Personal data (GDPR / KVKK)
 
 `DELETE /api/v1/users/me` implements the right to erasure: it needs the current password (a stolen token alone is not
@@ -136,7 +195,8 @@ enough), deletes the user and everything that references it with `ON DELETE CASC
 administrator cannot delete their own account.
 
 `GET /api/v1/users/me/export` implements the rights of access and portability. It returns the profile plus one section
-per `PersonalDataProvider` bean, as a `personal-data.json` attachment; the template contributes the active sessions.
+per `PersonalDataProvider` bean, as a `personal-data.json` attachment; the template contributes the active sessions,
+the linked GitHub and Google accounts, and the sample notes.
 When you add a feature that stores user data, implement `PersonalDataProvider` and reference `users(id)` with
 `ON DELETE CASCADE`, see [Using the template](../new-project/).
 
@@ -188,7 +248,9 @@ Security events are written to the `audit` logger and counted in the `security_a
 | Event | When |
 |-------|------|
 | `auth.login_succeeded`, `auth.login_failed`, `auth.login_blocked`, `auth.login_unverified` | Login attempts |
+| `auth.mfa_failed`, `auth.recovery_code_used`, `auth.social_account_linked` | Second factor and social login |
 | `auth.logout`, `auth.sessions_revoked`, `auth.refresh_token_reused` | Session changes |
+| `user.mfa_enabled`, `user.mfa_disabled` | Two-factor authentication turned on or off |
 | `user.registered`, `user.email_verified`, `user.password_changed` | Account changes |
 | `user.password_reset_requested`, `user.password_reset_completed` | Password reset |
 | `user.account_deleted`, `user.data_exported` | Personal data requests |
@@ -210,5 +272,5 @@ Entries are written after the transaction commits, so rolled-back actions never 
 The rate limit and revocation checks fail open: if Redis is unreachable, requests are allowed and a warning is
 logged. That keeps the API available, at the cost of briefly disabling these protections. Login fails closed instead:
 it answers `503` (`urn:problem:login-unavailable`) until Redis is back, so an outage is never a window for unlimited
-password guessing. Signed-in clients are unaffected, and refresh tokens live in PostgreSQL and keep working. See
+password guessing; the second login step of users with 2FA also needs Redis. Signed-in clients are unaffected, and refresh tokens live in PostgreSQL and keep working. See
 [ADR 2](../../adr/0002-redis-fail-open/) and [Production](../production/).

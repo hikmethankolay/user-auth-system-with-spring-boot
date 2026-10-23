@@ -53,6 +53,15 @@ public class User {
     @Column(name = "session_version", nullable = false)
     private int sessionVersion;
 
+    @Column(name = "totp_secret", length = 100)
+    private String totpSecret;
+
+    @Column(name = "totp_enabled", nullable = false)
+    private boolean totpEnabled;
+
+    @Column(name = "totp_last_step", nullable = false)
+    private long totpLastStep;
+
     /** Constructor required by JPA. */
     protected User() {}
 
@@ -195,6 +204,68 @@ public class User {
     /** Ends every session of the user: refresh tokens issued under the current version stop working. */
     public void endSessions() {
         sessionVersion++;
+    }
+
+    /**
+     * Returns the encrypted TOTP secret.
+     *
+     * @return the secret of the enabled or pending authenticator, or {@code null} if there is none
+     */
+    public String getTotpSecret() {
+        return totpSecret;
+    }
+
+    /**
+     * Tells whether logins need a second factor.
+     *
+     * @return {@code true} once an authenticator is confirmed
+     */
+    public boolean isTotpEnabled() {
+        return totpEnabled;
+    }
+
+    /**
+     * Returns the last accepted TOTP time step.
+     *
+     * @return the 30-second step of the last accepted code; codes for it or earlier steps are refused
+     */
+    public long getTotpLastStep() {
+        return totpLastStep;
+    }
+
+    /**
+     * Starts enrolling an authenticator; two-factor authentication stays off until {@link #enableTotp(long)}.
+     *
+     * @param encryptedSecret the new secret, encrypted
+     */
+    public void startTotpEnrollment(String encryptedSecret) {
+        this.totpSecret = encryptedSecret;
+    }
+
+    /**
+     * Turns two-factor authentication on after the first valid code.
+     *
+     * @param step the time step of that code
+     */
+    public void enableTotp(long step) {
+        this.totpEnabled = true;
+        this.totpLastStep = step;
+    }
+
+    /**
+     * Records an accepted code, so it cannot be used again.
+     *
+     * @param step the code's time step
+     */
+    public void useTotpStep(long step) {
+        this.totpLastStep = step;
+    }
+
+    /** Turns two-factor authentication off and forgets the secret. */
+    public void disableTotp() {
+        this.totpSecret = null;
+        this.totpEnabled = false;
+        this.totpLastStep = 0;
     }
 
     /**

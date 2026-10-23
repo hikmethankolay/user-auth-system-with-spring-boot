@@ -64,6 +64,8 @@ public class SecurityConfig {
     static final String[] PUBLIC_PATHS = {
         "/api/v1/auth/register",
         "/api/v1/auth/login",
+        "/api/v1/auth/login/mfa",
+        "/api/v1/auth/oauth2/*",
         "/api/v1/auth/refresh",
         "/api/v1/auth/logout",
         "/api/v1/auth/verify-email",

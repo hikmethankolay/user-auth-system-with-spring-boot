@@ -9,4 +9,4 @@ import com.hikmethankolay.template.security.TokenService.IssuedToken;
  * @param accessToken  short-lived JWT for API calls
  * @param refreshToken long-lived, single-use token for getting the next access token
  */
-public record AuthTokens(IssuedToken accessToken, IssuedRefreshToken refreshToken) {}
+public record AuthTokens(IssuedToken accessToken, IssuedRefreshToken refreshToken) implements LoginResult {}

@@ -175,3 +175,19 @@ app:
     username: ${ADMIN_USERNAME:}
     email: ${ADMIN_EMAIL:}
     password: ${ADMIN_PASSWORD:}
+  mfa:
+    # Encrypts the TOTP secrets in the database (AES-GCM): at least 32 random characters, kept out of the
+    # database and its backups. Changing it breaks every enrolled authenticator (recovery codes still work).
+    encryption-key: ${MFA_ENCRYPTION_KEY:}
+    # Time between a correct password and the authenticator code.
+    challenge-ttl: ${MFA_CHALLENGE_TTL:5m}
+  social-login:
+    # Frontend page GitHub and Google redirect to with ?code=...&state=...; register it at both providers.
+    redirect-uri: ${OAUTH2_REDIRECT_URI:http://localhost:3000/oauth2/callback}
+    # A provider is enabled when both values are set.
+    github:
+      client-id: ${GITHUB_CLIENT_ID:}
+      client-secret: ${GITHUB_CLIENT_SECRET:}
+    google:
+      client-id: ${GOOGLE_CLIENT_ID:}
+      client-secret: ${GOOGLE_CLIENT_SECRET:}

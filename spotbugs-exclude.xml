@@ -34,12 +34,15 @@
     </Match>
     <!--
       These log calls contain no user input: exception messages from Redis or SMTP, ids of verified tokens
-      and users, template email subjects, a database constraint name and the configured admin name. User
-      input reaches the logs only through AuditLog, which strips line breaks (and ECS JSON logs escape them).
+      and users, template email subjects, a database constraint name and the configured admin name, plus
+      login provider errors with their line breaks removed. User input reaches the logs only through
+      AuditLog, which strips line breaks (and ECS JSON logs escape them).
     -->
     <Match>
         <Bug pattern="CRLF_INJECTION_LOGS"/>
         <Or>
+            <Class name="com.hikmethankolay.template.auth.MfaChallengeService"/>
+            <Class name="com.hikmethankolay.template.social.SocialProfileClient"/>
             <Class name="com.hikmethankolay.template.common.GlobalExceptionHandler"/>
             <Class name="com.hikmethankolay.template.mail.EmailOutbox"/>
             <Class name="com.hikmethankolay.template.security.LoginAttemptService"/>

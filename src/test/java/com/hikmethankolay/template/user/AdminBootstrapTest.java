@@ -34,7 +34,9 @@ class AdminBootstrapTest {
                         p.rateLimit(),
                         p.account(),
                         p.mail(),
-                        new AppProperties.Admin("owner", "owner@example.com", "Owner#12345")));
+                        new AppProperties.Admin("owner", "owner@example.com", "Owner#12345"),
+                        p.mfa(),
+                        p.socialLogin()));
     }
 
     @Test

@@ -14,3 +14,10 @@ app:
     username: admin
     email: admin@example.com
     password: Admin#12345
+  mfa:
+    encryption-key: test-mfa-key-that-is-at-least-32-characters
+  social-login:
+    # Fake credentials: SocialLoginIntegrationTest replaces the calls to GitHub with a mock.
+    github:
+      client-id: test-client-id
+      client-secret: test-client-secret

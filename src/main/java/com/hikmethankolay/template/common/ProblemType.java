@@ -60,6 +60,33 @@ public enum ProblemType {
     /** No user has the requested id. */
     USER_NOT_FOUND("user-not-found", "No user has this id"),
 
+    /** The caller has no note with the requested id; other users' notes look the same as missing ones. */
+    NOTE_NOT_FOUND("note-not-found", "The caller has no note with this id"),
+
+    /** The authenticator or recovery code is wrong, expired or already used. */
+    INVALID_MFA_CODE("invalid-mfa-code", "The authenticator or recovery code is wrong, expired or already used"),
+
+    /** The MFA token from the login response is unknown, used or expired. */
+    MFA_CHALLENGE_EXPIRED("mfa-challenge-expired", "The MFA token is unknown, used or expired; log in again"),
+
+    /** Two-factor authentication is already on. */
+    TOTP_ALREADY_ENABLED("totp-already-enabled", "Two-factor authentication is already enabled"),
+
+    /** Two-factor authentication is off, or no enrollment is pending. */
+    TOTP_NOT_ENABLED("totp-not-enabled", "Two-factor authentication is not enabled, or no enrollment is pending"),
+
+    /** The social login provider in the path is unknown or not configured. */
+    PROVIDER_NOT_CONFIGURED("provider-not-configured", "This login provider is not configured"),
+
+    /** The provider did not return a verified email address. */
+    SOCIAL_EMAIL_UNVERIFIED(
+            "social-email-unverified", "The provider account has no verified email address to log in with"),
+
+    /** The provider's email belongs to an account whose own email is not verified, so it is not linked. */
+    SOCIAL_ACCOUNT_CONFLICT(
+            "social-account-conflict",
+            "An account with this email exists but its email is not verified; log in with its password first"),
+
     /** The change conflicts with data written concurrently. */
     CONFLICT("conflict", "The change conflicts with data written at the same time; retry it"),
 

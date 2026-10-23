@@ -26,6 +26,9 @@ The `app.*` settings are bound to a validated record (`AppProperties`), so a mis
 | `JWT_PRIVATE_KEY` | *(required for RS256)* | RSA private keys in PEM format; comma-separated, the first signs |
 | `JWT_ACCESS_TOKEN_TTL` | `15m` | Access token (JWT) lifetime; keep it short |
 | `JWT_REFRESH_TOKEN_TTL` / `JWT_REMEMBER_ME_TTL` | `1d` / `30d` | Session lifetime without activity, normal / remember-me |
+| `MFA_ENCRYPTION_KEY` | *(required; `setup` fills it in)* | Encrypts two-factor secrets in the database, at least 32 characters. Changing it breaks enrolled authenticators ([details](../security/#two-factor-authentication)) |
+| `MFA_CHALLENGE_TTL` | `5m` | Time to enter the authenticator code after the password |
+| `OAUTH2_REDIRECT_URI`, `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET`, `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | `http://localhost:3000/oauth2/callback`, *(none)* | Login with GitHub and Google; a provider is on when both of its values are set ([details](../security/#login-with-github-and-google)) |
 | `COOKIE_SECURE` | `false` (`true` in prod) | Send the auth cookies over HTTPS only |
 | `CORS_ALLOWED_ORIGINS` | `http://localhost:3000` | Comma-separated browser origins |
 | `LOGIN_MAX_ATTEMPTS` / `LOGIN_ACCOUNT_MAX_ATTEMPTS` / `LOGIN_LOCK_DURATION` | `10` / `100` / `1h` | Brute-force lockout: failed logins per IP, per account, and how long a block lasts ([details](../security/#brute-force-protection)) |

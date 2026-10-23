@@ -38,6 +38,11 @@ public final class TestProperties {
                 new AppProperties.RateLimit(true, 120),
                 new AppProperties.Account(false, Duration.ofHours(24), Duration.ofHours(1)),
                 new AppProperties.Mail("no-reply@example.com", "http://localhost:3000", 10, Duration.ofSeconds(30)),
-                new AppProperties.Admin(null, null, null));
+                new AppProperties.Admin(null, null, null),
+                new AppProperties.Mfa("unit-test-mfa-key-that-is-at-least-32-chars", Duration.ofMinutes(5)),
+                new AppProperties.SocialLogin(
+                        null,
+                        new AppProperties.SocialLogin.Client(null, null),
+                        new AppProperties.SocialLogin.Client(null, null)));
     }
 }

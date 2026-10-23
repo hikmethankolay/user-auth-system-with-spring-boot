@@ -13,16 +13,20 @@ import java.time.Instant;
  * @param email     lower-case email address
  * @param role          role of the user
  * @param emailVerified whether the email address has been confirmed
+ * @param mfaEnabled    whether logins need a code from an authenticator app
  * @param createdAt     creation time (ISO-8601, UTC)
  * @param updatedAt     time of the last update (ISO-8601, UTC)
  */
-@Schema(requiredProperties = {"id", "username", "email", "role", "emailVerified", "createdAt", "updatedAt"})
+@Schema(
+        requiredProperties = {"id", "username", "email", "role", "emailVerified", "mfaEnabled", "createdAt", "updatedAt"
+        })
 public record UserResponse(
         long id,
         String username,
         @Schema(format = "email") String email,
         Role role,
         boolean emailVerified,
+        boolean mfaEnabled,
         Instant createdAt,
         Instant updatedAt) {
 
@@ -39,6 +43,7 @@ public record UserResponse(
                 user.getEmail(),
                 user.getRole(),
                 user.isEmailVerified(),
+                user.isTotpEnabled(),
                 user.getCreatedAt(),
                 user.getUpdatedAt());
     }

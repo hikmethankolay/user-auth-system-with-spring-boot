@@ -18,7 +18,7 @@ export default defineConfig({
       sidebar: [
         {
           label: 'Start here',
-          items: ['guides/getting-started', 'guides/scripts', 'guides/new-project'],
+          items: ['guides/getting-started', 'guides/scripts', 'guides/new-project', 'guides/first-feature'],
         },
         {
           label: 'Guides',

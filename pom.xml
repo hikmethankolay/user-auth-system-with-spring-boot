@@ -67,6 +67,12 @@
             <artifactId>spring-boot-starter-security-oauth2-resource-server</artifactId>
         </dependency>
         <dependency>
+            <!-- Social login: the token exchange and user info clients only. Not the starter, whose
+                 auto-configuration would add a session-based oauth2Login this stateless API does not use. -->
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-client</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
