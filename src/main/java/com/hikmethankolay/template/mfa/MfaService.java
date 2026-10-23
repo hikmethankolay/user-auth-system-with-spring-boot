@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
  * and checking the second factor at login.
  *
  * <p>Enrollment is two-step: {@link #enroll(long)} stores a new encrypted secret, and only
- * {@link #confirm(long, String)} with a valid code turns two-factor authentication on, so a user who never
+ * {@link #confirm(long, String, String)} with a valid code turns two-factor authentication on, so a user who never
  * finishes setting up the app is not locked out.</p>
  */
 @Service
