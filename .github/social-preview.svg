@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640">
+  <!-- Source of social-preview.png, the image shown when the repository link is shared.
+       Render: rsvg-convert .github/social-preview.svg -o .github/social-preview.png
+       Upload: Settings > General > Social preview. -->
+  <style>
+    text { font-family: Inter, "Helvetica Neue", Arial, sans-serif; fill: #e6edf3; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+    .pill { fill: #161b22; stroke: #30363d; stroke-width: 2; }
+  </style>
+  <rect width="1280" height="640" fill="#0d1117"/>
+  <rect x="0" y="0" width="1280" height="8" fill="#6db33f"/>
+  <text x="80" y="170" font-size="76" font-weight="700">Spring Boot Backend Template</text>
+  <text x="80" y="240" font-size="34" style="fill:#8b949e">The secure, tested starting point for your next REST API.</text>
+  <g font-size="28">
+    <rect class="pill" x="80" y="300" width="370" height="64" rx="32"/><text x="112" y="342">JWT + refresh rotation</text>
+    <rect class="pill" x="470" y="300" width="330" height="64" rx="32"/><text x="502" y="342">Two-factor (TOTP)</text>
+    <rect class="pill" x="820" y="300" width="380" height="64" rx="32"/><text x="852" y="342">GitHub &amp; Google login</text>
+    <rect class="pill" x="80" y="384" width="390" height="64" rx="32"/><text x="112" y="426">Redis rate limiting</text>
+    <rect class="pill" x="490" y="384" width="330" height="64" rx="32"/><text x="522" y="426">Signed images</text>
+    <rect class="pill" x="840" y="384" width="360" height="64" rx="32"/><text x="872" y="426">Kubernetes-ready</text>
+  </g>
+  <text x="80" y="550" font-size="28" class="mono" style="fill:#7ee787">$ scripts/setup.sh &amp;&amp; scripts/dev.sh</text>
+  <text x="80" y="596" font-size="24" style="fill:#8b949e">Spring Boot 4.1 · Java 25 · PostgreSQL 18 · Redis 8 · MIT</text>
+</svg>

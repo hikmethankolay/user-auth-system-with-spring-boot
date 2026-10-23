@@ -1,5 +1,7 @@
 # Spring Boot Backend Template
 
+<img src=".github/social-preview.png" width="100%" alt="Spring Boot Backend Template: the secure, tested starting point for your next REST API. JWT with refresh rotation, two-factor authentication, GitHub and Google login, Redis rate limiting, signed images, Kubernetes-ready. Spring Boot 4.1, Java 25, PostgreSQL 18, Redis 8, MIT.">
+
 [![CI](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/ci.yml/badge.svg)](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/ci.yml)
 [![Coverage](https://img.shields.io/endpoint?url=https://hikmethankolay.github.io/spring-boot-backend-template/badges/coverage.json)](https://hikmethankolay.github.io/spring-boot-backend-template/coverage/)
 [![Mutation score](https://img.shields.io/endpoint?url=https://hikmethankolay.github.io/spring-boot-backend-template/badges/mutation.json)](https://github.com/hikmethankolay/spring-boot-backend-template/actions/workflows/mutation.yml)
@@ -11,6 +13,10 @@ Start a new Spring Boot REST backend from a codebase that already handles the ha
 secure login, user accounts, errors, caching, monitoring and deployment. All of it is tested and documented.
 
 **[Read the documentation →](https://hikmethankolay.github.io/spring-boot-backend-template/)**
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/hikmethankolay/spring-boot-backend-template)
+
+<img src="docs/public/demo.svg" width="760" alt="Terminal: scripts/setup.sh generates the secrets, scripts/dev.sh starts PostgreSQL, Redis, Mailpit and the app in about five seconds, and scripts/smoke.sh registers a user, logs in, creates, edits and deletes a note, revokes the session and deletes the account, with every status as expected.">
 
 ## Why use it
 
@@ -63,7 +69,7 @@ git clone https://github.com/hikmethankolay/spring-boot-backend-template.git
 cd spring-boot-backend-template
 scripts/setup.sh    # checks prerequisites, creates .env with generated secrets, compiles
 scripts/dev.sh      # starts PostgreSQL, Redis and Mailpit, then the app
-scripts/smoke.sh    # in a second terminal: register, log in, call the API, log out
+scripts/smoke.sh    # in a second terminal: register, log in, use the notes API, log out, delete the account
 ```
 
 On Windows, run the `.bat` versions: `scripts\setup.bat`, `scripts\dev.bat`, `scripts\smoke.bat`.
