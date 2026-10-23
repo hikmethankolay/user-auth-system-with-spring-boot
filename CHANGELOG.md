@@ -6,6 +6,8 @@ releases use [semantic versioning](https://semver.org/). Each release's full lis
 
 ## [Unreleased]
 
+## [3.0.0] - 2026-10-23
+
 ### Added
 
 - Two-factor authentication with authenticator apps (TOTP): enrollment with a QR-code URI, ten single-use recovery
@@ -95,7 +97,8 @@ releases use [semantic versioning](https://semver.org/). Each release's full lis
 - Lockout, startup, rate limit, release and logging follow-ups from the same audit. Rate-limit counters reset once
   on deploy because their Redis keys changed format.
 
-[Unreleased]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v2.9.2...HEAD
+[Unreleased]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v2.9.2...v3.0.0
 [2.9.2]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v2.9.1...v2.9.2
 [2.9.1]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v2.9.0...v2.9.1
 [2.9.0]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v2.8.2...v2.9.0
