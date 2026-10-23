@@ -6,6 +6,38 @@ releases use [semantic versioning](https://semver.org/). Each release's full lis
 
 ## [Unreleased]
 
+## [3.1.0] - 2026-10-24
+
+### Added
+
+- The `prod` profile refuses to start with the development defaults: `CORS_ALLOWED_ORIGINS`, `MAIL_LINK_BASE_URL`
+  or, with GitHub or Google login on, `OAUTH2_REDIRECT_URI` pointing to localhost, or `DB_PASSWORD=app`. The error
+  names every variable to set.
+- [Connecting a frontend](https://hikmethankolay.github.io/spring-boot-backend-template/guides/frontend/): the pages a
+  frontend needs, cookies or Bearer tokens, the two-factor login step, refreshing across tabs and error handling.
+- Runbook for rolling back a release: which migrations are safe to roll back, and expand/contract for the others.
+- Steps for removing two-factor authentication or social login from a project (*Using the template*), each tried
+  out with the full test suite.
+- `smoke` also creates, edits and deletes a note, and deletes its account at the end, so repeated runs leave no users
+  behind.
+- A banner, an animated demo of the first run and an *Open in GitHub Codespaces* button in the README; the banner
+  (`.github/social-preview.png`) doubles as the repository's social preview image.
+
+### Changed
+
+- Existing deployments with `SPRING_PROFILES_ACTIVE=prod` must set `CORS_ALLOWED_ORIGINS` and `MAIL_LINK_BASE_URL` to
+  their frontend (and `OAUTH2_REDIRECT_URI` when GitHub or Google login is on) and use a database password other than
+  `app` before upgrading; the application refuses to start otherwise.
+
+### Fixed
+
+- The Kubernetes guide creates the owner account (`ADMIN_*` in the secret), and the ConfigMap sets
+  `OAUTH2_REDIRECT_URI`.
+- *Using the template* named `V3__…` as the next migration (it is `V9`) and left two-factor authentication and social
+  login out of the project structure; the documentation home page did not mention them either.
+- The hint for updating `api/openapi.json` in `OpenApiSpecExportIntegrationTest` used `-Dtest=`, which runs the class
+  with the unit tests and then every integration test; it now says `-Dit.test=` like the guides.
+
 ## [3.0.1] - 2026-10-24
 
 ### Security
@@ -108,7 +140,8 @@ releases use [semantic versioning](https://semver.org/). Each release's full lis
 - Lockout, startup, rate limit, release and logging follow-ups from the same audit. Rate-limit counters reset once
   on deploy because their Redis keys changed format.
 
-[Unreleased]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v3.0.1...HEAD
+[Unreleased]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v3.1.0...HEAD
+[3.1.0]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v3.0.1...v3.1.0
 [3.0.1]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v2.9.2...v3.0.0
 [2.9.2]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v2.9.1...v2.9.2
