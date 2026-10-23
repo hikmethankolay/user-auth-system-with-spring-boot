@@ -6,6 +6,17 @@ releases use [semantic versioning](https://semver.org/). Each release's full lis
 
 ## [Unreleased]
 
+## [3.0.1] - 2026-10-24
+
+### Security
+
+- Wrong passwords and codes when turning off two-factor authentication (`DELETE /api/v1/users/me/mfa/totp`) count as
+  failed logins, so a stolen access token cannot be used to guess the code there without running into the lockout.
+
+### Fixed
+
+- The Javadoc build, and with it CI and the documentation site, failed on a stale link in `MfaService`.
+
 ## [3.0.0] - 2026-10-23
 
 ### Added
@@ -97,7 +108,8 @@ releases use [semantic versioning](https://semver.org/). Each release's full lis
 - Lockout, startup, rate limit, release and logging follow-ups from the same audit. Rate-limit counters reset once
   on deploy because their Redis keys changed format.
 
-[Unreleased]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v3.0.0...HEAD
+[Unreleased]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v3.0.1...HEAD
+[3.0.1]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v2.9.2...v3.0.0
 [2.9.2]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v2.9.1...v2.9.2
 [2.9.1]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v2.9.0...v2.9.1
