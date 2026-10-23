@@ -1,5 +1,6 @@
 @echo off
-rem End-to-end smoke test against a running app: health, register, login, /me, refresh, logout.
+rem End-to-end smoke test against a running app: health, register, login, /me, the notes example, refresh,
+rem logout, then account deletion, so repeated runs leave no users behind.
 rem Usage: scripts\smoke.bat [base-url]   (default http://localhost:8080)
 setlocal
 set "BASE_URL=%~1"
@@ -19,11 +20,19 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command ^
   "Check POST '/api/v1/auth/register' 201 (@{ username = $user; email = \"$user@example.com\"; password = $pw } | ConvertTo-Json) | Out-Null;" ^
   "$login = Check POST '/api/v1/auth/login' 200 (@{ identifier = $user; password = $pw } | ConvertTo-Json) | ConvertFrom-Json;" ^
   "Check GET '/api/v1/users/me' 200 $null $login.accessToken | Out-Null;" ^
+  "$note = Check POST '/api/v1/notes' 201 (@{ title = 'Smoke test'; body = 'Created by scripts/smoke.bat' } | ConvertTo-Json) $login.accessToken | ConvertFrom-Json;" ^
+  "Check GET '/api/v1/notes' 200 $null $login.accessToken | Out-Null;" ^
+  "Check PUT ('/api/v1/notes/' + $note.id) 200 (@{ title = 'Smoke test'; body = 'Edited' } | ConvertTo-Json) $login.accessToken | Out-Null;" ^
+  "Check DELETE ('/api/v1/notes/' + $note.id) 204 $null $login.accessToken | Out-Null;" ^
+  "Check GET ('/api/v1/notes/' + $note.id) 404 $null $login.accessToken | Out-Null;" ^
   "$tokens = Check POST '/api/v1/auth/refresh' 200 (@{ refreshToken = $login.refreshToken } | ConvertTo-Json) | ConvertFrom-Json;" ^
   "Check GET '/api/v1/users' 403 $null $tokens.accessToken | Out-Null;" ^
   "Check GET '/api/v1/users/me' 401 | Out-Null;" ^
   "Check POST '/api/v1/auth/logout' 204 (@{ refreshToken = $tokens.refreshToken } | ConvertTo-Json) $tokens.accessToken | Out-Null;" ^
   "Check GET '/api/v1/users/me' 401 $null $tokens.accessToken | Out-Null;" ^
   "Check POST '/api/v1/auth/refresh' 401 (@{ refreshToken = $tokens.refreshToken } | ConvertTo-Json) | Out-Null;" ^
+  "$again = Check POST '/api/v1/auth/login' 200 (@{ identifier = $user; password = $pw } | ConvertTo-Json) | ConvertFrom-Json;" ^
+  "Check DELETE '/api/v1/users/me' 204 (@{ password = $pw } | ConvertTo-Json) $again.accessToken | Out-Null;" ^
+  "Check POST '/api/v1/auth/login' 401 (@{ identifier = $user; password = $pw } | ConvertTo-Json) | Out-Null;" ^
   "Write-Host \"==> Smoke test passed against $base\""
 exit /b %errorlevel%
