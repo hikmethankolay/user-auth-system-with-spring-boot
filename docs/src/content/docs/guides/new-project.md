@@ -14,8 +14,8 @@ description: Turn the template into your own project.
    The script changes the Maven `groupId` and `artifactId`, the application name and the base Java package, and moves
    the source files. If you leave out the package, it is derived from the other two (`com.acme.orderservice`).
    It refuses to run twice.
-3. Add your tables as new Flyway migrations (`V3__create_orders.sql`, ...) in `src/main/resources/db/migration`.
-   Never edit a migration that has already been applied.
+3. Add your tables as new Flyway migrations in `src/main/resources/db/migration`, numbered after the last one
+   (`V9__create_orders.sql`, ...). Never edit a migration that has already been applied.
 4. Add each feature as its own package next to `user/`, with its own controller, service, repository and `dto/`.
    The sample `note/` package shows all of it; see [Your first feature](../first-feature/), which also says how to
    delete it.
@@ -31,10 +31,83 @@ description: Turn the template into your own project.
 9. If the feature stores data about a user, reference `users(id)` with `ON DELETE CASCADE` and implement
    `PersonalDataProvider`, so account deletion and the data export (`GET /api/v1/users/me/export`) stay complete.
 10. Record sensitive actions with `AuditLog.record(AuditEvent.…, userId, ...)` and send emails with `EmailOutbox.enqueue`.
-11. Delete the features you don't need (for example `account/`), along with their tests and migrations.
+11. Delete the features you don't need (for example `account/`), along with their tests. Two-factor authentication
+    and social login are wired into the login flow; see [Removing them](#removing-two-factor-authentication-or-social-login).
 12. Replace the repository-specific values: the owner in `.github/CODEOWNERS`, the links in `SECURITY.md` and the
     issue templates, and the image name in `deploy/kubernetes/kustomization.yaml` and `deployment.yaml`. Enable
     *Private vulnerability reporting* in the repository's security settings.
+
+## Removing two-factor authentication or social login
+
+`note/` and `account/` are self-contained: delete the package and its tests. Two-factor authentication (`mfa/`) and
+login with GitHub and Google (`social/`) are also called from `auth/`, so they take a few more steps. Either can be
+removed on its own. Both change the API, so clients and `scripts/client.sh` output must follow.
+
+Leave `V7__two_factor_and_social_login.sql` as it is; it has run in every existing database. Drop the tables in a new
+migration instead (`V9`, or `V10` for the second feature you remove). Back up first: for two-factor authentication,
+this turns it off for every enrolled user for good.
+
+### Social login
+
+1. Delete `social/` in `src/main` and `src/test`, and `auth/dto/SocialLoginRequest` and `SocialProviderResponse`.
+2. `AuthService`: delete the fields `socialProviders`, `socialProfiles` and `socialAccounts` (with their constructor
+   parameters) and the methods `socialLogin` and `socialProviders`.
+3. `AuthController`: delete `loginProviders` and `loginWithProvider`.
+4. `AppProperties`: delete the `socialLogin` component and the `SocialLogin` record. In `ProductionSettingsCheck`,
+   delete the `OAUTH2_REDIRECT_URI` check, and drop the `SocialLogin` argument in `TestProperties`,
+   `ProductionSettingsCheckTest`, `AdminBootstrapTest` and `SecretCipherTest`.
+5. Delete `PROVIDER_NOT_CONFIGURED`, `SOCIAL_EMAIL_UNVERIFIED` and `SOCIAL_ACCOUNT_CONFLICT` from `ProblemType`,
+   `SOCIAL_ACCOUNT_LINKED` from `AuditEvent`, and `/api/v1/auth/oauth2/*` from `SecurityConfig.PUBLIC_PATHS`.
+6. Delete `app.social-login` from `application.yml` and `application-test.yml`, the GitHub/Google block from
+   `.env.example`, `OAUTH2_REDIRECT_URI` from `deploy/kubernetes/configmap.yaml`, the
+   `spring-security-oauth2-client` dependency from `pom.xml`, and `SocialProfileClient` from `spotbugs-exclude.xml`.
+7. Add the migration:
+
+   ```sql
+   DROP TABLE IF EXISTS social_identities;
+   ```
+
+Accounts created through GitHub or Google stay; their users set a password through the password reset.
+
+### Two-factor authentication
+
+1. Delete `mfa/` in `src/main` and `src/test`, and `auth/MfaChallengeService`, `auth/LoginResult`,
+   `auth/dto/MfaLoginRequest` and `MfaChallengeResponse`. Remove `implements LoginResult` from `AuthTokens`.
+2. `AuthService`: delete the fields `mfa` and `challenges` and the methods `loginWithMfa`, `startSession` and
+   `mfaChallengeExpired`. `login` and `socialLogin` return `AuthTokens` from `issueTokens(...)`, and `login` always
+   resets the account's failed-login counter after a correct password.
+3. `AuthController`: delete `loginWithMfa` and `loginResponse`; `login` and `loginWithProvider` return
+   `tokenResponse(...)`, and lose their `202` responses.
+4. `User`: delete the `totp*` fields and methods. `UserResponse`: delete `mfaEnabled`.
+5. `AppProperties`: delete the `mfa` component and the `Mfa` record, and drop the argument in `TestProperties`,
+   `ProductionSettingsCheckTest` and `AdminBootstrapTest`.
+6. Delete `INVALID_MFA_CODE`, `MFA_CHALLENGE_EXPIRED`, `TOTP_ALREADY_ENABLED` and `TOTP_NOT_ENABLED` from
+   `ProblemType`, the four `MFA_*`/`RECOVERY_CODE_USED` events from `AuditEvent`, `/api/v1/auth/login/mfa` from
+   `SecurityConfig.PUBLIC_PATHS`, and `MfaChallengeService` from `spotbugs-exclude.xml`.
+7. Delete `app.mfa` from `application.yml` and `application-test.yml`, `MFA_ENCRYPTION_KEY` from `.env.example`,
+   `scripts/setup.sh`, `scripts/setup.bat` and the secret in `deploy/kubernetes/README.md`.
+8. Add the migration:
+
+   ```sql
+   DROP TABLE IF EXISTS recovery_codes;
+   ALTER TABLE users
+       DROP COLUMN IF EXISTS totp_secret,
+       DROP COLUMN IF EXISTS totp_enabled,
+       DROP COLUMN IF EXISTS totp_last_step;
+   ```
+
+### Then
+
+Regenerate the OpenAPI document right away; until then, every integration test that returns a user fails the
+contract check (removing `mfaEnabled` alone breaks about 60):
+
+```bash
+scripts/test.sh -Dit.test=OpenApiSpecExportIntegrationTest -Dopenapi.update=true
+scripts/test.sh
+```
+
+Finally remove the feature's sections from the guides (`security.md`, `api.md`, `configuration.md`, `production.md`)
+and from the README.
 
 ## Getting fixes from the template later
 
@@ -71,8 +144,10 @@ first entry of its changelog) in your own README.
 
 ```
 src/main/java/com/hikmethankolay/template/
-├── auth/        login, refresh-token rotation, logout, session revocation
+├── auth/        login (with the two-factor step), refresh-token rotation, logout, session revocation
 ├── account/     email verification and password reset: tokens, mailer, endpoints
+├── mfa/         two-factor authentication: TOTP enrollment, encrypted secrets, recovery codes
+├── social/      login with GitHub and Google: profile client, linked identities
 ├── user/        User entity, service, controller, account deletion, data export, admin bootstrap
 ├── note/        sample feature: notes owned by a user (copy it, then delete it)
 ├── security/    filter chains, headers, JWT, token revocation, login lockout, rate limiting

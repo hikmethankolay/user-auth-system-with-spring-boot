@@ -121,6 +121,31 @@ A `@Scheduled` method (email dispatcher, expired-token cleanup) threw an excepti
 it. Search the logs for the exception; a failing cleanup only lets old rows pile up, a failing dispatcher also raises
 `EmailBacklog`.
 
+## Deploys
+
+### Rolling back a release
+
+`kubectl -n backend rollout undo deployment/app` brings back the previous image, but not the previous schema: Flyway
+migrations only run forward, and the older version starts against the newer schema (Flyway skips migrations newer than
+its own). A rollback is therefore safe only if every migration in the release was **backward compatible**:
+
+| Safe in one release | Needs two releases (expand, then contract) |
+|---------------------|--------------------------------------------|
+| A new table | Renaming a column or table |
+| A new nullable column, or one with a default | Dropping a column or table the previous version still reads |
+| A new index (`CREATE INDEX CONCURRENTLY` for large tables) | Making a column `NOT NULL`, or narrowing its type |
+
+For the right-hand column, release the code that no longer needs the old shape first, and drop or rename in the next
+release, once rolling back past the first one is no longer an option.
+
+To undo a schema change, write a new migration that reverses it; never edit or delete an applied one. If a migration
+failed halfway, PostgreSQL rolled back its transaction (every statement is transactional except `... CONCURRENTLY`),
+so fix the file and deploy again. A migration that needs more than `DB_STATEMENT_TIMEOUT` is cut off; see
+[Configuration](../configuration/) for running it with a longer timeout.
+
+Before a risky migration, take a backup or note the point-in-time-recovery timestamp: restoring the database is the
+only way to get back data that a migration deleted.
+
 ## Resources
 
 ### DatabasePoolExhausted
