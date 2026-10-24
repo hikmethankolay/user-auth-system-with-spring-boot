@@ -113,3 +113,34 @@ jobs:
         with:
           name: api-documentation
           path: target/reports/apidocs/
+
+  # Renames the checkout the way a new project does, then runs the unit tests, so rename-project cannot leave
+  # the template's package or repository links behind.
+  rename:
+    name: Rename project
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      - name: Rename
+        run: scripts/rename-project.sh --repo Acme/Order-Service com.acme order-service com.acme.orders
+
+      # Left on purpose: the README's author line and the template remote in "Getting fixes from the template later".
+      - name: No template references left
+        run: |
+          if git grep -n -e hikmethankolay -e spring-boot-backend-template -- . ':!scripts/rename-project.sh' \
+              ':!docs/package-lock.json' ':!docs/src/content/docs/guides/new-project.md' | grep -v 'Hikmethan Kolay'; then
+            exit 1
+          fi
+
+      - name: Unit tests
+        run: scripts/test.sh --unit

@@ -3,7 +3,7 @@ title: Using the template
 description: Turn the template into your own project.
 ---
 
-1. Copy the repository, or use it as a GitHub template.
+1. Create your repository with *Use this template* on GitHub, and clone it.
 2. Rename it:
 
    ```bash
@@ -13,7 +13,10 @@ description: Turn the template into your own project.
 
    The script changes the Maven `groupId` and `artifactId`, the application name and the base Java package, and moves
    the source files. If you leave out the package, it is derived from the other two (`com.acme.orderservice`).
-   It refuses to run twice.
+   It also points the repository links to your GitHub repository, which it reads from the `origin` remote: the
+   image in `deploy/kubernetes`, `.github/CODEOWNERS`, the links in `SECURITY.md`, the issue templates and the
+   guides, and the documentation site's address. If `origin` is missing or still the template, it stops before
+   changing anything; pass your repository with `--repo owner/name`. It refuses to run twice.
 3. Add your tables as new Flyway migrations in `src/main/resources/db/migration`, numbered after the last one
    (`V9__create_orders.sql`, ...). Never edit a migration that has already been applied.
 4. Add each feature as its own package next to `user/`, with its own controller, service, repository and `dto/`.
@@ -33,9 +36,14 @@ description: Turn the template into your own project.
 10. Record sensitive actions with `AuditLog.record(AuditEvent.…, userId, ...)` and send emails with `EmailOutbox.enqueue`.
 11. Delete the features you don't need (for example `account/`), along with their tests. Two-factor authentication
     and social login are wired into the login flow; see [Removing them](#removing-two-factor-authentication-or-social-login).
-12. Replace the repository-specific values: the owner in `.github/CODEOWNERS`, the links in `SECURITY.md` and the
-    issue templates, and the image name in `deploy/kubernetes/kustomization.yaml` and `deployment.yaml`. Enable
-    *Private vulnerability reporting* in the repository's security settings.
+12. Rewrite the README for your project, set the copyright holder in `LICENSE`, and enable *Private vulnerability
+    reporting* in the repository's security settings. With your first release, set `newTag` in
+    `deploy/kubernetes/kustomization.yaml` to its version; `KubernetesManifestTest` fails while it lags behind the
+    latest version in `CHANGELOG.md`.
+13. Turn on the workflows that need repository settings. The documentation site deploys only once *Settings → Pages →
+    Source* is *GitHub Actions*; until then `pages.yml` is skipped. CodeQL and OpenSSF Scorecard are skipped for pushes
+    and pull requests in a private repository, where code scanning needs GitHub Advanced Security; delete
+    `codeql.yml` and `scorecard.yml` there, or their weekly scheduled runs fail.
 
 ## Removing two-factor authentication or social login
 

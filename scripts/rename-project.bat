@@ -1,7 +1,7 @@
 @echo off
 rem Turns this template into your own project (Maven coordinates, application name, base package).
 rem Runs scripts/rename-project.sh with Git Bash, which ships with Git for Windows.
-rem Usage: scripts\rename-project.bat <groupId> <artifactId> [basePackage]
+rem Usage: scripts\rename-project.bat [--repo owner/name] <groupId> <artifactId> [basePackage]
 rem Example: scripts\rename-project.bat com.acme order-service com.acme.orders
 setlocal
 cd /d "%~dp0.."

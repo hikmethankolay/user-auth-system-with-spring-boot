@@ -102,9 +102,11 @@ Each script exists as `scripts/<name>.sh` and `scripts\<name>.bat`.
 | `load-test` | k6 load test (see [Testing](https://hikmethankolay.github.io/spring-boot-backend-template/guides/testing/#load-test)) |
 | `docs` / `site` | Java reference (Javadoc) / the documentation website |
 | `client` | TypeScript types for your frontend from the OpenAPI document |
-| `rename-project` | Rename the Maven coordinates, app name and Java package for your project |
+| `rename-project` | Rename the Maven coordinates, app name and Java package, and point the repository links to your repository |
 
 ## Start your own project
+
+Create your repository with **Use this template**, clone it, then:
 
 ```bash
 scripts/rename-project.sh com.acme order-service com.acme.orders
