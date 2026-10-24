@@ -16,6 +16,8 @@ concurrency:
 
 jobs:
   build:
+    # A repository made from the template has Pages off until its owner turns it on; skip instead of failing.
+    if: github.event.repository.has_pages
     runs-on: ubuntu-latest
     timeout-minutes: 45
     permissions:
@@ -40,7 +42,7 @@ jobs:
       # The Javadoc title shows the pom's version; use the latest release, as the site's home page does.
       - name: Set version from the latest tag
         run: |
-          version=$(git describe --tags --abbrev=0)
+          version=$(git describe --tags --abbrev=0 2>/dev/null) || exit 0   # no release yet: keep the pom's version
           ./mvnw -B -q versions:set -DnewVersion="${version#v}" -DgenerateBackupPoms=false
 
       - name: Build site (tests, OpenAPI export, Javadoc, coverage, Starlight)
