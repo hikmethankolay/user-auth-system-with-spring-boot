@@ -6,6 +6,49 @@ releases use [semantic versioning](https://semver.org/). Each release's full lis
 
 ## [Unreleased]
 
+## [3.2.0] - 2026-10-24
+
+### Added
+
+- Session list: `GET /api/v1/users/me/sessions` shows each active session with its start, last use, `User-Agent` and
+  IP, and marks the current one; `DELETE /api/v1/users/me/sessions/{id}` logs that device out at once (refresh tokens
+  deleted, access tokens rejected). Access tokens carry the session id as a new `sid` claim. Migration
+  `V9__session_details.sql` adds the columns; the data export lists them too.
+- `setup` works without a JDK when Docker or Podman is installed: it creates `.env`, skips compiling and points to
+  `scripts/docker.sh up`, so the template can be tried with Docker alone.
+- `rename-project` also points the repository links to your GitHub repository (read from `origin`, or
+  `--repo owner/name`): the image in `deploy/kubernetes`, `CODEOWNERS`, `SECURITY.md`, the issue templates, the guides
+  and the documentation site. It stops before changing anything if `origin` is still the template. CI renames a
+  checkout and runs the unit tests on every push.
+- `KubernetesManifestTest` fails when the image tag in `deploy/kubernetes/kustomization.yaml` lags behind the latest
+  release in `CHANGELOG.md`.
+- [Compared with other starters](https://hikmethankolay.github.io/spring-boot-backend-template/guides/comparison/):
+  when to use this template, Spring Initializr, JHipster or Bootify.
+
+### Changed
+
+- The `prod` profile also refuses to start while `MAIL_HOST`/`MAIL_PORT` point to the local Mailpit
+  (`localhost:1025`) or `MAIL_FROM` is an `example.com`, `example.net` or `example.org` address: verification emails
+  would never arrive and nobody could finish signing up. Existing deployments must set both before upgrading;
+  `deploy/kubernetes/configmap.yaml` needs your own `MAIL_FROM`.
+- Pages, CodeQL and Scorecard skip themselves in repositories made from the template until they can work there: the
+  documentation site until Pages is turned on, code scanning in private repositories (see *Using the template*).
+
+### Fixed
+
+- `deploy/kubernetes/kustomization.yaml` deployed image `2.9.1`; it now pins the latest release.
+- The documentation site's version step failed in a repository without release tags.
+- Spring MVC's own errors (malformed JSON, a path or query value of the wrong type such as `/api/v1/notes/abc`, an
+  unsupported method or media type) had no `type`, although the API documents `about:blank` for them; Spring 7 leaves
+  it out. They now carry it.
+
+### Security
+
+- A reused refresh token also revokes the access tokens of its session, instead of leaving them valid until they
+  expire.
+- Ending a session waits for a refresh of that session in flight, so the token the refresh issues is deleted too
+  instead of keeping the session alive.
+
 ## [3.1.0] - 2026-10-24
 
 ### Added
@@ -140,7 +183,8 @@ releases use [semantic versioning](https://semver.org/). Each release's full lis
 - Lockout, startup, rate limit, release and logging follow-ups from the same audit. Rate-limit counters reset once
   on deploy because their Redis keys changed format.
 
-[Unreleased]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v3.1.0...HEAD
+[Unreleased]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v3.2.0...HEAD
+[3.2.0]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v3.1.0...v3.2.0
 [3.1.0]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v3.0.1...v3.1.0
 [3.0.1]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v2.9.2...v3.0.0
