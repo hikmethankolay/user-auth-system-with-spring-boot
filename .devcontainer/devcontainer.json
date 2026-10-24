@@ -11,7 +11,7 @@
       "installMaven": "false"
     },
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
-    // For scripts/client.sh and scripts/site.sh.
+    // For scripts/site.sh.
     "ghcr.io/devcontainers/features/node:1": {
       "version": "lts"
     }

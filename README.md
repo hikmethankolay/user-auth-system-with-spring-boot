@@ -25,7 +25,8 @@ secure login, user accounts, errors, caching, monitoring and deployment. All of 
   change, email verification, password reset, two-factor authentication with authenticator apps, login with GitHub
   and Google, brute-force lockout, rate limiting, security headers and an audit log.
 - **A worked example to copy.** The sample `note/` feature shows ownership checks, pagination, migrations, the data
-  export and tests in a few small files, and `scripts/client.sh` gives your frontend typed API calls.
+  export and tests in a few small files, and `scripts/client.sh` generates a typed client for your frontend, or for
+  your mobile app in its own language.
 - **Production defaults out of the box.** One `prod` profile switches on JSON logs, secure cookies, required email
   verification and an internal metrics port. Migrations, Redis caching, an email outbox with retries, query timeouts,
   metrics with alert rules and a Grafana dashboard, tracing, account deletion and data export are already wired in.
@@ -102,7 +103,7 @@ Each script exists as `scripts/<name>.sh` and `scripts\<name>.bat`.
 | `smoke` | End-to-end check against a running instance |
 | `load-test` | k6 load test (see [Testing](https://hikmethankolay.github.io/spring-boot-backend-template/guides/testing/#load-test)) |
 | `docs` / `site` | Java reference (Javadoc) / the documentation website |
-| `client` | TypeScript types for your frontend from the OpenAPI document |
+| `client` | A TypeScript client for your frontend from the OpenAPI document, or with `--generator` one in another language |
 | `rename-project` | Rename the Maven coordinates, app name and Java package, and point the repository links to your repository |
 
 ## Start your own project

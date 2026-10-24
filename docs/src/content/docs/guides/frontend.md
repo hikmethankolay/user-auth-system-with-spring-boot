@@ -32,17 +32,20 @@ is only sent to `/api/v1/auth`). Pick one:
 ## Typed client
 
 ```bash
-scripts/client.sh ../web/src/api.ts
+scripts/client.sh ../web/src/api
 ```
 
 ```ts
-import createClient from "openapi-fetch";
-import type { paths } from "./api";
+import { AuthenticationApi, Configuration, UsersApi } from "./api";
 
-export const api = createClient<paths>({ baseUrl: "http://localhost:8080", credentials: "include" });
+const config = new Configuration({ basePath: "http://localhost:8080", credentials: "include" });
+export const auth = new AuthenticationApi(config);
+export const users = new UsersApi(config);
 ```
 
 Run the script again after every change to `api/openapi.json`; see [API overview](../api/#typescript-client).
+For a mobile app, `scripts/client.sh --generator kotlin` (or `swift5`, `dart`, ...) generates a client in its
+language; see [Clients in other languages](../api/#clients-in-other-languages).
 
 ## Pages to build
 
@@ -65,18 +68,21 @@ Login answers `200` with tokens, or `202` with an `mfaToken` when the user has t
 Google login answer the same way.
 
 ```ts
-const { data, error } = await api.POST("/api/v1/auth/login", {
-  body: { identifier, password, rememberMe },
-});
-if (error) return showProblem(error);            // see Errors below
-if ("mfaToken" in data) {                         // 202: the second step is pending
-  const code = await askForCode();                // 6 digits from the app, or a recovery code
-  const second = await api.POST("/api/v1/auth/login/mfa", {
-    body: { mfaToken: data.mfaToken, code },     // valid for data.expiresIn seconds
-  });
-  if (second.error) return showProblem(second.error);
+import { MfaChallengeResponseFromJSON, ResponseError } from "./api";
+
+try {
+  // loginRaw, because login() types only the 200 body; a 202 carries the second step instead.
+  const response = await auth.loginRaw({ loginRequest: { identifier, password, rememberMe } });
+  if (response.raw.status === 202) {
+    const challenge = MfaChallengeResponseFromJSON(await response.raw.json());
+    const code = await askForCode();              // 6 digits from the app, or a recovery code
+    await auth.loginWithMfa({ mfaLoginRequest: { mfaToken: challenge.mfaToken, code } }); // within challenge.expiresIn s
+  }
+  // Logged in: the cookies are set.
+} catch (error) {
+  if (error instanceof ResponseError) return showProblem(await error.response.json()); // see Errors below
+  throw error;
 }
-// Logged in: the cookies are set.
 ```
 
 To turn two-factor authentication on, `POST /api/v1/users/me/mfa/totp` returns an `otpauth://` URI: show it as a QR
@@ -89,20 +95,24 @@ The access token expires after 15 minutes. When a call answers `401`, refresh on
 answers `401` as well, the session has ended and the user must log in again.
 
 ```ts
-async function call<T>(request: () => Promise<{ data?: T; error?: unknown; response: Response }>) {
-  let result = await request();
-  if (result.response.status === 401 && (await refresh())) {
-    result = await request();
+async function call<T>(request: () => Promise<T>): Promise<T> {
+  try {
+    return await request();
+  } catch (error) {
+    if (error instanceof ResponseError && error.response.status === 401 && (await refresh())) {
+      return request();
+    }
+    throw error;
   }
-  return result;
 }
 
 // One refresh at a time across all tabs: a refresh token works once, and two tabs presenting the same token look
 // like a stolen token, which ends the session.
-function refresh(): Promise<boolean> {
-  return navigator.locks.request("auth-refresh", async () =>
-    (await api.POST("/api/v1/auth/refresh", {})).response.ok);
+async function refresh(): Promise<boolean> {
+  return await navigator.locks.request("auth-refresh", () => auth.refreshTokens().then(() => true, () => false));
 }
+
+const me = await call(() => users.getCurrentUser());
 ```
 
 In Bearer mode, keep the new `accessToken` and `refreshToken` from each refresh response; the old refresh token no

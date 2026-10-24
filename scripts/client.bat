@@ -1,19 +1,33 @@
 @echo off
-rem Generates TypeScript types for the API from the committed OpenAPI document (api\openapi.json) with
-rem openapi-typescript. Pair them with openapi-fetch for a typed client; see scripts/client.sh for an example.
-rem Needs Node.js with npm.
-rem Usage: scripts\client.bat [output-file]   (default: target\client\api.ts)
+rem Generates an API client from the committed OpenAPI document (api\openapi.json) with OpenAPI Generator, run in
+rem its container image (needs Docker or Podman); see scripts/client.sh.
+rem Default: typescript-fetch, a TypeScript client on the browser's fetch. --generator picks another language
+rem (kotlin, swift5, dart, java, python, ...).
+rem Usage: scripts\client.bat [--generator NAME] [output-dir]   (default: typescript-fetch, target\client\NAME)
 setlocal
 cd /d "%~dp0.."
 
-where npx >nul 2>&1
-if errorlevel 1 (
-  echo error: Node.js with npm is required to generate the client ^(https://nodejs.org^). 1>&2
+set "GENERATOR=typescript-fetch"
+if /i not "%~1"=="--generator" goto output
+if "%~2"=="" (
+  echo error: Usage: scripts\client.bat [--generator NAME] [output-dir] 1>&2
   exit /b 1
 )
+set "GENERATOR=%~2"
+shift
+shift
 
+:output
+set "CONTAINER="
+docker info >nul 2>&1 && set "CONTAINER=docker"
+if not defined CONTAINER podman info >nul 2>&1 && set "CONTAINER=podman"
+if not defined CONTAINER (
+  echo error: Docker or Podman is required ^(and must be running^). 1>&2
+  exit /b 1
+)
 set "OUTPUT=%~1"
-if "%OUTPUT%"=="" set "OUTPUT=target\client\api.ts"
-for %%f in ("%OUTPUT%") do if not exist "%%~dpf" mkdir "%%~dpf"
-call npx --yes openapi-typescript@7.13.0 api/openapi.json --output "%OUTPUT%" || exit /b 1
-echo ==^> TypeScript types: %OUTPUT% ^(use them with openapi-fetch^)
+if "%OUTPUT%"=="" set "OUTPUT=target\client\%GENERATOR%"
+if not exist "%OUTPUT%" mkdir "%OUTPUT%"
+for %%i in ("%OUTPUT%") do set "OUTPUT=%%~fi"
+%CONTAINER% run --rm -v "%CD%\api:/spec:ro" -v "%OUTPUT%:/out" docker.io/openapitools/openapi-generator-cli:v7.26.0 generate -i /spec/openapi.json -g "%GENERATOR%" -o /out || exit /b 1
+echo ==^> %GENERATOR% client: %OUTPUT%

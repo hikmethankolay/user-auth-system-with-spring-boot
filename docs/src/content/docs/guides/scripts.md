@@ -18,7 +18,7 @@ Every script exists as `scripts/<name>.sh` and `scripts\<name>.bat`.
 | `load-test` | k6 load test against a running instance. See [Testing](../testing/#load-test). |
 | `docs` | Javadoc HTML in `target/reports/apidocs`. Fails on any Javadoc warning, including undocumented code. |
 | `site` | Builds this documentation website into `target/pages`. |
-| `client` | TypeScript types for the API from `api/openapi.json`, for use with `openapi-fetch`: `scripts/client.sh [output-file]` (default `target/client/api.ts`). Needs Node.js. See [API](../api/#typescript-client). |
+| `client` | An API client from `api/openapi.json`, generated with OpenAPI Generator in a container: TypeScript (`typescript-fetch`) by default, another language with `--generator <name>`. `scripts/client.sh [--generator <name>] [output-dir]` (default `target/client/<name>`). See [API overview](../api/#typescript-client). |
 | `rename-project` | Renames Maven coordinates, app name and Java package, and points the repository links to your GitHub repository (`origin`, or `--repo owner/name`). See [Using the template](../new-project/). |
 
 ## Container runtimes

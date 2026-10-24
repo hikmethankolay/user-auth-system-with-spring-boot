@@ -147,3 +147,26 @@ jobs:
 
       - name: Unit tests
         run: scripts/test.sh --unit
+
+  # Generates the client from api/openapi.json and type-checks it, so an API change cannot break it unnoticed.
+  # (scripts/client.bat is not run on Windows: the runner has no Linux containers.)
+  clients:
+    name: API client
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24'
+
+      - name: Generate the TypeScript client
+        run: scripts/client.sh
+
+      - name: Type-check it
+        run: >-
+          npx --yes -p typescript@5.9.3 tsc --noEmit --strict --target es2022 --module esnext
+          --moduleResolution bundler --lib es2022,dom $(find target/client/typescript-fetch -name '*.ts')

@@ -9,7 +9,7 @@ keep.
 | | This template | [Spring Initializr](https://start.spring.io) | [JHipster](https://www.jhipster.tech) | [Bootify](https://bootify.io) |
 |---|---|---|---|---|
 | What you get | A working REST backend you copy and own | An empty project with the dependencies you picked | A generated full-stack application | A generated backend from entities you define in the browser |
-| Frontend | None; [typed client and a guide](../frontend/) for yours | None | Angular, React or Vue, generated | Optional server-side pages (Thymeleaf) |
+| Frontend | None; [typed client and a guide](../frontend/) for yours, [clients in other languages](../api/#clients-in-other-languages) for mobile apps | None | Angular, React or Vue, generated | Optional server-side pages (Thymeleaf) |
 | Login and accounts | JWT with refresh rotation, email verification, password reset, two-factor login, GitHub and Google login, session list, lockout, rate limiting | Add them yourself | Generated, several options | Spring Security in the paid plans |
 | Production setup | `prod` profile with a startup check, metrics, alert rules, dashboard, tracing, signed images, Kubernetes manifests, runbooks | Add it yourself | Generated, several options | Varies by plan |
 | Tests | 210+ tests against real PostgreSQL and Redis, architecture rules, mutation testing | One context test | Generated | Integration tests in the paid plans |

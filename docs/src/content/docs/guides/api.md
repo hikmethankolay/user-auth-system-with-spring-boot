@@ -41,29 +41,41 @@ git diff api/openapi.json
 
 ### TypeScript client
 
-`scripts/client.sh` turns `api/openapi.json` into TypeScript types with
-[openapi-typescript](https://openapi-ts.dev/). Write them into your frontend and use them with
-[openapi-fetch](https://openapi-ts.dev/openapi-fetch/), which checks paths, parameters, bodies and responses at
-compile time:
+`scripts/client.sh` turns `api/openapi.json` into a TypeScript client with
+[OpenAPI Generator](https://openapi-generator.tech/docs/generators/typescript-fetch) (`typescript-fetch`): one class
+per tag, one method per operation, on the browser's `fetch` and without runtime dependencies. It runs in the
+generator's container image, so it needs Docker or Podman but neither Java nor Node.js:
 
 ```bash
-scripts/client.sh ../web/src/api.ts
+scripts/client.sh ../web/src/api     # default output: target/client/typescript-fetch
 ```
 
 ```ts
-import createClient from "openapi-fetch";
-import type { paths } from "./api";
+import { AuthenticationApi, Configuration, UsersApi } from "./api";
 
 // credentials: "include" sends the HttpOnly auth cookies; add the origin to CORS_ALLOWED_ORIGINS.
-const api = createClient<paths>({ baseUrl: "http://localhost:8080", credentials: "include" });
+const config = new Configuration({ basePath: "http://localhost:8080", credentials: "include" });
 
-const { data, error } = await api.POST("/api/v1/auth/login", {
-  body: { identifier: "admin", password: "…" },
-});
-const me = await api.GET("/api/v1/users/me");
+await new AuthenticationApi(config).login({ loginRequest: { identifier: "admin", password: "…" } });
+const me = await new UsersApi(config).getCurrentUser();
 ```
 
-`error` is typed as the `Problem` schema. Run the script again whenever `api/openapi.json` changes.
+Method names are the `operationId`s. A response other than 2xx throws a `ResponseError`, whose `response` holds the
+problem. Login can answer `202` for the second login step, which `login()` does not type; see
+[Logging in](../frontend/#logging-in). Run the script again whenever `api/openapi.json` changes.
+
+### Clients in other languages
+
+For a mobile app or another service, `--generator` picks another of OpenAPI Generator's
+[generators](https://openapi-generator.tech/docs/generators) (Kotlin, Swift, Dart, Java, Python and more):
+
+```bash
+scripts/client.sh --generator kotlin ../android/api     # default output: target/client/<generator>
+scripts/client.sh --generator swift5 ../ios/Api
+```
+
+OpenAPI Generator's support for OpenAPI 3.1 documents is still in beta. CI generates the TypeScript client on every
+push and type-checks it, but check the generator you choose against your own build too.
 
 ## Endpoints
 

@@ -6,6 +6,16 @@ releases use [semantic versioning](https://semver.org/). Each release's full lis
 
 ## [Unreleased]
 
+### Changed
+
+- `scripts/client.sh` generates the API client with OpenAPI Generator instead of openapi-typescript: a TypeScript
+  client (`typescript-fetch`, one class per tag on the browser's `fetch`) by default, or one in another language
+  (Kotlin, Swift, Dart, Java, Python, ...) with `--generator <name>`. It runs in the generator's container image, so
+  it needs Docker or Podman instead of Node.js. The argument is now an output directory (default
+  `target/client/<generator>`), and code using openapi-fetch must move to the generated classes; *Connecting a
+  frontend* shows login, refresh and errors with them. CI generates the TypeScript client and type-checks it on every
+  push.
+
 ## [3.2.1] - 2026-10-24
 
 ### Fixed
