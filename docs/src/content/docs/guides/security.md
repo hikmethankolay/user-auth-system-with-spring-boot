@@ -10,7 +10,7 @@ Authentication is stateless, using JWTs and Spring Security's OAuth2 resource se
 - `POST /api/v1/auth/login` accepts a username or an email address and returns two tokens, in the body
   (`{"accessToken", "tokenType", "expiresIn", "refreshToken"}`) and as HttpOnly `SameSite=Strict` cookies.
 - The **access token** is a JWT signed with `JWT_SECRET` (HS256, the default) or `JWT_PRIVATE_KEY` (RS256, see
-  [Signing keys](#signing-keys)). It carries `sub`, `roles`, `username` and a unique `jti`, and expires after `JWT_ACCESS_TOKEN_TTL` (15 minutes). Send it as `Authorization: Bearer …` or as the
+  [Signing keys](#signing-keys)). It carries `sub`, `roles`, `username`, the session id `sid` and a unique `jti`, and expires after `JWT_ACCESS_TOKEN_TTL` (15 minutes). Send it as `Authorization: Bearer …` or as the
   `auth_token` cookie.
 - The **refresh token** is an opaque 256-bit random value; only its SHA-256 hash is stored (table `refresh_tokens`).
   Exchange it at `POST /api/v1/auth/refresh` (body `{"refreshToken": "…"}`, or the `refresh_token` cookie, which the
@@ -25,6 +25,17 @@ Authentication is stateless, using JWTs and Spring Security's OAuth2 resource se
 - CSRF protection is off, because the API is stateless and the cookies are `SameSite=Strict`.
 
 A client keeps calling the API with the access token, and when it gets `401`, calls `/refresh` once and retries.
+
+### Listing and ending sessions
+
+`GET /api/v1/users/me/sessions` lists the caller's active sessions, newest first: when each started and was last
+refreshed, when it expires, and the `User-Agent` and IP of its login or last refresh, so users can recognise their
+devices. `current` marks the session making the request. `DELETE /api/v1/users/me/sessions/{id}` ends one: its refresh
+tokens are deleted and its access tokens are rejected through Redis (by their `sid`), so that device is logged out at
+once. Ending the current session works like logging out. Another user's session id answers `404`, like an unknown one.
+
+The client IP is `request.getRemoteAddr()`: behind a proxy, set `FORWARD_HEADERS_STRATEGY` (see
+[Rate limiting](#rate-limiting)), or every session shows the proxy's address.
 
 ## Signing keys
 
@@ -88,7 +99,7 @@ created, into the owner.
 
 Each refresh token can be exchanged **once**. Every token issued from one login belongs to the same family (the
 session). If an already exchanged token is presented again, someone has copied it: the whole session is revoked,
-both parties must log in again, and an `auth.refresh_token_reused` audit event is written.
+including its access tokens, both parties must log in again, and an `auth.refresh_token_reused` audit event is written.
 
 Two requests refreshing the same token at the same time (for example two browser tabs) look the same as reuse. Let
 one tab refresh and share the result, for example with a `BroadcastChannel` or a lock.
@@ -98,13 +109,14 @@ one tab refresh and share the result, for example with a `BroadcastChannel` or a
 | Event | Effect |
 |-------|--------|
 | Logout | The presented access token's `jti` is denylisted and the refresh token's session is deleted |
+| Ending a session (`DELETE /api/v1/users/me/sessions/{id}`), reused refresh token | The session's refresh tokens are deleted and its `sid` is denylisted |
 | Password change, password reset | Every session of the user ends: refresh tokens are deleted and all access tokens issued so far are rejected |
 | Admin changes a user's password, or the owner changes a role | Same, so a demoted administrator loses access immediately |
 | User deleted (by an admin, the owner or themselves) | Same; the refresh tokens are deleted with the user |
 
-Access-token revocation lives in Redis: denylisted token ids and per-user cut-off times are kept only until the
-affected tokens would have expired, and the JWT decoder checks both in one round trip on every request, on every
-instance. After a password change the client must log in again.
+Access-token revocation lives in Redis: denylisted token ids, session ids and per-user cut-off times are kept only
+until the affected tokens would have expired, and the JWT decoder checks all three in one round trip on every request,
+on every instance. After a password change the client must log in again.
 
 ## Account flows
 
@@ -195,8 +207,9 @@ enough), deletes the user and everything that references it with `ON DELETE CASC
 administrator cannot delete their own account.
 
 `GET /api/v1/users/me/export` implements the rights of access and portability. It returns the profile plus one section
-per `PersonalDataProvider` bean, as a `personal-data.json` attachment; the template contributes the active sessions,
-the linked GitHub and Google accounts, and the sample notes.
+per `PersonalDataProvider` bean, as a `personal-data.json` attachment; the template contributes the active sessions
+(with their `User-Agent` and IP), the linked GitHub and Google accounts, and the sample notes. A session's `User-Agent`
+and IP are deleted with the session: at logout, when it is ended, or when it expires.
 When you add a feature that stores user data, implement `PersonalDataProvider` and reference `users(id)` with
 `ON DELETE CASCADE`, see [Using the template](../new-project/).
 
@@ -249,7 +262,7 @@ Security events are written to the `audit` logger and counted in the `security_a
 |-------|------|
 | `auth.login_succeeded`, `auth.login_failed`, `auth.login_blocked`, `auth.login_unverified` | Login attempts |
 | `auth.mfa_failed`, `auth.recovery_code_used`, `auth.social_account_linked` | Second factor and social login |
-| `auth.logout`, `auth.sessions_revoked`, `auth.refresh_token_reused` | Session changes |
+| `auth.logout`, `auth.session_revoked`, `auth.sessions_revoked`, `auth.refresh_token_reused` | Session changes |
 | `user.mfa_enabled`, `user.mfa_disabled` | Two-factor authentication turned on or off |
 | `user.registered`, `user.email_verified`, `user.password_changed` | Account changes |
 | `user.password_reset_requested`, `user.password_reset_completed` | Password reset |

@@ -47,21 +47,41 @@ public class RefreshToken {
     @Column(name = "session_version", nullable = false, updatable = false)
     private int sessionVersion;
 
+    @Column(name = "session_started_at", nullable = false, updatable = false)
+    private Instant sessionStartedAt;
+
+    @Column(name = "user_agent", updatable = false)
+    private String userAgent;
+
+    @Column(name = "ip_address", updatable = false)
+    private String ipAddress;
+
     /** Constructor required by JPA. */
     protected RefreshToken() {}
 
     /**
      * Creates a new, unused token record.
      *
-     * @param userId         owner of the token
-     * @param familyId       session the token belongs to
-     * @param sessionVersion the user's session version when the session started
-     * @param tokenHash      hex SHA-256 of the token
-     * @param rememberMe     whether the session was started with "remember me"
-     * @param expiresAt      when the token expires
+     * @param userId           owner of the token
+     * @param familyId         session the token belongs to
+     * @param sessionVersion   the user's session version when the session started
+     * @param tokenHash        hex SHA-256 of the token
+     * @param rememberMe       whether the session was started with "remember me"
+     * @param expiresAt        when the token expires
+     * @param sessionStartedAt when the session started (the login)
+     * @param userAgent        {@code User-Agent} of the request that issued the token, or {@code null}
+     * @param ipAddress        client IP of the request that issued the token, or {@code null}
      */
     public RefreshToken(
-            long userId, UUID familyId, int sessionVersion, String tokenHash, boolean rememberMe, Instant expiresAt) {
+            long userId,
+            UUID familyId,
+            int sessionVersion,
+            String tokenHash,
+            boolean rememberMe,
+            Instant expiresAt,
+            Instant sessionStartedAt,
+            String userAgent,
+            String ipAddress) {
         this.userId = userId;
         this.sessionVersion = sessionVersion;
         this.familyId = familyId;
@@ -69,6 +89,36 @@ public class RefreshToken {
         this.rememberMe = rememberMe;
         this.expiresAt = expiresAt;
         this.createdAt = Instant.now();
+        this.sessionStartedAt = sessionStartedAt;
+        this.userAgent = userAgent;
+        this.ipAddress = ipAddress;
+    }
+
+    /**
+     * Returns when the session started.
+     *
+     * @return the time of the login that started the session
+     */
+    public Instant getSessionStartedAt() {
+        return sessionStartedAt;
+    }
+
+    /**
+     * Returns the {@code User-Agent} of the request that issued the token.
+     *
+     * @return the user agent, or {@code null} if the request sent none
+     */
+    public String getUserAgent() {
+        return userAgent;
+    }
+
+    /**
+     * Returns the client IP of the request that issued the token.
+     *
+     * @return the IP address, or {@code null} if unknown
+     */
+    public String getIpAddress() {
+        return ipAddress;
     }
 
     /**

@@ -35,6 +35,9 @@ public enum AuditEvent {
     /** All sessions of a user were revoked, e.g. after a password change. */
     SESSIONS_REVOKED("auth.sessions_revoked", Level.INFO),
 
+    /** A user ended one of their sessions ({@code DELETE /api/v1/users/me/sessions/{id}}). */
+    SESSION_REVOKED("auth.session_revoked", Level.INFO),
+
     /** A user changed their own password. */
     PASSWORD_CHANGED("user.password_changed", Level.INFO),
 

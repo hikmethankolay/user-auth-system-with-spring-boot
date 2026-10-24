@@ -18,7 +18,7 @@ description: Turn the template into your own project.
    guides, and the documentation site's address. If `origin` is missing or still the template, it stops before
    changing anything; pass your repository with `--repo owner/name`. It refuses to run twice.
 3. Add your tables as new Flyway migrations in `src/main/resources/db/migration`, numbered after the last one
-   (`V9__create_orders.sql`, ...). Never edit a migration that has already been applied.
+   (`V10__create_orders.sql`, ...). Never edit a migration that has already been applied.
 4. Add each feature as its own package next to `user/`, with its own controller, service, repository and `dto/`.
    The sample `note/` package shows all of it; see [Your first feature](../first-feature/), which also says how to
    delete it.
@@ -52,7 +52,7 @@ login with GitHub and Google (`social/`) are also called from `auth/`, so they t
 removed on its own. Both change the API, so clients and `scripts/client.sh` output must follow.
 
 Leave `V7__two_factor_and_social_login.sql` as it is; it has run in every existing database. Drop the tables in a new
-migration instead (`V9`, or `V10` for the second feature you remove). Back up first: for two-factor authentication,
+migration instead (`V10`, or `V11` for the second feature you remove). Back up first: for two-factor authentication,
 this turns it off for every enrolled user for good.
 
 ### Social login

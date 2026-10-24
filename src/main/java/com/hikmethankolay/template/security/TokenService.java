@@ -28,6 +28,9 @@ public class TokenService {
     /** Claim holding the username, for clients that want to display it without an extra request. */
     public static final String USERNAME_CLAIM = "username";
 
+    /** Claim holding the session (refresh token family) the token was issued for. */
+    public static final String SESSION_CLAIM = "sid";
+
     private final JwtEncoder jwtEncoder;
 
     private final TokenRevocationService revocations;
@@ -56,10 +59,11 @@ public class TokenService {
      *
      * @param userId   database id, stored as the {@code sub} claim
      * @param username username, stored as the {@code username} claim
-     * @param role     role, stored in the {@code roles} claim
+     * @param role      role, stored in the {@code roles} claim
+     * @param sessionId session the token belongs to, stored as the {@code sid} claim
      * @return the signed token with its lifetime
      */
-    public IssuedToken issue(long userId, String username, Role role) {
+    public IssuedToken issue(long userId, String username, Role role, UUID sessionId) {
         Instant now = Instant.now();
         Duration ttl = properties.accessTokenTtl();
         Instant issuedAt =
@@ -73,6 +77,7 @@ public class TokenService {
                 .expiresAt(now.plus(ttl))
                 .claim(USERNAME_CLAIM, username)
                 .claim(ROLES_CLAIM, List.of(role.name()))
+                .claim(SESSION_CLAIM, sessionId.toString())
                 .build();
         JwsHeader header = JwsHeader.with(JwtKeys.algorithm(properties)).build();
 
@@ -89,6 +94,18 @@ public class TokenService {
      */
     public static long userId(Jwt jwt) {
         return Long.parseLong(jwt.getSubject());
+    }
+
+    /**
+     * Reads the session id from a validated token.
+     *
+     * @param jwt the authenticated principal
+     * @return the session stored in the {@code sid} claim, or {@code null} for tokens issued before sessions were
+     *     listed
+     */
+    public static UUID sessionId(Jwt jwt) {
+        String sessionId = jwt.getClaimAsString(SESSION_CLAIM);
+        return sessionId == null ? null : UUID.fromString(sessionId);
     }
 
     /**

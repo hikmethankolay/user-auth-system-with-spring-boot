@@ -21,9 +21,9 @@ secure login, user accounts, errors, caching, monitoring and deployment. All of 
 ## Why use it
 
 - **Authentication you don't have to write.** Short-lived JWTs with rotating refresh tokens and reuse detection,
-  logout that really revokes, every session ended on a password change, email verification, password reset,
-  two-factor authentication with authenticator apps, login with GitHub and Google, brute-force lockout, rate
-  limiting, security headers and an audit log.
+  logout that really revokes, a list of signed-in devices users can log out, every session ended on a password
+  change, email verification, password reset, two-factor authentication with authenticator apps, login with GitHub
+  and Google, brute-force lockout, rate limiting, security headers and an audit log.
 - **A worked example to copy.** The sample `note/` feature shows ownership checks, pagination, migrations, the data
   export and tests in a few small files, and `scripts/client.sh` gives your frontend typed API calls.
 - **Production defaults out of the box.** One `prod` profile switches on JSON logs, secure cookies, required email

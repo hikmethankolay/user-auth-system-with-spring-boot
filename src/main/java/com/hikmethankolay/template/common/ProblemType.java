@@ -63,6 +63,9 @@ public enum ProblemType {
     /** The caller has no note with the requested id; other users' notes look the same as missing ones. */
     NOTE_NOT_FOUND("note-not-found", "The caller has no note with this id"),
 
+    /** The caller has no session with the requested id; other users' sessions look the same as missing ones. */
+    SESSION_NOT_FOUND("session-not-found", "The caller has no session with this id"),
+
     /** The authenticator or recovery code is wrong, expired or already used. */
     INVALID_MFA_CODE("invalid-mfa-code", "The authenticator or recovery code is wrong, expired or already used"),
 

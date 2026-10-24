@@ -320,7 +320,7 @@ public class AuthService {
         // Issued first: it fails if the password or role changed since it was checked.
         RefreshTokenService.IssuedRefreshToken refreshToken = refreshTokens.issue(userId, sessionVersion, rememberMe);
         audit.record(AuditEvent.LOGIN_SUCCEEDED, userId, "rememberMe", rememberMe, "method", method);
-        return new AuthTokens(tokenService.issue(userId, username, role), refreshToken);
+        return new AuthTokens(tokenService.issue(userId, username, role, refreshToken.sessionId()), refreshToken);
     }
 
     private static ApiException mfaChallengeExpired() {
@@ -345,7 +345,12 @@ public class AuthService {
         return userRepository
                 .findById(rotation.userId())
                 .map(user -> new AuthTokens(
-                        tokenService.issue(user.getId(), user.getUsername(), user.getRole()), rotation.successor()))
+                        tokenService.issue(
+                                user.getId(),
+                                user.getUsername(),
+                                user.getRole(),
+                                rotation.successor().sessionId()),
+                        rotation.successor()))
                 .orElseThrow(() -> new BadCredentialsException(RefreshTokenService.INVALID_REFRESH_TOKEN));
     }
 

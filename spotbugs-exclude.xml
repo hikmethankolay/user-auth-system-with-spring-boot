@@ -35,6 +35,14 @@
         <Bug pattern="HARD_CODE_PASSWORD,IMPROPER_UNICODE"/>
         <Class name="com.hikmethankolay.template.config.ProductionSettingsCheck"/>
     </Match>
+    <!--
+      The User-Agent of a refresh is stored only to show it in the session list (cut to 255 characters); no decision
+      depends on it.
+    -->
+    <Match>
+        <Bug pattern="SERVLET_HEADER_USER_AGENT"/>
+        <Class name="com.hikmethankolay.template.auth.RefreshTokenService"/>
+    </Match>
     <!-- HttpSecurity.build() declares "throws Exception", so the filter chain beans must too. -->
     <Match>
         <Bug pattern="THROWS_METHOD_THROWS_CLAUSE_BASIC_EXCEPTION"/>

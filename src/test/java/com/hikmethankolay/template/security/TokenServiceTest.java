@@ -19,6 +19,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -28,6 +29,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 class TokenServiceTest {
 
     private static final String OTHER_SECRET = "another-secret-that-is-also-32-chars-long";
+    private static final UUID SESSION = UUID.randomUUID();
 
     private final SecurityConfig securityConfig = new SecurityConfig();
     private final AppProperties properties = TestProperties.create();
@@ -37,13 +39,14 @@ class TokenServiceTest {
 
     @Test
     void issuedTokenCarriesUserClaims() {
-        TokenService.IssuedToken token = tokenService.issue(42L, "alice", Role.ADMIN);
+        TokenService.IssuedToken token = tokenService.issue(42L, "alice", Role.ADMIN, SESSION);
 
         Jwt jwt = decoder.decode(token.value());
         assertThat(jwt.getId()).isNotBlank();
         assertThat(TokenService.userId(jwt)).isEqualTo(42L);
         assertThat(jwt.getClaimAsString(TokenService.USERNAME_CLAIM)).isEqualTo("alice");
         assertThat(jwt.getClaimAsStringList(TokenService.ROLES_CLAIM)).isEqualTo(List.of("ADMIN"));
+        assertThat(TokenService.sessionId(jwt)).isEqualTo(SESSION);
         assertThat(jwt.getClaimAsString("iss")).isEqualTo(TestProperties.ISSUER);
         assertThat(token.ttl()).isEqualTo(Duration.ofMinutes(15));
         assertThat(Duration.between(jwt.getIssuedAt(), jwt.getExpiresAt())).isEqualTo(Duration.ofMinutes(15));
@@ -54,14 +57,14 @@ class TokenServiceTest {
         AppProperties other =
                 TestProperties.withJwt(TestProperties.hs256(List.of(OTHER_SECRET), TestProperties.ISSUER));
         String foreignToken =
-                tokenService(other).issue(1L, "mallory", Role.ADMIN).value();
+                tokenService(other).issue(1L, "mallory", Role.ADMIN, SESSION).value();
 
         assertThatThrownBy(() -> decoder.decode(foreignToken)).isInstanceOf(JwtException.class);
     }
 
     @Test
     void revokedTokenIsRejected() {
-        String value = tokenService.issue(1L, "bob", Role.USER).value();
+        String value = tokenService.issue(1L, "bob", Role.USER, SESSION).value();
         String tokenId = decoder.decode(value).getId();
         when(revocations.isRevoked(argThat((Jwt jwt) -> tokenId.equals(jwt.getId()))))
                 .thenReturn(true);
@@ -76,17 +79,20 @@ class TokenServiceTest {
         Instant cutOff = Instant.now().plusSeconds(1).truncatedTo(ChronoUnit.SECONDS);
         when(revocations.issuedNotBefore(7L)).thenReturn(Optional.of(cutOff));
 
-        Jwt jwt = decoder.decode(tokenService.issue(7L, "carol", Role.USER).value());
+        Jwt jwt = decoder.decode(
+                tokenService.issue(7L, "carol", Role.USER, SESSION).value());
 
         assertThat(jwt.getIssuedAt()).isEqualTo(cutOff);
     }
 
     @Test
     void everyTokenGetsItsOwnId() {
-        String first =
-                decoder.decode(tokenService.issue(1L, "bob", Role.USER).value()).getId();
-        String second =
-                decoder.decode(tokenService.issue(1L, "bob", Role.USER).value()).getId();
+        String first = decoder.decode(
+                        tokenService.issue(1L, "bob", Role.USER, SESSION).value())
+                .getId();
+        String second = decoder.decode(
+                        tokenService.issue(1L, "bob", Role.USER, SESSION).value())
+                .getId();
 
         assertThat(first).isNotEqualTo(second);
     }
@@ -96,7 +102,7 @@ class TokenServiceTest {
         AppProperties other =
                 TestProperties.withJwt(TestProperties.hs256(List.of(TestProperties.JWT_SECRET), "someone-else"));
         String foreignToken =
-                tokenService(other).issue(1L, "mallory", Role.ADMIN).value();
+                tokenService(other).issue(1L, "mallory", Role.ADMIN, SESSION).value();
 
         assertThatThrownBy(() -> decoder.decode(foreignToken)).isInstanceOf(JwtException.class);
     }
@@ -104,20 +110,22 @@ class TokenServiceTest {
     /** After a rotation, tokens signed with the previous secret are still accepted, and new ones use the new secret. */
     @Test
     void tokenSignedWithAPreviousSecretIsAcceptedAfterRotation() {
-        String oldToken = tokenService.issue(1L, "bob", Role.USER).value();
+        String oldToken = tokenService.issue(1L, "bob", Role.USER, SESSION).value();
         AppProperties rotated = TestProperties.withJwt(
                 TestProperties.hs256(List.of(OTHER_SECRET, TestProperties.JWT_SECRET), TestProperties.ISSUER));
 
         assertThat(TokenService.userId(decoder(rotated).decode(oldToken))).isEqualTo(1L);
         // New tokens are signed with the first secret, which the old configuration does not know.
-        String newToken = tokenService(rotated).issue(1L, "bob", Role.USER).value();
+        String newToken =
+                tokenService(rotated).issue(1L, "bob", Role.USER, SESSION).value();
         assertThatThrownBy(() -> decoder.decode(newToken)).isInstanceOf(JwtException.class);
     }
 
     /** Tokens carry the id of the key that signed them. */
     @Test
     void tokensNameTheirSigningKey() {
-        Jwt jwt = decoder.decode(tokenService.issue(1L, "bob", Role.USER).value());
+        Jwt jwt =
+                decoder.decode(tokenService.issue(1L, "bob", Role.USER, SESSION).value());
 
         assertThat(jwt.getHeaders()).containsKey("kid").containsEntry("alg", "HS256");
     }
@@ -143,7 +151,7 @@ class TokenServiceTest {
                 Duration.ofMinutes(15),
                 Duration.ofDays(1),
                 Duration.ofDays(30)));
-        String token = tokenService(rs256).issue(9L, "dave", Role.USER).value();
+        String token = tokenService(rs256).issue(9L, "dave", Role.USER, SESSION).value();
 
         JWKSet published = JWKSet.parse(new JwtKeys(rs256).publicJwks());
         assertThat(published.getKeys())

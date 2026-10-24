@@ -2254,6 +2254,134 @@
         "tags" : [ "Users" ]
       }
     },
+    "/api/v1/users/me/sessions" : {
+      "get" : {
+        "description" : "One entry per login that has not ended, newest first, with the browser or app and the IP of its login or last refresh. `current` marks the session making this request.",
+        "operationId" : "listSessions",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/SessionResponse"
+                  }
+                }
+              }
+            },
+            "description" : "The active sessions",
+            "headers" : {
+              "RateLimit-Limit" : {
+                "$ref" : "#/components/headers/RateLimit-Limit"
+              },
+              "RateLimit-Remaining" : {
+                "$ref" : "#/components/headers/RateLimit-Remaining"
+              },
+              "RateLimit-Reset" : {
+                "$ref" : "#/components/headers/RateLimit-Reset"
+              },
+              "X-Trace-Id" : {
+                "$ref" : "#/components/headers/X-Trace-Id"
+              }
+            }
+          },
+          "401" : {
+            "$ref" : "#/components/responses/Unauthorized"
+          },
+          "429" : {
+            "$ref" : "#/components/responses/TooManyRequests"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/InternalServerError"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        }, {
+          "cookieAuth" : [ ]
+        } ],
+        "summary" : "List your sessions",
+        "tags" : [ "Authentication" ]
+      }
+    },
+    "/api/v1/users/me/sessions/{id}" : {
+      "delete" : {
+        "description" : "Logs that device out: its refresh token stops working at once and its access token is rejected. Ending the current session works like logging out.",
+        "operationId" : "revokeSession",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "The session has ended",
+            "headers" : {
+              "RateLimit-Limit" : {
+                "$ref" : "#/components/headers/RateLimit-Limit"
+              },
+              "RateLimit-Remaining" : {
+                "$ref" : "#/components/headers/RateLimit-Remaining"
+              },
+              "RateLimit-Reset" : {
+                "$ref" : "#/components/headers/RateLimit-Reset"
+              },
+              "X-Trace-Id" : {
+                "$ref" : "#/components/headers/X-Trace-Id"
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/BadRequest"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/Unauthorized"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "You have no session with this id",
+            "headers" : {
+              "RateLimit-Limit" : {
+                "$ref" : "#/components/headers/RateLimit-Limit"
+              },
+              "RateLimit-Remaining" : {
+                "$ref" : "#/components/headers/RateLimit-Remaining"
+              },
+              "RateLimit-Reset" : {
+                "$ref" : "#/components/headers/RateLimit-Reset"
+              },
+              "X-Trace-Id" : {
+                "$ref" : "#/components/headers/X-Trace-Id"
+              }
+            }
+          },
+          "429" : {
+            "$ref" : "#/components/responses/TooManyRequests"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/InternalServerError"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        }, {
+          "cookieAuth" : [ ]
+        } ],
+        "summary" : "End a session",
+        "tags" : [ "Authentication" ]
+      }
+    },
     "/api/v1/users/{id}" : {
       "delete" : {
         "description" : "Administrators delete regular users. Deleting an administrator needs the owner and a body with the owner's current `password`. The owner cannot be deleted.",
@@ -3136,7 +3264,7 @@
           "type" : {
             "type" : "string",
             "format" : "uri",
-            "description" : "Identifies the kind of error. `about:blank` for generic HTTP errors (malformed JSON, unsupported media type, ...), otherwise one of:\n\n- `urn:problem:validation-failed`: The request body is invalid; the fields are listed in `errors`\n- `urn:problem:invalid-sort`: The `sort` parameter names a property that cannot be sorted by\n- `urn:problem:invalid-credentials`: Wrong username, email or password, or a refresh token that is missing, invalid, expired or already used\n- `urn:problem:unauthenticated`: The access token is missing, invalid, expired or revoked\n- `urn:problem:forbidden`: The caller is authenticated but lacks the required role\n- `urn:problem:email-not-verified`: The email address must be verified before logging in\n- `urn:problem:wrong-password`: The caller's current password, required to confirm the change, is missing or wrong\n- `urn:problem:invalid-token`: The email verification or password reset token is unknown, used or expired\n- `urn:problem:username-taken`: The username belongs to another account\n- `urn:problem:email-taken`: The email address belongs to another account\n- `urn:problem:owner-required`: Only the owner can change roles and manage administrators\n- `urn:problem:owner-protected`: The owner account cannot be deleted or demoted, and the OWNER role cannot be assigned, through the API\n- `urn:problem:own-account`: Administrators cannot delete their own account through the admin endpoint\n- `urn:problem:user-not-found`: No user has this id\n- `urn:problem:note-not-found`: The caller has no note with this id\n- `urn:problem:invalid-mfa-code`: The authenticator or recovery code is wrong, expired or already used\n- `urn:problem:mfa-challenge-expired`: The MFA token is unknown, used or expired; log in again\n- `urn:problem:totp-already-enabled`: Two-factor authentication is already enabled\n- `urn:problem:totp-not-enabled`: Two-factor authentication is not enabled, or no enrollment is pending\n- `urn:problem:provider-not-configured`: This login provider is not configured\n- `urn:problem:social-email-unverified`: The provider account has no verified email address to log in with\n- `urn:problem:social-account-conflict`: An account with this email exists but its email is not verified; log in with its password first\n- `urn:problem:conflict`: The change conflicts with data written at the same time; retry it\n- `urn:problem:login-locked`: Too many failed logins for this IP or account; wait for `Retry-After` seconds\n- `urn:problem:login-unavailable`: Login is temporarily unavailable; retry later\n- `urn:problem:rate-limited`: Too many requests from this IP; wait for `Retry-After` seconds\n- `urn:problem:internal-error`: Unexpected server error; quote `X-Trace-Id` when reporting it",
+            "description" : "Identifies the kind of error. `about:blank` for generic HTTP errors (malformed JSON, unsupported media type, ...), otherwise one of:\n\n- `urn:problem:validation-failed`: The request body is invalid; the fields are listed in `errors`\n- `urn:problem:invalid-sort`: The `sort` parameter names a property that cannot be sorted by\n- `urn:problem:invalid-credentials`: Wrong username, email or password, or a refresh token that is missing, invalid, expired or already used\n- `urn:problem:unauthenticated`: The access token is missing, invalid, expired or revoked\n- `urn:problem:forbidden`: The caller is authenticated but lacks the required role\n- `urn:problem:email-not-verified`: The email address must be verified before logging in\n- `urn:problem:wrong-password`: The caller's current password, required to confirm the change, is missing or wrong\n- `urn:problem:invalid-token`: The email verification or password reset token is unknown, used or expired\n- `urn:problem:username-taken`: The username belongs to another account\n- `urn:problem:email-taken`: The email address belongs to another account\n- `urn:problem:owner-required`: Only the owner can change roles and manage administrators\n- `urn:problem:owner-protected`: The owner account cannot be deleted or demoted, and the OWNER role cannot be assigned, through the API\n- `urn:problem:own-account`: Administrators cannot delete their own account through the admin endpoint\n- `urn:problem:user-not-found`: No user has this id\n- `urn:problem:note-not-found`: The caller has no note with this id\n- `urn:problem:session-not-found`: The caller has no session with this id\n- `urn:problem:invalid-mfa-code`: The authenticator or recovery code is wrong, expired or already used\n- `urn:problem:mfa-challenge-expired`: The MFA token is unknown, used or expired; log in again\n- `urn:problem:totp-already-enabled`: Two-factor authentication is already enabled\n- `urn:problem:totp-not-enabled`: Two-factor authentication is not enabled, or no enrollment is pending\n- `urn:problem:provider-not-configured`: This login provider is not configured\n- `urn:problem:social-email-unverified`: The provider account has no verified email address to log in with\n- `urn:problem:social-account-conflict`: An account with this email exists but its email is not verified; log in with its password first\n- `urn:problem:conflict`: The change conflicts with data written at the same time; retry it\n- `urn:problem:login-locked`: Too many failed logins for this IP or account; wait for `Retry-After` seconds\n- `urn:problem:login-unavailable`: Login is temporarily unavailable; retry later\n- `urn:problem:rate-limited`: Too many requests from this IP; wait for `Retry-After` seconds\n- `urn:problem:internal-error`: Unexpected server error; quote `X-Trace-Id` when reporting it",
             "example" : "urn:problem:validation-failed"
           }
         },
@@ -3190,6 +3318,40 @@
           }
         },
         "required" : [ "email", "password", "username" ]
+      },
+      "SessionResponse" : {
+        "type" : "object",
+        "properties" : {
+          "current" : {
+            "type" : "boolean"
+          },
+          "expiresAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "ipAddress" : {
+            "type" : "string"
+          },
+          "lastUsedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "rememberMe" : {
+            "type" : "boolean"
+          },
+          "startedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "userAgent" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "current", "expiresAt", "id", "lastUsedAt", "rememberMe", "startedAt" ]
       },
       "SocialLoginRequest" : {
         "type" : "object",

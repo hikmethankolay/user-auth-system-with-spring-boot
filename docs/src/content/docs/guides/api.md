@@ -87,6 +87,8 @@ const me = await api.GET("/api/v1/users/me");
 | `POST` | `/api/v1/users/me/mfa/totp` | authenticated | `200` new secret and `otpauth://` URI |
 | `POST` | `/api/v1/users/me/mfa/totp/confirm` | authenticated + password + code | `200` recovery codes, shown once |
 | `DELETE` | `/api/v1/users/me/mfa/totp` | authenticated + password + code | `204` |
+| `GET` | `/api/v1/users/me/sessions` | authenticated | `200` active sessions, `current` marks this one |
+| `DELETE` | `/api/v1/users/me/sessions/{id}` | authenticated | `204`; that device is logged out at once |
 | `GET` | `/api/v1/users?page=0&size=20&sort=createdAt,desc` | admin | `200` page |
 | `GET` | `/api/v1/users/{id}` | admin or that user | `200` |
 | `PATCH` / `DELETE` | `/api/v1/users/{id}` | admin; role changes and administrators: owner + password | `200` / `204` |
@@ -140,6 +142,7 @@ media type, ...) use `about:blank`; everything else uses one of these (the list 
 | `urn:problem:email-not-verified` | 403 | Login before the email address is verified (when required) |
 | `urn:problem:user-not-found` | 404 | No user has this id |
 | `urn:problem:note-not-found` | 404 | The caller has no note with this id (other users' notes look missing too) |
+| `urn:problem:session-not-found` | 404 | The caller has no session with this id (other users' sessions look missing too) |
 | `urn:problem:username-taken` / `email-taken` | 409 | The username or email belongs to another account |
 | `urn:problem:owner-protected` | 409 | The owner cannot be deleted or demoted, and `OWNER` cannot be assigned |
 | `urn:problem:conflict` | 409 | A concurrent change got there first; retry |

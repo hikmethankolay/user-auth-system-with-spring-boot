@@ -4,7 +4,9 @@ import com.hikmethankolay.template.config.AppProperties;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +24,8 @@ import org.springframework.stereotype.Service;
  *   <li>a single token id ({@code jti}), revoked on logout;</li>
  *   <li>a per-user cut-off time: every token of that user issued before it is rejected. Set when
  *       all sessions of a user end, e.g. after a password change.</li>
+ *   <li>a session id ({@code sid}): every token of that session is rejected. Set when one session ends
+ *       through {@code DELETE /api/v1/users/me/sessions/{id}} or because its refresh token was reused.</li>
  * </ul>
  *
  * <p>The JWT decoder consults both on every request, in one Redis round trip (see {@link SecurityConfig}).</p>
@@ -40,6 +44,8 @@ public class TokenRevocationService {
 
     private final String userKeyPrefix;
 
+    private final String sessionKeyPrefix;
+
     private final Duration accessTokenTtl;
 
     /**
@@ -56,6 +62,7 @@ public class TokenRevocationService {
         this.redis = redis;
         this.keyPrefix = applicationName + ":revoked-token:";
         this.userKeyPrefix = applicationName + ":tokens-revoked-before:";
+        this.sessionKeyPrefix = applicationName + ":revoked-session:";
         this.accessTokenTtl = properties.jwt().accessTokenTtl();
     }
 
@@ -101,6 +108,21 @@ public class TokenRevocationService {
     }
 
     /**
+     * Revokes every access token of a session issued so far. Sessions do not continue after this,
+     * so no later token carries the id.
+     *
+     * @param sessionId the session whose tokens are revoked
+     */
+    public void revokeSession(UUID sessionId) {
+        try {
+            // Kept one access token lifetime: by then every token of the session has expired.
+            redis.opsForValue().set(sessionKeyPrefix + sessionId, "1", accessTokenTtl.plusSeconds(1));
+        } catch (DataAccessException ex) {
+            log.warn("Could not revoke the tokens of session {}: {}", sessionId, ex.getMessage());
+        }
+    }
+
+    /**
      * Returns the earliest issue time a new token of the user may have, so it is not caught by a
      * cut-off set in the current second.
      *
@@ -118,7 +140,7 @@ public class TokenRevocationService {
     }
 
     /**
-     * Tells whether a token has been revoked, individually or by a cut-off of its user.
+     * Tells whether a token has been revoked, individually, with its session or by a cut-off of its user.
      *
      * @param jwt the token, already verified otherwise
      * @return {@code true} if the token must be rejected
@@ -130,11 +152,17 @@ public class TokenRevocationService {
             return false;
         }
         try {
-            List<String> entries = redis.opsForValue().multiGet(List.of(keyPrefix + tokenId, userKeyPrefix + userId));
+            String sessionId = jwt.getClaimAsString(TokenService.SESSION_CLAIM);
+            List<String> entries = redis.opsForValue()
+                    .multiGet(List.of(
+                            keyPrefix + tokenId,
+                            userKeyPrefix + userId,
+                            // Tokens from before sessions were listed have no sid; nothing can revoke it.
+                            sessionKeyPrefix + Objects.requireNonNullElse(sessionId, "none")));
             if (entries == null) {
                 return false;
             }
-            if (entries.get(0) != null) {
+            if (entries.get(0) != null || (sessionId != null && entries.get(2) != null)) {
                 return true;
             }
             Instant issuedAt = jwt.getIssuedAt();
