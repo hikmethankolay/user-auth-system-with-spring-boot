@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # One-time setup: checks prerequisites, creates .env with generated secrets and compiles the project.
+# Without a JDK but with Docker or Podman, it skips compiling: scripts/docker.sh up builds and runs the app in containers.
 # Usage: scripts/setup.sh [--force]   (--force recreates .env)
 source "$(dirname "$0")/lib.sh"
 
@@ -15,10 +16,15 @@ random_secret() {
 }
 
 info "Checking prerequisites"
-require_jdk
+jdk=true
 if (detect_compose) 2>/dev/null; then
   info "Container runtime found"
+  if ! (require_jdk) 2>/dev/null; then
+    jdk=false
+    warn "No JDK 25+ found: the app can still run in containers (scripts/docker.sh up); dev, test and build need a JDK."
+  fi
 else
+  require_jdk
   warn "Docker or Podman not found: scripts/db.sh, scripts/docker.sh and integration tests need one."
 fi
 
@@ -36,6 +42,11 @@ else
 fi
 
 chmod +x mvnw scripts/*.sh
+
+if [[ "$jdk" == false ]]; then
+  info "Done. Next: scripts/docker.sh up to build and start everything in containers, then scripts/smoke.sh."
+  exit 0
+fi
 
 info "Compiling (downloads dependencies on first run)"
 ./mvnw -B -q -DskipTests compile

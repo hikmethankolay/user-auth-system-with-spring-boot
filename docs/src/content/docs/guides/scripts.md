@@ -7,7 +7,7 @@ Every script exists as `scripts/<name>.sh` and `scripts\<name>.bat`.
 
 | Script | What it does |
 |--------|--------------|
-| `setup` | Checks JDK 25 and a container runtime, creates `.env` from `.env.example` with a random `JWT_SECRET` and admin password, compiles. `--force` recreates `.env`. |
+| `setup` | Checks JDK 25 and a container runtime, creates `.env` from `.env.example` with a random `JWT_SECRET`, `MFA_ENCRYPTION_KEY` and admin password, compiles. Without a JDK but with a container runtime, it skips compiling and points to `docker up`. `--force` recreates `.env`. |
 | `dev` | Starts PostgreSQL, Redis and Mailpit, then runs the app from source with `spring-boot:run`. |
 | `db` | Local services: `up`, `down`, `reset` (deletes data), `logs`, `psql`, `redis-cli`, `status`. |
 | `test` | Formats the code, runs unit, integration and architecture tests, and checks coverage minimums, formatting and SpotBugs (report: `target/site/jacoco/index.html`). `--unit` runs only the unit tests. Extra arguments go to Maven, e.g. `--unit -Dtest=UserServiceTest` or `-Dit.test=UserIntegrationTest`. |

@@ -9,6 +9,9 @@ description: Run the template locally in three commands.
   `sudo apt install openjdk-25-jdk`, or `winget install EclipseAdoptium.Temurin.25.JDK` on Windows.
 - **Docker or Podman**, for PostgreSQL, Redis and Mailpit in development and for the integration tests.
 
+Only have Docker or Podman? `setup` notices the missing JDK, skips compiling, and you can
+[run everything in containers](#run-everything-in-containers) right away. Install the JDK when you start changing code.
+
 ## Run it
 
 ```bash
@@ -59,9 +62,11 @@ curl -s -X POST localhost:8080/api/v1/auth/refresh -H 'Content-Type: application
 
 ## Run everything in containers
 
-To run the app from its Docker image instead of from source, together with PostgreSQL, Redis and Mailpit:
+To run the app from its Docker image instead of from source, together with PostgreSQL, Redis and Mailpit (no JDK
+needed; the image is built in a container):
 
 ```bash
+scripts/setup.sh         # once: creates .env with generated secrets
 scripts/docker.sh up     # builds the image and waits until every container is healthy
 scripts/smoke.sh         # same check as above
 scripts/docker.sh down

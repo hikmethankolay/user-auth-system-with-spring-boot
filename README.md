@@ -62,7 +62,8 @@ is generally available and the tests pass, and is recorded in the
 
 You need **JDK 25** (a JRE is not enough) and **Docker or Podman**, or nothing at all: open the repository in
 **GitHub Codespaces** (*Code → Codespaces → Create codespace*) or in VS Code's *Dev Containers*, which run `setup`
-for you, then continue with `scripts/dev.sh`.
+for you, then continue with `scripts/dev.sh`. With only Docker or Podman, run `setup`, then `scripts/docker.sh up`
+instead of `dev`: the image is built in a container.
 
 ```bash
 git clone https://github.com/hikmethankolay/spring-boot-backend-template.git
