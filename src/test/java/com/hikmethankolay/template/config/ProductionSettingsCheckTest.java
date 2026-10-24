@@ -12,10 +12,12 @@ import org.springframework.boot.jdbc.autoconfigure.JdbcConnectionDetails;
 class ProductionSettingsCheckTest {
 
     private static final String FRONTEND = "https://app.example.com";
+    private static final String SMTP_HOST = "smtp.acme.test";
 
     @Test
     void acceptsRealSettings() {
-        assertThat(ProductionSettingsCheck.problems(properties(FRONTEND, FRONTEND, FRONTEND + "/cb", true), "s3cret"))
+        assertThat(ProductionSettingsCheck.problems(
+                        properties(FRONTEND, FRONTEND, FRONTEND + "/cb", true), "s3cret", SMTP_HOST, 587))
                 .isEmpty();
     }
 
@@ -23,12 +25,21 @@ class ProductionSettingsCheckTest {
     void namesEveryDevelopmentDefault() {
         String local = "http://localhost:3000";
 
-        List<String> problems =
-                ProductionSettingsCheck.problems(properties(local, local, local + "/oauth2/callback", true), "app");
+        List<String> problems = ProductionSettingsCheck.problems(
+                withFrom(properties(local, local, local + "/oauth2/callback", true), "no-reply@example.com"),
+                "app",
+                "localhost",
+                1025);
 
-        assertThat(problems).hasSize(4);
+        assertThat(problems).hasSize(6);
         assertThat(String.join("\n", problems))
-                .contains("CORS_ALLOWED_ORIGINS", "MAIL_LINK_BASE_URL", "OAUTH2_REDIRECT_URI", "DB_PASSWORD");
+                .contains(
+                        "CORS_ALLOWED_ORIGINS",
+                        "MAIL_LINK_BASE_URL",
+                        "OAUTH2_REDIRECT_URI",
+                        "DB_PASSWORD",
+                        "MAIL_HOST",
+                        "MAIL_FROM");
     }
 
     @Test
@@ -46,7 +57,7 @@ class ProductionSettingsCheckTest {
                 p.mfa(),
                 p.socialLogin());
 
-        assertThat(ProductionSettingsCheck.problems(mixed, "s3cret"))
+        assertThat(ProductionSettingsCheck.problems(mixed, "s3cret", SMTP_HOST, 587))
                 .singleElement()
                 .asString()
                 .contains("CORS_ALLOWED_ORIGINS");
@@ -55,8 +66,27 @@ class ProductionSettingsCheckTest {
     @Test
     void aLocalRedirectUriIsFineWithoutSocialLogin() {
         assertThat(ProductionSettingsCheck.problems(
-                        properties(FRONTEND, FRONTEND, "http://localhost:3000/oauth2/callback", false), "s3cret"))
+                        properties(FRONTEND, FRONTEND, "http://localhost:3000/oauth2/callback", false),
+                        "s3cret",
+                        SMTP_HOST,
+                        587))
                 .isEmpty();
+    }
+
+    @Test
+    void aLocalRelayOnAnotherPortIsFine() {
+        assertThat(ProductionSettingsCheck.problems(
+                        properties(FRONTEND, FRONTEND, null, false), "s3cret", "localhost", 25))
+                .isEmpty();
+    }
+
+    @Test
+    void recognisesPlaceholderAddresses() {
+        assertThat(List.of("no-reply@example.com", "a@EXAMPLE.org", "a@mail.example.net", " a@example.com "))
+                .allMatch(ProductionSettingsCheck::isPlaceholderAddress);
+        assertThat(List.of("no-reply@acme.dev", "a@myexample.com", "a@example.com.tr"))
+                .noneMatch(ProductionSettingsCheck::isPlaceholderAddress);
+        assertThat(ProductionSettingsCheck.isPlaceholderAddress(null)).isFalse();
     }
 
     @Test
@@ -85,7 +115,7 @@ class ProductionSettingsCheckTest {
         AppProperties local = TestProperties.create();
         JdbcConnectionDetails database = database("app");
 
-        assertThatThrownBy(() -> new ProductionSettingsCheck(local, database))
+        assertThatThrownBy(() -> new ProductionSettingsCheck(local, database, "localhost", 1025))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("prod profile")
                 .hasMessageContaining("DB_PASSWORD");
@@ -95,7 +125,7 @@ class ProductionSettingsCheckTest {
     void startsWithRealSettings() {
         AppProperties real = properties(FRONTEND, FRONTEND, null, false);
 
-        new ProductionSettingsCheck(real, database("s3cret"));
+        new ProductionSettingsCheck(real, database("s3cret"), SMTP_HOST, 587);
     }
 
     private static AppProperties properties(String origin, String linkBaseUrl, String redirectUri, boolean github) {
@@ -108,11 +138,26 @@ class ProductionSettingsCheckTest {
                 p.login(),
                 p.rateLimit(),
                 p.account(),
-                new AppProperties.Mail("no-reply@example.com", linkBaseUrl, 10, Duration.ofSeconds(30)),
+                new AppProperties.Mail("no-reply@acme.test", linkBaseUrl, 10, Duration.ofSeconds(30)),
                 p.admin(),
                 p.mfa(),
                 new AppProperties.SocialLogin(
                         redirectUri, github ? new AppProperties.SocialLogin.Client("id", "secret") : none, none));
+    }
+
+    private static AppProperties withFrom(AppProperties p, String from) {
+        AppProperties.Mail m = p.mail();
+        return new AppProperties(
+                p.jwt(),
+                p.cookie(),
+                p.cors(),
+                p.login(),
+                p.rateLimit(),
+                p.account(),
+                new AppProperties.Mail(from, m.linkBaseUrl(), m.maxAttempts(), m.retryDelay()),
+                p.admin(),
+                p.mfa(),
+                p.socialLogin());
     }
 
     private static JdbcConnectionDetails database(String password) {

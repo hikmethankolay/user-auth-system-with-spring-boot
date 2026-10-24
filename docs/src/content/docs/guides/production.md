@@ -14,8 +14,10 @@ Start the app with `SPRING_PROFILES_ACTIVE=prod` to switch to:
 - 10% trace sampling
 - Actuator on port `8081`, which must stay internal
 - a startup check that refuses the development defaults: the app does not start while `CORS_ALLOWED_ORIGINS`,
-  `MAIL_LINK_BASE_URL` or (with GitHub or Google login on) `OAUTH2_REDIRECT_URI` point to localhost, or while
-  `DB_PASSWORD` is the local `app`. The error names every variable to set.
+  `MAIL_LINK_BASE_URL` or (with GitHub or Google login on) `OAUTH2_REDIRECT_URI` point to localhost, while
+  `DB_PASSWORD` is the local `app`, while `MAIL_HOST`/`MAIL_PORT` are the local Mailpit (`localhost:1025`), or while
+  `MAIL_FROM` is an `example.com`, `example.net` or `example.org` address. Without the mail checks, verification
+  emails would never arrive and nobody could finish signing up. The error names every variable to set.
 
 Each setting can still be overridden with its environment variable.
 
@@ -104,7 +106,8 @@ server's `max_connections`, or put PgBouncer in front of it. Every connection ha
 ## Checklist
 
 - [ ] Set real values for `CORS_ALLOWED_ORIGINS` and `MAIL_LINK_BASE_URL`.
-- [ ] Use an SMTP server (`MAIL_HOST`, `SPRING_MAIL_USERNAME`, `SPRING_MAIL_PASSWORD`).
+- [ ] Use an SMTP server (`MAIL_HOST`, `SPRING_MAIL_USERNAME`, `SPRING_MAIL_PASSWORD`) and a sender of your own
+      domain (`MAIL_FROM`).
 - [ ] Use a Redis with a password and TLS (`REDIS_PASSWORD`, `REDIS_SSL_ENABLED=true`).
 - [ ] Behind a proxy, set `FORWARD_HEADERS_STRATEGY=native` and allow only the proxy to reach the API port.
 - [ ] Keep port `8081` internal and scrape metrics there.

@@ -17,14 +17,17 @@ import org.springframework.test.context.TestPropertySource;
 
 /**
  * The prod profile turns off the API docs, makes the auth cookie Secure, requires verified emails and refuses the
- * localhost defaults, so this test sets real-looking frontend URLs.
+ * localhost defaults, so this test sets real-looking frontend URLs and mail settings.
  */
 @ActiveProfiles({"test", "prod"})
 @TestPropertySource(
         properties = {
             "app.cors.allowed-origins=https://app.example.com",
             "app.mail.link-base-url=https://app.example.com",
-            "app.social-login.redirect-uri=https://app.example.com/oauth2/callback"
+            "app.social-login.redirect-uri=https://app.example.com/oauth2/callback",
+            "app.mail.from=no-reply@acme.test",
+            "spring.mail.host=smtp.acme.test",
+            "spring.mail.port=587"
         })
 class ProdProfileIntegrationTest extends IntegrationTest {
 

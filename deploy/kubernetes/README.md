@@ -5,7 +5,8 @@ replicas, probes on the management port, a read-only root filesystem, a non-root
 autoscaler, a disruption budget and a network policy. PostgreSQL, Redis and SMTP are expected to
 exist already (managed services or their own charts).
 
-1. Edit `configmap.yaml` (hosts, URLs, origins) and the image tag in `kustomization.yaml`.
+1. Edit `configmap.yaml` (hosts, URLs, origins, `MAIL_FROM`) and the image tag in `kustomization.yaml`. The `prod`
+   profile refuses to start with an `example.com` sender.
 2. Create the secrets (never commit them):
 
    ```bash
