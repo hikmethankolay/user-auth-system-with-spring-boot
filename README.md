@@ -29,13 +29,14 @@ secure login, user accounts, errors, caching, monitoring and deployment. All of 
 - **Production defaults out of the box.** One `prod` profile switches on JSON logs, secure cookies, required email
   verification and an internal metrics port. Migrations, Redis caching, an email outbox with retries, query timeouts,
   metrics with alert rules and a Grafana dashboard, tracing, account deletion and data export are already wired in.
-- **Tested against the real thing.** 190+ tests run against real PostgreSQL and Redis containers, alongside architecture
+- **Tested against the real thing.** 210+ tests run against real PostgreSQL and Redis containers, alongside architecture
   rules, a load test and a vulnerability scan of the Docker image in CI.
 - **Ready to ship.** Releases publish signed multi-arch images with an SBOM; Kubernetes manifests pass the
   `restricted` Pod Security Standard.
 - **One command per task** on Linux, macOS and Windows: setup, dev, test, build, run, docker, docs and more.
 
-Built with Spring Boot 4.1, Java 25, PostgreSQL 18 and Redis 8.
+Built with Spring Boot 4.1, Java 25, PostgreSQL 18 and Redis 8. Not sure it fits? See how it
+[compares with Spring Initializr, JHipster and Bootify](https://hikmethankolay.github.io/spring-boot-backend-template/guides/comparison/).
 
 ### Why the newest versions
 
