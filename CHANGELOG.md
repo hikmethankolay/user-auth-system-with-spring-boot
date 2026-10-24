@@ -6,6 +6,8 @@ releases use [semantic versioning](https://semver.org/). Each release's full lis
 
 ## [Unreleased]
 
+## [3.2.5] - 2026-10-24
+
 ### Changed
 
 - `scripts/client.sh` generates the API client with OpenAPI Generator instead of openapi-typescript: a TypeScript
@@ -201,7 +203,8 @@ releases use [semantic versioning](https://semver.org/). Each release's full lis
 - Lockout, startup, rate limit, release and logging follow-ups from the same audit. Rate-limit counters reset once
   on deploy because their Redis keys changed format.
 
-[Unreleased]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v3.2.1...HEAD
+[Unreleased]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v3.2.5...HEAD
+[3.2.5]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v3.2.1...v3.2.5
 [3.2.1]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v3.2.0...v3.2.1
 [3.2.0]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v3.1.0...v3.2.0
 [3.1.0]: https://github.com/hikmethankolay/spring-boot-backend-template/compare/v3.0.1...v3.1.0
