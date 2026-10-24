@@ -80,9 +80,10 @@ grep -rlI --exclude-dir=.git --exclude-dir=target --exclude-dir=node_modules --e
 done
 
 # Repository links. Image names and Pages hosts are lowercase on GitHub. 'Getting fixes from the template later'
-# in new-project.md keeps pointing to the template on purpose.
+# in new-project.md keeps pointing to the template on purpose, and so does ci.yml, whose rename job runs only there.
 grep -rlI --exclude-dir=.git --exclude-dir=target --exclude-dir=node_modules --exclude-dir=dist --exclude-dir=.astro \
   --exclude=rename-project.sh --exclude=package-lock.json --exclude=CHANGELOG.md --exclude=new-project.md \
+  --exclude=ci.yml \
   -e "$old_owner" -e "$old_name" . | while read -r file; do
   sed_inplace \
     -e "s|ghcr\.io/$old_owner/$old_name|ghcr.io/$(lower "$repo")|g" \

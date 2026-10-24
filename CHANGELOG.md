@@ -6,6 +6,12 @@ releases use [semantic versioning](https://semver.org/). Each release's full lis
 
 ## [Unreleased]
 
+### Fixed
+
+- The CI job that tests `rename-project` failed on its own workflow file, and in a project made from the template it
+  would have run on the already renamed project and failed on every push. It now runs only in the template
+  repository, and `rename-project` leaves `ci.yml` alone.
+
 ## [3.2.0] - 2026-10-24
 
 ### Added

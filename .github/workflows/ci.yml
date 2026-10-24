@@ -115,9 +115,10 @@ jobs:
           path: target/reports/apidocs/
 
   # Renames the checkout the way a new project does, then runs the unit tests, so rename-project cannot leave
-  # the template's package or repository links behind.
+  # the template's package or repository links behind. Only in the template: a renamed project cannot be renamed again.
   rename:
     name: Rename project
+    if: github.repository == 'hikmethankolay/spring-boot-backend-template'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -134,11 +135,13 @@ jobs:
       - name: Rename
         run: scripts/rename-project.sh --repo Acme/Order-Service com.acme order-service com.acme.orders
 
-      # Left on purpose: the README's author line and the template remote in "Getting fixes from the template later".
+      # Left on purpose: the README's author line, the template remote in "Getting fixes from the template later"
+      # and this job's own guard.
       - name: No template references left
         run: |
           if git grep -n -e hikmethankolay -e spring-boot-backend-template -- . ':!scripts/rename-project.sh' \
-              ':!docs/package-lock.json' ':!docs/src/content/docs/guides/new-project.md' | grep -v 'Hikmethan Kolay'; then
+              ':!docs/package-lock.json' ':!docs/src/content/docs/guides/new-project.md' ':!.github/workflows/ci.yml' \
+              | grep -v 'Hikmethan Kolay'; then
             exit 1
           fi
 
