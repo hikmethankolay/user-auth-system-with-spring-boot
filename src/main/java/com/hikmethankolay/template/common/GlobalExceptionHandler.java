@@ -1,5 +1,6 @@
 package com.hikmethankolay.template.common;
 
+import java.net.URI;
 import java.util.List;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
@@ -41,6 +42,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    /** RFC 9457 type of problems that need no type of their own. */
+    private static final URI ABOUT_BLANK = URI.create("about:blank");
 
     /** Creates the handler; Spring instantiates it. */
     public GlobalExceptionHandler() {
@@ -116,6 +120,25 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     ProblemDetail handleUnexpected(Exception ex) {
         log.error("Unhandled exception", ex);
         return ProblemType.INTERNAL_ERROR.problem(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred.");
+    }
+
+    /**
+     * Gives Spring MVC's own errors (malformed JSON, a path or query value of the wrong type, an unsupported method or
+     * media type, ...) the {@code about:blank} type the API documents; Spring leaves {@code type} out.
+     *
+     * @param body       the problem detail, or another body
+     * @param headers    response headers
+     * @param statusCode response status
+     * @param request    the current request
+     * @return the response
+     */
+    @Override
+    protected ResponseEntity<Object> createResponseEntity(
+            Object body, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
+        if (body instanceof ProblemDetail problem && problem.getType() == null) {
+            problem.setType(ABOUT_BLANK);
+        }
+        return super.createResponseEntity(body, headers, statusCode, request);
     }
 
     /**

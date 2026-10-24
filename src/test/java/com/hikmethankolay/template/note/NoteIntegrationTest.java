@@ -82,6 +82,16 @@ class NoteIntegrationTest extends IntegrationTest {
         mockMvc.perform(get("/api/v1/notes").param("sort", "body").with(bearer(token)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.type").value("urn:problem:invalid-sort"));
+        // Spring's own errors carry the documented generic type too.
+        mockMvc.perform(get("/api/v1/notes/abc").with(bearer(token)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.type").value("about:blank"));
+        mockMvc.perform(post("/api/v1/notes")
+                        .with(bearer(token))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.type").value("about:blank"));
     }
 
     @Test
